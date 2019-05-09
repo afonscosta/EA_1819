@@ -1,0 +1,93 @@
+<?xmp version="1.0" encoding="UTF-8" standalone="yes"?>
+<TaskModel xmlns="http://giove.isti.cnr.it/ctt" xmlns:coop="http://giove.isti.cnr.it/cttcoop" NameTaskModelID="Negociar imóvel">
+    <Task Identifier="Negociar imóvel" Category="abstraction" Iterative="false" Optional="false" PartOfCooperation="false" Frequency=" ">
+        <Name>name</Name>
+        <SubTask>
+            <Task Identifier="Anunciar imóvel (Anunciante)" Category="abstraction" Iterative="true" Optional="false" PartOfCooperation="false" Frequency=" ">
+                <Name>name</Name>
+                <TemporalOperator name="Disabling"/>
+                <Parent name="Negociar imóvel"/>
+                <SiblingRight name="Pesquisar imóvel (Cliente)"/>
+                <SubTask>
+                    <Task Identifier="Indica tipo de anuncio (arrendamento/venda)" Category="interaction" Iterative="false" Optional="false" PartOfCooperation="false" Frequency=" ">
+                        <Name>name</Name>
+                        <TemporalOperator name="Interleaving"/>
+                        <Parent name="Anunciar imóvel (Anunciante)"/>
+                        <SiblingRight name="Preenche formulário"/>
+                    </Task>
+                    <Task Identifier="Preenche formulário" Category="interaction" Iterative="false" Optional="false" PartOfCooperation="false" Frequency=" ">
+                        <Name>name</Name>
+                        <TemporalOperator name="SequentialEnabling"/>
+                        <Parent name="Anunciar imóvel (Anunciante)"/>
+                        <SiblingLeft name="Indica tipo de anuncio (arrendamento/venda)"/>
+                        <SiblingRight name="Publica anuncio"/>
+                    </Task>
+                    <Task Identifier="Publica anuncio" Category="interaction" Iterative="false" Optional="false" PartOfCooperation="false" Frequency=" ">
+                        <Name>name</Name>
+                        <TemporalOperator name="SequentialEnabling"/>
+                        <Parent name="Anunciar imóvel (Anunciante)"/>
+                        <SiblingLeft name="Preenche formulário"/>
+                        <SiblingRight name="Adiciona imóvel"/>
+                    </Task>
+                    <Task Identifier="Adiciona imóvel" Category="application" Iterative="false" Optional="false" PartOfCooperation="false" Frequency=" ">
+                        <Name>name</Name>
+                        <Parent name="Anunciar imóvel (Anunciante)"/>
+                        <SiblingLeft name="Publica anuncio"/>
+                    </Task>
+                </SubTask>
+            </Task>
+            <Task Identifier="Pesquisar imóvel (Cliente)" Category="abstraction" Iterative="false" Optional="false" PartOfCooperation="false" Frequency=" ">
+                <Name>name</Name>
+                <TemporalOperator name="SequentialEnabling"/>
+                <Parent name="Negociar imóvel"/>
+                <SiblingLeft name="Anunciar imóvel (Anunciante)"/>
+                <SiblingRight name="Arrendar/Comprar imóvel"/>
+            </Task>
+            <Task Identifier="Arrendar/Comprar imóvel" Category="user" Iterative="false" Optional="true" PartOfCooperation="false" Frequency=" ">
+                <Name>name</Name>
+                <TemporalOperator name="SequentialEnabling"/>
+                <Parent name="Negociar imóvel"/>
+                <SiblingLeft name="Pesquisar imóvel (Cliente)"/>
+                <SiblingRight name="Consultar estatísticas de venda (Anunciante)"/>
+                <SubTask>
+                    <Task Identifier="Cliente contacta anunciante por telemóvel ou e-mail" Category="user" Iterative="false" Optional="false" PartOfCooperation="false" Frequency=" ">
+                        <Name>name</Name>
+                        <TemporalOperator name="SequentialEnabling"/>
+                        <Parent name="Arrendar/Comprar imóvel"/>
+                        <SiblingRight name="Anunciante aceita proposta"/>
+                    </Task>
+                    <Task Identifier="Anunciante aceita proposta" Category="user" Iterative="false" Optional="false" PartOfCooperation="false" Frequency=" ">
+                        <Name>name</Name>
+                        <TemporalOperator name="SequentialEnabling"/>
+                        <Parent name="Arrendar/Comprar imóvel"/>
+                        <SiblingLeft name="Cliente contacta anunciante por telemóvel ou e-mail"/>
+                        <SiblingRight name="Anunciante rejeita proposta"/>
+                    </Task>
+                    <Task Identifier="Anunciante rejeita proposta" Category="user" Iterative="false" Optional="false" PartOfCooperation="false" Frequency=" ">
+                        <Name>name</Name>
+                        <Parent name="Arrendar/Comprar imóvel"/>
+                        <SiblingLeft name="Anunciante aceita proposta"/>
+                    </Task>
+                </SubTask>
+            </Task>
+            <Task Identifier="Consultar estatísticas de venda (Anunciante)" Category="abstraction" Iterative="false" Optional="false" PartOfCooperation="false" Frequency=" ">
+                <Name>name</Name>
+                <Parent name="Negociar imóvel"/>
+                <SiblingLeft name="Arrendar/Comprar imóvel"/>
+                <SubTask>
+                    <Task Identifier="Indica período de tempo" Category="interaction" Iterative="false" Optional="false" PartOfCooperation="false" Frequency=" ">
+                        <Name>name</Name>
+                        <TemporalOperator name="SequentialEnabling"/>
+                        <Parent name="Consultar estatísticas de venda (Anunciante)"/>
+                        <SiblingRight name="Apresenta estatísticas de vendas no intervalo de tempo"/>
+                    </Task>
+                    <Task Identifier="Apresenta estatísticas de vendas no intervalo de tempo" Category="application" Iterative="false" Optional="false" PartOfCooperation="false" Frequency=" ">
+                        <Name>name</Name>
+                        <Parent name="Consultar estatísticas de venda (Anunciante)"/>
+                        <SiblingLeft name="Indica período de tempo"/>
+                    </Task>
+                </SubTask>
+            </Task>
+        </SubTask>
+    </Task>
+</TaskModel>

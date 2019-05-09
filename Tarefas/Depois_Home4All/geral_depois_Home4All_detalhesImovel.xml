@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<TaskModel xmlns="http://giove.isti.cnr.it/ctt" xmlns:coop="http://giove.isti.cnr.it/cttcoop" NameTaskModelID="Consultar detalhes de imóvel">
+    <Task Identifier="Consultar detalhes de imóvel" Category="abstraction" Iterative="true" Optional="false" PartOfCooperation="false" Frequency=" ">
+        <Name>name</Name>
+        <TemporalOperator name="Disabling"/>
+        <SiblingLeft name="Apresenta imóveis"/>
+        <SiblingRight name="Indica imóveis para comparação"/>
+        <SubTask>
+            <Task Identifier="Seleciona imóvel" Category="interaction" Iterative="false" Optional="false" PartOfCooperation="false" Frequency=" ">
+                <Name>name</Name>
+                <TemporalOperator name="SequentialEnabling"/>
+                <Parent name="Consultar detalhes de imóvel"/>
+                <SiblingRight name="Apresenta detalhes sobre imóvel"/>
+            </Task>
+            <Task Identifier="Apresenta detalhes sobre imóvel" Category="application" Iterative="false" Optional="false" PartOfCooperation="false" Frequency=" ">
+                <Name>name</Name>
+                <TemporalOperator name="SequentialEnabling"/>
+                <Parent name="Consultar detalhes de imóvel"/>
+                <SiblingLeft name="Seleciona imóvel"/>
+                <SiblingRight name="Pondera informações sobre imóvel"/>
+            </Task>
+            <Task Identifier="Pondera informações sobre imóvel" Category="user" Iterative="false" Optional="false" PartOfCooperation="false" Frequency=" ">
+                <Name>name</Name>
+                <TemporalOperator name="Interleaving"/>
+                <Parent name="Consultar detalhes de imóvel"/>
+                <SiblingLeft name="Apresenta detalhes sobre imóvel"/>
+                <SiblingRight name="Contactar anunciante para tirar dúvidas ou negociar"/>
+            </Task>
+            <Task Identifier="Contactar anunciante para tirar dúvidas ou negociar" Category="abstraction" Iterative="true" Optional="false" PartOfCooperation="false" Frequency=" ">
+                <Name>name</Name>
+                <Parent name="Consultar detalhes de imóvel"/>
+                <SiblingLeft name="Pondera informações sobre imóvel"/>
+                <SubTask>
+                    <Task Identifier="Contacta anunciante por telemóvel ou e-mail" Category="user" Iterative="false" Optional="false" PartOfCooperation="false" Frequency=" ">
+                        <Name>name</Name>
+                        <TemporalOperator name="Choice"/>
+                        <Parent name="Contactar anunciante para tirar dúvidas ou negociar"/>
+                        <SiblingRight name="Contacta anunciante através do website"/>
+                    </Task>
+                    <Task Identifier="Contacta anunciante através do website" Category="abstraction" Iterative="false" Optional="false" PartOfCooperation="false" Frequency=" ">
+                        <Name>name</Name>
+                        <Parent name="Contactar anunciante para tirar dúvidas ou negociar"/>
+                        <SiblingLeft name="Contacta anunciante por telemóvel ou e-mail"/>
+                        <SubTask>
+                            <Task Identifier="Insere mensagem" Category="interaction" Iterative="false" Optional="false" PartOfCooperation="false" Frequency=" ">
+<Name>name</Name>
+<TemporalOperator name="SequentialEnabling"/>
+<Parent name="Contacta anunciante através do website"/>
+<SiblingRight name="Envia mensagem para conta do anunciante (chat)"/>
+                            </Task>
+                            <Task Identifier="Envia mensagem para conta do anunciante (chat)" Category="application" Iterative="false" Optional="false" PartOfCooperation="false" Frequency=" ">
+<Name>name</Name>
+<Parent name="Contacta anunciante através do website"/>
+<SiblingLeft name="Insere mensagem"/>
+                            </Task>
+                        </SubTask>
+                    </Task>
+                </SubTask>
+            </Task>
+        </SubTask>
+    </Task>
+</TaskModel>

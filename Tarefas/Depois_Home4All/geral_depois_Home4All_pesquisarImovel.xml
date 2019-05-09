@@ -1,0 +1,84 @@
+<?xmp version="1.0" encoding="UTF-8" standalone="yes"?>
+<TaskModel xmlns="http://giove.isti.cnr.it/ctt" xmlns:coop="http://giove.isti.cnr.it/cttcoop" NameTaskModelID="Pesquisar imóvel (Cliente)">
+    <Task Identifier="Pesquisar imóvel (Cliente)" Category="abstraction" Iterative="false" Optional="false" PartOfCooperation="false" Frequency=" ">
+        <Name>name</Name>
+        <TemporalOperator name="SequentialEnabling"/>
+        <SubTask>
+            <Task Identifier="Insere localização" Category="interaction" Iterative="false" Optional="false" PartOfCooperation="false" Frequency=" ">
+                <Name>name</Name>
+                <TemporalOperator name="SequentialEnabling"/>
+                <Parent name="Pesquisar imóvel (Cliente)"/>
+                <SiblingRight name="Indica filtros pretendidos"/>
+            </Task>
+            <Task Identifier="Indica filtros pretendidos" Category="interaction" Iterative="false" Optional="true" PartOfCooperation="false" Frequency=" ">
+                <Name>name</Name>
+                <TemporalOperator name="Interleaving"/>
+                <Parent name="Pesquisar imóvel (Cliente)"/>
+                <SiblingLeft name="Insere localização"/>
+                <SiblingRight name="Indica ordenação dos resultados"/>
+            </Task>
+            <Task Identifier="Indica ordenação dos resultados" Category="interaction" Iterative="false" Optional="true" PartOfCooperation="false" Frequency=" ">
+                <Name>name</Name>
+                <TemporalOperator name="SequentialEnabling"/>
+                <Parent name="Pesquisar imóvel (Cliente)"/>
+                <SiblingLeft name="Indica filtros pretendidos"/>
+                <SiblingRight name="Apresenta imóveis"/>
+            </Task>
+            <Task Identifier="Apresenta imóveis" Category="application" Iterative="false" Optional="false" PartOfCooperation="false" Frequency=" ">
+                <Name>name</Name>
+                <TemporalOperator name="SequentialEnabling"/>
+                <Parent name="Pesquisar imóvel (Cliente)"/>
+                <SiblingLeft name="Indica ordenação dos resultados"/>
+                <SiblingRight name="Consultar detalhes de imóvel"/>
+            </Task>
+            <Task Identifier="Consultar detalhes de imóvel" Category="abstraction" Iterative="true" Optional="false" PartOfCooperation="false" Frequency=" ">
+                <Name>name</Name>
+                <TemporalOperator name="Interleaving"/>
+                <Parent name="Pesquisar imóvel (Cliente)"/>
+                <SiblingLeft name="Apresenta imóveis"/>
+                <SiblingRight name="Indica imóvel para comparação"/>
+            </Task>
+            <Task Identifier="Indica imóvel para comparação" Category="interaction" Iterative="true" Optional="false" PartOfCooperation="false" Frequency=" ">
+                <Name>name</Name>
+                <Type>None</Type>
+                <TemporalOperator name="Disabling"/>
+                <Parent name="Pesquisar imóvel (Cliente)"/>
+                <SiblingLeft name="Consultar detalhes de imóvel"/>
+                <SiblingRight name="Apresenta comparação de informações dos imóveis"/>
+            </Task>
+            <Task Identifier="Apresenta comparação de informações dos imóveis" Category="application" Iterative="false" Optional="false" PartOfCooperation="false" Frequency=" ">
+                <Name>name</Name>
+                <Type>None</Type>
+                <TemporalOperator name="SequentialEnabling"/>
+                <Parent name="Pesquisar imóvel (Cliente)"/>
+                <SiblingLeft name="Indica imóvel para comparação"/>
+                <SiblingRight name="Escolhe imóvel pretendido"/>
+            </Task>
+            <Task Identifier="Escolhe imóvel pretendido" Category="user" Iterative="false" Optional="false" PartOfCooperation="false" Frequency=" ">
+                <Name>name</Name>
+                <TemporalOperator name="Choice"/>
+                <Parent name="Pesquisar imóvel (Cliente)"/>
+                <SiblingLeft name="Apresenta comparação de informações dos imóveis"/>
+                <SiblingRight name="Configura notificação para novos imóveis"/>
+            </Task>
+            <Task Identifier="Configura notificação para novos imóveis" Category="abstraction" Iterative="false" Optional="false" PartOfCooperation="false" Frequency=" ">
+                <Name>name</Name>
+                <Parent name="Pesquisar imóvel (Cliente)"/>
+                <SiblingLeft name="Escolhe imóvel pretendido"/>
+                <SubTask>
+                    <Task Identifier="Indica características de imóveis para as quais pretende ser notificado" Category="interaction" Iterative="false" Optional="false" PartOfCooperation="false" Frequency=" ">
+                        <Name>name</Name>
+                        <TemporalOperator name="SequentialEnabling"/>
+                        <Parent name="Configura notificação para novos imóveis"/>
+                        <SiblingRight name="Armazena configuração de notificação"/>
+                    </Task>
+                    <Task Identifier="Armazena configuração de notificação" Category="application" Iterative="false" Optional="false" PartOfCooperation="false" Frequency=" ">
+                        <Name>name</Name>
+                        <Parent name="Configura notificação para novos imóveis"/>
+                        <SiblingLeft name="Indica características de imóveis para as quais pretende ser notificado"/>
+                    </Task>
+                </SubTask>
+            </Task>
+        </SubTask>
+    </Task>
+</TaskModel>
