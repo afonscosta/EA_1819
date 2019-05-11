@@ -1,0 +1,154 @@
+<template>
+  <b-container>
+    <b-row class="justify-content-md-center">
+      <b-col md="6">
+        <b-form @submit="onSubmit" @reset="onReset">
+          <b-form-group
+            id="input-group-1"
+            label="Endereço de email:"
+            label-for="input-1"
+          >
+            <b-form-input
+              id="input-1"
+              v-model="form.email"
+              type="email"
+              required
+              placeholder="Insera email"
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group id="input-group-2" label="Nome:" label-for="input-2">
+            <b-form-input
+              id="input-2"
+              v-model="form.name"
+              required
+              placeholder="Insira o nome"
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group
+            id="input-group-3"
+            label="Password:"
+            label-for="input-3"
+          >
+            <b-form-input
+              id="input-3"
+              v-model="form.password"
+              type="password"
+              required
+              placeholder="Insira a password"
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group id="input-group-4" label="Idade:" label-for="input-4">
+            <b-form-input
+              id="input-4"
+              v-model="form.age"
+              type="number"
+              required
+              placeholder="Insira a idade"
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group
+            id="input-group-5"
+            label="Telefone/Telemóvel:"
+            label-for="input-5"
+          >
+            <b-form-input
+              id="input-5"
+              v-model="form.phone"
+              required
+              placeholder="Insira o seu número"
+            ></b-form-input>
+          </b-form-group>
+
+          <b-button type="submit" variant="primary">Submit</b-button>
+          <b-button type="reset" variant="danger">Reset</b-button>
+          <b-button v-if="form.id" @click="deleteU" variant="danger"
+            >Delete</b-button
+          >
+        </b-form>
+      </b-col>
+    </b-row>
+    <b-row class="justify-content-md-center">
+      <b-col md="6">
+        <b-table
+          selectable
+          select-mode="single"
+          selectedVariant="success"
+          :items="users"
+          @row-selected="rowSelected"
+        ></b-table>
+      </b-col>
+    </b-row>
+    <b-row class="justify-content-md-center">
+      <b-col md="6">
+        <b-card class="mt-3" header="Form Data Result">
+          <pre class="m-0">{{ form }}</pre>
+        </b-card>
+      </b-col>
+    </b-row>
+    <b-row class="justify-content-md-center">
+      <b-col md="6">
+        <b-card class="mt-3" header="Get users result">
+          <pre class="m-0">{{ users }}</pre>
+        </b-card>
+      </b-col>
+    </b-row>
+  </b-container>
+</template>
+
+<script>
+import { mapActions, mapState } from "vuex";
+
+export default {
+  name: "register",
+  data: () => ({
+    form: {
+      id: null,
+      email: "",
+      name: "",
+      password: "",
+      age: null,
+      phone: ""
+    },
+    selected: []
+  }),
+  created() {
+    this.getUsers();
+  },
+  computed: {
+    ...mapState({
+      users: state => state.users.users
+    })
+  },
+  methods: {
+    ...mapActions("users", ["getUsers", "addUser", "updateUser", "deleteUser"]),
+    onSubmit(evt) {
+      evt.preventDefault();
+      if (this.form.id) {
+        this.updateUser(JSON.stringify(this.form));
+      } else {
+        this.addUser(JSON.stringify(this.form));
+      }
+      alert(JSON.stringify(this.form));
+    },
+    onReset(evt) {
+      evt.preventDefault();
+      // Reset our form values
+      this.form.email = "";
+      this.form.name = "";
+      this.form.password = "";
+      this.form.age = null;
+      this.form.phone = "";
+    },
+    rowSelected(users) {
+      this.selected = users;
+    },
+    deleteU() {
+      this.deleteUser(this.form.id);
+    }
+  }
+};
+</script>

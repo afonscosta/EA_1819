@@ -6,6 +6,7 @@ import org.orm.PersistentException;
 import javax.ejb.Stateless;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Stateless(name = "UsersEJB")
@@ -34,6 +35,9 @@ public class UsersBean implements UsersBeanLocal {
         user.setName(name);
         user.setPhone(phone);
         user.setAge(age);
+        user.setGender(null);
+        user.setOccupation(null);
+        user.setLastLogin(null);
         CommonDAO.save(user);
         System.out.println(user);
         return UsersDAO.loadUsersByQuery("email = '" + email + "'", null);

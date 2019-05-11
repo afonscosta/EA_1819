@@ -6,6 +6,6 @@
 
 <script>
 export default {
-  name: "comparison"
-};
+  name: 'comparison'
+}
 </script>

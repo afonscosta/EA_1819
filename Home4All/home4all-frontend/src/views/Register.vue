@@ -100,23 +100,23 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState } from 'vuex'
 
 export default {
-  name: "register",
+  name: 'register',
   data: () => ({
     form: {
       id: null,
-      email: "",
-      name: "",
-      password: "",
+      email: '',
+      name: '',
+      password: '',
       age: null,
-      phone: ""
+      phone: ''
     },
     selected: []
   }),
-  created() {
-    this.getUsers();
+  created () {
+    this.getUsers()
   },
   computed: {
     ...mapState({
@@ -124,31 +124,31 @@ export default {
     })
   },
   methods: {
-    ...mapActions("users", ["getUsers", "addUser", "updateUser", "deleteUser"]),
-    onSubmit(evt) {
-      evt.preventDefault();
+    ...mapActions('users', ['getUsers', 'addUser', 'updateUser', 'deleteUser']),
+    onSubmit (evt) {
+      evt.preventDefault()
       if (this.form.id) {
-        this.updateUser(JSON.stringify(this.form));
+        this.updateUser(JSON.stringify(this.form))
       } else {
-        this.addUser(JSON.stringify(this.form));
+        this.addUser(JSON.stringify(this.form))
       }
-      alert(JSON.stringify(this.form));
+      alert(JSON.stringify(this.form))
     },
-    onReset(evt) {
-      evt.preventDefault();
+    onReset (evt) {
+      evt.preventDefault()
       // Reset our form values
-      this.form.email = "";
-      this.form.name = "";
-      this.form.password = "";
-      this.form.age = null;
-      this.form.phone = "";
+      this.form.email = ''
+      this.form.name = ''
+      this.form.password = ''
+      this.form.age = null
+      this.form.phone = ''
     },
-    rowSelected(users) {
-      this.selected = users;
+    rowSelected (users) {
+      this.selected = users
     },
-    deleteU() {
-      this.deleteUser(this.form.id);
+    deleteU () {
+      this.deleteUser(this.form.id)
     }
   }
-};
+}
 </script>

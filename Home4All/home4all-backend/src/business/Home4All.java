@@ -16,7 +16,7 @@ public class Home4All {
         try {
 
             Context c = new InitialContext();
-            return (UsersBeanLocal) c.lookup("java:global/Home4All/UsersEJB!beans.UsersBeanLocal");
+            return (UsersBeanLocal) c.lookup("java:global/Home4All/UsersEJB!business.beans.UsersBeanLocal");
         } catch (NamingException ne) {
             ne.printStackTrace();
         }
