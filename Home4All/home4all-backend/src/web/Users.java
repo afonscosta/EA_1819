@@ -3,12 +3,14 @@ package web;
 import business.Home4All;
 import com.google.gson.Gson;
 
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+@WebServlet(name = "Users", urlPatterns = {"/users"})
 public class Users extends javax.servlet.http.HttpServlet {
     private Gson gson = new Gson();
 
