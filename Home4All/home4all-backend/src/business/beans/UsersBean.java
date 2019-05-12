@@ -21,7 +21,7 @@ public class UsersBean implements UsersBeanLocal {
     }
 
     @Override
-    public Users insertCommonUser(String email, String name, String password, int age, String phone) throws PersistentException {
+    public Common insertCommonUser(String email, String name, String password, int age, String phone) throws PersistentException {
         Common user;
         if (password != null) {
             user = InternalAccountDAO.createInternalAccount();
@@ -40,7 +40,7 @@ public class UsersBean implements UsersBeanLocal {
         user.setLastLogin(null);
         CommonDAO.save(user);
         System.out.println(user);
-        return UsersDAO.loadUsersByQuery("email = '" + email + "'", null);
+        return CommonDAO.loadCommonByQuery("email = '" + email + "'", null);
     }
 
 }

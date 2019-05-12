@@ -1,5 +1,6 @@
 package business;
 
+import PSM.Common;
 import PSM.Users;
 import business.beans.UsersBeanLocal;
 import org.orm.PersistentException;
@@ -28,7 +29,7 @@ public class Home4All {
         return usersBean.listUsers();
     }
 
-    public static Users insertCommonUser(String email, String name, String password, int age, String phone) throws PersistentException {
+    public static Common insertCommonUser(String email, String name, String password, int age, String phone) throws PersistentException {
         return usersBean.insertCommonUser(email, name, password, age, phone);
     }
 }

@@ -33,7 +33,7 @@ public class Common extends PSM.Users {
 		
 		return null;
 	}
-	
+
 	org.orm.util.ORMAdapter _ormAdapter = new org.orm.util.AbstractORMAdapter() {
 		public java.util.Set getSet(int key) {
 			return this_getSet(key);

@@ -41,7 +41,7 @@ License Type: Academic
 				<one-to-many class="PSM.Folder"/>
 			</set>
 			<subclass name="PSM.InternalAccount" discriminator-value="InternalAccount" lazy="false">
-				<property name="password" column="`Column`" type="string" length="255" not-null="false" lazy="false"/>
+				<property name="password" column="Password" type="string" length="255" not-null="false" lazy="false"/>
 			</subclass>
 		</subclass>
 	</class>
