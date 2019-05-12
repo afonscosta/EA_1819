@@ -33,11 +33,13 @@ const actions = {
     })
   },
   addUser ({ commit }, user) {
+    console.log('add user enviado para o backend', user)
     usersService.postUser(user).then(user => {
       commit('addUser', user)
     })
   },
   updateUser ({ commit }, user) {
+    console.log('update user enviado para o backend', user)
     usersService.postUser(user).then(() => {
       commit('updateUser', user)
     })

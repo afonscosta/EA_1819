@@ -65,13 +65,11 @@
 
           <b-button type="submit" variant="primary">Submit</b-button>
           <b-button type="reset" variant="danger">Reset</b-button>
-          <b-button v-if="form.id" @click="deleteU" variant="danger"
+          <b-button v-if="selected.length > 0" @click="deleteU" variant="danger"
             >Delete</b-button
           >
         </b-form>
       </b-col>
-    </b-row>
-    <b-row class="justify-content-md-center">
       <b-col md="6">
         <b-table
           selectable
@@ -88,8 +86,6 @@
           <pre class="m-0">{{ form }}</pre>
         </b-card>
       </b-col>
-    </b-row>
-    <b-row class="justify-content-md-center">
       <b-col md="6">
         <b-card class="mt-3" header="Get users result">
           <pre class="m-0">{{ users }}</pre>
@@ -128,15 +124,15 @@ export default {
     onSubmit (evt) {
       evt.preventDefault()
       if (this.form.id) {
-        this.updateUser(JSON.stringify(this.form))
+        this.updateUser(this.form)
       } else {
-        this.addUser(JSON.stringify(this.form))
+        this.addUser(this.form)
       }
-      alert(JSON.stringify(this.form))
     },
     onReset (evt) {
       evt.preventDefault()
       // Reset our form values
+      this.form.id = null
       this.form.email = ''
       this.form.name = ''
       this.form.password = ''
@@ -144,7 +140,16 @@ export default {
       this.form.phone = ''
     },
     rowSelected (users) {
+      console.log(users)
       this.selected = users
+      if (users.length > 0) {
+        this.form.id = users[0].id
+        this.form.email = users[0].email
+        this.form.name = users[0].name
+        this.form.password = 'password'
+        this.form.age = users[0].age
+        this.form.phone = users[0].phone
+      }
     },
     deleteU () {
       this.deleteUser(this.form.id)
