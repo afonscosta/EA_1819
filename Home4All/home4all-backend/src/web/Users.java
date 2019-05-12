@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 
+import javax.json.Json;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
@@ -13,6 +14,8 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
+
+import static java.lang.System.out;
 
 @WebServlet(name = "Users", urlPatterns = {"/users"})
 public class Users extends javax.servlet.http.HttpServlet {
@@ -41,26 +44,36 @@ public class Users extends javax.servlet.http.HttpServlet {
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         try {
             BufferedReader reader = request.getReader();
-            //PSM.InternalAccount u = gson.fromJson(reader, PSM.InternalAccount.class);
-            //PSM.Users user = Home4All.insertCommonUser(u.getEmail(), u.getName(), u.getPassword(), u.getAge(), u.getPhone());
+            PSM.InternalAccount u = gson.fromJson(reader, PSM.InternalAccount.class);
+            PSM.Users user = Home4All.insertCommonUser(u.getEmail(), u.getName(), u.getPassword(), u.getAge(), u.getPhone());
+            String userJson = Json.createObjectBuilder()
+                    .add("id", user.getID())
+                    .add("email", user.getEmail())
+                    .add("name", user.getName())
+                    .add("password", u.getPassword())
+                    .add("age", u.getAge())
+                    .add("phone", u.getPhone())
+                    .build()
+                    .toString();
+            out.println(userJson);
             //System.out.println(user);
             //String userJsonString = gson.toJson(user);
             //System.out.println("SOU O JSON!");
             //System.out.println(userJsonString);
-            StringBuffer jb = new StringBuffer();
-            String line = null;
-            while((line = reader.readLine()) != null) {
-                jb.append(line);
-                System.out.println(line);
-            }
+//            StringBuffer jb = new StringBuffer();
+//            String line = null;
+//            while((line = reader.readLine()) != null) {
+//                jb.append(line);
+//                out.println(line);
+//            }
             //JSONObject jsonObject =  HTTP.toJSONObject(jb.toString());
-            System.out.println("JSONObject");
-            System.out.println(jb.toString());
+//            out.println("JSONObject");
+//            out.println(jb.toString());
             //System.out.println(jsonObject);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             PrintWriter out = response.getWriter();
-            //out.print(userJsonString);
+            out.print(userJson);
             out.flush();
         }
         catch (Exception e) {
@@ -73,11 +86,11 @@ public class Users extends javax.servlet.http.HttpServlet {
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         try {
-            System.out.println("HERE");
+            out.println("HERE");
             List<PSM.Users> users = Home4All.listUsers();
-            System.out.println(users);
+            out.println(users);
             String usersJsonString = gson.toJson(users);
-            System.out.println(usersJsonString);
+            out.println(usersJsonString);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             PrintWriter out = response.getWriter();

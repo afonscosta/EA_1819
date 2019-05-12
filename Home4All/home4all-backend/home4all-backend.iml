@@ -68,5 +68,6 @@
     <orderEntry type="library" name="orm" level="project" />
     <orderEntry type="library" name="orm2" level="project" />
     <orderEntry type="library" name="gson-2.8.5" level="project" />
+    <orderEntry type="library" name="javax.json-api-1.0" level="project" />
   </component>
 </module>
