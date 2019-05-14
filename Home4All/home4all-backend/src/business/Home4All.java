@@ -1,7 +1,7 @@
 package business;
 
-import PSM.Common;
-import PSM.Users;
+import business.entities.Common;
+import business.entities.Users;
 import business.beans.UsersBeanLocal;
 import org.orm.PersistentException;
 

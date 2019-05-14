@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: Mafalda Nunes(Universidade do Minho)
+License Type: Academic
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="business.entities.Users" table="Users" lazy="false" discriminator-value="Users">
+		<id name="ID" column="ID" type="integer" unsaved-value="0">
+			<generator class="native">
+			</generator>
+		</id>
+		<discriminator column="Discriminator" type="string"/>
+		<property name="email" column="Email" type="string" length="255" not-null="true" lazy="false"/>
+		<property name="name" column="Name" type="string" length="255" not-null="true" lazy="false"/>
+		<subclass name="business.entities.Admin" discriminator-value="Admin" lazy="false">
+			<property name="password" column="Password" type="string" length="255" not-null="false" lazy="false"/>
+		</subclass>
+		<subclass name="business.entities.Common" discriminator-value="Common" lazy="false">
+			<many-to-one name="gender" column="GenderName" class="business.entities.Gender" cascade="save-update,lock" unique="true" not-null="false" lazy="proxy" access="field">
+			</many-to-one>
+			<many-to-one name="occupation" column="OccupationName" class="business.entities.Occupation" cascade="save-update,lock" unique="true" not-null="false" lazy="proxy" access="field">
+			</many-to-one>
+			<property name="age" column="Age" type="integer" length="10" not-null="false" lazy="false"/>
+			<property name="phone" column="Phone" type="string" length="255" not-null="false" lazy="false"/>
+			<property name="lastLogin" column="LastLogin" type="date" not-null="false" lazy="false"/>
+			<set name="ORM_Properties" lazy="true" cascade="save-update,lock" inverse="true">
+				<key column="UsersID" not-null="true"/>
+				<one-to-many class="business.entities.Property"/>
+			</set>
+			<set name="ORM_Notifications" lazy="true" cascade="all-delete-orphan" inverse="false">
+				<key column="UsersID" not-null="true"/>
+				<one-to-many class="business.entities.Notification"/>
+			</set>
+			<set name="ORM_Chats" lazy="true" cascade="all-delete-orphan" inverse="true">
+				<key column="UsersID" not-null="true"/>
+				<one-to-many class="business.entities.Chat"/>
+			</set>
+			<set name="ORM_Favorites" lazy="true" cascade="all-delete-orphan" inverse="false">
+				<key column="UsersID" not-null="true"/>
+				<one-to-many class="business.entities.Folder"/>
+			</set>
+			<subclass name="business.entities.InternalAccount" discriminator-value="InternalAccount" lazy="false">
+				<property name="password" column="Password" type="string" length="255" not-null="false" lazy="false"/>
+			</subclass>
+		</subclass>
+	</class>
+</hibernate-mapping>

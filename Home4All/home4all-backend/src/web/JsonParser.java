@@ -1,7 +1,8 @@
 package web;
 
-import PSM.Common;
-import PSM.InternalAccount;
+import business.entities.Common;
+import business.entities.InternalAccount;
+import business.entities.Users;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 
@@ -10,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class JsonParser {
+class JsonParser {
     private static Gson gson = new Gson();
 
     static String userToJson(Common user) {
@@ -26,9 +27,9 @@ public class JsonParser {
         return gson.toJson(data);
     }
 
-    static String usersToJson(List<PSM.Users> users) {
+    static String usersToJson(List<Users> users) {
         List<Map<String, Object>> data = new ArrayList<>();
-        for (PSM.Users user: users) {
+        for (Users user: users) {
             Map<String, Object> userData = new HashMap<>();
             userData.put("id", user.getID());
             userData.put("email", user.getEmail());

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
-Licensee: afonscosta(Universidade do Minho)
+Licensee: Mafalda Nunes(Universidade do Minho)
 License Type: Academic
 -->
 <!DOCTYPE hibernate-configuration PUBLIC
@@ -18,20 +18,23 @@ License Type: Academic
 		<property name="query.substitutions">true 1, false 0, yes 'Y', no 'N'</property>
 		<property name="hibernate.hbm2ddl.auto">update</property>
 		<!-- mapping files -->
-		<mapping resource="ormmapping/psm/Bedroom.hbm.xml" />
-		<mapping resource="ormmapping/psm/BedroomType.hbm.xml" />
-		<mapping resource="ormmapping/psm/Chat.hbm.xml" />
-		<mapping resource="ormmapping/psm/Comment.hbm.xml" />
-		<mapping resource="ormmapping/psm/Equipment.hbm.xml" />
-		<mapping resource="ormmapping/psm/Expenses.hbm.xml" />
-		<mapping resource="ormmapping/psm/Folder.hbm.xml" />
-		<mapping resource="ormmapping/psm/Gender.hbm.xml" />
-		<mapping resource="ormmapping/psm/Notification.hbm.xml" />
-		<mapping resource="ormmapping/psm/Occupation.hbm.xml" />
-		<mapping resource="ormmapping/psm/Ordination.hbm.xml" />
-		<mapping resource="ormmapping/psm/Property.hbm.xml" />
-		<mapping resource="ormmapping/psm/PropertyType.hbm.xml" />
-		<mapping resource="ormmapping/psm/Typology.hbm.xml" />
-		<mapping resource="ormmapping/psm/Users.hbm.xml" />
+		<mapping resource="ormmapping/tables/Bedroom.hbm.xml" />
+		<mapping resource="ormmapping/tables/BedroomType.hbm.xml" />
+		<mapping resource="ormmapping/tables/Chat.hbm.xml" />
+		<mapping resource="ormmapping/tables/Comment.hbm.xml" />
+		<mapping resource="ormmapping/tables/Equipment.hbm.xml" />
+		<mapping resource="ormmapping/tables/Expenses.hbm.xml" />
+		<mapping resource="ormmapping/tables/Folder.hbm.xml" />
+		<mapping resource="ormmapping/tables/Gender.hbm.xml" />
+		<mapping resource="ormmapping/tables/MultipleRoom.hbm.xml" />
+		<mapping resource="ormmapping/tables/Notification.hbm.xml" />
+		<mapping resource="ormmapping/tables/Occupation.hbm.xml" />
+		<mapping resource="ormmapping/tables/Ordination.hbm.xml" />
+		<mapping resource="ormmapping/tables/Pet.hbm.xml" />
+		<mapping resource="ormmapping/tables/Photo.hbm.xml" />
+		<mapping resource="ormmapping/tables/Property.hbm.xml" />
+		<mapping resource="ormmapping/tables/PropertyType.hbm.xml" />
+		<mapping resource="ormmapping/tables/Typology.hbm.xml" />
+		<mapping resource="ormmapping/tables/Users.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: Mafalda Nunes(Universidade do Minho)
+License Type: Academic
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="business.entities.Property" table="Property" lazy="false" discriminator-value="Property">
+		<id name="ID" column="ID" type="integer" unsaved-value="0">
+			<generator class="native">
+			</generator>
+		</id>
+		<discriminator column="Discriminator" type="string"/>
+		<many-to-one name="typology" column="TypologyName" class="business.entities.Typology" cascade="save-update,lock" unique="true" not-null="true" lazy="proxy" access="field">
+		</many-to-one>
+		<many-to-one name="owner" cascade="lock" column="UsersID" class="business.entities.Common" not-null="true" lazy="proxy" access="field">
+		</many-to-one>
+		<property name="name" column="Name" type="string" length="255" not-null="true" lazy="false"/>
+		<property name="description" column="Description" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="area" column="Area" type="float" not-null="false" lazy="false"/>
+		<property name="district" column="District" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="city" column="City" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="street" column="Street" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="allowedMinAge" column="AllowedMinAge" type="integer" length="10" not-null="false" lazy="false"/>
+		<property name="allowedMaxAge" column="AllowedMaxAge" type="integer" length="10" not-null="false" lazy="false"/>
+		<property name="allowedSmoker" column="AllowedSmoker" type="boolean" not-null="false" lazy="false"/>
+		<property name="allowedPets" column="AllowedPets" type="boolean" not-null="false" lazy="false"/>
+		<property name="publishDate" column="PublishDate" type="date" not-null="true" lazy="false"/>
+		<set name="ORM_Comments" lazy="true" cascade="save-update,lock" inverse="false">
+			<key column="PropertyID" not-null="true"/>
+			<one-to-many class="business.entities.Comment"/>
+		</set>
+		<set name="ORM_Photos" lazy="true" cascade="save-update,lock" inverse="false">
+			<key column="PropertyID" not-null="true"/>
+			<one-to-many class="business.entities.Photo"/>
+		</set>
+		<set name="ORM_ExpensesIncluded" lazy="true" cascade="save-update,lock" inverse="false">
+			<key column="PropertyID" not-null="true"/>
+			<one-to-many class="business.entities.Expenses"/>
+		</set>
+		<set name="ORM_AllowedOccupations" lazy="true" cascade="save-update,lock" inverse="false">
+			<key column="PropertyID2" not-null="true"/>
+			<one-to-many class="business.entities.Occupation"/>
+		</set>
+		<set name="ORM_EquipmentIncluded" lazy="true" cascade="save-update,lock" inverse="false">
+			<key column="PropertyID" not-null="true"/>
+			<one-to-many class="business.entities.Equipment"/>
+		</set>
+		<set name="ORM_AllowedGenders" lazy="true" cascade="save-update,lock" inverse="false">
+			<key column="PropertyID" not-null="true"/>
+			<one-to-many class="business.entities.Gender"/>
+		</set>
+		<subclass name="business.entities.Shared" discriminator-value="Shared" lazy="false">
+			<property name="females" column="Females" type="integer" length="10" not-null="false" lazy="false"/>
+			<property name="males" column="Males" type="integer" length="10" not-null="false" lazy="false"/>
+			<property name="smokers" column="Smokers" type="integer" length="10" not-null="false" lazy="false"/>
+			<property name="petsQuantity" column="PetsQuantity" type="integer" length="10" not-null="false" lazy="false"/>
+			<property name="totalAccess" column="TotalAccess" type="boolean" not-null="false" lazy="false"/>
+			<set name="ORM_Bedrooms" lazy="true" cascade="all-delete-orphan" inverse="false">
+				<key column="PropertyID" not-null="true"/>
+				<one-to-many class="business.entities.Bedroom"/>
+			</set>
+			<set name="ORM_Pets" lazy="true" cascade="all-delete-orphan" inverse="false">
+				<key column="PropertyID" not-null="true"/>
+				<one-to-many class="business.entities.Pet"/>
+			</set>
+			<set name="ORM_Occupations" lazy="true" cascade="save-update,lock" inverse="false">
+				<key column="PropertyID" not-null="true"/>
+				<one-to-many class="business.entities.Occupation"/>
+			</set>
+		</subclass>
+		<subclass name="business.entities.Private" discriminator-value="Private" lazy="false">
+			<property name="furnished" column="Furnished" type="boolean" not-null="false" lazy="false"/>
+			<property name="availability" column="Availability" type="date" not-null="false" lazy="false"/>
+			<property name="sellPrice" column="SellPrice" type="float" not-null="false" lazy="false"/>
+			<property name="rentPrice" column="RentPrice" type="float" not-null="false" lazy="false"/>
+			<property name="sold" column="Sold" type="boolean" not-null="false" lazy="false"/>
+			<subclass name="business.entities.Villa" discriminator-value="Villa" lazy="false">
+			</subclass>
+			<subclass name="business.entities.Apartment" discriminator-value="Apartment" lazy="false">
+			</subclass>
+		</subclass>
+	</class>
+</hibernate-mapping>

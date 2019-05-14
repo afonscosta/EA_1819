@@ -1,6 +1,8 @@
 package web;
 
 import business.Home4All;
+import business.entities.Common;
+import business.entities.InternalAccount;
 import com.google.gson.Gson;
 
 import javax.servlet.annotation.WebServlet;
@@ -17,8 +19,8 @@ public class Users extends javax.servlet.http.HttpServlet {
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws IOException {
         try {
             BufferedReader reader = request.getReader();
-            PSM.InternalAccount u = gson.fromJson(reader, PSM.InternalAccount.class);
-            PSM.Common user = Home4All.insertCommonUser(u.getEmail(), u.getName(), u.getPassword(), u.getAge(), u.getPhone());
+            InternalAccount u = gson.fromJson(reader, InternalAccount.class);
+            Common user = Home4All.insertCommonUser(u.getEmail(), u.getName(), u.getPassword(), u.getAge(), u.getPhone());
             String userJsonString = JsonParser.userToJson(user);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
@@ -36,7 +38,7 @@ public class Users extends javax.servlet.http.HttpServlet {
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws IOException {
         try {
-            List<PSM.Users> users = Home4All.listUsers();
+            List<business.entities.Users> users = Home4All.listUsers();
             String usersJsonString = JsonParser.usersToJson(users);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");

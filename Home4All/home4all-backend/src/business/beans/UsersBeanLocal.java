@@ -1,7 +1,7 @@
 package business.beans;
 
-import PSM.Common;
-import PSM.Users;
+import business.entities.Common;
+import business.entities.Users;
 import org.orm.PersistentException;
 
 import java.util.List;

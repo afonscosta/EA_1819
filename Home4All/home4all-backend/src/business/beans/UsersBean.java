@@ -1,12 +1,14 @@
 package business.beans;
 
-import PSM.*;
+import data.*;
+import business.entities.Common;
+import business.entities.InternalAccount;
+import business.entities.Users;
 import org.orm.PersistentException;
 
 import javax.ejb.Stateless;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 @Stateless(name = "UsersEJB")
@@ -16,7 +18,7 @@ public class UsersBean implements UsersBeanLocal {
 
     @Override
     public List<Users> listUsers() throws PersistentException {
-        Users[] users = PSM.UsersDAO.listUsersByQuery(null, null);
+        Users[] users = data.UsersDAO.listUsersByQuery(null, null);
         return new ArrayList<>(Arrays.asList(users));
     }
 
