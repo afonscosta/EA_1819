@@ -16,6 +16,9 @@
             <router-link disable to="/comparison">Comparação</router-link>
           </b-nav-item>
           <b-nav-item>
+            <router-link to="/sell">Vender</router-link>
+          </b-nav-item>
+          <b-nav-item>
             <router-link to="/register">Registar</router-link>
           </b-nav-item>
           <b-nav-item><router-link to="/login">Login</router-link></b-nav-item>

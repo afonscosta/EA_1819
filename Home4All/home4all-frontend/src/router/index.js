@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '@/views/Home.vue'
 import Search from '@/views/Search.vue'
 import Comparison from '@/views/Comparison.vue'
+import Sell from '@/views/Sell.vue'
 import Register from '@/views/Register.vue'
 import Login from '@/views/Login.vue'
 
@@ -24,6 +25,11 @@ export default new Router({
       path: '/comparison',
       name: 'comparison',
       component: Comparison
+    },
+    {
+      path: '/sell',
+      name: 'sell',
+      component: Sell
     },
     {
       path: '/register',
