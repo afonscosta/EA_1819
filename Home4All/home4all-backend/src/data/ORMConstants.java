@@ -14,9 +14,9 @@
 package data;
 
 public interface ORMConstants extends org.orm.util.ORMBaseConstants {
-	final int KEY_BEDROOM_BEDROOMTYPE = 398170931;
-	
 	final int KEY_BEDROOM_PHOTOS = 2063371620;
+	
+	final int KEY_BEDROOM_TYPE = -417828643;
 	
 	final int KEY_CHAT_COMMON = -967423854;
 	

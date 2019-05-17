@@ -2,14 +2,17 @@ package web;
 
 import business.entities.Common;
 import business.entities.InternalAccount;
-import business.entities.Users;
+import business.entities.Property;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 class JsonParser {
     private static Gson gson = new Gson();
@@ -27,9 +30,9 @@ class JsonParser {
         return gson.toJson(data);
     }
 
-    static String usersToJson(List<Users> users) {
+    static String usersToJson(List<business.entities.Users> users) {
         List<Map<String, Object>> data = new ArrayList<>();
-        for (Users user: users) {
+        for (business.entities.Users user: users) {
             Map<String, Object> userData = new HashMap<>();
             userData.put("id", user.getID());
             userData.put("email", user.getEmail());
@@ -43,6 +46,13 @@ class JsonParser {
                 data.add(userData);
             }
         }
+        return gson.toJson(data);
+    }
+
+    static String propertyToJson(Property property) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("id", property.getID());
+        // TODO: complete
         return gson.toJson(data);
     }
 }

@@ -1,9 +1,9 @@
 package business.beans;
 
-import data.*;
 import business.entities.Common;
 import business.entities.InternalAccount;
 import business.entities.Users;
+import data.*;
 import org.orm.PersistentException;
 
 import javax.ejb.Stateless;

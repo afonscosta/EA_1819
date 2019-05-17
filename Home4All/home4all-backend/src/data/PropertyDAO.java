@@ -13,13 +13,12 @@
  */
 package data;
 
-import business.entities.Private;
 import business.entities.Property;
-import business.entities.Shared;
 import org.orm.*;
 import org.hibernate.Query;
 
 import java.util.List;
+import java.util.Map;
 
 public class PropertyDAO {
 	public static Property loadPropertyByORMID(int ID) throws PersistentException {
@@ -325,12 +324,12 @@ public class PropertyDAO {
 	}
 	
 	public static boolean deleteAndDissociate(Property property)throws PersistentException {
-		if (property instanceof Shared) {
-			return data.SharedDAO.deleteAndDissociate((Shared) property);
+		if (property instanceof business.entities.Shared) {
+			return data.SharedDAO.deleteAndDissociate((business.entities.Shared) property);
 		}
 		
-		if (property instanceof Private) {
-			return data.PrivateDAO.deleteAndDissociate((Private) property);
+		if (property instanceof business.entities.Private) {
+			return data.PrivateDAO.deleteAndDissociate((business.entities.Private) property);
 		}
 		
 		try {
@@ -347,12 +346,12 @@ public class PropertyDAO {
 	}
 	
 	public static boolean deleteAndDissociate(Property property, org.orm.PersistentSession session)throws PersistentException {
-		if (property instanceof Shared) {
-			return data.SharedDAO.deleteAndDissociate((Shared) property, session);
+		if (property instanceof business.entities.Shared) {
+			return data.SharedDAO.deleteAndDissociate((business.entities.Shared) property, session);
 		}
 		
-		if (property instanceof Private) {
-			return data.PrivateDAO.deleteAndDissociate((Private) property, session);
+		if (property instanceof business.entities.Private) {
+			return data.PrivateDAO.deleteAndDissociate((business.entities.Private) property, session);
 		}
 		
 		try {
@@ -388,6 +387,35 @@ public class PropertyDAO {
 		try {
 			data.Home4AllPersistentManager.instance().getSession().evict(property);
 			return true;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			throw new PersistentException(e);
+		}
+	}
+
+	// COSTUMED METHODS
+
+	public static Property loadPropertyByQuery(String condition, String orderBy, Map<String, Object> parameters) throws PersistentException {
+		try {
+			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+
+			StringBuilder sb = new StringBuilder("From tables.Property as Property");
+			if (condition != null)
+				sb.append(" Where ").append(condition);
+			if (orderBy != null)
+				sb.append(" Order By ").append(orderBy);
+			Query query = session.createQuery(sb.toString());
+
+			for (Map.Entry<String, Object> p: parameters.entrySet()) {
+				query.setParameter(p.getKey(), p.getValue());
+			}
+
+			List properties = query.list();
+			if (properties != null && properties.size() > 0)
+				return (Property) properties.get(0);
+			else
+				return null;
 		}
 		catch (Exception e) {
 			e.printStackTrace();

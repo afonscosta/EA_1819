@@ -17,9 +17,9 @@ License Type: Academic
 			<property name="password" column="Password" type="string" length="255" not-null="false" lazy="false"/>
 		</subclass>
 		<subclass name="business.entities.Common" discriminator-value="Common" lazy="false">
-			<many-to-one name="gender" column="GenderName" class="business.entities.Gender" cascade="save-update,lock" unique="true" not-null="false" lazy="proxy" access="field">
+			<many-to-one name="gender" cascade="lock" column="GenderName" class="business.entities.Gender" not-null="false" lazy="proxy" access="field">
 			</many-to-one>
-			<many-to-one name="occupation" column="OccupationName" class="business.entities.Occupation" cascade="save-update,lock" unique="true" not-null="false" lazy="proxy" access="field">
+			<many-to-one name="occupation" cascade="lock" column="OccupationName" class="business.entities.Occupation" not-null="false" lazy="proxy" access="field">
 			</many-to-one>
 			<property name="age" column="Age" type="integer" length="10" not-null="false" lazy="false"/>
 			<property name="phone" column="Phone" type="string" length="255" not-null="false" lazy="false"/>

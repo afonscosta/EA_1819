@@ -10,7 +10,7 @@ License Type: Academic
 			<generator class="native">
 			</generator>
 		</id>
-		<many-to-one name="bedroomType" column="BedroomTypeName" class="business.entities.BedroomType" cascade="save-update,lock" unique="true" not-null="true" lazy="proxy" access="field">
+		<many-to-one name="type" cascade="lock" column="BedroomTypeName" class="business.entities.BedroomType" not-null="true" lazy="proxy" access="field">
 		</many-to-one>
 		<property name="furnished" column="Furnished" type="boolean" not-null="false" lazy="false"/>
 		<property name="peopleAmount" column="PeopleAmount" type="integer" length="10" not-null="false" lazy="false"/>

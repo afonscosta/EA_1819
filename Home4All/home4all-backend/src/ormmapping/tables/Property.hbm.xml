@@ -11,7 +11,9 @@ License Type: Academic
 			</generator>
 		</id>
 		<discriminator column="Discriminator" type="string"/>
-		<many-to-one name="typology" column="TypologyName" class="business.entities.Typology" cascade="save-update,lock" unique="true" not-null="true" lazy="proxy" access="field">
+		<many-to-one name="allowedGenders" cascade="lock" column="GenderName" class="business.entities.Gender" not-null="true" lazy="proxy" access="field">
+		</many-to-one>
+		<many-to-one name="typology" cascade="lock" column="TypologyName" class="business.entities.Typology" not-null="true" lazy="proxy" access="field">
 		</many-to-one>
 		<many-to-one name="owner" cascade="lock" column="UsersID" class="business.entities.Common" not-null="true" lazy="proxy" access="field">
 		</many-to-one>
@@ -34,21 +36,20 @@ License Type: Academic
 			<key column="PropertyID" not-null="true"/>
 			<one-to-many class="business.entities.Photo"/>
 		</set>
-		<set name="ORM_ExpensesIncluded" lazy="true" cascade="save-update,lock" inverse="false">
+		<set name="ORM_ExpensesIncluded" table="Property_Expenses" lazy="true" cascade="save-update,lock">
 			<key column="PropertyID" not-null="true"/>
-			<one-to-many class="business.entities.Expenses"/>
+			<many-to-many column="ExpensesName" class="business.entities.Expenses">
+			</many-to-many>
 		</set>
-		<set name="ORM_AllowedOccupations" lazy="true" cascade="save-update,lock" inverse="false">
-			<key column="PropertyID2" not-null="true"/>
-			<one-to-many class="business.entities.Occupation"/>
-		</set>
-		<set name="ORM_EquipmentIncluded" lazy="true" cascade="save-update,lock" inverse="false">
+		<set name="ORM_AllowedOccupations" table="Property_Occupation2" lazy="true" cascade="save-update,lock">
 			<key column="PropertyID" not-null="true"/>
-			<one-to-many class="business.entities.Equipment"/>
+			<many-to-many column="OccupationName" class="business.entities.Occupation">
+			</many-to-many>
 		</set>
-		<set name="ORM_AllowedGenders" lazy="true" cascade="save-update,lock" inverse="false">
+		<set name="ORM_EquipmentIncluded" table="Property_Equipment" lazy="true" cascade="save-update,lock">
 			<key column="PropertyID" not-null="true"/>
-			<one-to-many class="business.entities.Gender"/>
+			<many-to-many column="EquipmentName" class="business.entities.Equipment">
+			</many-to-many>
 		</set>
 		<subclass name="business.entities.Shared" discriminator-value="Shared" lazy="false">
 			<property name="females" column="Females" type="integer" length="10" not-null="false" lazy="false"/>
@@ -64,9 +65,10 @@ License Type: Academic
 				<key column="PropertyID" not-null="true"/>
 				<one-to-many class="business.entities.Pet"/>
 			</set>
-			<set name="ORM_Occupations" lazy="true" cascade="save-update,lock" inverse="false">
+			<set name="ORM_Occupations" table="Property_Occupation" lazy="true" cascade="save-update,lock">
 				<key column="PropertyID" not-null="true"/>
-				<one-to-many class="business.entities.Occupation"/>
+				<many-to-many column="OccupationName" class="business.entities.Occupation">
+				</many-to-many>
 			</set>
 		</subclass>
 		<subclass name="business.entities.Private" discriminator-value="Private" lazy="false">

@@ -16,7 +16,7 @@
     <Column name="BedroomTypeName">
       <PrimaryKey>false</PrimaryKey>
       <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>business.entities.BedroomType.Name</ReferencedColumn>
+      <ReferencedColumn>PSM.BedroomType.Name</ReferencedColumn>
       <Type>27</Type>
       <Length>255</Length>
       <Nullable>false</Nullable>
@@ -28,7 +28,7 @@
     <Column name="PropertyID">
       <PrimaryKey>false</PrimaryKey>
       <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>business.entities.Property.ID</ReferencedColumn>
+      <ReferencedColumn>PSM.Property.ID</ReferencedColumn>
       <Type>9</Type>
       <Length>10</Length>
       <Nullable>false</Nullable>
@@ -130,7 +130,7 @@
     <Column name="GenderName">
       <PrimaryKey>false</PrimaryKey>
       <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>business.entities.Gender.Name</ReferencedColumn>
+      <ReferencedColumn>PSM.Gender.Name</ReferencedColumn>
       <Type>27</Type>
       <Length>255</Length>
       <Nullable>true</Nullable>
@@ -142,7 +142,7 @@
     <Column name="OccupationName">
       <PrimaryKey>false</PrimaryKey>
       <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>business.entities.Occupation.Name</ReferencedColumn>
+      <ReferencedColumn>PSM.Occupation.Name</ReferencedColumn>
       <Type>27</Type>
       <Length>255</Length>
       <Nullable>true</Nullable>
@@ -255,7 +255,7 @@
     <Column name="OrdinationName">
       <PrimaryKey>false</PrimaryKey>
       <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>business.entities.Ordination.Name</ReferencedColumn>
+      <ReferencedColumn>PSM.Ordination.Name</ReferencedColumn>
       <Type>27</Type>
       <Length>255</Length>
       <Nullable>true</Nullable>
@@ -267,7 +267,7 @@
     <Column name="UsersID">
       <PrimaryKey>false</PrimaryKey>
       <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>business.entities.Users.ID</ReferencedColumn>
+      <ReferencedColumn>PSM.Users.ID</ReferencedColumn>
       <Type>9</Type>
       <Length>10</Length>
       <Nullable>false</Nullable>
@@ -465,10 +465,22 @@
       <Index>false</Index>
       <UserTypes/>
     </Column>
+    <Column name="GenderName">
+      <PrimaryKey>false</PrimaryKey>
+      <ForeignKey>true</ForeignKey>
+      <ReferencedColumn>PSM.Gender.Name</ReferencedColumn>
+      <Type>27</Type>
+      <Length>255</Length>
+      <Nullable>false</Nullable>
+      <IDGenerator>native</IDGenerator>
+      <Unique>false</Unique>
+      <Index>false</Index>
+      <UserTypes/>
+    </Column>
     <Column name="TypologyName">
       <PrimaryKey>false</PrimaryKey>
       <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>business.entities.Typology.Name</ReferencedColumn>
+      <ReferencedColumn>PSM.Typology.Name</ReferencedColumn>
       <Type>27</Type>
       <Length>255</Length>
       <Nullable>false</Nullable>
@@ -480,7 +492,7 @@
     <Column name="UsersID">
       <PrimaryKey>false</PrimaryKey>
       <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>business.entities.Users.ID</ReferencedColumn>
+      <ReferencedColumn>PSM.Users.ID</ReferencedColumn>
       <Type>9</Type>
       <Length>10</Length>
       <Nullable>false</Nullable>
@@ -747,7 +759,7 @@
     <Column name="CommentID">
       <PrimaryKey>false</PrimaryKey>
       <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>business.entities.Comment.ID</ReferencedColumn>
+      <ReferencedColumn>PSM.Comment.ID</ReferencedColumn>
       <Type>9</Type>
       <Length>10</Length>
       <Nullable>true</Nullable>
@@ -759,7 +771,7 @@
     <Column name="UsersID">
       <PrimaryKey>false</PrimaryKey>
       <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>business.entities.Users.ID</ReferencedColumn>
+      <ReferencedColumn>PSM.Users.ID</ReferencedColumn>
       <Type>9</Type>
       <Length>10</Length>
       <Nullable>false</Nullable>
@@ -771,7 +783,7 @@
     <Column name="PropertyID">
       <PrimaryKey>false</PrimaryKey>
       <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>business.entities.Property.ID</ReferencedColumn>
+      <ReferencedColumn>PSM.Property.ID</ReferencedColumn>
       <Type>9</Type>
       <Length>10</Length>
       <Nullable>false</Nullable>
@@ -804,18 +816,6 @@
       <Index>false</Index>
       <UserTypes/>
     </Column>
-    <Column name="NotificationID">
-      <PrimaryKey>false</PrimaryKey>
-      <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>business.entities.Notification.ID</ReferencedColumn>
-      <Type>9</Type>
-      <Length>10</Length>
-      <Nullable>false</Nullable>
-      <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
-      <Index>false</Index>
-      <UserTypes/>
-    </Column>
   </Entity>
   <Entity name="Gender" Unlogged="false" PKClustered="0">
     <Column name="Name">
@@ -825,18 +825,6 @@
       <Length>255</Length>
       <Nullable>false</Nullable>
       <IDGenerator>assigned</IDGenerator>
-      <Unique>false</Unique>
-      <Index>false</Index>
-      <UserTypes/>
-    </Column>
-    <Column name="PropertyID">
-      <PrimaryKey>false</PrimaryKey>
-      <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>business.entities.Property.ID</ReferencedColumn>
-      <Type>9</Type>
-      <Length>10</Length>
-      <Nullable>false</Nullable>
-      <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
       <UserTypes/>
@@ -854,18 +842,6 @@
       <Index>false</Index>
       <UserTypes/>
     </Column>
-    <Column name="PropertyID">
-      <PrimaryKey>false</PrimaryKey>
-      <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>business.entities.Property.ID</ReferencedColumn>
-      <Type>9</Type>
-      <Length>10</Length>
-      <Nullable>false</Nullable>
-      <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
-      <Index>false</Index>
-      <UserTypes/>
-    </Column>
   </Entity>
   <Entity name="Occupation" Unlogged="false" PKClustered="0">
     <Column name="Name">
@@ -879,42 +855,6 @@
       <Index>false</Index>
       <UserTypes/>
     </Column>
-    <Column name="NotificationID">
-      <PrimaryKey>false</PrimaryKey>
-      <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>business.entities.Notification.ID</ReferencedColumn>
-      <Type>9</Type>
-      <Length>10</Length>
-      <Nullable>false</Nullable>
-      <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
-      <Index>false</Index>
-      <UserTypes/>
-    </Column>
-    <Column name="PropertyID2">
-      <PrimaryKey>false</PrimaryKey>
-      <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>business.entities.Property.ID</ReferencedColumn>
-      <Type>9</Type>
-      <Length>10</Length>
-      <Nullable>false</Nullable>
-      <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
-      <Index>false</Index>
-      <UserTypes/>
-    </Column>
-    <Column name="PropertyID">
-      <PrimaryKey>false</PrimaryKey>
-      <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>business.entities.Property.ID</ReferencedColumn>
-      <Type>9</Type>
-      <Length>10</Length>
-      <Nullable>false</Nullable>
-      <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
-      <Index>false</Index>
-      <UserTypes/>
-    </Column>
   </Entity>
   <Entity name="Equipment" Unlogged="false" PKClustered="0">
     <Column name="Name">
@@ -924,18 +864,6 @@
       <Length>255</Length>
       <Nullable>false</Nullable>
       <IDGenerator>assigned</IDGenerator>
-      <Unique>false</Unique>
-      <Index>false</Index>
-      <UserTypes/>
-    </Column>
-    <Column name="PropertyID">
-      <PrimaryKey>false</PrimaryKey>
-      <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>business.entities.Property.ID</ReferencedColumn>
-      <Type>9</Type>
-      <Length>10</Length>
-      <Nullable>false</Nullable>
-      <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>
       <Index>false</Index>
       <UserTypes/>
@@ -966,18 +894,6 @@
       <Index>false</Index>
       <UserTypes/>
     </Column>
-    <Column name="NotificationID">
-      <PrimaryKey>false</PrimaryKey>
-      <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>business.entities.Notification.ID</ReferencedColumn>
-      <Type>9</Type>
-      <Length>10</Length>
-      <Nullable>false</Nullable>
-      <IDGenerator>native</IDGenerator>
-      <Unique>false</Unique>
-      <Index>false</Index>
-      <UserTypes/>
-    </Column>
   </Entity>
   <Entity name="Folder" Unlogged="false" PKClustered="0">
     <Column name="ID">
@@ -994,7 +910,7 @@
     <Column name="UsersID">
       <PrimaryKey>false</PrimaryKey>
       <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>business.entities.Users.ID</ReferencedColumn>
+      <ReferencedColumn>PSM.Users.ID</ReferencedColumn>
       <Type>9</Type>
       <Length>10</Length>
       <Nullable>false</Nullable>
@@ -1019,7 +935,7 @@
     <Column name="UsersID">
       <PrimaryKey>false</PrimaryKey>
       <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>business.entities.Users.ID</ReferencedColumn>
+      <ReferencedColumn>PSM.Users.ID</ReferencedColumn>
       <Type>9</Type>
       <Length>10</Length>
       <Nullable>false</Nullable>
@@ -1044,7 +960,7 @@
     <Column name="PropertyID">
       <PrimaryKey>false</PrimaryKey>
       <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>business.entities.Property.ID</ReferencedColumn>
+      <ReferencedColumn>PSM.Property.ID</ReferencedColumn>
       <Type>9</Type>
       <Length>10</Length>
       <Nullable>false</Nullable>
@@ -1056,7 +972,7 @@
     <Column name="BedroomID">
       <PrimaryKey>false</PrimaryKey>
       <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>business.entities.Bedroom.ID</ReferencedColumn>
+      <ReferencedColumn>PSM.Bedroom.ID</ReferencedColumn>
       <Type>9</Type>
       <Length>10</Length>
       <Nullable>false</Nullable>
@@ -1092,7 +1008,7 @@
     <Column name="NotificationID">
       <PrimaryKey>false</PrimaryKey>
       <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>business.entities.Notification.ID</ReferencedColumn>
+      <ReferencedColumn>PSM.Notification.ID</ReferencedColumn>
       <Type>9</Type>
       <Length>10</Length>
       <Nullable>false</Nullable>
@@ -1139,7 +1055,7 @@
     <Column name="PropertyID">
       <PrimaryKey>false</PrimaryKey>
       <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>business.entities.Property.ID</ReferencedColumn>
+      <ReferencedColumn>PSM.Property.ID</ReferencedColumn>
       <Type>9</Type>
       <Length>10</Length>
       <Nullable>false</Nullable>
@@ -1177,7 +1093,7 @@
     <Column name="NotificationID">
       <PrimaryKey>true</PrimaryKey>
       <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>business.entities.Notification.ID</ReferencedColumn>
+      <ReferencedColumn>PSM.Notification.ID</ReferencedColumn>
       <Type>9</Type>
       <Length>10</Length>
       <Nullable>false</Nullable>
@@ -1189,7 +1105,7 @@
     <Column name="PropertyID">
       <PrimaryKey>true</PrimaryKey>
       <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>business.entities.Property.ID</ReferencedColumn>
+      <ReferencedColumn>PSM.Property.ID</ReferencedColumn>
       <Type>9</Type>
       <Length>10</Length>
       <Nullable>false</Nullable>
@@ -1203,7 +1119,7 @@
     <Column name="FolderID">
       <PrimaryKey>true</PrimaryKey>
       <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>business.entities.Folder.ID</ReferencedColumn>
+      <ReferencedColumn>PSM.Folder.ID</ReferencedColumn>
       <Type>9</Type>
       <Length>10</Length>
       <Nullable>false</Nullable>
@@ -1215,9 +1131,191 @@
     <Column name="PropertyID">
       <PrimaryKey>true</PrimaryKey>
       <ForeignKey>true</ForeignKey>
-      <ReferencedColumn>business.entities.Property.ID</ReferencedColumn>
+      <ReferencedColumn>PSM.Property.ID</ReferencedColumn>
       <Type>9</Type>
       <Length>10</Length>
+      <Nullable>false</Nullable>
+      <IDGenerator>assigned</IDGenerator>
+      <Unique>false</Unique>
+      <Index>false</Index>
+      <UserTypes/>
+    </Column>
+  </Entity>
+  <Entity name="Property_Expenses" Unlogged="false" PKClustered="0">
+    <Column name="PropertyID">
+      <PrimaryKey>true</PrimaryKey>
+      <ForeignKey>true</ForeignKey>
+      <ReferencedColumn>PSM.Property.ID</ReferencedColumn>
+      <Type>9</Type>
+      <Length>10</Length>
+      <Nullable>false</Nullable>
+      <IDGenerator>assigned</IDGenerator>
+      <Unique>false</Unique>
+      <Index>false</Index>
+      <UserTypes/>
+    </Column>
+    <Column name="ExpensesName">
+      <PrimaryKey>true</PrimaryKey>
+      <ForeignKey>true</ForeignKey>
+      <ReferencedColumn>PSM.Expenses.Name</ReferencedColumn>
+      <Type>27</Type>
+      <Length>255</Length>
+      <Nullable>false</Nullable>
+      <IDGenerator>assigned</IDGenerator>
+      <Unique>false</Unique>
+      <Index>false</Index>
+      <UserTypes/>
+    </Column>
+  </Entity>
+  <Entity name="Notification_Typology" Unlogged="false" PKClustered="0">
+    <Column name="NotificationID">
+      <PrimaryKey>true</PrimaryKey>
+      <ForeignKey>true</ForeignKey>
+      <ReferencedColumn>PSM.Notification.ID</ReferencedColumn>
+      <Type>9</Type>
+      <Length>10</Length>
+      <Nullable>false</Nullable>
+      <IDGenerator>assigned</IDGenerator>
+      <Unique>false</Unique>
+      <Index>false</Index>
+      <UserTypes/>
+    </Column>
+    <Column name="TypologyName">
+      <PrimaryKey>true</PrimaryKey>
+      <ForeignKey>true</ForeignKey>
+      <ReferencedColumn>PSM.Typology.Name</ReferencedColumn>
+      <Type>27</Type>
+      <Length>255</Length>
+      <Nullable>false</Nullable>
+      <IDGenerator>assigned</IDGenerator>
+      <Unique>false</Unique>
+      <Index>false</Index>
+      <UserTypes/>
+    </Column>
+  </Entity>
+  <Entity name="Property_Occupation" Unlogged="false" PKClustered="0">
+    <Column name="PropertyID">
+      <PrimaryKey>true</PrimaryKey>
+      <ForeignKey>true</ForeignKey>
+      <ReferencedColumn>PSM.Property.ID</ReferencedColumn>
+      <Type>9</Type>
+      <Length>10</Length>
+      <Nullable>false</Nullable>
+      <IDGenerator>assigned</IDGenerator>
+      <Unique>false</Unique>
+      <Index>false</Index>
+      <UserTypes/>
+    </Column>
+    <Column name="OccupationName">
+      <PrimaryKey>true</PrimaryKey>
+      <ForeignKey>true</ForeignKey>
+      <ReferencedColumn>PSM.Occupation.Name</ReferencedColumn>
+      <Type>27</Type>
+      <Length>255</Length>
+      <Nullable>false</Nullable>
+      <IDGenerator>assigned</IDGenerator>
+      <Unique>false</Unique>
+      <Index>false</Index>
+      <UserTypes/>
+    </Column>
+  </Entity>
+  <Entity name="Property_Occupation2" Unlogged="false" PKClustered="0">
+    <Column name="PropertyID">
+      <PrimaryKey>true</PrimaryKey>
+      <ForeignKey>true</ForeignKey>
+      <ReferencedColumn>PSM.Property.ID</ReferencedColumn>
+      <Type>9</Type>
+      <Length>10</Length>
+      <Nullable>false</Nullable>
+      <IDGenerator>assigned</IDGenerator>
+      <Unique>false</Unique>
+      <Index>false</Index>
+      <UserTypes/>
+    </Column>
+    <Column name="OccupationName">
+      <PrimaryKey>true</PrimaryKey>
+      <ForeignKey>true</ForeignKey>
+      <ReferencedColumn>PSM.Occupation.Name</ReferencedColumn>
+      <Type>27</Type>
+      <Length>255</Length>
+      <Nullable>false</Nullable>
+      <IDGenerator>assigned</IDGenerator>
+      <Unique>false</Unique>
+      <Index>false</Index>
+      <UserTypes/>
+    </Column>
+  </Entity>
+  <Entity name="Notification_Occupation" Unlogged="false" PKClustered="0">
+    <Column name="NotificationID">
+      <PrimaryKey>true</PrimaryKey>
+      <ForeignKey>true</ForeignKey>
+      <ReferencedColumn>PSM.Notification.ID</ReferencedColumn>
+      <Type>9</Type>
+      <Length>10</Length>
+      <Nullable>false</Nullable>
+      <IDGenerator>assigned</IDGenerator>
+      <Unique>false</Unique>
+      <Index>false</Index>
+      <UserTypes/>
+    </Column>
+    <Column name="OccupationName">
+      <PrimaryKey>true</PrimaryKey>
+      <ForeignKey>true</ForeignKey>
+      <ReferencedColumn>PSM.Occupation.Name</ReferencedColumn>
+      <Type>27</Type>
+      <Length>255</Length>
+      <Nullable>false</Nullable>
+      <IDGenerator>assigned</IDGenerator>
+      <Unique>false</Unique>
+      <Index>false</Index>
+      <UserTypes/>
+    </Column>
+  </Entity>
+  <Entity name="Property_Equipment" Unlogged="false" PKClustered="0">
+    <Column name="PropertyID">
+      <PrimaryKey>true</PrimaryKey>
+      <ForeignKey>true</ForeignKey>
+      <ReferencedColumn>PSM.Property.ID</ReferencedColumn>
+      <Type>9</Type>
+      <Length>10</Length>
+      <Nullable>false</Nullable>
+      <IDGenerator>assigned</IDGenerator>
+      <Unique>false</Unique>
+      <Index>false</Index>
+      <UserTypes/>
+    </Column>
+    <Column name="EquipmentName">
+      <PrimaryKey>true</PrimaryKey>
+      <ForeignKey>true</ForeignKey>
+      <ReferencedColumn>PSM.Equipment.Name</ReferencedColumn>
+      <Type>27</Type>
+      <Length>255</Length>
+      <Nullable>false</Nullable>
+      <IDGenerator>assigned</IDGenerator>
+      <Unique>false</Unique>
+      <Index>false</Index>
+      <UserTypes/>
+    </Column>
+  </Entity>
+  <Entity name="Notification_PropertyType" Unlogged="false" PKClustered="0">
+    <Column name="NotificationID">
+      <PrimaryKey>true</PrimaryKey>
+      <ForeignKey>true</ForeignKey>
+      <ReferencedColumn>PSM.Notification.ID</ReferencedColumn>
+      <Type>9</Type>
+      <Length>10</Length>
+      <Nullable>false</Nullable>
+      <IDGenerator>assigned</IDGenerator>
+      <Unique>false</Unique>
+      <Index>false</Index>
+      <UserTypes/>
+    </Column>
+    <Column name="PropertyTypeName">
+      <PrimaryKey>true</PrimaryKey>
+      <ForeignKey>true</ForeignKey>
+      <ReferencedColumn>PSM.PropertyType.Name</ReferencedColumn>
+      <Type>27</Type>
+      <Length>255</Length>
       <Nullable>false</Nullable>
       <IDGenerator>assigned</IDGenerator>
       <Unique>false</Unique>
@@ -1385,14 +1483,24 @@
       <Column>ID</Column>
     </RefColumns>
   </ForeignKey>
-  <ForeignKey name="FKExpenses818152">
-    <ReferenceTable>Expenses</ReferenceTable>
+  <ForeignKey name="FKProperty_E155860">
+    <ReferenceTable>Property_Expenses</ReferenceTable>
     <ReferencedTable>Property</ReferencedTable>
     <Columns>
       <Column>PropertyID</Column>
     </Columns>
     <RefColumns>
       <Column>ID</Column>
+    </RefColumns>
+  </ForeignKey>
+  <ForeignKey name="FKProperty_E34222">
+    <ReferenceTable>Property_Expenses</ReferenceTable>
+    <ReferencedTable>Expenses</ReferencedTable>
+    <Columns>
+      <Column>ExpensesName</Column>
+    </Columns>
+    <RefColumns>
+      <Column>Name</Column>
     </RefColumns>
   </ForeignKey>
   <ForeignKey name="FKProperty393481">
@@ -1405,14 +1513,24 @@
       <Column>Name</Column>
     </RefColumns>
   </ForeignKey>
-  <ForeignKey name="FKTypology890834">
-    <ReferenceTable>Typology</ReferenceTable>
+  <ForeignKey name="FKNotificati223362">
+    <ReferenceTable>Notification_Typology</ReferenceTable>
     <ReferencedTable>Notification</ReferencedTable>
     <Columns>
       <Column>NotificationID</Column>
     </Columns>
     <RefColumns>
       <Column>ID</Column>
+    </RefColumns>
+  </ForeignKey>
+  <ForeignKey name="FKNotificati837380">
+    <ReferenceTable>Notification_Typology</ReferenceTable>
+    <ReferencedTable>Typology</ReferencedTable>
+    <Columns>
+      <Column>TypologyName</Column>
+    </Columns>
+    <RefColumns>
+      <Column>Name</Column>
     </RefColumns>
   </ForeignKey>
   <ForeignKey name="FKBedroom887627">
@@ -1425,8 +1543,8 @@
       <Column>Name</Column>
     </RefColumns>
   </ForeignKey>
-  <ForeignKey name="FKOccupation213272">
-    <ReferenceTable>Occupation</ReferenceTable>
+  <ForeignKey name="FKProperty_O863617">
+    <ReferenceTable>Property_Occupation</ReferenceTable>
     <ReferencedTable>Property</ReferencedTable>
     <Columns>
       <Column>PropertyID</Column>
@@ -1435,18 +1553,38 @@
       <Column>ID</Column>
     </RefColumns>
   </ForeignKey>
-  <ForeignKey name="FKOccupation805343">
-    <ReferenceTable>Occupation</ReferenceTable>
+  <ForeignKey name="FKProperty_O52603">
+    <ReferenceTable>Property_Occupation</ReferenceTable>
+    <ReferencedTable>Occupation</ReferencedTable>
+    <Columns>
+      <Column>OccupationName</Column>
+    </Columns>
+    <RefColumns>
+      <Column>Name</Column>
+    </RefColumns>
+  </ForeignKey>
+  <ForeignKey name="FKProperty_O890593">
+    <ReferenceTable>Property_Occupation2</ReferenceTable>
     <ReferencedTable>Property</ReferencedTable>
     <Columns>
-      <Column>PropertyID2</Column>
+      <Column>PropertyID</Column>
     </Columns>
     <RefColumns>
       <Column>ID</Column>
     </RefColumns>
   </ForeignKey>
-  <ForeignKey name="FKOccupation314005">
-    <ReferenceTable>Occupation</ReferenceTable>
+  <ForeignKey name="FKProperty_O835223">
+    <ReferenceTable>Property_Occupation2</ReferenceTable>
+    <ReferencedTable>Occupation</ReferencedTable>
+    <Columns>
+      <Column>OccupationName</Column>
+    </Columns>
+    <RefColumns>
+      <Column>Name</Column>
+    </RefColumns>
+  </ForeignKey>
+  <ForeignKey name="FKNotificati235191">
+    <ReferenceTable>Notification_Occupation</ReferenceTable>
     <ReferencedTable>Notification</ReferencedTable>
     <Columns>
       <Column>NotificationID</Column>
@@ -1455,8 +1593,18 @@
       <Column>ID</Column>
     </RefColumns>
   </ForeignKey>
-  <ForeignKey name="FKEquipment712485">
-    <ReferenceTable>Equipment</ReferenceTable>
+  <ForeignKey name="FKNotificati391294">
+    <ReferenceTable>Notification_Occupation</ReferenceTable>
+    <ReferencedTable>Occupation</ReferencedTable>
+    <Columns>
+      <Column>OccupationName</Column>
+    </Columns>
+    <RefColumns>
+      <Column>Name</Column>
+    </RefColumns>
+  </ForeignKey>
+  <ForeignKey name="FKProperty_E733359">
+    <ReferenceTable>Property_Equipment</ReferenceTable>
     <ReferencedTable>Property</ReferencedTable>
     <Columns>
       <Column>PropertyID</Column>
@@ -1465,24 +1613,44 @@
       <Column>ID</Column>
     </RefColumns>
   </ForeignKey>
-  <ForeignKey name="FKGender716201">
-    <ReferenceTable>Gender</ReferenceTable>
-    <ReferencedTable>Property</ReferencedTable>
+  <ForeignKey name="FKProperty_E737520">
+    <ReferenceTable>Property_Equipment</ReferenceTable>
+    <ReferencedTable>Equipment</ReferencedTable>
     <Columns>
-      <Column>PropertyID</Column>
+      <Column>EquipmentName</Column>
     </Columns>
     <RefColumns>
-      <Column>ID</Column>
+      <Column>Name</Column>
     </RefColumns>
   </ForeignKey>
-  <ForeignKey name="FKPropertyTy339391">
-    <ReferenceTable>PropertyType</ReferenceTable>
+  <ForeignKey name="FKProperty678952">
+    <ReferenceTable>Property</ReferenceTable>
+    <ReferencedTable>Gender</ReferencedTable>
+    <Columns>
+      <Column>GenderName</Column>
+    </Columns>
+    <RefColumns>
+      <Column>Name</Column>
+    </RefColumns>
+  </ForeignKey>
+  <ForeignKey name="FKNotificati709247">
+    <ReferenceTable>Notification_PropertyType</ReferenceTable>
     <ReferencedTable>Notification</ReferencedTable>
     <Columns>
       <Column>NotificationID</Column>
     </Columns>
     <RefColumns>
       <Column>ID</Column>
+    </RefColumns>
+  </ForeignKey>
+  <ForeignKey name="FKNotificati212289">
+    <ReferenceTable>Notification_PropertyType</ReferenceTable>
+    <ReferencedTable>PropertyType</ReferencedTable>
+    <Columns>
+      <Column>PropertyTypeName</Column>
+    </Columns>
+    <RefColumns>
+      <Column>Name</Column>
     </RefColumns>
   </ForeignKey>
   <ForeignKey name="FKNotificati580803">

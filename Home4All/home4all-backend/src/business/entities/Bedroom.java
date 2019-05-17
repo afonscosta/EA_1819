@@ -26,8 +26,8 @@ public class Bedroom {
 	}
 	
 	private void this_setOwner(Object owner, int key) {
-		if (key == data.ORMConstants.KEY_BEDROOM_BEDROOMTYPE) {
-			this.bedroomType = (BedroomType) owner;
+		if (key == data.ORMConstants.KEY_BEDROOM_TYPE) {
+			this.type = (BedroomType) owner;
 		}
 	}
 	
@@ -44,7 +44,7 @@ public class Bedroom {
 	
 	private int ID;
 	
-	private BedroomType bedroomType;
+	private BedroomType type;
 	
 	private boolean furnished;
 	
@@ -140,12 +140,12 @@ public class Bedroom {
 	
 	public final PhotoSetCollection photos = new PhotoSetCollection(this, _ormAdapter, data.ORMConstants.KEY_BEDROOM_PHOTOS, data.ORMConstants.KEY_MUL_ONE_TO_MANY);
 	
-	public void setBedroomType(BedroomType value) {
-		this.bedroomType = value;
+	public void setType(BedroomType value) {
+		this.type = value;
 	}
 	
-	public BedroomType getBedroomType() {
-		return bedroomType;
+	public BedroomType getType() {
+		return type;
 	}
 	
 	public String toString() {

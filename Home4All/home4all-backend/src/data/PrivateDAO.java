@@ -13,9 +13,7 @@
  */
 package data;
 
-import business.entities.Apartment;
 import business.entities.Private;
-import business.entities.Villa;
 import org.orm.*;
 import org.hibernate.Query;
 
@@ -325,12 +323,12 @@ public class PrivateDAO {
 	}
 	
 	public static boolean deleteAndDissociate(Private private1)throws PersistentException {
-		if (private1 instanceof Villa) {
-			return data.VillaDAO.deleteAndDissociate((Villa) private1);
+		if (private1 instanceof business.entities.Villa) {
+			return data.VillaDAO.deleteAndDissociate((business.entities.Villa) private1);
 		}
 		
-		if (private1 instanceof Apartment) {
-			return data.ApartmentDAO.deleteAndDissociate((Apartment) private1);
+		if (private1 instanceof business.entities.Apartment) {
+			return data.ApartmentDAO.deleteAndDissociate((business.entities.Apartment) private1);
 		}
 		
 		try {
@@ -347,12 +345,12 @@ public class PrivateDAO {
 	}
 	
 	public static boolean deleteAndDissociate(Private private1, org.orm.PersistentSession session)throws PersistentException {
-		if (private1 instanceof Villa) {
-			return data.VillaDAO.deleteAndDissociate((Villa) private1, session);
+		if (private1 instanceof business.entities.Villa) {
+			return data.VillaDAO.deleteAndDissociate((business.entities.Villa) private1, session);
 		}
 		
-		if (private1 instanceof Apartment) {
-			return data.ApartmentDAO.deleteAndDissociate((Apartment) private1, session);
+		if (private1 instanceof business.entities.Apartment) {
+			return data.ApartmentDAO.deleteAndDissociate((business.entities.Apartment) private1, session);
 		}
 		
 		try {

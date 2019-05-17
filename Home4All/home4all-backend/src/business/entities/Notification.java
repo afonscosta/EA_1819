@@ -268,7 +268,7 @@ public class Notification {
 		return ORM_typologies;
 	}
 	
-	public final TypologySetCollection typologies = new TypologySetCollection(this, _ormAdapter, data.ORMConstants.KEY_NOTIFICATION_TYPOLOGIES, data.ORMConstants.KEY_MUL_ONE_TO_MANY);
+	public final TypologySetCollection typologies = new TypologySetCollection(this, _ormAdapter, data.ORMConstants.KEY_NOTIFICATION_TYPOLOGIES, data.ORMConstants.KEY_MUL_MANY_TO_MANY);
 	
 	private void setORM_AllowedOccupations(java.util.Set value) {
 		this.ORM_allowedOccupations = value;
@@ -278,7 +278,7 @@ public class Notification {
 		return ORM_allowedOccupations;
 	}
 	
-	public final OccupationSetCollection allowedOccupations = new OccupationSetCollection(this, _ormAdapter, data.ORMConstants.KEY_NOTIFICATION_ALLOWEDOCCUPATIONS, data.ORMConstants.KEY_MUL_ONE_TO_MANY);
+	public final OccupationSetCollection allowedOccupations = new OccupationSetCollection(this, _ormAdapter, data.ORMConstants.KEY_NOTIFICATION_ALLOWEDOCCUPATIONS, data.ORMConstants.KEY_MUL_MANY_TO_MANY);
 	
 	private void setORM_PropertyTypes(java.util.Set value) {
 		this.ORM_propertyTypes = value;
@@ -288,7 +288,7 @@ public class Notification {
 		return ORM_propertyTypes;
 	}
 	
-	public final PropertyTypeSetCollection propertyTypes = new PropertyTypeSetCollection(this, _ormAdapter, data.ORMConstants.KEY_NOTIFICATION_PROPERTYTYPES, data.ORMConstants.KEY_MUL_ONE_TO_MANY);
+	public final PropertyTypeSetCollection propertyTypes = new PropertyTypeSetCollection(this, _ormAdapter, data.ORMConstants.KEY_NOTIFICATION_PROPERTYTYPES, data.ORMConstants.KEY_MUL_MANY_TO_MANY);
 	
 	public void setOrdination(Ordination value) {
 		this.ordination = value;

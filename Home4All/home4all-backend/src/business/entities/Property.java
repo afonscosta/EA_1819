@@ -33,9 +33,6 @@ public class Property {
 		else if (key == data.ORMConstants.KEY_PROPERTY_EQUIPMENTINCLUDED) {
 			return ORM_equipmentIncluded;
 		}
-		else if (key == data.ORMConstants.KEY_PROPERTY_ALLOWEDGENDERS) {
-			return ORM_allowedGenders;
-		}
 		
 		return null;
 	}
@@ -47,6 +44,10 @@ public class Property {
 		
 		else if (key == data.ORMConstants.KEY_PROPERTY_TYPOLOGY) {
 			this.typology = (Typology) owner;
+		}
+		
+		else if (key == data.ORMConstants.KEY_PROPERTY_ALLOWEDGENDERS) {
+			this.allowedGenders = (Gender) owner;
 		}
 	}
 	
@@ -62,6 +63,8 @@ public class Property {
 	};
 	
 	private int ID;
+	
+	private Gender allowedGenders;
 	
 	private Typology typology;
 	
@@ -98,8 +101,6 @@ public class Property {
 	private java.util.Set ORM_allowedOccupations = new java.util.HashSet();
 	
 	private java.util.Set ORM_equipmentIncluded = new java.util.HashSet();
-	
-	private java.util.Set ORM_allowedGenders = new java.util.HashSet();
 	
 	private void setID(int value) {
 		this.ID = value;
@@ -253,7 +254,7 @@ public class Property {
 		return ORM_expensesIncluded;
 	}
 	
-	public final ExpensesSetCollection expensesIncluded = new ExpensesSetCollection(this, _ormAdapter, data.ORMConstants.KEY_PROPERTY_EXPENSESINCLUDED, data.ORMConstants.KEY_MUL_ONE_TO_MANY);
+	public final ExpensesSetCollection expensesIncluded = new ExpensesSetCollection(this, _ormAdapter, data.ORMConstants.KEY_PROPERTY_EXPENSESINCLUDED, data.ORMConstants.KEY_MUL_MANY_TO_MANY);
 	
 	public void setTypology(Typology value) {
 		this.typology = value;
@@ -271,7 +272,7 @@ public class Property {
 		return ORM_allowedOccupations;
 	}
 	
-	public final OccupationSetCollection allowedOccupations = new OccupationSetCollection(this, _ormAdapter, data.ORMConstants.KEY_PROPERTY_ALLOWEDOCCUPATIONS, data.ORMConstants.KEY_MUL_ONE_TO_MANY);
+	public final OccupationSetCollection allowedOccupations = new OccupationSetCollection(this, _ormAdapter, data.ORMConstants.KEY_PROPERTY_ALLOWEDOCCUPATIONS, data.ORMConstants.KEY_MUL_MANY_TO_MANY);
 	
 	private void setORM_EquipmentIncluded(java.util.Set value) {
 		this.ORM_equipmentIncluded = value;
@@ -281,17 +282,15 @@ public class Property {
 		return ORM_equipmentIncluded;
 	}
 	
-	public final EquipmentSetCollection equipmentIncluded = new EquipmentSetCollection(this, _ormAdapter, data.ORMConstants.KEY_PROPERTY_EQUIPMENTINCLUDED, data.ORMConstants.KEY_MUL_ONE_TO_MANY);
+	public final EquipmentSetCollection equipmentIncluded = new EquipmentSetCollection(this, _ormAdapter, data.ORMConstants.KEY_PROPERTY_EQUIPMENTINCLUDED, data.ORMConstants.KEY_MUL_MANY_TO_MANY);
 	
-	private void setORM_AllowedGenders(java.util.Set value) {
-		this.ORM_allowedGenders = value;
+	public void setAllowedGenders(Gender value) {
+		this.allowedGenders = value;
 	}
 	
-	private java.util.Set getORM_AllowedGenders() {
-		return ORM_allowedGenders;
+	public Gender getAllowedGenders() {
+		return allowedGenders;
 	}
-	
-	public final GenderSetCollection allowedGenders = new GenderSetCollection(this, _ormAdapter, data.ORMConstants.KEY_PROPERTY_ALLOWEDGENDERS, data.ORMConstants.KEY_MUL_ONE_TO_MANY);
 	
 	public String toString() {
 		return String.valueOf(getID());

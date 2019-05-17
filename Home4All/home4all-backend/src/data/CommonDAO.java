@@ -15,7 +15,6 @@ package data;
 
 import business.entities.Chat;
 import business.entities.Common;
-import business.entities.InternalAccount;
 import business.entities.Property;
 import org.orm.*;
 import org.hibernate.Query;
@@ -326,8 +325,8 @@ public class CommonDAO {
 	}
 	
 	public static boolean deleteAndDissociate(Common common)throws PersistentException {
-		if (common instanceof InternalAccount) {
-			return data.InternalAccountDAO.deleteAndDissociate((InternalAccount) common);
+		if (common instanceof business.entities.InternalAccount) {
+			return data.InternalAccountDAO.deleteAndDissociate((business.entities.InternalAccount) common);
 		}
 		
 		try {
@@ -348,8 +347,8 @@ public class CommonDAO {
 	}
 	
 	public static boolean deleteAndDissociate(Common common, org.orm.PersistentSession session)throws PersistentException {
-		if (common instanceof InternalAccount) {
-			return data.InternalAccountDAO.deleteAndDissociate((InternalAccount) common, session);
+		if (common instanceof business.entities.InternalAccount) {
+			return data.InternalAccountDAO.deleteAndDissociate((business.entities.InternalAccount) common, session);
 		}
 		
 		try {

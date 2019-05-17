@@ -122,7 +122,7 @@ public class Shared extends Property {
 		return ORM_occupations;
 	}
 	
-	public final OccupationSetCollection occupations = new OccupationSetCollection(this, _ormAdapter, data.ORMConstants.KEY_SHARED_OCCUPATIONS, data.ORMConstants.KEY_MUL_ONE_TO_MANY);
+	public final OccupationSetCollection occupations = new OccupationSetCollection(this, _ormAdapter, data.ORMConstants.KEY_SHARED_OCCUPATIONS, data.ORMConstants.KEY_MUL_MANY_TO_MANY);
 	
 	public String toString() {
 		return super.toString();
