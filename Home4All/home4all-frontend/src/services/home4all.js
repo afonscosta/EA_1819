@@ -5,7 +5,7 @@ export default axios.create({
   baseURL: '/Home4All',
   timeout: 5000,
   headers: {
-    'Content-Type': 'application/json',
+    'Content-Type': 'multipart/form-data',
     'X-CSRFToken': Cookies.get('csrftoken'),
     'Access-Control-Allow-Origin': '*'
   }

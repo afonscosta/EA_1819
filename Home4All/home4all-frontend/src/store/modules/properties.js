@@ -33,7 +33,7 @@ const actions = {
     })
   },
   addProperty ({ commit }, property) {
-    console.log('add property enviado para o backend', property)
+    console.log('add property enviado para o backend')
     propertiesService.postProperty(property).then(newProperty => {
       commit('addProperty', newProperty)
     })

@@ -22,7 +22,7 @@ public class Users extends javax.servlet.http.HttpServlet {
             InternalAccount u = gson.fromJson(reader, InternalAccount.class);
             Common user = Home4All.insertCommonUser(u.getEmail(), u.getName(), u.getPassword(), u.getAge(), u.getPhone());
             String userJsonString = JsonParser.userToJson(user);
-            response.setContentType("application/json");
+            response.setContentType("application/json"); // multipart/form-data
             response.setCharacterEncoding("UTF-8");
             PrintWriter out = response.getWriter();
             out.print(userJsonString);

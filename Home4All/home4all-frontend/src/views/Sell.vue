@@ -18,20 +18,28 @@
               ></b-form-input>
             </b-form-group>
 
-            <PropertyInfo
-              @updateDescription="updateDescription"
-              @updateSelectedType="updateSelectedType"
-              @updateSelectedTypology="updateSelectedTypology"
-              @updateArea="updateArea"
-              @updateSelectedDistrict="updateSelectedDistrict"
-              @updateSelectedCity="updateSelectedCity"
-              @updateStreet="updateStreet"
-              @updateContact="updateContact"
-              @updateFurnished="updateFurnished"
-              @updateAvailability="updateAvailability"
-              @updateSelectedOperation="updateSelectedOperation"
-              @updateRentPrice="updateRentPrice"
-              @updateSellPrice="updateSellPrice"/>
+            <b-container>
+              <b-row>
+                <b-col>
+                  <LoadImages @updateImages="updateImages"/>
+                </b-col>
+                <b-col>
+                  <PropertyInfo
+                    @updateDescription="updateDescription"
+                    @updateSelectedType="updateSelectedType"
+                    @updateSelectedTypology="updateSelectedTypology"
+                    @updateArea="updateArea"
+                    @updateSelectedDistrict="updateSelectedDistrict"
+                    @updateSelectedCity="updateSelectedCity"
+                    @updateStreet="updateStreet"
+                    @updateFurnished="updateFurnished"
+                    @updateAvailability="updateAvailability"
+                    @updateSelectedOperation="updateSelectedOperation"
+                    @updateRentPrice="updateRentPrice"
+                    @updateSellPrice="updateSellPrice"/>
+                </b-col>
+              </b-row>
+            </b-container>
 
             <Bedroom
               :selectedType="form.selectedType"
@@ -73,13 +81,14 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import RentInclude from '@/components/RentInclude'
 import TenantsWanted from '@/components/TenantsWanted'
 import PresentTenants from '@/components/PresentTenants'
 import DivEquipInclude from '@/components/DivEquipInclude'
 import Bedroom from '@/components/Bedroom'
 import PropertyInfo from '@/components/PropertyInfo'
-import { mapActions } from 'vuex'
+import LoadImages from '@/components/LoadImages'
 
 export default {
   name: 'sell',
@@ -89,7 +98,8 @@ export default {
     PresentTenants,
     DivEquipInclude,
     Bedroom,
-    PropertyInfo
+    PropertyInfo,
+    LoadImages
   },
   data: () => ({
     form: {
@@ -102,7 +112,6 @@ export default {
       selectedDistrict: null,
       selectedCity: null,
       street: '',
-      contact: '',
       furnished: false,
       availability: '',
       selectedOperation: null,
@@ -117,7 +126,8 @@ export default {
       allowedPets: false,
       selectedDivEquipInc: [],
       bedrooms: [],
-      shared: {}
+      shared: {},
+      images: null
     },
     bedroom: {
       selectedType: null,
@@ -126,10 +136,14 @@ export default {
       privateBathroom: false,
       availability: '',
       rentPrice: 0
-    }
+    },
+    images: []
   }),
   methods: {
     ...mapActions('properties', ['addProperty']),
+    updateImages (imgs) {
+      this.images = imgs
+    },
     onSubmit (evt) {
       evt.preventDefault()
       if (this.form.id) {
@@ -137,9 +151,18 @@ export default {
       } else {
         // this.form.bedrooms = [this.bedroom]
         // this.$bvModal.show('info')
-        console.log(this.form)
-        this.addProperty(this.form)
+        var payload = this.prepareImagesPayload()
+        this.addProperty(payload)
       }
+    },
+    prepareImagesPayload () {
+      let formData = new FormData()
+      for (var i = 0; i < this.images.length; i++) {
+        let img = this.images[i]
+        formData.append('image[' + i + ']', img)
+      }
+      formData.append('property', this.form)
+      return formData
     },
     onReset (evt) {
       evt.preventDefault()
@@ -154,7 +177,6 @@ export default {
         selectedDistrict: null,
         selectedCity: null,
         street: '',
-        contact: '',
         furnished: false,
         availability: '',
         selectedOperation: null,
@@ -190,9 +212,6 @@ export default {
     },
     updateStreet (value) {
       this.form.street = value
-    },
-    updateContact (value) {
-      this.form.contact = value
     },
     updateFurnished (value) {
       this.form.furnished = value

@@ -71,14 +71,6 @@
       ></b-input>
     </b-form-group>
 
-    <b-form-group id="input-group-9" label="Contactos:" label-for="input-9">
-      <b-input
-        v-model="contact"
-        placeholder="Contacto telefónico ou E-mail"
-        @change="updateContact"
-      ></b-input>
-    </b-form-group>
-
     <b-form-group id="input-group-10" v-if="selectedType !== 'bedrooms'" label="Mobilado:" label-for="input-10">
       <b-form-checkbox
         id="checkbox-1"
@@ -133,7 +125,6 @@ export default {
     selectedDistrict: null,
     selectedCity: null,
     street: '',
-    contact: '',
     furnished: false,
     availability: '',
     selectedOperation: null,
@@ -202,9 +193,6 @@ export default {
     },
     updateStreet (value) {
       this.$emit('updateStreet', value)
-    },
-    updateContact (value) {
-      this.$emit('updateContact', value)
     },
     updateFurnished (value) {
       this.$emit('updateFurnished', value)
