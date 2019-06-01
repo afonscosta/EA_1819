@@ -5,7 +5,7 @@
     <b-container>
       <b-row class="justify-content-md-center">
         <b-col>
-          <b-form @submit="onSubmit" @reset="onReset">
+          <b-form align="left" @submit="onSubmit" @reset="onReset">
             <b-form-group
               id="input-group-1"
               label="Nome:"

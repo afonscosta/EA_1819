@@ -1,23 +1,25 @@
 <template>
-  <div class="container">
-    <div class="large-12 medium-12 small-12 cell">
-      <div class="grid-x">
-        <div v-for="(file, key) in files" :key="key" class="large-4 medium-4 small-6 cell file-listing">
-          <img class="preview" v-bind:ref="'image'+parseInt( key )"/>
-          <b-button @click="removeFile(key)">Remover imagem</b-button>
+  <b-container>
+    <b-row>
+      <b-col>
+        <div v-for="(file, key) in files" :key="key" class="container">
+          <img @click="removeFile(key)" @mouseover="" class="preview" v-bind:ref="'image'+parseInt( key )"/>
         </div>
-      </div>
-    </div>
-    <br>
-    <b-form-file
-      multiple
-      v-model="filesUpload"
-      :state="Boolean(files)"
-      placeholder="Choose a file..."
-      drop-placeholder="Drop file here..."
-      @input="getImagePreviews"
-    ></b-form-file>
-  </div>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col>
+        <b-form-file
+          multiple
+          v-model="filesUpload"
+          :state="Boolean(files)"
+          placeholder="Choose a file..."
+          drop-placeholder="Drop file here..."
+          @input="getImagePreviews"
+        ></b-form-file>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -134,5 +136,10 @@ export default {
   }
   div.file-listing img{
     max-width: 90%;
+  },
+  container:hover {
+    opacity: 0.3;
+    width:225px;
+    height:225px;
   }
 </style>
