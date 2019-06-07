@@ -1,13 +1,22 @@
 <template>
   <div>
     <b-modal id="info">{{ form }}</b-modal>
-    <h3>Novo Imóvel</h3>
+    <h3 class="title">Novo Imóvel</h3>
     <b-container>
       <b-row class="justify-content-md-center">
         <b-col>
-          <b-form align="left" @submit="onSubmit" @reset="onReset">
+          <b-form align="left" @submit="onSubmit">
+            <b-row align-h="center">
+              <b-col cols="4">
+                <b-button-group>
+                  <b-button @click="$router.go(-1)" variant="danger">Cancelar</b-button>
+                  <b-button type="submit" variant="primary">Guardar</b-button>
+                </b-button-group>
+              </b-col>
+            </b-row>
+
             <b-form-group
-              id="input-group-1"
+              id="name-form-group"
               label="Nome:"
               label-for="input-1"
             >
@@ -18,28 +27,22 @@
               ></b-form-input>
             </b-form-group>
 
-            <b-container>
-              <b-row>
-                <b-col>
-                  <LoadImages @updateImages="updateImages"/>
-                </b-col>
-                <b-col>
-                  <PropertyInfo
-                    @updateDescription="updateDescription"
-                    @updateSelectedType="updateSelectedType"
-                    @updateSelectedTypology="updateSelectedTypology"
-                    @updateArea="updateArea"
-                    @updateSelectedDistrict="updateSelectedDistrict"
-                    @updateSelectedCity="updateSelectedCity"
-                    @updateStreet="updateStreet"
-                    @updateFurnished="updateFurnished"
-                    @updateAvailability="updateAvailability"
-                    @updateSelectedOperation="updateSelectedOperation"
-                    @updateRentPrice="updateRentPrice"
-                    @updateSellPrice="updateSellPrice"/>
-                </b-col>
-              </b-row>
-            </b-container>
+            <b-card-group deck class="deck-images-prop-info">
+              <LoadImages class="load-images" @updateImages="updateImages"/>
+              <PropertyInfo
+                @updateDescription="updateDescription"
+                @updateSelectedType="updateSelectedType"
+                @updateSelectedTypology="updateSelectedTypology"
+                @updateArea="updateArea"
+                @updateSelectedDistrict="updateSelectedDistrict"
+                @updateSelectedCity="updateSelectedCity"
+                @updateStreet="updateStreet"
+                @updateFurnished="updateFurnished"
+                @updateAvailability="updateAvailability"
+                @updateSelectedOperation="updateSelectedOperation"
+                @updateRentPrice="updateRentPrice"
+                @updateSellPrice="updateSellPrice"/>
+            </b-card-group>
 
             <Bedroom
               :selectedType="form.selectedType"
@@ -50,9 +53,22 @@
               @updateBedroomAvailability="updateBedroomAvailability"
               @updateBedroomRentPrice="updateBedroomRentPrice"/>
 
-            <RentInclude @updateSelectedRentInc="updateSelectedRentInc"/>
+            <PresentTenants
+              class="present-tenants"
+              :selectedType="form.selectedType"
+              @updateSharedFemales="updateSharedFemales"
+              @updateSharedMales="updateSharedMales"
+              @updateSharedSmokers="updateSharedSmokers"
+              @updateSharedPets="updateSharedPets"
+              @updateSharedSelectedOcupation="updateSharedSelectedOcupation"/>
+
+            <b-card-group deck>
+              <RentInclude @updateSelectedRentInc="updateSelectedRentInc"/>
+              <DivEquipInclude @updateSelectedDivEquipInc="updateSelectedDivEquipInc"/>
+            </b-card-group>
 
             <TenantsWanted
+              class="tenants-wanted"
               @updateSelectedRentInc="updateSelectedRentInc"
               @updateSelectedGenre="updateSelectedGenre"
               @updateAllowedMinAge="updateAllowedMinAge"
@@ -61,18 +77,14 @@
               @updateAllowedSmokers="updateAllowedSmokers"
               @updateAllowedPets="updateAllowedPets"/>
 
-            <DivEquipInclude @updateSelectedDivEquipInc="updateSelectedDivEquipInc"/>
-
-            <PresentTenants
-              :selectedType="form.selectedType"
-              @updateSharedFemales="updateSharedFemales"
-              @updateSharedMales="updateSharedMales"
-              @updateSharedSmokers="updateSharedSmokers"
-              @updateSharedPets="updateSharedPets"
-              @updateSharedSelectedOcupation="updateSharedSelectedOcupation"/>
-
-            <b-button type="submit" variant="primary">Submit</b-button>
-            <b-button type="reset" variant="danger">Reset</b-button>
+            <b-row class="buttons-end" align-h="center">
+              <b-col cols="4">
+                <b-button-group>
+                  <b-button @click="$router.go(-1)" variant="danger">Cancelar</b-button>
+                  <b-button type="submit" variant="primary">Guardar</b-button>
+                </b-button-group>
+              </b-col>
+            </b-row>
           </b-form>
         </b-col>
       </b-row>
@@ -163,34 +175,6 @@ export default {
       }
       formData.append('property', this.form)
       return formData
-    },
-    onReset (evt) {
-      evt.preventDefault()
-      // Reset our form values
-      this.form = {
-        id: null,
-        name: '',
-        description: '',
-        selectedType: null,
-        selectedTypology: null,
-        area: null,
-        selectedDistrict: null,
-        selectedCity: null,
-        street: '',
-        furnished: false,
-        availability: '',
-        selectedOperation: null,
-        rentPrice: 0,
-        sellPrice: 0,
-        selectedRentInc: [],
-        selectedGenre: 'undefined',
-        allowedMinAge: null,
-        allowedMaxAge: null,
-        selectedOcupation: [],
-        allowedSmoker: false,
-        allowedPets: false,
-        selectedDivEquipInc: []
-      }
     },
     updateDescription (value) {
       this.form.description = value
@@ -290,3 +274,36 @@ export default {
   }
 }
 </script>
+
+<style scope>
+.deck-images-prop-info {
+  margin: 1rem;
+  margin-left: 0rem;
+  margin-right: 0rem;
+}
+
+.tenants-wanted {
+  margin: 1rem;
+  margin-left: 0rem;
+  margin-right: 0rem;
+}
+
+.present-tenants {
+  margin: 1rem;
+  margin-left: 0rem;
+  margin-right: 0rem;
+}
+
+.title {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+#name-form-group {
+  margin-top: 1rem;
+}
+
+.buttons-end {
+  margin-bottom: 1rem;
+}
+</style>

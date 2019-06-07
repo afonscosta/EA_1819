@@ -4,54 +4,63 @@
     header="Tipos de inquilinos procurados"
     header-border-variant="secondary"
   >
-    <b-form-group id="tenants-wanted-form-group">
-      <b-form-group id="genre-form-group" label="Género:">
-        <b-form-select
-          v-model="selectedGenre"
-          :options="optionsGenre"
-          @change="updateSelectedGenre"
-        ></b-form-select>
-      </b-form-group>
-      <b-form-group id="minAge-form-group" label="Idade mínima:">
-        <b-input
-          v-model="allowedMinAge"
-          type="number"
-          @update="updateAllowedMinAge"
-        ></b-input>
-      </b-form-group>
-      <b-form-group id="maxAge-form-group" label="Idade máxima:">
-        <b-input
-          v-model="allowedMaxAge"
-          type="number"
-          @update="updateAllowedMaxAge"
-        ></b-input>
-      </b-form-group>
-      <b-form-group id="ocupation-form-group" label="Ocupação:">
-        <b-form-checkbox-group
-          id="checkbox-group-1"
-          v-model="selectedOcupation"
-          :options="optionsOcupation"
-          buttons
-          @change="updateSelectedOcupation"
-        ></b-form-checkbox-group>
-      </b-form-group>
-      <b-form-group id="smokers-form-group" label="Fumadores:">
-        <b-form-checkbox
-          id="checkbox-1"
-          v-model="allowedSmoker"
-          name="checkbox-1"
-          @change="updateAllowedSmokers"
-        />
-      </b-form-group>
-      <b-form-group id="pets-form-group" label="Animais de estimação:">
+    <b-row>
+      <b-col>
+        <b-form-group id="genre-form-group" label="Género:">
+          <b-form-select
+            v-model="selectedGenre"
+            :options="optionsGenre"
+            @change="updateSelectedGenre"
+          ></b-form-select>
+        </b-form-group>
+      </b-col>
+      <b-col>
+        <b-form-group id="minAge-form-group" label="Idade mínima:">
+          <b-input
+            v-model="allowedMinAge"
+            type="number"
+            @update="updateAllowedMinAge"
+          ></b-input>
+        </b-form-group>
+      </b-col>
+      <b-col>
+        <b-form-group id="maxAge-form-group" label="Idade máxima:">
+          <b-input
+            v-model="allowedMaxAge"
+            type="number"
+            @update="updateAllowedMaxAge"
+          ></b-input>
+        </b-form-group>
+      </b-col>
+    </b-row>
+    <b-form-group id="tenants-wanted-ocupation-form-group" label="Ocupação:">
+      <b-form-checkbox-group
+        id="checkbox-group-1"
+        v-model="selectedOcupation"
+        :options="optionsOcupation"
+        buttons
+        button-variant="danger"
+        @change="updateSelectedOcupation"
+      ></b-form-checkbox-group>
+    </b-form-group>
+    <b-row align-h="center">
+      <b-col cols="3">
         <b-form-checkbox
           id="checkbox-2"
-          v-model="allowedPets"
+          v-model="allowedSmoker"
           name="checkbox-2"
+          @change="updateAllowedSmokers"
+        >Permitir fumadores</b-form-checkbox>
+      </b-col>
+      <b-col cols="3">
+        <b-form-checkbox
+          id="checkbox-3"
+          v-model="allowedPets"
+          name="checkbox-3"
           @change="updateAllowedPets"
-        />
-      </b-form-group>
-    </b-form-group>
+        >Permitir animais de estimação</b-form-checkbox>
+      </b-col>
+    </b-row>
   </b-card>
 </template>
 
@@ -100,3 +109,28 @@ export default {
   }
 }
 </script>
+
+<style scope>
+.btn-danger:not(:disabled):not(.disabled):active,
+.btn-danger:not(:disabled):not(.disabled).active,
+.show > .btn-danger.dropdown-toggle {
+  background-color: green !important;
+  border-color: green !important;
+  box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, 0.5) !important;
+}
+
+.btn-group {
+  display: flex !important;
+  flex-wrap: wrap;
+}
+
+.btn-group > .btn,
+.btn-group > .btn-group > .btn {
+  margin: 0.375rem 0.75rem;
+  border-radius: 0.25rem !important;
+}
+
+#tenants-wanted-ocupation-form-group {
+  margin-bottom: 1rem !important;
+}
+</style>

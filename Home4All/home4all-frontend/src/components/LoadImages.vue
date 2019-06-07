@@ -1,25 +1,25 @@
 <template>
-  <b-container>
-    <b-row>
-      <b-col>
-        <div v-for="(file, key) in files" :key="key" class="container">
-          <img @click="removeFile(key)" @mouseover="" class="preview" v-bind:ref="'image'+parseInt( key )"/>
+  <b-card>
+    <b-row align-v="start">
+      <b-col class="images-col">
+        <div v-for="(file, key) in files" :key="key">
+          <img @click="removeFile(key)" class="preview" v-bind:ref="'image'+parseInt( key )"/>
         </div>
       </b-col>
     </b-row>
-    <b-row>
+    <b-row class="mt-4">
       <b-col>
-        <b-form-file
-          multiple
-          v-model="filesUpload"
-          :state="Boolean(files)"
-          placeholder="Choose a file..."
-          drop-placeholder="Drop file here..."
-          @input="getImagePreviews"
-        ></b-form-file>
+          <b-form-file
+            multiple
+            v-model="filesUpload"
+            :state="Boolean(files)"
+            placeholder="Choose a file..."
+            drop-placeholder="Drop file here..."
+            @input="getImagePreviews"
+          ></b-form-file>
       </b-col>
     </b-row>
-  </b-container>
+  </b-card>
 </template>
 
 <script>
@@ -129,17 +129,17 @@ export default {
 }
 </script>
 
-<style>
-  input[type="file"]{
-    position: absolute;
-    top: -500px;
-  }
-  div.file-listing img{
-    max-width: 90%;
-  },
-  container:hover {
-    opacity: 0.3;
-    width:225px;
-    height:225px;
-  }
+<style scope>
+img {
+  position: relative;
+  float: left;
+  width:100px;
+  height:100px;
+  object-fit:scale-down;
+}
+
+.images-col {
+  max-height: 560px;
+  overflow-y: scroll;
+}
 </style>

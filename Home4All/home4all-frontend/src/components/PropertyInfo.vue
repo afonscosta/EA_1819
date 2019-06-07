@@ -5,63 +5,76 @@
     header-border-variant="secondary"
   >
     <b-form-group id="input-group-2" label="Descrição:" label-for="input-2">
-      <b-form-input
+      <b-form-textarea
         id="input-2"
         v-model="description"
         placeholder="Insira uma descrição"
+        rows="1"
+        max-rows="6"
         @change="updateDescription"
-      ></b-form-input>
+      ></b-form-textarea>
     </b-form-group>
 
-    <b-form-group
-      id="input-group-3"
-      label="Imóvel:"
-      label-for="input-3"
-    >
-      <b-form-select
-        v-model="selectedType"
-        :options="optionsType"
-        @change="updateSelectedType"
-      ></b-form-select>
-    </b-form-group>
+    <b-row>
+      <b-col>
+        <b-form-group
+          id="input-group-3"
+          label="Imóvel:"
+          label-for="input-3"
+        >
+          <b-form-select
+            v-model="selectedType"
+            :options="optionsType"
+            @change="updateSelectedType"
+          ></b-form-select>
+        </b-form-group>
+      </b-col>
+      <b-col>
+        <b-form-group
+          id="input-group-4"
+          label="Tipologia:"
+          label-for="input-4"
+        >
+          <b-form-select
+            v-model="selectedTypology"
+            :options="optionsTypology"
+            @change="updateSelectedTypology"
+          ></b-form-select>
+        </b-form-group>
+      </b-col>
+      <b-col>
+        <b-form-group id="input-group-5" label="Área:" label-for="input-5">
+          <b-form-input
+            id="input-5"
+            v-model="area"
+            type="number"
+            placeholder="Insira a área"
+            @change="updateArea"
+          ></b-form-input>
+        </b-form-group>
+      </b-col>
+    </b-row>
 
-    <b-form-group
-      id="input-group-4"
-      label="Tipologia:"
-      label-for="input-4"
-    >
-      <b-form-select
-        v-model="selectedTypology"
-        :options="optionsTypology"
-        @change="updateSelectedTypology"
-      ></b-form-select>
-    </b-form-group>
-
-    <b-form-group id="input-group-5" label="Área:" label-for="input-5">
-      <b-form-input
-        id="input-5"
-        v-model="area"
-        type="number"
-        placeholder="Insira a área"
-        @change="updateArea"
-      ></b-form-input>
-    </b-form-group>
-
-    <b-form-group id="input-group-6" label="Distrito:" label-for="input-6">
-      <b-form-select
-        v-model="selectedDistrict"
-        :options="optionsDistrict"
-        @change="updateSelectedDistrict"
-      ></b-form-select>
-    </b-form-group>
-
-    <b-form-group id="input-group-7" label="Cidade:" label-for="input-7">
-      <b-form-select
-        v-model="selectedCity"
-        :options="optionsCity"
-        @change="updateSelectedCity"
-      ></b-form-select>
-    </b-form-group>
+    <b-row>
+      <b-col>
+        <b-form-group id="input-group-6" label="Distrito:" label-for="input-6">
+          <b-form-select
+            v-model="selectedDistrict"
+            :options="optionsDistrict"
+            @change="updateSelectedDistrict"
+          ></b-form-select>
+        </b-form-group>
+      </b-col>
+      <b-col>
+        <b-form-group id="input-group-7" label="Cidade:" label-for="input-7">
+          <b-form-select
+            v-model="selectedCity"
+            :options="optionsCity"
+            @change="updateSelectedCity"
+          ></b-form-select>
+        </b-form-group>
+      </b-col>
+    </b-row>
 
     <b-form-group id="input-group-8" label="Rua:" label-for="input-8">
       <b-input
@@ -71,46 +84,59 @@
       ></b-input>
     </b-form-group>
 
-    <b-form-group id="input-group-10" v-if="selectedType !== 'bedrooms'" label="Mobilado:" label-for="input-10">
-      <b-form-checkbox
-        id="checkbox-1"
-        v-model="furnished"
-        name="checkbox-1"
-        @change="updateFurnished"
-      />
-    </b-form-group>
+    <b-form-checkbox
+      id="checkbox-1"
+      v-model="furnished"
+      name="checkbox-1"
+      @change="updateFurnished"
+      class="pb-2"
+    >Mobilado</b-form-checkbox>
 
-    <b-form-group id="input-group-11" v-if="selectedType !== 'bedrooms'" label="Disponível a partir de:" label-for="input-11">
-      <b-input
-        v-model="availability"
-        type="date"
-        @change="updateAvailability"
-      ></b-input>
-    </b-form-group>
+    <b-row>
+      <b-col>
+        <b-form-group id="input-group-11"
+          v-if="selectedType !== 'bedrooms'"
+          label="Disponível a partir de:"
+          label-for="input-11"
+        >
+          <b-input
+            v-model="availability"
+            type="date"
+            @change="updateAvailability"
+          ></b-input>
+        </b-form-group>
+      </b-col>
+      <b-col>
+        <b-form-group id="input-group-12" v-if="selectedType !== 'bedrooms'" label="Operação:" label-for="input-12">
+          <b-form-select
+            v-model="selectedOperation"
+            :options="optionsOperation"
+            @change="updateSelectedOperation"
+          ></b-form-select>
+        </b-form-group>
+      </b-col>
+    </b-row>
 
-    <b-form-group id="input-group-12" v-if="selectedType !== 'bedrooms'" label="Operação:" label-for="input-12">
-      <b-form-select
-        v-model="selectedOperation"
-        :options="optionsOperation"
-        @change="updateSelectedOperation"
-      ></b-form-select>
-    </b-form-group>
-
-    <b-form-group id="input-group-13" v-if="selectedType !== 'bedrooms'" label="Mensalidade:" label-for="input-13">
-      <b-input
-        v-model="rentPrice"
-        type="number"
-        @change="updateRentPrice"
-      ></b-input>
-    </b-form-group>
-
-    <b-form-group id="input-group-14" v-if="selectedType !== 'bedrooms'" label="Preço total:" label-for="input-14">
-      <b-input
-        v-model="sellPrice"
-        type="number"
-        @change="updateSellPrice"
-      ></b-input>
-    </b-form-group>
+    <b-row>
+      <b-col>
+        <b-form-group id="input-group-13" v-if="selectedType !== 'bedrooms'" label="Mensalidade:" label-for="input-13">
+          <b-input
+            v-model="rentPrice"
+            type="number"
+            @change="updateRentPrice"
+          ></b-input>
+        </b-form-group>
+      </b-col>
+      <b-col>
+        <b-form-group id="input-group-14" v-if="selectedType !== 'bedrooms'" label="Preço total:" label-for="input-14">
+          <b-input
+            v-model="sellPrice"
+            type="number"
+            @change="updateSellPrice"
+          ></b-input>
+        </b-form-group>
+      </b-col>
+    </b-row>
   </b-card>
 </template>
 

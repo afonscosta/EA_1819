@@ -4,13 +4,13 @@
     header="Divisões e equipamentos incluídos"
     header-border-variant="secondary"
   >
-    <b-form-group id="input-group-17">
+    <b-form-group id="div-equip-form-group">
       <b-form-checkbox-group
         id="checkbox-group-3"
         v-model="selectedDivEquipInc"
         :options="optionsDivEquipInc"
-        stacked
         buttons
+        button-variant="danger"
         @change="updateSelectedDivEquipInc"
       ></b-form-checkbox-group>
     </b-form-group>
@@ -48,3 +48,28 @@ export default {
   }
 }
 </script>
+
+<style scope>
+.btn-danger:not(:disabled):not(.disabled):active,
+.btn-danger:not(:disabled):not(.disabled).active,
+.show > .btn-danger.dropdown-toggle {
+  background-color: green !important;
+  border-color: green !important;
+  box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, 0.5) !important;
+}
+
+.btn-group {
+  display: flex !important;
+  flex-wrap: wrap;
+}
+
+.btn-group > .btn,
+.btn-group > .btn-group > .btn {
+  margin: 0.375rem 0.75rem;
+  border-radius: 0.25rem !important;
+}
+
+#div-equip-form-group {
+  margin: 0px !important;
+}
+</style>

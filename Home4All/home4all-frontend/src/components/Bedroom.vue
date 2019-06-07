@@ -6,47 +6,61 @@
     header-border-variant="secondary"
   >
     <b-form-group
-      id="input-group-18"
+      id="bedrooms-form-group"
     >
-      <b-form-group id="input-group-18-1" label="Tipo:" label-for="input-11">
-        <b-form-select
-          v-model="bedroom.selectedType"
-          :options="optionsType"
-        ></b-form-select>
-      </b-form-group>
-      <b-form-group id="input-group-18-1" label="Área:" label-for="input-11">
-        <b-input
-          v-model="bedroom.area"
-          type="number"
-          width="auto"
-        ></b-input>
-      </b-form-group>
-      <b-form-group id="input-group-18-1" label="Mobilado:" label-for="input-11">
-        <b-form-checkbox
-          id="checkbox-4"
-          v-model="bedroom.furnished"
-          name="checkbox-4"
-        />
-      </b-form-group>
-      <b-form-group id="input-group-18-1" label="Casa de banho privada:" label-for="input-11">
-        <b-form-checkbox
-          id="checkbox-5"
-          v-model="bedroom.privateBathroom"
-          name="checkbox-5"
-        />
-      </b-form-group>
-      <b-form-group id="input-group-18-1" label="Disponibilidade:" label-for="input-11">
-        <b-input
-          v-model="bedroom.availability"
-          type="date"
-        ></b-input>
-      </b-form-group>
-      <b-form-group id="input-group-18-1" label="Preço:" label-for="input-11">
-        <b-input
-          v-model="bedroom.rentPrice"
-          type="number"
-        ></b-input>
-      </b-form-group>
+      <b-row align-v="end">
+        <b-col>
+          <b-form-group id="selectedType" label="Tipo:" label-for="input-11">
+            <b-form-select
+              v-model="bedroom.selectedType"
+              :options="optionsType"
+            ></b-form-select>
+          </b-form-group>
+        </b-col>
+        <b-col>
+          <b-form-group id="area" label="Área:" label-for="input-11">
+            <b-input
+              v-model="bedroom.area"
+              type="number"
+              width="auto"
+            ></b-input>
+          </b-form-group>
+        </b-col>
+        <b-col cols="3">
+          <b-row>
+            <b-col cols="12">
+              <b-form-checkbox
+                id="furnished"
+                v-model="bedroom.furnished"
+                name="checkbox-4"
+              >Mobilado</b-form-checkbox>
+            </b-col>
+            <b-col cols="12">
+              <b-form-checkbox
+                id="privateBathroom"
+                v-model="bedroom.privateBathroom"
+                name="checkbox-5"
+              >Casa de banho privativa</b-form-checkbox>
+            </b-col>
+          </b-row>
+        </b-col>
+        <b-col>
+          <b-form-group id="availability" label="Disponibilidade:" label-for="input-11">
+            <b-input
+              v-model="bedroom.availability"
+              type="date"
+            ></b-input>
+          </b-form-group>
+        </b-col>
+        <b-col>
+          <b-form-group id="rentPrice" label="Preço:" label-for="input-11">
+            <b-input
+              v-model="bedroom.rentPrice"
+              type="number"
+            ></b-input>
+          </b-form-group>
+        </b-col>
+      </b-row>
     </b-form-group>
   </b-card>
 </template>
@@ -98,3 +112,18 @@ export default {
   }
 }
 </script>
+
+<style scope>
+#bedrooms-form-group {
+  margin: 0px !important;
+}
+
+#selectedType,
+#area,
+#furnished,
+#privateBathroom,
+#availability,
+#rentPrice {
+  margin: 0px !important;
+}
+</style>
