@@ -2,8 +2,13 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/views/Home.vue'
 import Search from '@/views/Search.vue'
-import Comparison from '@/views/Comparison.vue'
-import Sell from '@/views/Sell.vue'
+
+// Property
+import PropertyAdd from '@/views/Property/PropertyAdd.vue'
+import PropertyEdit from '@/views/Property/PropertyEdit.vue'
+import PropertyView from '@/views/Property/PropertyView.vue'
+import Comparison from '@/views/Property/Comparison.vue'
+
 import Register from '@/views/Register.vue'
 import Login from '@/views/Login.vue'
 
@@ -22,14 +27,24 @@ export default new Router({
       component: Search
     },
     {
-      path: '/comparison',
+      path: '/property/comparison',
       name: 'comparison',
       component: Comparison
     },
     {
-      path: '/sell',
-      name: 'sell',
-      component: Sell
+      path: '/property/add',
+      name: 'propertyAdd',
+      component: PropertyAdd
+    },
+    {
+      path: '/property/edit',
+      name: 'propertyEdit',
+      component: PropertyEdit
+    },
+    {
+      path: '/property/view',
+      name: 'propertyView',
+      component: PropertyView
     },
     {
       path: '/register',

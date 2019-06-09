@@ -25,17 +25,21 @@
 <script>
 export default {
   name: 'LoadImages',
-  /*
-    Defines the data used by the component
-  */
+  props: {
+    filesData: {
+      required: false,
+      type: Array
+    }
+  },
   data: () => ({
     filesUpload: [],
     files: []
   }),
-
-  /*
-    Defines the method used by the component
-  */
+  created () {
+    if (this.filesData) {
+      this.files = this.filesData
+    }
+  },
   methods: {
     removeFile (idx) {
       this.files = this.files.filter(function (f, index) {

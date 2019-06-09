@@ -1,6 +1,6 @@
 <template>
   <b-card
-    v-if="selectedType === 'bedrooms'"
+    v-if="type === 'bedrooms'"
     border-variant="secondary"
     header="Quartos disponíveis"
     header-border-variant="secondary"
@@ -10,9 +10,9 @@
     >
       <b-row align-v="end">
         <b-col>
-          <b-form-group id="selectedType" label="Tipo:" label-for="input-11">
+          <b-form-group id="type" label="Tipo:" label-for="input-11">
             <b-form-select
-              v-model="bedroom.selectedType"
+              v-model="bedroom.type"
               :options="optionsType"
             ></b-form-select>
           </b-form-group>
@@ -69,14 +69,18 @@
 export default {
   name: 'Bedroom',
   props: {
-    selectedType: {
+    type: {
       required: true,
       type: String
+    },
+    bedroomsData: {
+      required: false,
+      type: Array
     }
   },
   data: () => ({
     bedroom: {
-      selectedType: null,
+      type: null,
       area: 0,
       furnished: false,
       privateBathroom: false,
@@ -90,9 +94,15 @@ export default {
       { value: 'multiple', text: 'Múltiplo' }
     ]
   }),
+  created () {
+    if (this.bedroomsData) {
+      // TODO: Não pode ficar assim!
+      this.bedroom = this.bedroomsData[0]
+    }
+  },
   methods: {
-    updateBedroomSelectedType (checked) {
-      this.$emit('updateBedroomSelectedType', checked)
+    updateBedroomType (checked) {
+      this.$emit('updateBedroomType', checked)
     },
     updateBedroomArea (value) {
       this.$emit('updateBedroomArea', value)
@@ -118,7 +128,7 @@ export default {
   margin: 0px !important;
 }
 
-#selectedType,
+#type,
 #area,
 #furnished,
 #privateBathroom,

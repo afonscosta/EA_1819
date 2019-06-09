@@ -8,7 +8,7 @@
       <b-col>
         <b-form-group id="genre-form-group" label="Género:">
           <b-form-select
-            v-model="selectedGenre"
+            v-model="genre"
             :options="optionsGenre"
             @change="updateSelectedGenre"
           ></b-form-select>
@@ -36,10 +36,10 @@
     <b-form-group id="tenants-wanted-ocupation-form-group" label="Ocupação:">
       <b-form-checkbox-group
         id="checkbox-group-1"
-        v-model="selectedOcupation"
+        v-model="ocupation"
         :options="optionsOcupation"
         buttons
-        button-variant="danger"
+        button-variant="secondary"
         @change="updateSelectedOcupation"
       ></b-form-checkbox-group>
     </b-form-group>
@@ -67,11 +67,37 @@
 <script>
 export default {
   name: 'TenantsWanted',
+  props: {
+    genreData: {
+      required: false,
+      type: String
+    },
+    allowedMinAgeData: {
+      required: false,
+      type: Number
+    },
+    allowedMaxAgeData: {
+      required: false,
+      type: Number
+    },
+    ocupationData: {
+      required: false,
+      type: Array
+    },
+    allowedSmokerData: {
+      required: false,
+      type: Boolean
+    },
+    allowedPetsData: {
+      required: false,
+      type: Boolean
+    }
+  },
   data: () => ({
-    selectedGenre: 'undefined',
+    genre: 'undefined',
     allowedMinAge: null,
     allowedMaxAge: null,
-    selectedOcupation: [],
+    ocupation: [],
     allowedSmoker: false,
     allowedPets: false,
     optionsGenre: [
@@ -87,6 +113,26 @@ export default {
       { value: 'unemployed', text: 'Desempregado' }
     ]
   }),
+  created () {
+    if (this.genreData) {
+      this.genre = this.genreData
+    }
+    if (this.allowedMinAgeData) {
+      this.allowedMinAge = this.allowedMinAgeData
+    }
+    if (this.allowedMaxAgeData) {
+      this.allowedMaxAge = this.allowedMaxAgeData
+    }
+    if (this.ocupationData) {
+      this.ocupation = this.ocupationData
+    }
+    if (this.allowedSmokerData) {
+      this.allowedSmoker = this.allowedSmokerData
+    }
+    if (this.allowedPetsData) {
+      this.allowedPets = this.allowedPetsData
+    }
+  },
   methods: {
     updateSelectedGenre (value) {
       this.$emit('updateSelectedGenre', value)
@@ -111,25 +157,6 @@ export default {
 </script>
 
 <style scope>
-.btn-danger:not(:disabled):not(.disabled):active,
-.btn-danger:not(:disabled):not(.disabled).active,
-.show > .btn-danger.dropdown-toggle {
-  background-color: green !important;
-  border-color: green !important;
-  box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, 0.5) !important;
-}
-
-.btn-group {
-  display: flex !important;
-  flex-wrap: wrap;
-}
-
-.btn-group > .btn,
-.btn-group > .btn-group > .btn {
-  margin: 0.375rem 0.75rem;
-  border-radius: 0.25rem !important;
-}
-
 #tenants-wanted-ocupation-form-group {
   margin-bottom: 1rem !important;
 }

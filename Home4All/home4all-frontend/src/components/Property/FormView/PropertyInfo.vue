@@ -23,9 +23,9 @@
           label-for="input-3"
         >
           <b-form-select
-            v-model="selectedType"
+            v-model="type"
             :options="optionsType"
-            @change="updateSelectedType"
+            @change="updateType"
           ></b-form-select>
         </b-form-group>
       </b-col>
@@ -36,9 +36,9 @@
           label-for="input-4"
         >
           <b-form-select
-            v-model="selectedTypology"
+            v-model="typology"
             :options="optionsTypology"
-            @change="updateSelectedTypology"
+            @change="updateTypology"
           ></b-form-select>
         </b-form-group>
       </b-col>
@@ -59,18 +59,18 @@
       <b-col>
         <b-form-group id="input-group-6" label="Distrito:" label-for="input-6">
           <b-form-select
-            v-model="selectedDistrict"
+            v-model="district"
             :options="optionsDistrict"
-            @change="updateSelectedDistrict"
+            @change="updateDistrict"
           ></b-form-select>
         </b-form-group>
       </b-col>
       <b-col>
         <b-form-group id="input-group-7" label="Cidade:" label-for="input-7">
           <b-form-select
-            v-model="selectedCity"
+            v-model="city"
             :options="optionsCity"
-            @change="updateSelectedCity"
+            @change="updateCity"
           ></b-form-select>
         </b-form-group>
       </b-col>
@@ -95,7 +95,7 @@
     <b-row>
       <b-col>
         <b-form-group id="input-group-11"
-          v-if="selectedType !== 'bedrooms'"
+          v-if="type !== 'bedrooms'"
           label="Disponível a partir de:"
           label-for="input-11"
         >
@@ -107,11 +107,11 @@
         </b-form-group>
       </b-col>
       <b-col>
-        <b-form-group id="input-group-12" v-if="selectedType !== 'bedrooms'" label="Operação:" label-for="input-12">
+        <b-form-group id="input-group-12" v-if="type !== 'bedrooms'" label="Operação:" label-for="input-12">
           <b-form-select
-            v-model="selectedOperation"
+            v-model="operation"
             :options="optionsOperation"
-            @change="updateSelectedOperation"
+            @change="updateOperation"
           ></b-form-select>
         </b-form-group>
       </b-col>
@@ -119,7 +119,7 @@
 
     <b-row>
       <b-col>
-        <b-form-group id="input-group-13" v-if="selectedType !== 'bedrooms'" label="Mensalidade:" label-for="input-13">
+        <b-form-group id="input-group-13" v-if="type !== 'bedrooms'" label="Mensalidade:" label-for="input-13">
           <b-input
             v-model="rentPrice"
             type="number"
@@ -128,7 +128,7 @@
         </b-form-group>
       </b-col>
       <b-col>
-        <b-form-group id="input-group-14" v-if="selectedType !== 'bedrooms'" label="Preço total:" label-for="input-14">
+        <b-form-group id="input-group-14" v-if="type !== 'bedrooms'" label="Preço total:" label-for="input-14">
           <b-input
             v-model="sellPrice"
             type="number"
@@ -143,17 +143,67 @@
 <script>
 export default {
   name: 'PropertyInfo',
+  props: {
+    descriptionData: {
+      required: false,
+      type: String
+    },
+    typeData: {
+      required: false,
+      type: String
+    },
+    typologyData: {
+      required: false,
+      type: String
+    },
+    areaData: {
+      required: false,
+      type: Number
+    },
+    districtData: {
+      required: false,
+      type: String
+    },
+    cityData: {
+      required: false,
+      type: String
+    },
+    streetData: {
+      required: false,
+      type: String
+    },
+    furnishedData: {
+      required: false,
+      type: Boolean
+    },
+    availabilityData: {
+      required: false,
+      type: String
+    },
+    operationData: {
+      required: false,
+      type: String
+    },
+    rentPriceData: {
+      required: false,
+      type: Number
+    },
+    sellPriceData: {
+      required: false,
+      type: Number
+    }
+  },
   data: () => ({
     description: '',
-    selectedType: '',
-    selectedTypology: null,
+    type: '',
+    typology: null,
     area: null,
-    selectedDistrict: null,
-    selectedCity: null,
+    district: null,
+    city: null,
     street: '',
     furnished: false,
     availability: '',
-    selectedOperation: null,
+    operation: null,
     rentPrice: 0,
     sellPrice: 0,
     optionsType: [
@@ -198,24 +248,62 @@ export default {
       { value: 'both', text: 'Vender/Arrendar' }
     ]
   }),
+  created () {
+    if (this.descriptionData) {
+      this.description = this.descriptionData
+    }
+    if (this.typeData) {
+      this.type = this.typeData
+    }
+    if (this.typologyData) {
+      this.typology = this.typologyData
+    }
+    if (this.areaData) {
+      this.area = this.areaData
+    }
+    if (this.districtData) {
+      this.district = this.districtData
+    }
+    if (this.cityData) {
+      this.city = this.cityData
+    }
+    if (this.streetData) {
+      this.street = this.streetData
+    }
+    if (this.furnishedData) {
+      this.furnished = this.furnishedData
+    }
+    if (this.availabilityData) {
+      this.availability = this.availabilityData
+    }
+    if (this.operationData) {
+      this.operation = this.operationData
+    }
+    if (this.rentPriceData) {
+      this.rentPrice = this.rentPriceData
+    }
+    if (this.sellPriceData) {
+      this.sellPrice = this.sellPriceData
+    }
+  },
   methods: {
     updateDescription (value) {
       this.$emit('updateDescription', value)
     },
-    updateSelectedType (checked) {
-      this.$emit('updateSelectedType', checked)
+    updateType (checked) {
+      this.$emit('updateType', checked)
     },
-    updateSelectedTypology (checked) {
-      this.$emit('updateSelectedTypology', checked)
+    updateTypology (checked) {
+      this.$emit('updateTypology', checked)
     },
     updateArea (value) {
       this.$emit('updateArea', value)
     },
-    updateSelectedDistrict (checked) {
-      this.$emit('updateSelectedDistrict', checked)
+    updateDistrict (checked) {
+      this.$emit('updateDistrict', checked)
     },
-    updateSelectedCity (checked) {
-      this.$emit('updateSelectedCity', checked)
+    updateCity (checked) {
+      this.$emit('updateCity', checked)
     },
     updateStreet (value) {
       this.$emit('updateStreet', value)
@@ -226,8 +314,8 @@ export default {
     updateAvailability (value) {
       this.$emit('updateAvailability', value)
     },
-    updateSelectedOperation (checked) {
-      this.$emit('updateSelectedOperation', checked)
+    updateOperation (checked) {
+      this.$emit('updateOperation', checked)
     },
     updateRentPrice (value) {
       this.$emit('updateRentPrice', value)

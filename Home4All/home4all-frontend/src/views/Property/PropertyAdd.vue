@@ -23,7 +23,7 @@
               <b-form-input
                 id="input-1"
                 v-model="form.name"
-                placeholder="Insera o nome do imóvel"
+                placeholder="Insira o nome do imóvel"
               ></b-form-input>
             </b-form-group>
 
@@ -31,22 +31,22 @@
               <LoadImages class="load-images" @updateImages="updateImages"/>
               <PropertyInfo
                 @updateDescription="updateDescription"
-                @updateSelectedType="updateSelectedType"
-                @updateSelectedTypology="updateSelectedTypology"
+                @updateType="updateType"
+                @updateTypology="updateTypology"
                 @updateArea="updateArea"
-                @updateSelectedDistrict="updateSelectedDistrict"
-                @updateSelectedCity="updateSelectedCity"
+                @updateDistrict="updateDistrict"
+                @updateCity="updateCity"
                 @updateStreet="updateStreet"
                 @updateFurnished="updateFurnished"
                 @updateAvailability="updateAvailability"
-                @updateSelectedOperation="updateSelectedOperation"
+                @updateOperation="updateOperation"
                 @updateRentPrice="updateRentPrice"
                 @updateSellPrice="updateSellPrice"/>
             </b-card-group>
 
             <Bedroom
-              :selectedType="form.selectedType"
-              @updateBedroomSelectedType="updateBedroomSelectedType"
+              :type="form.type"
+              @updateBedroomType="updateBedroomType"
               @updateBedroomArea="updateBedroomArea"
               @updateBedroomFurnished="updateBedroomFurnished"
               @updateBedroomPrivateBathroom="updateBedroomPrivateBathroom"
@@ -55,25 +55,25 @@
 
             <PresentTenants
               class="present-tenants"
-              :selectedType="form.selectedType"
+              :type="form.type"
               @updateSharedFemales="updateSharedFemales"
               @updateSharedMales="updateSharedMales"
               @updateSharedSmokers="updateSharedSmokers"
               @updateSharedPets="updateSharedPets"
-              @updateSharedSelectedOcupation="updateSharedSelectedOcupation"/>
+              @updateSharedOcupation="updateSharedOcupation"/>
 
             <b-card-group deck>
-              <RentInclude @updateSelectedRentInc="updateSelectedRentInc"/>
-              <DivEquipInclude @updateSelectedDivEquipInc="updateSelectedDivEquipInc"/>
+              <RentInclude @updateRentInc="updateRentInc"/>
+              <DivEquipInclude @updateDivEquipInc="updateDivEquipInc"/>
             </b-card-group>
 
             <TenantsWanted
               class="tenants-wanted"
-              @updateSelectedRentInc="updateSelectedRentInc"
-              @updateSelectedGenre="updateSelectedGenre"
+              @updateRentInc="updateRentInc"
+              @updateGenre="updateGenre"
               @updateAllowedMinAge="updateAllowedMinAge"
               @updateAllowedMaxAge="updateAllowedMaxAge"
-              @updateSelectedOcupation="updateSelectedOcupation"
+              @updateOcupation="updateOcupation"
               @updateAllowedSmokers="updateAllowedSmokers"
               @updateAllowedPets="updateAllowedPets"/>
 
@@ -94,13 +94,13 @@
 
 <script>
 import { mapActions } from 'vuex'
-import RentInclude from '@/components/RentInclude'
-import TenantsWanted from '@/components/TenantsWanted'
-import PresentTenants from '@/components/PresentTenants'
-import DivEquipInclude from '@/components/DivEquipInclude'
-import Bedroom from '@/components/Bedroom'
-import PropertyInfo from '@/components/PropertyInfo'
-import LoadImages from '@/components/LoadImages'
+import RentInclude from '@/components/Property/FormView/RentInclude'
+import TenantsWanted from '@/components/Property/FormView/TenantsWanted'
+import PresentTenants from '@/components/Property/FormView/PresentTenants'
+import DivEquipInclude from '@/components/Property/FormView/DivEquipInclude'
+import Bedroom from '@/components/Property/FormView/Bedroom'
+import PropertyInfo from '@/components/Property/FormView/PropertyInfo'
+import LoadImages from '@/components/Property/FormView/LoadImages'
 
 export default {
   name: 'sell',
@@ -118,31 +118,30 @@ export default {
       id: null,
       name: '',
       description: '',
-      selectedType: '',
-      selectedTypology: null,
+      type: '',
+      typology: null,
       area: null,
-      selectedDistrict: null,
-      selectedCity: null,
+      district: null,
+      city: null,
       street: '',
       furnished: false,
       availability: '',
-      selectedOperation: null,
+      operation: null,
       rentPrice: 0,
       sellPrice: 0,
-      selectedRentInc: [],
-      selectedGenre: 'undefined',
+      rentInc: [],
+      genre: 'undefined',
       allowedMinAge: null,
       allowedMaxAge: null,
-      selectedOcupation: [],
+      ocupation: [],
       allowedSmoker: false,
       allowedPets: false,
-      selectedDivEquipInc: [],
+      divEquipInc: [],
       bedrooms: [],
-      shared: {},
-      images: null
+      shared: {}
     },
     bedroom: {
-      selectedType: null,
+      type: null,
       area: 0,
       furnished: false,
       privateBathroom: false,
@@ -179,20 +178,20 @@ export default {
     updateDescription (value) {
       this.form.description = value
     },
-    updateSelectedType (checked) {
-      this.form.selectedType = checked
+    updateType (checked) {
+      this.form.type = checked
     },
-    updateSelectedTypology (checked) {
-      this.form.selectedTypology = checked
+    updateTypology (checked) {
+      this.form.typology = checked
     },
     updateArea (value) {
       this.form.area = value
     },
-    updateSelectedDistrict (checked) {
-      this.form.selectedDistrict = checked
+    updateDistrict (checked) {
+      this.form.district = checked
     },
-    updateSelectedCity (checked) {
-      this.form.selectedCity = checked
+    updateCity (checked) {
+      this.form.city = checked
     },
     updateStreet (value) {
       this.form.street = value
@@ -203,8 +202,8 @@ export default {
     updateAvailability (value) {
       this.form.availability = value
     },
-    updateSelectedOperation (checked) {
-      this.form.selectedOperation = checked
+    updateOperation (checked) {
+      this.form.operation = checked
     },
     updateRentPrice (value) {
       this.form.rentPrice = value
@@ -213,11 +212,11 @@ export default {
       this.form.sellPrice = value
     },
 
-    updateSelectedRentInc (checked) {
-      this.form.selectedRentInc = checked
+    updateRentInc (checked) {
+      this.form.rentInc = checked
     },
-    updateSelectedGenre (value) {
-      this.form.selectedGenre = value
+    updateGenre (value) {
+      this.form.genre = value
     },
     updateAllowedMinAge (value) {
       this.form.allowedMinAge = value
@@ -225,8 +224,8 @@ export default {
     updateAllowedMaxAge (value) {
       this.form.allowedMaxAge = value
     },
-    updateSelectedOcupation (checked) {
-      this.form.selectedOcupation = checked
+    updateOcupation (checked) {
+      this.form.ocupation = checked
     },
     updateAllowedSmokers (checked) {
       this.form.allowedSmoker = checked
@@ -247,14 +246,14 @@ export default {
     updateSharedPets (value) {
       this.form.shared.pets = value
     },
-    updateSharedSelectedOcupation (checked) {
-      this.form.shared.selectedOcupation = checked
+    updateSharedOcupation (checked) {
+      this.form.shared.ocupation = checked
     },
-    updateSelectedDivEquipInc (checked) {
-      this.form.selectedDivEquipInc = checked
+    updateDivEquipInc (checked) {
+      this.form.divEquipInc = checked
     },
-    updateBedroomSelectedType (checked) {
-      this.bedroom.selectedType = checked
+    updateBedroomType (checked) {
+      this.bedroom.type = checked
     },
     updateBedroomArea (value) {
       this.bedroom.area = value
@@ -305,5 +304,28 @@ export default {
 
 .buttons-end {
   margin-bottom: 1rem;
+}
+
+.btn-secondary {
+  background-color: rgba(220,53,69, 0.7) !important;
+}
+
+.btn-secondary:not(:disabled):not(.disabled):active,
+.btn-secondary:not(:disabled):not(.disabled).active,
+.show > .btn-secondary.dropdown-toggle {
+  background-color: rgba(0,128,0,0.7) !important;
+  border-color: rgba(0,128,0,0.7) !important;
+  box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, 0.5) !important;
+}
+
+.btn-group {
+  display: flex !important;
+  flex-wrap: wrap;
+}
+
+.btn-group > .btn,
+.btn-group > .btn-group > .btn {
+  margin: 0.375rem 0.75rem;
+  border-radius: 0.25rem !important;
 }
 </style>

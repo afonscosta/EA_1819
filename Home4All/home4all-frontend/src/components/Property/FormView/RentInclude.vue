@@ -7,11 +7,11 @@
     <b-form-group id="rent-inc-form-group">
       <b-form-checkbox-group
         id="rent-inc-checkbox-group"
-        v-model="selectedRentInc"
+        v-model="rentInc"
         :options="optionsRentInc"
         @change="change"
         buttons
-        button-variant="danger"
+        button-variant="secondary"
       ></b-form-checkbox-group>
     </b-form-group>
   </b-card>
@@ -20,8 +20,14 @@
 <script>
 export default {
   name: 'RentInclude',
+  props: {
+    rentIncData: {
+      required: false,
+      type: Array
+    }
+  },
   data: () => ({
-    selectedRentInc: [],
+    rentInc: [],
     optionsRentInc: [
       { value: 'water', text: 'Água' },
       { value: 'eletricity', text: 'Eletricidade' },
@@ -32,34 +38,20 @@ export default {
       { value: 'cleaning', text: 'Limpeza' }
     ]
   }),
+  created () {
+    if (this.rentIncData) {
+      this.rentInc = this.rentIncData
+    }
+  },
   methods: {
     change (checked) {
-      this.$emit('updateSelectedRentInc', checked)
+      this.$emit('updateRentInc', checked)
     }
   }
 }
 </script>
 
 <style scope>
-.btn-danger:not(:disabled):not(.disabled):active,
-.btn-danger:not(:disabled):not(.disabled).active,
-.show > .btn-danger.dropdown-toggle {
-  background-color: green !important;
-  border-color: green !important;
-  box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, 0.5) !important;
-}
-
-.btn-group {
-  display: flex !important;
-  flex-wrap: wrap;
-}
-
-.btn-group > .btn,
-.btn-group > .btn-group > .btn {
-  margin: 0.375rem 0.75rem;
-  border-radius: 0.25rem !important;
-}
-
 #rent-inc-form-group {
   margin: 0px !important;
 }

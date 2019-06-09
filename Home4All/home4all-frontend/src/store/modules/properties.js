@@ -1,17 +1,25 @@
 import propertiesService from '../../services/propertiesService'
 
 const state = {
-  properties: []
+  properties: [], // All properties being used
+  props_compare: [], // Properties to compare
+  property: {} // View details
 }
 
 const getters = {
   properties: state => {
     return state.properties
+  },
+  props_compare: state => {
+    return state.props_compare
+  },
+  property: state => {
+    return state.property
   }
 }
 
 const mutations = {
-  setPropeties (state, properties) {
+  setProperties (state, properties) {
     state.properties = properties
   },
   addProperty (state, property) {
@@ -23,13 +31,27 @@ const mutations = {
   },
   deleteProperty (state, propertyID) {
     state.properties = state.properties.filter(u => u.id !== propertyID)
+  },
+  // Compare
+  addPropCompare (state, property) {
+    state.props_compare.push(property)
+  },
+  removeProCompare (state, propertyID) {
+    state.props_compare = state.props_compare.filter(u => u.id !== propertyID)
+  },
+  // Details
+  setProperty (state, property) {
+    state.property = property
   }
 }
 
 const actions = {
+  setProperties ({ commit }, properties) {
+    commit('setProperties', properties)
+  },
   getProperties ({ commit }) {
     propertiesService.fetchProperties().then(properties => {
-      commit('setPropeties', properties)
+      commit('setProperties', properties)
     })
   },
   addProperty ({ commit }, property) {
@@ -47,6 +69,19 @@ const actions = {
   deleteProperty ({ commit }, propertyID) {
     propertiesService.deleteProperty(propertyID)
     commit('deleteProperty', propertyID)
+  },
+  // Compare
+  addPropCompare ({ commit }, property) {
+    console.log('property added to compare')
+    commit('addPropCompare', property)
+  },
+  removePropCompare ({ commit }, propertyID) {
+    commit('removePropCompare', propertyID)
+  },
+  // Details
+  setProperty ({ commit }, property) {
+    console.log('setting property to view details', property)
+    commit('setProperty', property)
   }
 }
 
