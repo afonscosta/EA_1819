@@ -180,12 +180,23 @@ export default {
       }
     },
     prepareImagesPayload () {
+      for (var i = 0; i < this.form.bedrooms.length; i++) {
+        var formDataBedroomImgs = new FormData()
+        var bedroom = this.form.bedrooms[i]
+        var images = bedroom.images
+        for (var j = 0; j < images.length; j++) {
+          formDataBedroomImgs.append('image[' + i + '][' + j + ']', images[j])
+        }
+        delete bedroom.images
+        formDataBedroomImgs.append(i, JSON.stringify(bedroom))
+      }
+      delete this.form.bedrooms
       let formData = new FormData()
-      for (var i = 0; i < this.images.length; i++) {
-        let img = this.images[i]
-        formData.append('image[' + i + ']', img)
+      for (var w = 0; w < this.images.length; w++) {
+        formData.append('image[' + w + ']', this.images[w])
       }
       formData.append('property', JSON.stringify(this.form))
+      formData.append('bedrooms', formDataBedroomImgs)
       return formData
     },
     updateDescription (value) {
