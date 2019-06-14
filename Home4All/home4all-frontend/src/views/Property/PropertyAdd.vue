@@ -46,14 +46,19 @@
 
             <Bedroom
               :type="form.type"
+              :bedrooms="form.bedrooms"
+              @addBedroom="addBedroom"
+              @deleteBedroom="deleteBedroom"
               @updateBedroomType="updateBedroomType"
               @updateBedroomArea="updateBedroomArea"
               @updateBedroomFurnished="updateBedroomFurnished"
               @updateBedroomPrivateBathroom="updateBedroomPrivateBathroom"
               @updateBedroomAvailability="updateBedroomAvailability"
-              @updateBedroomRentPrice="updateBedroomRentPrice"/>
+              @updateBedroomRentPrice="updateBedroomRentPrice"
+              @updateBedroomImages="updateBedroomImages"/>
 
             <PresentTenants
+              v-if="form.operation != 'sell'"
               class="present-tenants"
               :type="form.type"
               @updateSharedFemales="updateSharedFemales"
@@ -63,17 +68,20 @@
               @updateSharedOcupation="updateSharedOcupation"/>
 
             <b-card-group deck>
-              <RentInclude @updateRentInc="updateRentInc"/>
+              <RentInclude
+                v-if="form.operation != 'sell'"
+                @updateRentInc="updateRentInc"/>
               <DivEquipInclude @updateDivEquipInc="updateDivEquipInc"/>
             </b-card-group>
 
             <TenantsWanted
+              v-if="form.operation != 'sell'"
               class="tenants-wanted"
               @updateRentInc="updateRentInc"
-              @updateGenre="updateGenre"
+              @updateAllowedGenre="updateAllowedGenre"
               @updateAllowedMinAge="updateAllowedMinAge"
               @updateAllowedMaxAge="updateAllowedMaxAge"
-              @updateOcupation="updateOcupation"
+              @updateAllowedOcupations="updateAllowedOcupations"
               @updateAllowedSmokers="updateAllowedSmokers"
               @updateAllowedPets="updateAllowedPets"/>
 
@@ -130,15 +138,19 @@ export default {
       rentPrice: 0,
       sellPrice: 0,
       rentInc: [],
-      genre: 'undefined',
+      allowedGenre: 'undefined',
       allowedMinAge: null,
       allowedMaxAge: null,
-      ocupation: [],
+      allowedOcupations: [],
       allowedSmoker: false,
       allowedPets: false,
       divEquipInc: [],
       bedrooms: [],
-      shared: {}
+      females: 0,
+      males: 0,
+      smokers: 0,
+      pets: 0,
+      ocupations: null
     },
     bedroom: {
       type: null,
@@ -146,7 +158,8 @@ export default {
       furnished: false,
       privateBathroom: false,
       availability: '',
-      rentPrice: 0
+      rentPrice: 0,
+      images: []
     },
     images: []
   }),
@@ -172,7 +185,7 @@ export default {
         let img = this.images[i]
         formData.append('image[' + i + ']', img)
       }
-      formData.append('property', this.form)
+      formData.append('property', JSON.stringify(this.form))
       return formData
     },
     updateDescription (value) {
@@ -215,8 +228,8 @@ export default {
     updateRentInc (checked) {
       this.form.rentInc = checked
     },
-    updateGenre (value) {
-      this.form.genre = value
+    updateAllowedGenre (value) {
+      this.form.allowedGenre = value
     },
     updateAllowedMinAge (value) {
       this.form.allowedMinAge = value
@@ -224,8 +237,8 @@ export default {
     updateAllowedMaxAge (value) {
       this.form.allowedMaxAge = value
     },
-    updateOcupation (checked) {
-      this.form.ocupation = checked
+    updateAllowedOcupations (checked) {
+      this.form.allowedOcupations = checked
     },
     updateAllowedSmokers (checked) {
       this.form.allowedSmoker = checked
@@ -235,22 +248,37 @@ export default {
     },
 
     updateSharedFemales (value) {
-      this.form.shared.females = value
+      this.form.females = value
     },
     updateSharedMales (value) {
-      this.form.shared.males = value
+      this.form.males = value
     },
     updateSharedSmokers (value) {
-      this.form.shared.smokers = value
+      this.form.smokers = value
     },
     updateSharedPets (value) {
-      this.form.shared.pets = value
+      this.form.pets = value
     },
     updateSharedOcupation (checked) {
-      this.form.shared.ocupation = checked
+      this.form.ocupations = checked
     },
     updateDivEquipInc (checked) {
       this.form.divEquipInc = checked
+    },
+    addBedroom () {
+      this.form.bedrooms.push(this.bedroom)
+      this.bedroom = {
+        type: null,
+        area: 0,
+        furnished: false,
+        privateBathroom: false,
+        availability: '',
+        rentPrice: 0,
+        images: []
+      }
+    },
+    deleteBedroom (idx) {
+      this.form.bedrooms.splice(idx, 1)
     },
     updateBedroomType (checked) {
       this.bedroom.type = checked
@@ -269,6 +297,9 @@ export default {
     },
     updateBedroomRentPrice (value) {
       this.bedroom.rentPrice = value
+    },
+    updateBedroomImages (value) {
+      this.bedroom.images = value
     }
   }
 }

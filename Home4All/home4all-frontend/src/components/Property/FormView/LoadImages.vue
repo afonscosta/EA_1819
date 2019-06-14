@@ -13,8 +13,6 @@
             multiple
             v-model="filesUpload"
             :state="Boolean(files)"
-            placeholder="Choose a file..."
-            drop-placeholder="Drop file here..."
             @input="getImagePreviews"
           ></b-form-file>
       </b-col>

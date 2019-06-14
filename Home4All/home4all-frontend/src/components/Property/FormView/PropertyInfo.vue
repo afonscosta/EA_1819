@@ -118,8 +118,12 @@
     </b-row>
 
     <b-row>
-      <b-col>
-        <b-form-group id="input-group-13" v-if="type !== 'bedrooms'" label="Mensalidade:" label-for="input-13">
+      <b-col v-if="type !== 'bedrooms' && operation !== 'sell'">
+        <b-form-group
+          id="input-group-13"
+          label="Mensalidade:"
+          label-for="input-13"
+        >
           <b-input
             v-model="rentPrice"
             type="number"
@@ -127,8 +131,12 @@
           ></b-input>
         </b-form-group>
       </b-col>
-      <b-col>
-        <b-form-group id="input-group-14" v-if="type !== 'bedrooms'" label="Preço total:" label-for="input-14">
+      <b-col v-if="type !== 'bedrooms' && operation !== 'rent'">
+        <b-form-group
+          id="input-group-14"
+          label="Preço total:"
+          label-for="input-14"
+        >
           <b-input
             v-model="sellPrice"
             type="number"

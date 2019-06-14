@@ -10,7 +10,7 @@
           <b-form-select
             v-model="genre"
             :options="optionsGenre"
-            @change="updateSelectedGenre"
+            @change="updateAllowedGenre"
           ></b-form-select>
         </b-form-group>
       </b-col>
@@ -40,7 +40,7 @@
         :options="optionsOcupation"
         buttons
         button-variant="secondary"
-        @change="updateSelectedOcupation"
+        @change="updateAllowedOcupations"
       ></b-form-checkbox-group>
     </b-form-group>
     <b-row align-h="center">
@@ -134,8 +134,8 @@ export default {
     }
   },
   methods: {
-    updateSelectedGenre (value) {
-      this.$emit('updateSelectedGenre', value)
+    updateAllowedGenre (value) {
+      this.$emit('updateAllowedGenre', value)
     },
     updateAllowedMinAge (value) {
       this.$emit('updateAllowedMinAge', value)
@@ -143,8 +143,8 @@ export default {
     updateAllowedMaxAge (value) {
       this.$emit('updateAllowedMaxAge', value)
     },
-    updateSelectedOcupation (checked) {
-      this.$emit('updateSelectedOcupation', checked)
+    updateAllowedOcupations (checked) {
+      this.$emit('updateAllowedOcupations', checked)
     },
     updateAllowedSmokers (checked) {
       this.$emit('updateAllowedSmokers', checked)
