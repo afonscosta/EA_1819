@@ -212,8 +212,8 @@ export default {
     furnished: false,
     availability: '',
     operation: null,
-    rentPrice: 0,
-    sellPrice: 0,
+    rentPrice: '0',
+    sellPrice: '0',
     optionsType: [
       { value: '', text: 'Selecione um tipo de imóvel' },
       { value: 'bedrooms', text: 'Quarto' },

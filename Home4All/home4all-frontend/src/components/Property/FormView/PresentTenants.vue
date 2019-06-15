@@ -70,10 +70,10 @@ export default {
   },
   data: () => ({
     shared: {
-      females: 0,
-      males: 0,
-      smokers: 0,
-      pets: 0,
+      females: '0',
+      males: '0',
+      smokers: '0',
+      pets: '0',
       totalAccess: false, // Não está no mockup mas está no VPP
       ocupation: []
     },

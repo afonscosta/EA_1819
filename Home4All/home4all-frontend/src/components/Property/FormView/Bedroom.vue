@@ -182,13 +182,13 @@ export default {
     files: [],
     bedroom: {
       type: null,
-      area: 0,
+      area: '0',
       furnished: false,
       privateBathroom: false,
       availability: '',
-      rentPrice: 0,
+      rentPrice: '0',
       images: [],
-      peopleAmount: 0
+      peopleAmount: '0'
     },
     optionsType: [
       { value: null, text: 'Selecione um tipo de quarto' },
