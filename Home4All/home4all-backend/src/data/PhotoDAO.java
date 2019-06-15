@@ -18,6 +18,7 @@ import org.orm.*;
 import org.hibernate.Query;
 
 import java.util.List;
+import java.util.Map;
 
 public class PhotoDAO {
 	public static Photo loadPhotoByORMID(int ID) throws PersistentException {
@@ -207,6 +208,35 @@ public class PhotoDAO {
 		try {
 			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
 			return loadPhotoByQuery(session, condition, orderBy);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			throw new PersistentException(e);
+		}
+	}
+
+
+	public static Photo loadPhotoByQuery(String condition, String orderBy, Map<String, Object> parameters) throws PersistentException {
+		try {
+			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+
+			StringBuffer sb = new StringBuffer("From business.entities.Photo as Photo");
+			if (condition != null)
+				sb.append(" Where ").append(condition);
+			if (orderBy != null)
+				sb.append(" Order By ").append(orderBy);
+			Query query = session.createQuery(sb.toString());
+
+			for (Map.Entry<String, Object> p: parameters.entrySet()) {
+				query.setParameter(p.getKey(), p.getValue());
+			}
+
+			List photos =  query.list();
+
+			if (photos != null && photos.size() > 0)
+				return (Photo) photos.get(0);
+			else
+				return null;
 		}
 		catch (Exception e) {
 			e.printStackTrace();

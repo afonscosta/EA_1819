@@ -51,36 +51,41 @@ public class Home4All {
     }
 
     public static Property registerSharedProperty(
-                String name, List<byte[]> photos, String description, String type, String typology,
+                String name, List<String> photos, String description, String type, String typology,
                 float area, String district, String city, String street,
                 List<String> expensesIncluded, List<String> equipmentIncluded,
                 int allowedMinAge, int allowedMaxAge, boolean allowedSmokers, boolean allowedPets,
                 List<String> allowedOccupations, String allowedGenders, int females, int males,
                 int smokers, int petsQuantity, List<String> pets, List<String> occupations,
-                boolean totalAccess, List<Map<String, Object>> bedrooms)
+                boolean totalAccess, List<Map<String, Object>> bedrooms, int ownerId)
             throws TypologyNotExistentException, OccupationNotExistentException, EquipmentNotExistentException,
-            ExpenseNotExistentException, PersistentException, GenderNotExistentException, MissingPropertiesException {
+            ExpenseNotExistentException, PersistentException, GenderNotExistentException, MissingPropertiesException,
+            BedroomTypeNotExistentException {
 
         return propertyBean.registerSharedProperty(
                 name, photos, description, type, typology, area, district, city, street, expensesIncluded,
                 equipmentIncluded, allowedMinAge, allowedMaxAge, allowedSmokers, allowedPets, allowedOccupations,
-                allowedGenders, females, males, smokers, petsQuantity, pets, occupations, totalAccess, bedrooms);
+                allowedGenders, females, males, smokers, petsQuantity, pets, occupations, totalAccess, bedrooms, ownerId);
     }
 
     public static Property registerPrivateProperty(
-                String name, List<byte[]> photos, String description, String type, String typology,
+                String name, List<String> photos, String description, String type, String typology,
                 float area, String district, String city, String street,
                 boolean furnished, Date availability, boolean rent, boolean sell, float rentPrice, float sellPrice,
                 List<String> expensesIncluded, List<String> equipmentIncluded,
                 int allowedMinAge, int allowedMaxAge, boolean allowedSmokers, boolean allowedPets,
-                List<String> allowedOccupations, String allowedGenders)
+                List<String> allowedOccupations, String allowedGenders, int ownerId)
             throws PersistentException, TypologyNotExistentException, ExpenseNotExistentException,
             EquipmentNotExistentException, OccupationNotExistentException, GenderNotExistentException {
 
         return propertyBean.registerPrivateProperty(
                 name, photos, description, type, typology, area, district, city, street, furnished,availability,
                 rent, sell, rentPrice, sellPrice, expensesIncluded, equipmentIncluded, allowedMinAge, allowedMaxAge,
-                allowedSmokers, allowedPets, allowedOccupations, allowedGenders
+                allowedSmokers, allowedPets, allowedOccupations, allowedGenders, ownerId
         );
+    }
+
+    public static String nextImageName(String originalName) throws PersistentException {
+        return propertyBean.nextImageName(originalName);
     }
 }
