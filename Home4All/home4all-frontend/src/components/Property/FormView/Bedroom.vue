@@ -230,6 +230,16 @@ export default {
     addBedroom () {
       this.hidden = true
       this.$emit('addBedroom')
+      this.bedroom = {
+        type: null,
+        area: 0,
+        furnished: false,
+        privateBathroom: false,
+        availability: '',
+        rentPrice: 0,
+        images: [],
+        peopleAmount: 0
+      }
     },
     getImagePreviews () {
       this.files = this.bedrooms[this.showImagesIdx].images

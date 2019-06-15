@@ -66,10 +66,6 @@ export default {
     type: {
       required: true,
       type: String
-    },
-    sharedData: {
-      required: false,
-      type: Object
     }
   },
   data: () => ({
@@ -89,11 +85,6 @@ export default {
       { value: 'unemployed', text: 'Desempregado' }
     ]
   }),
-  created () {
-    if (this.sharedData) {
-      this.shared = this.sharedData
-    }
-  },
   methods: {
     updateSharedFemales (value) {
       this.$emit('updateSharedFemales', value)
