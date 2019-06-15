@@ -30,6 +30,9 @@
           <b-col>
             <label>Tipo: {{ b.type }}</label>
           </b-col>
+          <b-col v-if="b.type === 'multiple'">
+            <label>Nº de pessoas: {{ b.peopleAmount }}</label>
+          </b-col>
           <b-col>
             <label>Área: {{ b.area }}</label>
           </b-col>
@@ -84,6 +87,16 @@
                 :options="optionsType"
                 @change="updateBedroomType"
               ></b-form-select>
+            </b-form-group>
+          </b-col>
+          <b-col v-if="bedroom.type === 'multiple'">
+            <b-form-group id="type" label="Nº de pessoas:" label-for="input-11">
+              <b-input
+                v-model="bedroom.peopleAmount"
+                type="number"
+                width="auto"
+                @change="updateBedroomPeopleAmount"
+              ></b-input>
             </b-form-group>
           </b-col>
           <b-col>
@@ -174,7 +187,8 @@ export default {
       privateBathroom: false,
       availability: '',
       rentPrice: 0,
-      images: []
+      images: [],
+      peopleAmount: 0
     },
     optionsType: [
       { value: null, text: 'Selecione um tipo de quarto' },
@@ -191,6 +205,9 @@ export default {
     },
     updateBedroomType (checked) {
       this.$emit('updateBedroomType', checked)
+    },
+    updateBedroomPeopleAmount (checked) {
+      this.$emit('updateBedroomPeopleAmount', checked)
     },
     updateBedroomArea (value) {
       this.$emit('updateBedroomArea', value)

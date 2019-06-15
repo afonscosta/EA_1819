@@ -50,6 +50,7 @@
               @addBedroom="addBedroom"
               @deleteBedroom="deleteBedroom"
               @updateBedroomType="updateBedroomType"
+              @updateBedroomPeopleAmount="updateBedroomPeopleAmount"
               @updateBedroomArea="updateBedroomArea"
               @updateBedroomFurnished="updateBedroomFurnished"
               @updateBedroomPrivateBathroom="updateBedroomPrivateBathroom"
@@ -159,7 +160,8 @@ export default {
       privateBathroom: false,
       availability: '',
       rentPrice: 0,
-      images: []
+      images: [],
+      peopleAmount: 0
     },
     images: []
   }),
@@ -180,20 +182,21 @@ export default {
       }
     },
     prepareImagesPayload () {
+      var form = JSON.parse(JSON.stringify(this.form))
       let formData = new FormData()
-      for (var i = 0; i < this.form.bedrooms.length; i++) {
-        var bedroom = this.form.bedrooms[i]
+      for (var i = 0; i < form.bedrooms.length; i++) {
+        var bedroom = form.bedrooms[i]
         var images = bedroom.images
         for (var j = 0; j < images.length; j++) {
           formData.append('bedImage[' + i + '][' + j + ']', images[j])
         }
-        delete this.form.bedrooms[i].images
+        delete form.bedrooms[i].images
       }
       for (var w = 0; w < this.images.length; w++) {
         formData.append('image[' + w + ']', this.images[w])
       }
-      formData.append('property', JSON.stringify(this.form))
-      formData.append('bedrooms', JSON.stringify(this.form.bedrooms))
+      formData.append('property', JSON.stringify(form))
+      formData.append('bedrooms', JSON.stringify(form.bedrooms))
       return formData
     },
     updateDescription (value) {
@@ -282,7 +285,8 @@ export default {
         privateBathroom: false,
         availability: '',
         rentPrice: 0,
-        images: []
+        images: [],
+        peopleAmount: 0
       }
     },
     deleteBedroom (idx) {
@@ -290,6 +294,9 @@ export default {
     },
     updateBedroomType (checked) {
       this.bedroom.type = checked
+    },
+    updateBedroomPeopleAmount (checked) {
+      this.bedroom.peopleAmount = checked
     },
     updateBedroomArea (value) {
       this.bedroom.area = value
