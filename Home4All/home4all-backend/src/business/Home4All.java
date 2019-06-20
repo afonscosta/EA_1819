@@ -51,7 +51,7 @@ public class Home4All {
     }
 
     public static Property registerSharedProperty(
-                String name, List<String> photos, String description, String type, String typology,
+                String name, List<String> photos, String description, String typology,
                 float area, String district, String city, String street, float lat, float lng,
                 List<String> expensesIncluded, List<String> equipmentIncluded,
                 Integer allowedMinAge, Integer allowedMaxAge, boolean allowedSmokers, boolean allowedPets,
@@ -63,7 +63,7 @@ public class Home4All {
             BedroomTypeNotExistentException {
 
         return propertyBean.registerSharedProperty(
-                name, photos, description, type, typology, area, district, city, street, lat, lng, expensesIncluded,
+                name, photos, description, typology, area, district, city, street, lat, lng, expensesIncluded,
                 equipmentIncluded, allowedMinAge, allowedMaxAge, allowedSmokers, allowedPets, allowedOccupations,
                 allowedGenders, females, males, smokers, petsQuantity, pets, occupations, totalAccess, bedrooms, ownerId);
     }
@@ -71,7 +71,7 @@ public class Home4All {
     public static Property registerPrivateProperty(
                 String name, List<String> photos, String description, String type, String typology,
                 float area, String district, String city, String street, float lat, float lng,
-                boolean furnished, Date availability, boolean rent, boolean sell, float rentPrice, float sellPrice,
+                boolean furnished, Date availability, boolean rent, boolean sell, Float rentPrice, Float sellPrice,
                 List<String> expensesIncluded, List<String> equipmentIncluded,
                 Integer allowedMinAge, Integer allowedMaxAge, boolean allowedSmokers, boolean allowedPets,
                 List<String> allowedOccupations, String allowedGenders, int ownerId)
@@ -87,5 +87,9 @@ public class Home4All {
 
     public static String nextImageName(String originalName, String format) throws PersistentException {
         return propertyBean.nextImageName(originalName, format);
+    }
+
+    public static Property getProperty(int ID) throws PersistentException {
+        return propertyBean.getProperty(ID);
     }
 }

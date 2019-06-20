@@ -9,14 +9,14 @@ import org.orm.PersistentTransaction;
 
 import javax.ejb.Stateless;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Stateless(name = "PropertyEJB")
 public class PropertyBean implements PropertyBeanLocal{
-    private static PersistentSession session = null;
     // TODO: Dúvida - variável session no PropertyBean Stateless
+
+    private static PersistentSession session = null;
 
     public PropertyBean() {
     }
@@ -111,7 +111,7 @@ public class PropertyBean implements PropertyBeanLocal{
     public Property registerPrivateProperty(
                 String name, List<String> photos, String description, String type, String typology,
                 float area, String district, String city, String completeAddress, float lat, float lng,
-                boolean furnished, Date availability, boolean rent, boolean sell, float rentPrice, float sellPrice,
+                boolean furnished, Date availability, boolean rent, boolean sell, Float rentPrice, Float sellPrice,
                 List<String> expensesIncluded, List<String> equipmentIncluded,
                 Integer allowedMinAge, Integer allowedMaxAge, boolean allowedSmokers, boolean allowedPets,
                 List<String> allowedOccupations, String allowedGenders, int ownerId)
@@ -134,20 +134,23 @@ public class PropertyBean implements PropertyBeanLocal{
         property.setAvailability(availability);
         if (rent)
             property.setRentPrice(rentPrice);
+        else
+            property.setRentPrice(null);
         if (sell)
             property.setSellPrice(sellPrice);
+        else
+            property.setSellPrice(null);
+
         property.setSold(false);
 
         PrivateDAO.save(property);
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("name", name);
 
         return property;
     }
 
     @Override
     public Property registerSharedProperty(
-                String name, List<String> photos, String description, String type, String typology,
+                String name, List<String> photos, String description, String typology,
                 float area, String district, String city, String completeAddress, float lat, float lng,
                 List<String> expensesIncluded, List<String> equipmentIncluded,
                 Integer allowedMinAge, Integer allowedMaxAge, boolean allowedSmokers, boolean allowedPets,
@@ -215,6 +218,28 @@ public class PropertyBean implements PropertyBeanLocal{
                 property.bedrooms.add(bedroom);
             }
 
+            property.setFemales(females);
+            property.setMales(males);
+            property.setSmokers(smokers);
+            property.setPetsQuantity(petsQuantity);
+
+            property.pets.clear();
+            for (String p: pets) {
+                Pet pet = new Pet();
+                pet.setType(p);
+                property.pets.add(pet);
+            }
+
+            property.occupations.clear();
+            for (String occupationName: occupations) {
+                Occupation occupation = OccupationDAO.loadOccupationByORMID(occupationName);
+                if (occupation == null)
+                    throw new OccupationNotExistentException();
+                property.occupations.add(occupation);
+            }
+
+            property.setTotalAccess(totalAccess);
+
             SharedDAO.save(property);
             t.commit();
 
@@ -239,5 +264,9 @@ public class PropertyBean implements PropertyBeanLocal{
             int suffix_int = (suffix.isEmpty() ? 0 : Integer.parseInt(suffix)) + 1;
             return String.format("%s_%d", originalName, suffix_int) + "." + format;
         }
+    }
+
+    public Property getProperty(int ID) throws PersistentException {
+        return PropertyDAO.getPropertyByORMID(ID);
     }
 }
