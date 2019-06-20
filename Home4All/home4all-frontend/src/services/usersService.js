@@ -12,7 +12,7 @@ export default {
     return home4all.delete(`users/${userId}`).then(response => response.data)
   },
   teste () {
-    return home4all.post(`users`, {
+    return home4all.get(`users`, {
       Cookie: `JSESSIONID=123`
     }).then(response => response.data)
   }
