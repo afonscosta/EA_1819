@@ -4,6 +4,7 @@
       <h2>Search and add a pin</h2>
       <label>
         <gmap-autocomplete
+          :componentRestrictions="{ country: ['pt'] }"
           @place_changed="setPlace">
         </gmap-autocomplete>
         <button @click="addMarker">Add</button>

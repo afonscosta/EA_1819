@@ -58,6 +58,8 @@
     <label class="input-location">
       Rua:
       <gmap-autocomplete
+        placeholder="Insira uma localização"
+        :componentRestrictions="{ country: ['pt'] }"
         @place_changed="setPlace">
       </gmap-autocomplete>
     </label>
@@ -72,7 +74,7 @@
           class="pb-2"
         >Mobilado</b-form-checkbox>
       </b-col>
-      <b-col>
+      <b-col v-if="type === 'bedrooms'">
         <b-form-checkbox
           id="totalAccess"
           v-model="totalAccess"
@@ -167,7 +169,7 @@ export default {
       required: false,
       type: String
     },
-    streetData: {
+    addressData: {
       required: false,
       type: String
     },
@@ -204,13 +206,15 @@ export default {
     area: null,
     district: null,
     city: null,
-    street: '',
+    address: '',
+    lat: 0,
+    lng: 0,
     furnished: false,
     totalAccess: false,
     availability: '',
     operation: null,
-    rentPrice: '0',
-    sellPrice: '0',
+    rentPrice: 0,
+    sellPrice: 0,
     optionsType: [
       { value: '', text: 'Selecione um tipo de imóvel' },
       { value: 'bedrooms', text: 'Quarto' },
@@ -231,20 +235,6 @@ export default {
       { value: 'T9', text: 'T9' },
       { value: 'T10', text: 'T10' },
       { value: 'T10+', text: 'T10+' }
-    ],
-    optionsDistrict: [
-      { value: null, text: 'Selecione um distrito' },
-      { value: 'porto', text: 'Porto' },
-      { value: 'braga', text: 'Braga' },
-      { value: 'lisboa', text: 'Lisboa' },
-      { value: 'algarve', text: 'Algarve' }
-    ],
-    optionsCity: [
-      { value: null, text: 'Selecione uma cidade' },
-      { value: 'trofa', text: 'Trofa' },
-      { value: 'valongo', text: 'Valongo' },
-      { value: 'matosinhos', text: 'Matosinhos' },
-      { value: 'penafiel', text: 'Penafiel' }
     ],
     optionsOperation: [
       { value: null, text: 'Selecione uma operação' },
@@ -272,8 +262,14 @@ export default {
     if (this.cityData) {
       this.city = this.cityData
     }
-    if (this.streetData) {
-      this.street = this.streetData
+    if (this.addressData) {
+      this.address = this.addressData
+    }
+    if (this.latData) {
+      this.lat = this.latData
+    }
+    if (this.lngData) {
+      this.lng = this.lngData
     }
     if (this.furnishedData) {
       this.furnished = this.furnishedData
@@ -310,6 +306,8 @@ export default {
             this.$emit('updateDistrict', comp.long_name)
           }
         })
+        this.$emit('updateLatitude', place.geometry.location.lat())
+        this.$emit('updateLongitude', place.geometry.location.lng())
         console.log('address', place.formatted_address)
         this.$emit('updateAddress', place.formatted_address)
       }
@@ -319,6 +317,10 @@ export default {
     },
     updateType (checked) {
       this.$emit('updateType', checked)
+      // eslint-disable-next-line
+      if (checked == 'apartment' || checked == 'villa') {
+        this.$emit('updateTotalAccess', true)
+      }
     },
     updateTypology (checked) {
       this.$emit('updateTypology', checked)
