@@ -13,7 +13,7 @@ export default {
   },
   teste () {
     return home4all.get(`users`, {
-      Cookie: `JSESSIONID=123`
+      Cookie: `JSESSIONID=${store.state.sessionID}`
     }).then(response => response.data)
   }
 }

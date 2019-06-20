@@ -24,7 +24,7 @@ const actions = {
       }).then(() => {
         resolve(state.sessionID)
       }, error => {
-        reject(error)
+        reject(error.response)
       })
     })
   }

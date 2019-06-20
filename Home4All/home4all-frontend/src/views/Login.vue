@@ -15,16 +15,21 @@
     </div>
 
     <div class="centered">
-      <input class="email-input" type="text" name="email" v-model="input.email" placeholder="Endereço de email">
+      <input v-on:input="invalidCredencials = false" class="email-input" type="text" name="email" v-model="input.email" placeholder="Endereço de email">
     </div>
     <div class="centered">
-      <input class="password-input" type="password" name="password" v-model="input.password" placeholder="Palavra-passe">
+      <input v-on:input="invalidCredencials = false" class="password-input" type="password" name="password" v-model="input.password" placeholder="Palavra-passe">
     </div>
-    <div class="centered">
-      <button class="button" type="button" v-on:click="loginButton()"> Entrar </button>
 
-      <button class="button" type="button" v-on:click="testeButton()"> teste </button>
+    <div class="alertMessage">
+      <b-alert v-model="invalidCredencials" variant="danger" dismissible>
+        Credenciais inválidas.
+      </b-alert>
     </div>
+
+    <button class="button" type="button" v-on:click="loginButton()"> Entrar </button>
+
+    <button class="button" type="button" v-on:click="testeButton()"> teste </button>
   </div>
 </template>
 
@@ -38,7 +43,8 @@ export default {
       input: {
         email: '',
         password: ''
-      }
+      },
+      invalidCredencials: false
     }
   },
   methods: {
@@ -49,11 +55,26 @@ export default {
         this.login({
           email: this.input.email,
           password: this.input.password
+        }).then(sessionID => {
+          console.log('sessionID ' + sessionID)
+        }).catch(errorResponse => {
+          if (errorResponse.status === 403) {
+            console.log('credenciais inválidas')
+            this.invalidCredencials = true
+          } else {
+            console.log('não foi possível efetuar a ligação ao servidor aplicacional')
+          }
         })
       }
     },
     testeButton () {
       this.teste()
+        .then(() => {
+          console.log('correu bem')
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   }
 }
@@ -77,6 +98,11 @@ div {
 .right-hr {
   position: absolute;
   left: 0px;
+}
+
+.alertMessage {
+  width: 410px;
+  margin: auto;
 }
 
 .button {
