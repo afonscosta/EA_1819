@@ -19,7 +19,7 @@ import org.hibernate.Query;
 
 import java.util.List;
 
-public class UsersDAO {
+public class  UsersDAO {
 	public static Users loadUsersByORMID(int ID) throws PersistentException {
 		try {
 			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();

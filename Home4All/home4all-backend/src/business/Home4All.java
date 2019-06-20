@@ -2,9 +2,7 @@ package business;
 
 import business.beans.PropertyBeanLocal;
 import business.beans.UsersBeanLocal;
-import business.entities.Common;
-import business.entities.Property;
-import business.entities.Users;
+import business.entities.*;
 import business.exceptions.*;
 import org.orm.PersistentException;
 
@@ -46,8 +44,9 @@ public class Home4All {
         return usersBean.listUsers();
     }
 
-    public static Common insertCommonUser(String email, String name, String password, int age, String phone) throws PersistentException {
-        return usersBean.insertCommonUser(email, name, password, age, phone);
+    public static Common insertCommonUser(String email, String name, String password, int age, String phone,
+                                          Gender gender, Occupation occupation) throws PersistentException {
+        return usersBean.insertCommonUser(email, name, password, age, phone, gender, occupation);
     }
 
     public static Property registerSharedProperty(
