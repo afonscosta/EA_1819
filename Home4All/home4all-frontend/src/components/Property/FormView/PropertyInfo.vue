@@ -46,7 +46,7 @@
         <b-form-group id="input-group-5" label="Área:" label-for="input-5">
           <b-form-input
             id="input-5"
-            v-model="area"
+            v-model.number="area"
             type="number"
             placeholder="Insira a área"
             @change="updateArea"
@@ -118,7 +118,7 @@
           label-for="input-13"
         >
           <b-input
-            v-model="rentPrice"
+            v-model.number="rentPrice"
             type="number"
             @change="updateRentPrice"
           ></b-input>
@@ -131,7 +131,7 @@
           label-for="input-14"
         >
           <b-input
-            v-model="sellPrice"
+            v-model.number="sellPrice"
             type="number"
             @change="updateSellPrice"
           ></b-input>
