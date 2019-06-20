@@ -12,14 +12,14 @@ public interface PropertyBeanLocal {
     Property registerPrivateProperty(
             String name, List<String> photos, String description, String type, String typology,
             float area, String district, String city, String completeAddress, float lat, float lng,
-            boolean furnished, Date availability, boolean rent, boolean sell, float rentPrice, float sellPrice,
+            boolean furnished, Date availability, boolean rent, boolean sell, Float rentPrice, Float sellPrice,
             List<String> expensesIncluded, List<String> equipmentIncluded,
             Integer allowedMinAge, Integer allowedMaxAge, boolean allowedSmokers, boolean allowedPets,
             List<String> allowedOccupations, String allowedGenders, int ownerId
     ) throws PersistentException, TypologyNotExistentException, ExpenseNotExistentException,
             EquipmentNotExistentException, OccupationNotExistentException, GenderNotExistentException;
     Property registerSharedProperty(
-            String name, List<String> photos, String description, String type, String typology,
+            String name, List<String> photos, String description, String typology,
             float area, String district, String city, String completeAddress, float lat, float lng,
             List<String> expensesIncluded, List<String> equipmentIncluded,
             Integer allowedMinAge, Integer allowedMaxAge, boolean allowedSmokers, boolean allowedPets,
@@ -29,5 +29,7 @@ public interface PropertyBeanLocal {
     ) throws TypologyNotExistentException, OccupationNotExistentException, EquipmentNotExistentException,
             ExpenseNotExistentException, PersistentException, GenderNotExistentException, MissingPropertiesException, BedroomTypeNotExistentException;
 
-    public String nextImageName(String originalName, String format) throws PersistentException;
+    String nextImageName(String originalName, String format) throws PersistentException;
+
+    Property getProperty(int ID) throws PersistentException;
 }

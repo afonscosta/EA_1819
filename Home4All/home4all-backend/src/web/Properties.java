@@ -57,7 +57,7 @@ public class Properties extends HttpServlet {
         return name_format;
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
             Collection<Part> parts = request.getParts();
             List<String> imagesPaths = new ArrayList<>();
@@ -111,12 +111,11 @@ public class Properties extends HttpServlet {
                             (String) data.get("name"),
                             imagesPaths,
                             (String) data.get("description"),
-                            (String) data.get("type"),
                             (String) data.get("typology"),
                             Float.parseFloat((String) data.get("area")),
                             (String) data.get("district"),
                             (String) data.get("city"),
-                            (String) data.get("street"),
+                            (String) data.get("address"),
                             0,                  // TODO: LAT
                             0,                 // TODO: LNG
                             (List<String>) data.get("rentInc"),
@@ -155,8 +154,8 @@ public class Properties extends HttpServlet {
                             dateFormat.parse((String) data.get("availability")),
                             operation.equals("rent") || operation.equals("both"),
                             operation.equals("sell") || operation.equals("both"),
-                            Float.parseFloat((String) data.get("rentPrice")),
-                            Float.parseFloat((String) data.get("sellPrice")),
+                            Float.parseFloat((String) data.getOrDefault("rentPrice", null)),
+                            Float.parseFloat((String) data.getOrDefault("sellPrice", null)),
                             (List<String>) data.get("rentInc"),
                             (List<String>) data.get("divEquipInc"),
                             minAge == null || minAge.isEmpty() ? null : Integer.parseInt(minAge),
@@ -193,6 +192,41 @@ public class Properties extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            Scanner scanner = new Scanner(request.getInputStream(),"UTF-8");
+            StringBuilder sb = new StringBuilder();
+            while (scanner.hasNextLine())
+                sb.append(scanner.nextLine());
 
+            Map<String, Object> data = gson.fromJson(sb.toString(), Map.class);
+            String jsonData = "";
+
+            String id_str = request.getParameter("id");
+            if (id_str != null) {
+                int id = Integer.parseInt(id_str);
+                Property property = Home4All.getProperty(id);
+                if (property != null) {
+                    jsonData = JsonParser.propertyToJson(property);
+                }
+                else {
+                    throw new Exception("ERRO: Imóvel não encontrado.");
+                }
+            }
+            else {
+                throw new Exception("ERRO: Identificador do imóvel em falta.");
+            }
+
+            response.setContentType("application/json"); // multipart/form-data
+            response.setCharacterEncoding("UTF-8");
+            PrintWriter out = response.getWriter();
+            out.print(jsonData);
+            out.flush();
+        }
+        catch (Exception e) {
+            response.setContentType("text/html");
+            response.setCharacterEncoding("UTF-8");
+            response.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
+            e.printStackTrace();
+        }
     }
 }
