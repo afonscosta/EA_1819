@@ -25,21 +25,15 @@ public class Users extends HttpServlet {
         protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         LOGGER.info("POST USERS");
         try {
-            HttpSession session = request.getSession(false);
-            business.entities.Users user = (business.entities.Users) session.getAttribute("currentSessionUser");
-            System.out.println("USER AUTHENTICATED:" + user.getEmail());
-            System.out.println("SESSION ID: " + session.getId());
             BufferedReader reader = request.getReader();
-            LOGGER.info("Vou fazer a tradução");
-            //InternalAccount u = gson.fromJson(reader, InternalAccount.class);
-            LOGGER.info("Fiz a tradução");
-            //Common user = Home4All.insertCommonUser(u.getEmail(), u.getName(), u.getPassword(), u.getAge(), u.getPhone(),
-            //                                        null, null);
-            //String userJsonString = JsonParser.userToJson(user);
+            InternalAccount u = gson.fromJson(reader, InternalAccount.class);
+            Common user = Home4All.insertCommonUser(u.getEmail(), u.getName(), u.getPassword(), u.getAge(), u.getPhone(),
+                                                    null, null);
+            String userJsonString = JsonParser.userToJson(user);
             response.setContentType("application/json"); // multipart/form-data
             response.setCharacterEncoding("UTF-8");
             PrintWriter out = response.getWriter();
-            //out.print(userJsonString);
+            out.print(userJsonString);
             out.flush();
         }
         catch (Exception e) {
@@ -53,15 +47,16 @@ public class Users extends HttpServlet {
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws IOException {
         try {
-            HttpSession session = request.getSession();
-            String id = session.getId();
+            HttpSession session = request.getSession(false);
+            business.entities.Users currentUser = (business.entities.Users) session.getAttribute("currentSessionUser");
+            System.out.println("USER AUTHENTICATED:" + currentUser.getEmail());
+            System.out.println("SESSION ID: " + session.getId());
             List<business.entities.Users> users = Home4All.listUsers();
             String usersJsonString = JsonParser.usersToJson(users);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             PrintWriter out = response.getWriter();
             out.print(usersJsonString);
-            out.print(id);
             out.flush();
         }
         catch (Exception e) {
