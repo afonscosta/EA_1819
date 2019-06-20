@@ -36,8 +36,9 @@
                 @updateArea="updateArea"
                 @updateDistrict="updateDistrict"
                 @updateCity="updateCity"
-                @updateStreet="updateStreet"
+                @updateAddress="updateAddress"
                 @updateFurnished="updateFurnished"
+                @updateTotalAccess="updateTotalAccess"
                 @updateAvailability="updateAvailability"
                 @updateOperation="updateOperation"
                 @updateRentPrice="updateRentPrice"
@@ -62,11 +63,14 @@
               v-if="form.operation != 'sell'"
               class="present-tenants"
               :type="form.type"
+              :petsType="form.petsType"
               @updateSharedFemales="updateSharedFemales"
               @updateSharedMales="updateSharedMales"
               @updateSharedSmokers="updateSharedSmokers"
               @updateSharedPets="updateSharedPets"
-              @updateSharedOcupation="updateSharedOcupation"/>
+              @updateSharedOcupation="updateSharedOcupation"
+              @addPetType="addPetType"
+              @deletePetType="deletePetType"/>
 
             <b-card-group deck>
               <RentInclude
@@ -132,8 +136,9 @@ export default {
       area: null,
       district: null,
       city: null,
-      street: '',
+      address: '',
       furnished: false,
+      totalAccess: false,
       availability: '',
       operation: null,
       rentPrice: '0',
@@ -142,16 +147,23 @@ export default {
       allowedGenre: 'undefined',
       allowedMinAge: null,
       allowedMaxAge: null,
-      allowedOcupations: [],
-      allowedSmoker: false,
-      allowedPets: false,
+      allowedOcupations: [
+        'student',
+        'studentWorker',
+        'worker',
+        'retired',
+        'unemployed'
+      ],
+      allowedSmoker: true,
+      allowedPets: true,
       divEquipInc: [],
       bedrooms: [],
       females: '0',
       males: '0',
       smokers: '0',
       pets: '0',
-      ocupations: null
+      ocupations: null,
+      petsType: []
     },
     bedroom: {
       type: null,
@@ -215,11 +227,14 @@ export default {
     updateCity (checked) {
       this.form.city = checked
     },
-    updateStreet (value) {
-      this.form.street = value
+    updateAddress (value) {
+      this.form.address = value
     },
     updateFurnished (value) {
       this.form.furnished = value
+    },
+    updateTotalAccess (value) {
+      this.form.totalAccess = value
     },
     updateAvailability (value) {
       this.form.availability = value
@@ -273,6 +288,12 @@ export default {
     },
     updateDivEquipInc (checked) {
       this.form.divEquipInc = checked
+    },
+    addPetType (pet) {
+      this.form.petsType.push(pet)
+    },
+    deletePetType (idx) {
+      this.form.petsType.splice(idx, 1)
     },
     addBedroom () {
       this.form.bedrooms.push(this.bedroom)

@@ -50,7 +50,7 @@
                 :areaData="form.area"
                 :districtData="form.district"
                 :cityData="form.city"
-                :streetData="form.street"
+                :addressData="form.address"
                 :furnishedData="form.furnished"
                 :availabilityData="form.availability"
                 :operationData="form.operation"
@@ -62,7 +62,7 @@
                 @updateArea="updateArea"
                 @updateDistrict="updateDistrict"
                 @updateCity="updateCity"
-                @updateStreet="updateStreet"
+                @updateAddress="updateAddress"
                 @updateFurnished="updateFurnished"
                 @updateAvailability="updateAvailability"
                 @updateOperation="updateOperation"
@@ -88,7 +88,9 @@
               @updateSharedMales="updateSharedMales"
               @updateSharedSmokers="updateSharedSmokers"
               @updateSharedPets="updateSharedPets"
-              @updateSharedOcupation="updateSharedOcupation"/>
+              @updateSharedOcupation="updateSharedOcupation"
+              @addPetType="addPetType"
+              @deletePetType="deletePetType"/>
 
             <b-card-group deck>
               <RentInclude
@@ -163,7 +165,7 @@ export default {
       area: null,
       district: null,
       city: null,
-      street: '',
+      address: '',
       furnished: false,
       availability: '',
       operation: null,
@@ -200,7 +202,7 @@ export default {
       this.form.area = this.property.area
       this.form.district = this.property.district
       this.form.city = this.property.city
-      this.form.street = this.property.street
+      this.form.address = this.property.address
       this.form.furnished = this.property.furnished
       this.form.availability = this.property.availability
       this.form.operation = this.property.operation
@@ -263,8 +265,8 @@ export default {
     updateCity (checked) {
       this.form.city = checked
     },
-    updateStreet (value) {
-      this.form.street = value
+    updateAddress (value) {
+      this.form.address = value
     },
     updateFurnished (value) {
       this.form.furnished = value

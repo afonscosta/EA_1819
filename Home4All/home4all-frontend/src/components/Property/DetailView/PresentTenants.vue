@@ -18,6 +18,7 @@
       <b-col>
         <label>Animais de estimação: {{ shared.pets }}</label>
       </b-col>
+      {{ shared.petsType }}
     </b-row>
     <b-form-group id="present-tenants-ocupation-form-group" label="Ocupações dos arrendatários atuais:">
       <b-form-checkbox-group
