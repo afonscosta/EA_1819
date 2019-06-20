@@ -15,6 +15,7 @@ package data;
 
 import business.entities.Chat;
 import business.entities.Common;
+import business.entities.InternalAccount;
 import business.entities.Property;
 import org.orm.*;
 import org.hibernate.Query;
@@ -24,7 +25,7 @@ import java.util.List;
 public class CommonDAO {
 	public static Common loadCommonByORMID(int ID) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadCommonByORMID(session, ID);
 		}
 		catch (Exception e) {
@@ -35,7 +36,7 @@ public class CommonDAO {
 	
 	public static Common getCommonByORMID(int ID) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getCommonByORMID(session, ID);
 		}
 		catch (Exception e) {
@@ -46,7 +47,7 @@ public class CommonDAO {
 	
 	public static Common loadCommonByORMID(int ID, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadCommonByORMID(session, ID, lockMode);
 		}
 		catch (Exception e) {
@@ -57,7 +58,7 @@ public class CommonDAO {
 	
 	public static Common getCommonByORMID(int ID, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getCommonByORMID(session, ID, lockMode);
 		}
 		catch (Exception e) {
@@ -108,7 +109,7 @@ public class CommonDAO {
 	
 	public static List queryCommon(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryCommon(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -119,7 +120,7 @@ public class CommonDAO {
 	
 	public static List queryCommon(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryCommon(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -130,7 +131,7 @@ public class CommonDAO {
 	
 	public static Common[] listCommonByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listCommonByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -141,7 +142,7 @@ public class CommonDAO {
 	
 	public static Common[] listCommonByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listCommonByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -207,7 +208,7 @@ public class CommonDAO {
 	
 	public static Common loadCommonByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadCommonByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -218,7 +219,7 @@ public class CommonDAO {
 	
 	public static Common loadCommonByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadCommonByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -245,7 +246,7 @@ public class CommonDAO {
 	
 	public static java.util.Iterator iterateCommonByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateCommonByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -256,7 +257,7 @@ public class CommonDAO {
 	
 	public static java.util.Iterator iterateCommonByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateCommonByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -304,7 +305,7 @@ public class CommonDAO {
 	
 	public static boolean save(Common common) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().saveObject(common);
+			Home4AllPersistentManager.instance().saveObject(common);
 			return true;
 		}
 		catch (Exception e) {
@@ -315,7 +316,7 @@ public class CommonDAO {
 	
 	public static boolean delete(Common common) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().deleteObject(common);
+			Home4AllPersistentManager.instance().deleteObject(common);
 			return true;
 		}
 		catch (Exception e) {
@@ -325,8 +326,8 @@ public class CommonDAO {
 	}
 	
 	public static boolean deleteAndDissociate(Common common)throws PersistentException {
-		if (common instanceof business.entities.InternalAccount) {
-			return data.InternalAccountDAO.deleteAndDissociate((business.entities.InternalAccount) common);
+		if (common instanceof InternalAccount) {
+			return InternalAccountDAO.deleteAndDissociate((InternalAccount) common);
 		}
 		
 		try {
@@ -347,8 +348,8 @@ public class CommonDAO {
 	}
 	
 	public static boolean deleteAndDissociate(Common common, org.orm.PersistentSession session)throws PersistentException {
-		if (common instanceof business.entities.InternalAccount) {
-			return data.InternalAccountDAO.deleteAndDissociate((business.entities.InternalAccount) common, session);
+		if (common instanceof InternalAccount) {
+			return InternalAccountDAO.deleteAndDissociate((InternalAccount) common, session);
 		}
 		
 		try {
@@ -375,7 +376,7 @@ public class CommonDAO {
 	
 	public static boolean refresh(Common common) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().refresh(common);
+			Home4AllPersistentManager.instance().getSession().refresh(common);
 			return true;
 		}
 		catch (Exception e) {
@@ -386,7 +387,7 @@ public class CommonDAO {
 	
 	public static boolean evict(Common common) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().evict(common);
+			Home4AllPersistentManager.instance().getSession().evict(common);
 			return true;
 		}
 		catch (Exception e) {

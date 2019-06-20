@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: afonscosta(Universidade do Minho)
+License Type: Academic
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="PSM.Property" table="Property" lazy="false" discriminator-value="Property">
+		<id name="ID" column="ID" type="integer" unsaved-value="0">
+			<generator class="native">
+			</generator>
+		</id>
+		<discriminator column="Discriminator" type="string"/>
+		<many-to-one name="owner" cascade="lock" column="UsersID" class="PSM.Common" not-null="true" lazy="proxy" access="field">
+		</many-to-one>
+		<many-to-one name="typology" cascade="lock" column="TypologyID" class="PSM.Typology" not-null="true" lazy="proxy" access="field">
+		</many-to-one>
+		<property name="name" column="Name" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="description" column="Description" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="area" column="Area" type="float" length="10" not-null="false" lazy="false"/>
+		<property name="district" column="District" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="city" column="City" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="street" column="Street" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="allowedMinAge" column="AllowedMinAge" type="integer" length="10" not-null="false" lazy="false"/>
+		<property name="allowedMaxAge" column="AllowedMaxAge" type="integer" length="10" not-null="false" lazy="false"/>
+		<property name="allowedSmoker" column="AllowedSmoker" type="boolean" not-null="false" lazy="false"/>
+		<property name="allowedPets" column="AllowedPets" type="boolean" not-null="false" lazy="false"/>
+		<property name="publishDate" column="PublishDate" type="date" not-null="false" lazy="false"/>
+		<set name="ORM_Comments" lazy="true" cascade="save-update,lock" inverse="false">
+			<key column="PropertyID" not-null="true"/>
+			<one-to-many class="PSM.Comment"/>
+		</set>
+		<set name="ORM_IncomeIncluded" table="Property_Expenses" lazy="true" cascade="save-update,lock">
+			<key column="PropertyID" not-null="true"/>
+			<many-to-many column="ExpensesID" class="PSM.Expenses">
+			</many-to-many>
+		</set>
+		<set name="ORM_AllowedGenders" table="Property_Gender" lazy="true" cascade="save-update,lock">
+			<key column="PropertyID" not-null="true"/>
+			<many-to-many column="GenderID" class="PSM.Gender">
+			</many-to-many>
+		</set>
+		<set name="ORM_AllowedOccupations" table="Property_Occupation2" lazy="true" cascade="save-update,lock">
+			<key column="PropertyID" not-null="true"/>
+			<many-to-many column="OccupationID" class="PSM.Occupation">
+			</many-to-many>
+		</set>
+		<set name="ORM_EquipmentIncluded" table="Property_Equipment" lazy="true" cascade="save-update,lock">
+			<key column="PropertyID" not-null="true"/>
+			<many-to-many column="EquipmentID" class="PSM.Equipment">
+			</many-to-many>
+		</set>
+		<subclass name="PSM.Shared" discriminator-value="Shared" lazy="false">
+			<property name="females" column="Females" type="integer" length="10" not-null="false" lazy="false"/>
+			<property name="males" column="Males" type="integer" length="10" not-null="false" lazy="false"/>
+			<property name="smokers" column="Smokers" type="integer" length="10" not-null="false" lazy="false"/>
+			<property name="pets" column="Pets" type="integer" length="10" not-null="false" lazy="false"/>
+			<property name="totalAccess" column="TotalAccess" type="boolean" not-null="false" lazy="false"/>
+			<set name="ORM_Bedrooms" lazy="true" cascade="all-delete-orphan" inverse="false">
+				<key column="PropertyID" not-null="true"/>
+				<one-to-many class="PSM.Bedroom"/>
+			</set>
+			<set name="ORM_Occupations" table="Property_Occupation" lazy="true" cascade="save-update,lock">
+				<key column="PropertyID" not-null="true"/>
+				<many-to-many column="OccupationID" class="PSM.Occupation">
+				</many-to-many>
+			</set>
+		</subclass>
+		<subclass name="PSM.Private" discriminator-value="Private" lazy="false">
+			<property name="furnished" column="Furnished" type="boolean" not-null="false" lazy="false"/>
+			<property name="availability" column="Availability" type="date" not-null="false" lazy="false"/>
+			<property name="sellPrice" column="SellPrice" type="float" length="10" not-null="false" lazy="false"/>
+			<property name="rentPrice" column="RentPrice" type="float" length="10" not-null="false" lazy="false"/>
+			<property name="sold" column="Sold" type="boolean" not-null="false" lazy="false"/>
+			<subclass name="PSM.Villa" discriminator-value="Villa" lazy="false">
+			</subclass>
+			<subclass name="PSM.Apartment" discriminator-value="Apartment" lazy="false">
+			</subclass>
+		</subclass>
+	</class>
+</hibernate-mapping>

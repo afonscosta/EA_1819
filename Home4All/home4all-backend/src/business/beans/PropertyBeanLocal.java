@@ -10,23 +10,26 @@ import java.util.Map;
 
 public interface PropertyBeanLocal {
     Property registerPrivateProperty(
-            String name, List<byte[]> photos, String description, String type, String typology,
-            float area, String district, String city, String street,
-            boolean furnished, Date availability, boolean rent, boolean sell, float rentPrice, float sellPrice,
+            String name, List<String> photos, String description, String type, String typology,
+            float area, String district, String city, String completeAddress, float lat, float lng,
+            boolean furnished, Date availability, boolean rent, boolean sell, Float rentPrice, Float sellPrice,
             List<String> expensesIncluded, List<String> equipmentIncluded,
-            int allowedMinAge, int allowedMaxAge, boolean allowedSmokers, boolean allowedPets,
-            List<String> allowedOccupations, String allowedGenders
+            Integer allowedMinAge, Integer allowedMaxAge, boolean allowedSmokers, boolean allowedPets,
+            List<String> allowedOccupations, String allowedGenders, int ownerId
     ) throws PersistentException, TypologyNotExistentException, ExpenseNotExistentException,
             EquipmentNotExistentException, OccupationNotExistentException, GenderNotExistentException;
     Property registerSharedProperty(
-            String name, List<byte[]> photos, String description, String type, String typology,
-            float area, String district, String city, String street,
+            String name, List<String> photos, String description, String typology,
+            float area, String district, String city, String completeAddress, float lat, float lng,
             List<String> expensesIncluded, List<String> equipmentIncluded,
-            int allowedMinAge, int allowedMaxAge, boolean allowedSmokers, boolean allowedPets,
+            Integer allowedMinAge, Integer allowedMaxAge, boolean allowedSmokers, boolean allowedPets,
             List<String> allowedOccupations, String allowedGenders,
             int females, int males, int smokers, int petsQuantity, List<String> pets,
-            List<String> occupations, boolean totalAccess, List<Map<String, Object>> bedrooms
+            List<String> occupations, boolean totalAccess, List<Map<String, Object>> bedrooms, int ownerId
     ) throws TypologyNotExistentException, OccupationNotExistentException, EquipmentNotExistentException,
-            ExpenseNotExistentException, PersistentException, GenderNotExistentException, MissingPropertiesException;
+            ExpenseNotExistentException, PersistentException, GenderNotExistentException, MissingPropertiesException, BedroomTypeNotExistentException;
 
+    String nextImageName(String originalName, String format) throws PersistentException;
+
+    Property getProperty(int ID) throws PersistentException;
 }

@@ -21,9 +21,9 @@ public class Private extends Property {
 	
 	private java.util.Date availability;
 	
-	private float sellPrice;
+	private Float sellPrice;
 	
-	private float rentPrice;
+	private Float rentPrice;
 	
 	private boolean sold;
 	
@@ -43,19 +43,19 @@ public class Private extends Property {
 		return availability;
 	}
 	
-	public void setSellPrice(float value) {
+	public void setSellPrice(Float value) {
 		this.sellPrice = value;
 	}
 	
-	public float getSellPrice() {
+	public Float getSellPrice() {
 		return sellPrice;
 	}
 	
-	public void setRentPrice(float value) {
+	public void setRentPrice(Float value) {
 		this.rentPrice = value;
 	}
 	
-	public float getRentPrice() {
+	public Float getRentPrice() {
 		return rentPrice;
 	}
 	

@@ -13,12 +13,14 @@
  */
 package business.entities;
 
+import data.ORMConstants;
+
 public class Folder {
 	public Folder() {
 	}
 	
 	private java.util.Set this_getSet (int key) {
-		if (key == data.ORMConstants.KEY_FOLDER_PROPERTIES) {
+		if (key == ORMConstants.KEY_FOLDER_PROPERTIES) {
 			return ORM_properties;
 		}
 		
@@ -56,7 +58,7 @@ public class Folder {
 		return ORM_properties;
 	}
 	
-	public final PropertySetCollection properties = new PropertySetCollection(this, _ormAdapter, data.ORMConstants.KEY_FOLDER_PROPERTIES, data.ORMConstants.KEY_MUL_MANY_TO_MANY);
+	public final PropertySetCollection properties = new PropertySetCollection(this, _ormAdapter, ORMConstants.KEY_FOLDER_PROPERTIES, ORMConstants.KEY_MUL_MANY_TO_MANY);
 	
 	public String toString() {
 		return String.valueOf(getID());

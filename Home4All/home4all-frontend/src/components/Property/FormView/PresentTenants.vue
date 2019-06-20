@@ -55,29 +55,38 @@
           @change="updateSharedOcupation"
         ></b-form-checkbox-group>
       </b-form-group>
+      <Pets :petsType="petsType"
+        @addPetType="addPetType"
+        @deletePetType="deletePetType"
+      />
     </b-form-group>
   </b-card>
 </template>
 
 <script>
+import Pets from '@/components/Pets'
+
 export default {
   name: 'PresentTenants',
+  components: {
+    Pets
+  },
   props: {
     type: {
       required: true,
       type: String
     },
-    sharedData: {
-      required: false,
-      type: Object
+    petsType: {
+      required: true,
+      type: Array
     }
   },
   data: () => ({
     shared: {
-      females: 0,
-      males: 0,
-      smokers: 0,
-      pets: 0,
+      females: '0',
+      males: '0',
+      smokers: '0',
+      pets: '0',
       totalAccess: false, // Não está no mockup mas está no VPP
       ocupation: []
     },
@@ -89,11 +98,6 @@ export default {
       { value: 'unemployed', text: 'Desempregado' }
     ]
   }),
-  created () {
-    if (this.sharedData) {
-      this.shared = this.sharedData
-    }
-  },
   methods: {
     updateSharedFemales (value) {
       this.$emit('updateSharedFemales', value)
@@ -109,6 +113,12 @@ export default {
     },
     updateSharedOcupation (checked) {
       this.$emit('updateSharedOcupation', checked)
+    },
+    addPetType (pet) {
+      this.$emit('addPetType', pet)
+    },
+    deletePetType (idx) {
+      this.$emit('deletePetType', idx)
     }
   }
 }

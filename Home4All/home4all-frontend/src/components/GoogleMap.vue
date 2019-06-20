@@ -48,6 +48,7 @@ export default {
     setPlace (place) {
       console.log('setPlace', place)
       this.currentPlace = place
+      console.log(this.currentPlace)
     },
     addMarker () {
       console.log('addMarker')

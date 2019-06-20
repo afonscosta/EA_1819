@@ -50,6 +50,8 @@ public interface ORMConstants extends org.orm.util.ORMBaseConstants {
 	
 	final int KEY_NOTIFICATION_TYPOLOGIES = 493714699;
 	
+	final int KEY_PROPERTY_ADDRESS = 779927466;
+	
 	final int KEY_PROPERTY_ALLOWEDGENDERS = 380154516;
 	
 	final int KEY_PROPERTY_ALLOWEDOCCUPATIONS = -975381430;

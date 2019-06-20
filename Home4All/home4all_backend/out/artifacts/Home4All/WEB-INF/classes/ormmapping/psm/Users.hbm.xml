@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: afonscosta(Universidade do Minho)
+License Type: Academic
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="PSM.Users" table="Users" lazy="false" discriminator-value="Users">
+		<id name="ID" column="ID" type="integer" unsaved-value="0">
+			<generator class="native">
+			</generator>
+		</id>
+		<discriminator column="Discriminator" type="string"/>
+		<property name="email" column="Email" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="name" column="Name" type="string" length="255" not-null="false" lazy="false"/>
+		<subclass name="PSM.Admin" discriminator-value="Admin" lazy="false">
+			<property name="password" column="Password" type="string" length="255" not-null="false" lazy="false"/>
+		</subclass>
+		<subclass name="PSM.Common" discriminator-value="Common" lazy="false">
+			<many-to-one name="gender" column="GenderID" class="PSM.Gender" cascade="save-update,lock" unique="true" not-null="false" lazy="proxy" access="field">
+			</many-to-one>
+			<many-to-one name="occupation" cascade="lock" column="OccupationID" class="PSM.Occupation" not-null="false" lazy="proxy" access="field">
+			</many-to-one>
+			<property name="age" column="Age" type="integer" length="10" not-null="false" lazy="false"/>
+			<property name="phone" column="Phone" type="string" length="255" not-null="false" lazy="false"/>
+			<property name="lastLogin" column="LastLogin" type="date" not-null="false" lazy="false"/>
+			<set name="ORM_Properties" lazy="true" cascade="save-update,lock" inverse="true">
+				<key column="UsersID" not-null="true"/>
+				<one-to-many class="PSM.Property"/>
+			</set>
+			<set name="ORM_Notifications" lazy="true" cascade="all-delete-orphan" inverse="false">
+				<key column="UsersID" not-null="true"/>
+				<one-to-many class="PSM.Notification"/>
+			</set>
+			<set name="ORM_Chats" lazy="true" cascade="all-delete-orphan" inverse="true">
+				<key column="UsersID" not-null="true"/>
+				<one-to-many class="PSM.Chat"/>
+			</set>
+			<set name="ORM_Favorites" lazy="true" cascade="all-delete-orphan" inverse="false">
+				<key column="UsersID" not-null="true"/>
+				<one-to-many class="PSM.Folder"/>
+			</set>
+			<subclass name="PSM.InternalAccount" discriminator-value="InternalAccount" lazy="false">
+				<property name="password" column="`Column`" type="string" length="255" not-null="false" lazy="false"/>
+			</subclass>
+		</subclass>
+	</class>
+</hibernate-mapping>

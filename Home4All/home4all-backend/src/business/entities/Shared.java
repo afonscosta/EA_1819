@@ -13,18 +13,20 @@
  */
 package business.entities;
 
+import data.ORMConstants;
+
 public class Shared extends Property {
 	public Shared() {
 	}
 	
 	private java.util.Set this_getSet (int key) {
-		if (key == data.ORMConstants.KEY_SHARED_BEDROOMS) {
+		if (key == ORMConstants.KEY_SHARED_BEDROOMS) {
 			return ORM_bedrooms;
 		}
-		else if (key == data.ORMConstants.KEY_SHARED_PETS) {
+		else if (key == ORMConstants.KEY_SHARED_PETS) {
 			return ORM_pets;
 		}
-		else if (key == data.ORMConstants.KEY_SHARED_OCCUPATIONS) {
+		else if (key == ORMConstants.KEY_SHARED_OCCUPATIONS) {
 			return ORM_occupations;
 		}
 		
@@ -102,7 +104,7 @@ public class Shared extends Property {
 		return ORM_bedrooms;
 	}
 	
-	public final BedroomSetCollection bedrooms = new BedroomSetCollection(this, _ormAdapter, data.ORMConstants.KEY_SHARED_BEDROOMS, data.ORMConstants.KEY_MUL_ONE_TO_MANY);
+	public final BedroomSetCollection bedrooms = new BedroomSetCollection(this, _ormAdapter, ORMConstants.KEY_SHARED_BEDROOMS, ORMConstants.KEY_MUL_ONE_TO_MANY);
 	
 	private void setORM_Pets(java.util.Set value) {
 		this.ORM_pets = value;
@@ -112,7 +114,7 @@ public class Shared extends Property {
 		return ORM_pets;
 	}
 	
-	public final PetSetCollection pets = new PetSetCollection(this, _ormAdapter, data.ORMConstants.KEY_SHARED_PETS, data.ORMConstants.KEY_MUL_ONE_TO_MANY);
+	public final PetSetCollection pets = new PetSetCollection(this, _ormAdapter, ORMConstants.KEY_SHARED_PETS, ORMConstants.KEY_MUL_ONE_TO_MANY);
 	
 	private void setORM_Occupations(java.util.Set value) {
 		this.ORM_occupations = value;
@@ -122,7 +124,7 @@ public class Shared extends Property {
 		return ORM_occupations;
 	}
 	
-	public final OccupationSetCollection occupations = new OccupationSetCollection(this, _ormAdapter, data.ORMConstants.KEY_SHARED_OCCUPATIONS, data.ORMConstants.KEY_MUL_MANY_TO_MANY);
+	public final OccupationSetCollection occupations = new OccupationSetCollection(this, _ormAdapter, ORMConstants.KEY_SHARED_OCCUPATIONS, ORMConstants.KEY_MUL_MANY_TO_MANY);
 	
 	public String toString() {
 		return super.toString();

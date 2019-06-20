@@ -13,24 +13,26 @@
  */
 package business.entities;
 
+import data.ORMConstants;
+
 public class Property {
 	public Property() {
 	}
 	
 	private java.util.Set this_getSet (int key) {
-		if (key == data.ORMConstants.KEY_PROPERTY_COMMENTS) {
+		if (key == ORMConstants.KEY_PROPERTY_COMMENTS) {
 			return ORM_comments;
 		}
-		else if (key == data.ORMConstants.KEY_PROPERTY_PHOTOS) {
+		else if (key == ORMConstants.KEY_PROPERTY_PHOTOS) {
 			return ORM_photos;
 		}
-		else if (key == data.ORMConstants.KEY_PROPERTY_EXPENSESINCLUDED) {
+		else if (key == ORMConstants.KEY_PROPERTY_EXPENSESINCLUDED) {
 			return ORM_expensesIncluded;
 		}
-		else if (key == data.ORMConstants.KEY_PROPERTY_ALLOWEDOCCUPATIONS) {
+		else if (key == ORMConstants.KEY_PROPERTY_ALLOWEDOCCUPATIONS) {
 			return ORM_allowedOccupations;
 		}
-		else if (key == data.ORMConstants.KEY_PROPERTY_EQUIPMENTINCLUDED) {
+		else if (key == ORMConstants.KEY_PROPERTY_EQUIPMENTINCLUDED) {
 			return ORM_equipmentIncluded;
 		}
 		
@@ -38,16 +40,20 @@ public class Property {
 	}
 	
 	private void this_setOwner(Object owner, int key) {
-		if (key == data.ORMConstants.KEY_PROPERTY_OWNER) {
+		if (key == ORMConstants.KEY_PROPERTY_OWNER) {
 			this.owner = (Common) owner;
 		}
 		
-		else if (key == data.ORMConstants.KEY_PROPERTY_TYPOLOGY) {
+		else if (key == ORMConstants.KEY_PROPERTY_TYPOLOGY) {
 			this.typology = (Typology) owner;
 		}
 		
-		else if (key == data.ORMConstants.KEY_PROPERTY_ALLOWEDGENDERS) {
+		else if (key == ORMConstants.KEY_PROPERTY_ALLOWEDGENDERS) {
 			this.allowedGenders = (Gender) owner;
+		}
+		
+		else if (key == ORMConstants.KEY_PROPERTY_ADDRESS) {
+			this.address = (Address) owner;
 		}
 	}
 	
@@ -64,6 +70,8 @@ public class Property {
 	
 	private int ID;
 	
+	private Address address;
+	
 	private Gender allowedGenders;
 	
 	private Typology typology;
@@ -76,15 +84,9 @@ public class Property {
 	
 	private float area;
 	
-	private String district;
+	private Integer allowedMinAge;
 	
-	private String city;
-	
-	private String street;
-	
-	private int allowedMinAge;
-	
-	private int allowedMaxAge;
+	private Integer allowedMaxAge;
 	
 	private boolean allowedSmoker;
 	
@@ -138,43 +140,19 @@ public class Property {
 		return area;
 	}
 	
-	public void setDistrict(String value) {
-		this.district = value;
-	}
-	
-	public String getDistrict() {
-		return district;
-	}
-	
-	public void setCity(String value) {
-		this.city = value;
-	}
-	
-	public String getCity() {
-		return city;
-	}
-	
-	public void setStreet(String value) {
-		this.street = value;
-	}
-	
-	public String getStreet() {
-		return street;
-	}
-	
-	public void setAllowedMinAge(int value) {
+	public void setAllowedMinAge(Integer value) {
 		this.allowedMinAge = value;
 	}
 	
-	public int getAllowedMinAge() {
+	public Integer getAllowedMinAge() {
 		return allowedMinAge;
 	}
 	
-	public void setAllowedMaxAge(int value) {
+	public void setAllowedMaxAge(Integer value) {
 		this.allowedMaxAge = value;
 	}
 	
-	public int getAllowedMaxAge() {
+	public Integer getAllowedMaxAge() {
 		return allowedMaxAge;
 	}
 	
@@ -234,7 +212,7 @@ public class Property {
 		return ORM_comments;
 	}
 	
-	public final CommentSetCollection comments = new CommentSetCollection(this, _ormAdapter, data.ORMConstants.KEY_PROPERTY_COMMENTS, data.ORMConstants.KEY_MUL_ONE_TO_MANY);
+	public final CommentSetCollection comments = new CommentSetCollection(this, _ormAdapter, ORMConstants.KEY_PROPERTY_COMMENTS, ORMConstants.KEY_MUL_ONE_TO_MANY);
 	
 	private void setORM_Photos(java.util.Set value) {
 		this.ORM_photos = value;
@@ -244,7 +222,7 @@ public class Property {
 		return ORM_photos;
 	}
 	
-	public final PhotoSetCollection photos = new PhotoSetCollection(this, _ormAdapter, data.ORMConstants.KEY_PROPERTY_PHOTOS, data.ORMConstants.KEY_MUL_ONE_TO_MANY);
+	public final PhotoSetCollection photos = new PhotoSetCollection(this, _ormAdapter, ORMConstants.KEY_PROPERTY_PHOTOS, ORMConstants.KEY_MUL_ONE_TO_MANY);
 	
 	private void setORM_ExpensesIncluded(java.util.Set value) {
 		this.ORM_expensesIncluded = value;
@@ -254,7 +232,7 @@ public class Property {
 		return ORM_expensesIncluded;
 	}
 	
-	public final ExpensesSetCollection expensesIncluded = new ExpensesSetCollection(this, _ormAdapter, data.ORMConstants.KEY_PROPERTY_EXPENSESINCLUDED, data.ORMConstants.KEY_MUL_MANY_TO_MANY);
+	public final ExpensesSetCollection expensesIncluded = new ExpensesSetCollection(this, _ormAdapter, ORMConstants.KEY_PROPERTY_EXPENSESINCLUDED, ORMConstants.KEY_MUL_MANY_TO_MANY);
 	
 	public void setTypology(Typology value) {
 		this.typology = value;
@@ -272,7 +250,7 @@ public class Property {
 		return ORM_allowedOccupations;
 	}
 	
-	public final OccupationSetCollection allowedOccupations = new OccupationSetCollection(this, _ormAdapter, data.ORMConstants.KEY_PROPERTY_ALLOWEDOCCUPATIONS, data.ORMConstants.KEY_MUL_MANY_TO_MANY);
+	public final OccupationSetCollection allowedOccupations = new OccupationSetCollection(this, _ormAdapter, ORMConstants.KEY_PROPERTY_ALLOWEDOCCUPATIONS, ORMConstants.KEY_MUL_MANY_TO_MANY);
 	
 	private void setORM_EquipmentIncluded(java.util.Set value) {
 		this.ORM_equipmentIncluded = value;
@@ -282,7 +260,7 @@ public class Property {
 		return ORM_equipmentIncluded;
 	}
 	
-	public final EquipmentSetCollection equipmentIncluded = new EquipmentSetCollection(this, _ormAdapter, data.ORMConstants.KEY_PROPERTY_EQUIPMENTINCLUDED, data.ORMConstants.KEY_MUL_MANY_TO_MANY);
+	public final EquipmentSetCollection equipmentIncluded = new EquipmentSetCollection(this, _ormAdapter, ORMConstants.KEY_PROPERTY_EQUIPMENTINCLUDED, ORMConstants.KEY_MUL_MANY_TO_MANY);
 	
 	public void setAllowedGenders(Gender value) {
 		this.allowedGenders = value;
@@ -290,6 +268,14 @@ public class Property {
 	
 	public Gender getAllowedGenders() {
 		return allowedGenders;
+	}
+	
+	public void setAddress(Address value) {
+		this.address = value;
+	}
+	
+	public Address getAddress() {
+		return address;
 	}
 	
 	public String toString() {

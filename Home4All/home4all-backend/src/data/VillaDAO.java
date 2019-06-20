@@ -22,7 +22,7 @@ import java.util.List;
 public class VillaDAO {
 	public static Villa loadVillaByORMID(int ID) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadVillaByORMID(session, ID);
 		}
 		catch (Exception e) {
@@ -33,7 +33,7 @@ public class VillaDAO {
 	
 	public static Villa getVillaByORMID(int ID) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getVillaByORMID(session, ID);
 		}
 		catch (Exception e) {
@@ -44,7 +44,7 @@ public class VillaDAO {
 	
 	public static Villa loadVillaByORMID(int ID, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadVillaByORMID(session, ID, lockMode);
 		}
 		catch (Exception e) {
@@ -55,7 +55,7 @@ public class VillaDAO {
 	
 	public static Villa getVillaByORMID(int ID, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getVillaByORMID(session, ID, lockMode);
 		}
 		catch (Exception e) {
@@ -106,7 +106,7 @@ public class VillaDAO {
 	
 	public static List queryVilla(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryVilla(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -117,7 +117,7 @@ public class VillaDAO {
 	
 	public static List queryVilla(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryVilla(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -128,7 +128,7 @@ public class VillaDAO {
 	
 	public static Villa[] listVillaByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listVillaByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -139,7 +139,7 @@ public class VillaDAO {
 	
 	public static Villa[] listVillaByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listVillaByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -205,7 +205,7 @@ public class VillaDAO {
 	
 	public static Villa loadVillaByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadVillaByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -216,7 +216,7 @@ public class VillaDAO {
 	
 	public static Villa loadVillaByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadVillaByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -243,7 +243,7 @@ public class VillaDAO {
 	
 	public static java.util.Iterator iterateVillaByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateVillaByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -254,7 +254,7 @@ public class VillaDAO {
 	
 	public static java.util.Iterator iterateVillaByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateVillaByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -302,7 +302,7 @@ public class VillaDAO {
 	
 	public static boolean save(Villa villa) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().saveObject(villa);
+			Home4AllPersistentManager.instance().saveObject(villa);
 			return true;
 		}
 		catch (Exception e) {
@@ -313,7 +313,7 @@ public class VillaDAO {
 	
 	public static boolean delete(Villa villa) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().deleteObject(villa);
+			Home4AllPersistentManager.instance().deleteObject(villa);
 			return true;
 		}
 		catch (Exception e) {
@@ -357,7 +357,7 @@ public class VillaDAO {
 	
 	public static boolean refresh(Villa villa) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().refresh(villa);
+			Home4AllPersistentManager.instance().getSession().refresh(villa);
 			return true;
 		}
 		catch (Exception e) {
@@ -368,7 +368,7 @@ public class VillaDAO {
 	
 	public static boolean evict(Villa villa) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().evict(villa);
+			Home4AllPersistentManager.instance().getSession().evict(villa);
 			return true;
 		}
 		catch (Exception e) {

@@ -97,9 +97,15 @@ export default {
     genre: 'undefined',
     allowedMinAge: null,
     allowedMaxAge: null,
-    ocupation: [],
-    allowedSmoker: false,
-    allowedPets: false,
+    ocupation: [
+      'student',
+      'studentWorker',
+      'worker',
+      'retired',
+      'unemployed'
+    ],
+    allowedSmoker: true,
+    allowedPets: true,
     optionsGenre: [
       { value: 'undefined', text: 'Indiferente' },
       { value: 'female', text: 'Feminino' },
