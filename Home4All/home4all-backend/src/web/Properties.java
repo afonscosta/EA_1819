@@ -27,9 +27,19 @@ import java.util.*;
 public class Properties extends HttpServlet {
     private Gson gson = new Gson();
 
+    private static String getSubmittedFileName(Part part) {
+        for (String cd : part.getHeader("content-disposition").split(";")) {
+            if (cd.trim().startsWith("filename")) {
+                String fileName = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
+                return fileName.substring(fileName.lastIndexOf('/') + 1).substring(fileName.lastIndexOf('\\') + 1); // MSIE fix.
+            }
+        }
+        return null;
+    }
+
     private String saveNewImage(Part p) throws PersistentException, IOException {
         // Obtenção do nome e formato da imagem
-        String name = p.getSubmittedFileName();
+        String name = getSubmittedFileName(p);
         name = Home4All.nextImageName(name.substring(0, name.lastIndexOf('.'))
                 .substring(name.lastIndexOf(File.separator) + 1));
         String format = p.getContentType().replace("image/", "");

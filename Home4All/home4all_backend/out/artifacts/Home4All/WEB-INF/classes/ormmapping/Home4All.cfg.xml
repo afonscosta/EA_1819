@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: afonscosta(Universidade do Minho)
+License Type: Academic
+-->
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+ "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+   	<!-- properties -->
+		<property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+		<property name="connection.driver_class">org.postgresql.Driver</property>
+		<property name="connection.url">jdbc:postgresql://localhost/home4alldb</property>
+		<property name="connection.username">postgres</property>
+		<property name="connection.password">postgres</property>
+		<property name="show_sql">false</property>
+		<property name="query.substitutions">true 1, false 0, yes 'Y', no 'N'</property>
+		<property name="hibernate.hbm2ddl.auto">create</property>
+		<!-- mapping files -->
+		<mapping resource="ormmapping/psm/Bedroom.hbm.xml" />
+		<mapping resource="ormmapping/psm/BedroomType.hbm.xml" />
+		<mapping resource="ormmapping/psm/Chat.hbm.xml" />
+		<mapping resource="ormmapping/psm/Comment.hbm.xml" />
+		<mapping resource="ormmapping/psm/Equipment.hbm.xml" />
+		<mapping resource="ormmapping/psm/Expenses.hbm.xml" />
+		<mapping resource="ormmapping/psm/Folder.hbm.xml" />
+		<mapping resource="ormmapping/psm/Gender.hbm.xml" />
+		<mapping resource="ormmapping/psm/Notification.hbm.xml" />
+		<mapping resource="ormmapping/psm/Occupation.hbm.xml" />
+		<mapping resource="ormmapping/psm/Ordination.hbm.xml" />
+		<mapping resource="ormmapping/psm/Property.hbm.xml" />
+		<mapping resource="ormmapping/psm/PropertyType.hbm.xml" />
+		<mapping resource="ormmapping/psm/Typology.hbm.xml" />
+		<mapping resource="ormmapping/psm/Users.hbm.xml" />
+	</session-factory>
+</hibernate-configuration>

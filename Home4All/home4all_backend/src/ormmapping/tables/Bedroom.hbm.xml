@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: Mafalda Nunes(Universidade do Minho)
+License Type: Academic
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="business.entities.Bedroom" table="Bedroom" lazy="false">
+		<id name="ID" column="ID" type="integer" unsaved-value="0">
+			<generator class="native">
+			</generator>
+		</id>
+		<many-to-one name="type" cascade="lock" column="BedroomTypeName" class="business.entities.BedroomType" not-null="true" lazy="proxy" access="field">
+		</many-to-one>
+		<property name="furnished" column="Furnished" type="boolean" not-null="false" lazy="false"/>
+		<property name="peopleAmount" column="PeopleAmount" type="integer" length="10" not-null="false" lazy="false"/>
+		<property name="area" column="Area" type="float" not-null="false" lazy="false"/>
+		<property name="privateBathroom" column="PrivateBathroom" type="boolean" not-null="false" lazy="false"/>
+		<property name="availability" column="Availability" type="date" not-null="false" lazy="false"/>
+		<property name="rentPrice" column="RentPrice" type="float" not-null="false" lazy="false"/>
+		<property name="sold" column="Sold" type="boolean" not-null="false" lazy="false"/>
+		<set name="ORM_Photos" lazy="true" cascade="save-update,lock" inverse="false">
+			<key column="BedroomID" not-null="true"/>
+			<one-to-many class="business.entities.Photo"/>
+		</set>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: afonscosta(Universidade do Minho)
+License Type: Academic
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="PSM.Chat" table="Chat" lazy="false">
+		<composite-id>
+			<key-property name="ID" column="ID" type="integer"/>
+			<key-many-to-one name="ORM_Common" column="UsersID" class="PSM.Common">
+			</key-many-to-one>
+		</composite-id>
+	</class>
+</hibernate-mapping>

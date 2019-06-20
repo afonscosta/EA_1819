@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: Mafalda Nunes(Universidade do Minho)
+License Type: Academic
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="business.entities.Notification" table="Notification" lazy="false">
+		<id name="ID" column="ID" type="integer" unsaved-value="0">
+			<generator class="native">
+			</generator>
+		</id>
+		<many-to-one name="ordination" cascade="lock" column="OrdinationName" class="business.entities.Ordination" not-null="false" lazy="proxy" access="field">
+		</many-to-one>
+		<property name="name" column="Name" type="string" length="255" not-null="true" lazy="false"/>
+		<property name="district" column="District" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="city" column="City" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="street" column="Street" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="minSellPrice" column="MinSellPrice" type="float" not-null="false" lazy="false"/>
+		<property name="maxSellPrice" column="MaxSellPrice" type="float" not-null="false" lazy="false"/>
+		<property name="minRentPrice" column="MinRentPrice" type="float" not-null="false" lazy="false"/>
+		<property name="maxRentPrice" column="MaxRentPrice" type="float" not-null="false" lazy="false"/>
+		<property name="peopleAmount" column="PeopleAmount" type="integer" length="10" not-null="false" lazy="false"/>
+		<property name="singleRooms" column="SingleRooms" type="integer" length="10" not-null="false" lazy="false"/>
+		<property name="doubleRooms" column="DoubleRooms" type="integer" length="10" not-null="false" lazy="false"/>
+		<property name="privateWC" column="PrivateWC" type="boolean" not-null="false" lazy="false"/>
+		<property name="allowedSmokers" column="AllowedSmokers" type="boolean" not-null="false" lazy="false"/>
+		<property name="allowedPets" column="AllowedPets" type="boolean" not-null="false" lazy="false"/>
+		<property name="furnished" column="Furnished" type="boolean" not-null="false" lazy="false"/>
+		<property name="totalAccess" column="TotalAccess" type="boolean" not-null="false" lazy="false"/>
+		<set name="ORM_NewProperties" table="Notification_Property" lazy="true" cascade="save-update,lock">
+			<key column="NotificationID" not-null="true"/>
+			<many-to-many column="PropertyID" class="business.entities.Property">
+			</many-to-many>
+		</set>
+		<set name="ORM_MultipleRoom" lazy="true" cascade="all-delete-orphan" inverse="false">
+			<key column="NotificationID" not-null="true"/>
+			<one-to-many class="business.entities.MultipleRoom"/>
+		</set>
+		<set name="ORM_Typologies" table="Notification_Typology" lazy="true" cascade="save-update,lock">
+			<key column="NotificationID" not-null="true"/>
+			<many-to-many column="TypologyName" class="business.entities.Typology">
+			</many-to-many>
+		</set>
+		<set name="ORM_AllowedOccupations" table="Notification_Occupation" lazy="true" cascade="save-update,lock">
+			<key column="NotificationID" not-null="true"/>
+			<many-to-many column="OccupationName" class="business.entities.Occupation">
+			</many-to-many>
+		</set>
+		<set name="ORM_PropertyTypes" table="Notification_PropertyType" lazy="true" cascade="save-update,lock">
+			<key column="NotificationID" not-null="true"/>
+			<many-to-many column="PropertyTypeName" class="business.entities.PropertyType">
+			</many-to-many>
+		</set>
+	</class>
+</hibernate-mapping>
