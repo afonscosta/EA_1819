@@ -17,7 +17,7 @@
       <b-col>
         <b-form-group id="minAge-form-group" label="Idade mínima:">
           <b-input
-            v-model="allowedMinAge"
+            v-model.number="allowedMinAge"
             type="number"
             @update="updateAllowedMinAge"
           ></b-input>
@@ -26,7 +26,7 @@
       <b-col>
         <b-form-group id="maxAge-form-group" label="Idade máxima:">
           <b-input
-            v-model="allowedMaxAge"
+            v-model.number="allowedMaxAge"
             type="number"
             @update="updateAllowedMaxAge"
           ></b-input>

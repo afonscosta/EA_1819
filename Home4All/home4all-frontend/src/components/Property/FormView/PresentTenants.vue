@@ -12,7 +12,7 @@
         <b-col>
           <b-form-group id="input-group-19-1" label="Feminino:">
             <b-input
-              v-model="shared.females"
+              v-model.number="shared.females"
               type="number"
               @change="updateSharedFemales"
             ></b-input>
@@ -21,7 +21,7 @@
         <b-col>
           <b-form-group id="input-group-19-2" label="Masculino:">
             <b-input
-              v-model="shared.males"
+              v-model.number="shared.males"
               type="number"
               @change="updateSharedMales"
             ></b-input>
@@ -30,7 +30,7 @@
         <b-col>
           <b-form-group id="input-group-19-3" label="Fumadores:">
             <b-input
-              v-model="shared.smokers"
+              v-model.number="shared.smokers"
               type="number"
               @change="updateSharedSmokers"
             ></b-input>
@@ -39,7 +39,7 @@
         <b-col>
           <b-form-group id="input-group-19-4" label="Animais de estimação:">
             <b-input
-              v-model="shared.pets"
+              v-model.number="shared.pets"
               type="number"
               @change="updateSharedPets"
             ></b-input>

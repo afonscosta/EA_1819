@@ -37,6 +37,8 @@
                 @updateDistrict="updateDistrict"
                 @updateCity="updateCity"
                 @updateAddress="updateAddress"
+                @updateLatitude="updateLatitude"
+                @updateLongitude="updateLongitude"
                 @updateFurnished="updateFurnished"
                 @updateTotalAccess="updateTotalAccess"
                 @updateAvailability="updateAvailability"
@@ -137,12 +139,14 @@ export default {
       district: null,
       city: null,
       address: '',
+      lat: 0,
+      lng: 0,
       furnished: false,
       totalAccess: false,
       availability: '',
       operation: null,
-      rentPrice: '0',
-      sellPrice: '0',
+      rentPrice: 0,
+      sellPrice: 0,
       rentInc: [],
       allowedGenre: 'undefined',
       allowedMinAge: null,
@@ -158,22 +162,22 @@ export default {
       allowedPets: true,
       divEquipInc: [],
       bedrooms: [],
-      females: '0',
-      males: '0',
-      smokers: '0',
-      pets: '0',
+      females: 0,
+      males: 0,
+      smokers: 0,
+      pets: 0,
       ocupations: null,
       petsType: []
     },
     bedroom: {
       type: null,
-      area: '0',
+      area: 0,
       furnished: false,
       privateBathroom: false,
       availability: '',
-      rentPrice: '0',
+      rentPrice: 0,
       images: [],
-      peopleAmount: '0'
+      peopleAmount: 0
     },
     images: []
   }),
@@ -189,6 +193,7 @@ export default {
       } else {
         // this.form.bedrooms = [this.bedroom]
         // this.$bvModal.show('info')
+        console.log(this.form)
         var payload = this.prepareImagesPayload()
         this.addProperty(payload)
       }
@@ -229,6 +234,12 @@ export default {
     },
     updateAddress (value) {
       this.form.address = value
+    },
+    updateLatitude (value) {
+      this.form.lat = value
+    },
+    updateLongitude (value) {
+      this.form.lng = value
     },
     updateFurnished (value) {
       this.form.furnished = value

@@ -92,7 +92,7 @@
           <b-col v-if="bedroom.type === 'multiple'">
             <b-form-group id="type" label="Nº de pessoas:" label-for="input-11">
               <b-input
-                v-model="bedroom.peopleAmount"
+                v-model.number="bedroom.peopleAmount"
                 type="number"
                 width="auto"
                 @change="updateBedroomPeopleAmount"
@@ -102,7 +102,7 @@
           <b-col>
             <b-form-group id="area" label="Área:" label-for="input-11">
               <b-input
-                v-model="bedroom.area"
+                v-model.number="bedroom.area"
                 type="number"
                 width="auto"
                 @change="updateBedroomArea"
@@ -141,7 +141,7 @@
           <b-col>
             <b-form-group id="rentPrice" label="Mensalidade:" label-for="input-11">
               <b-input
-                v-model="bedroom.rentPrice"
+                v-model.number="bedroom.rentPrice"
                 type="number"
                 @change="updateBedroomRentPrice"
               ></b-input>
