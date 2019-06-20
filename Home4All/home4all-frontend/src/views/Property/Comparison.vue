@@ -42,6 +42,11 @@
           </b-table>
         </b-col>
       </b-row>
+      <b-row>
+        <b-col>
+          <google-map/>
+        </b-col>
+      </b-row>
     </b-container>
   </div>
 </template>

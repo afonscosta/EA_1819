@@ -22,7 +22,7 @@ import java.util.List;
 public class CommentDAO {
 	public static Comment loadCommentByORMID(int ID) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadCommentByORMID(session, ID);
 		}
 		catch (Exception e) {
@@ -33,7 +33,7 @@ public class CommentDAO {
 	
 	public static Comment getCommentByORMID(int ID) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getCommentByORMID(session, ID);
 		}
 		catch (Exception e) {
@@ -44,7 +44,7 @@ public class CommentDAO {
 	
 	public static Comment loadCommentByORMID(int ID, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadCommentByORMID(session, ID, lockMode);
 		}
 		catch (Exception e) {
@@ -55,7 +55,7 @@ public class CommentDAO {
 	
 	public static Comment getCommentByORMID(int ID, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getCommentByORMID(session, ID, lockMode);
 		}
 		catch (Exception e) {
@@ -106,7 +106,7 @@ public class CommentDAO {
 	
 	public static List queryComment(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryComment(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -117,7 +117,7 @@ public class CommentDAO {
 	
 	public static List queryComment(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryComment(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -128,7 +128,7 @@ public class CommentDAO {
 	
 	public static Comment[] listCommentByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listCommentByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -139,7 +139,7 @@ public class CommentDAO {
 	
 	public static Comment[] listCommentByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listCommentByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -205,7 +205,7 @@ public class CommentDAO {
 	
 	public static Comment loadCommentByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadCommentByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -216,7 +216,7 @@ public class CommentDAO {
 	
 	public static Comment loadCommentByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadCommentByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -243,7 +243,7 @@ public class CommentDAO {
 	
 	public static java.util.Iterator iterateCommentByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateCommentByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -254,7 +254,7 @@ public class CommentDAO {
 	
 	public static java.util.Iterator iterateCommentByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateCommentByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -302,7 +302,7 @@ public class CommentDAO {
 	
 	public static boolean save(Comment comment) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().saveObject(comment);
+			Home4AllPersistentManager.instance().saveObject(comment);
 			return true;
 		}
 		catch (Exception e) {
@@ -313,7 +313,7 @@ public class CommentDAO {
 	
 	public static boolean delete(Comment comment) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().deleteObject(comment);
+			Home4AllPersistentManager.instance().deleteObject(comment);
 			return true;
 		}
 		catch (Exception e) {
@@ -324,7 +324,7 @@ public class CommentDAO {
 	
 	public static boolean refresh(Comment comment) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().refresh(comment);
+			Home4AllPersistentManager.instance().getSession().refresh(comment);
 			return true;
 		}
 		catch (Exception e) {
@@ -335,7 +335,7 @@ public class CommentDAO {
 	
 	public static boolean evict(Comment comment) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().evict(comment);
+			Home4AllPersistentManager.instance().getSession().evict(comment);
 			return true;
 		}
 		catch (Exception e) {

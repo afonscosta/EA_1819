@@ -55,42 +55,33 @@
       </b-col>
     </b-row>
 
+    <label class="input-location">
+      Rua:
+      <gmap-autocomplete
+        @place_changed="setPlace">
+      </gmap-autocomplete>
+    </label>
+
     <b-row>
       <b-col>
-        <b-form-group id="input-group-6" label="Distrito:" label-for="input-6">
-          <b-form-select
-            v-model="district"
-            :options="optionsDistrict"
-            @change="updateDistrict"
-          ></b-form-select>
-        </b-form-group>
+        <b-form-checkbox
+          id="checkbox-1"
+          v-model="furnished"
+          name="checkbox-1"
+          @change="updateFurnished"
+          class="pb-2"
+        >Mobilado</b-form-checkbox>
       </b-col>
       <b-col>
-        <b-form-group id="input-group-7" label="Cidade:" label-for="input-7">
-          <b-form-select
-            v-model="city"
-            :options="optionsCity"
-            @change="updateCity"
-          ></b-form-select>
-        </b-form-group>
+        <b-form-checkbox
+          id="totalAccess"
+          v-model="totalAccess"
+          name="totalAccess"
+          @change="updateTotalAccess"
+          class="pb-2"
+        >Acesso total</b-form-checkbox>
       </b-col>
     </b-row>
-
-    <b-form-group id="input-group-8" label="Rua:" label-for="input-8">
-      <b-input
-        v-model="street"
-        placeholder="Rua"
-        @change="updateStreet"
-      ></b-input>
-    </b-form-group>
-
-    <b-form-checkbox
-      id="checkbox-1"
-      v-model="furnished"
-      name="checkbox-1"
-      @change="updateFurnished"
-      class="pb-2"
-    >Mobilado</b-form-checkbox>
 
     <b-row>
       <b-col>
@@ -184,6 +175,10 @@ export default {
       required: false,
       type: Boolean
     },
+    totalAccessData: {
+      required: false,
+      type: Boolean
+    },
     availabilityData: {
       required: false,
       type: String
@@ -202,6 +197,7 @@ export default {
     }
   },
   data: () => ({
+    currentPlace: null,
     description: '',
     type: '',
     typology: null,
@@ -210,6 +206,7 @@ export default {
     city: null,
     street: '',
     furnished: false,
+    totalAccess: false,
     availability: '',
     operation: null,
     rentPrice: '0',
@@ -281,6 +278,9 @@ export default {
     if (this.furnishedData) {
       this.furnished = this.furnishedData
     }
+    if (this.totalAccessData) {
+      this.totalAccess = this.totalAccessData
+    }
     if (this.availabilityData) {
       this.availability = this.availabilityData
     }
@@ -295,6 +295,25 @@ export default {
     }
   },
   methods: {
+    setPlace (place) {
+      this.currentPlace = place
+      console.log('setPlace', this.currentPlace)
+      var addrComponents = place.address_components
+      if (addrComponents) {
+        addrComponents.forEach((comp) => {
+          if (comp.types.includes('locality', 'political')) {
+            console.log('city', comp.long_name)
+            this.$emit('updateCity', comp.long_name)
+          }
+          if (comp.types.includes('administrative_area_level_1', 'political')) {
+            console.log('district', comp.long_name)
+            this.$emit('updateDistrict', comp.long_name)
+          }
+        })
+        console.log('address', place.formatted_address)
+        this.$emit('updateAddress', place.formatted_address)
+      }
+    },
     updateDescription (value) {
       this.$emit('updateDescription', value)
     },
@@ -307,17 +326,11 @@ export default {
     updateArea (value) {
       this.$emit('updateArea', value)
     },
-    updateDistrict (checked) {
-      this.$emit('updateDistrict', checked)
-    },
-    updateCity (checked) {
-      this.$emit('updateCity', checked)
-    },
-    updateStreet (value) {
-      this.$emit('updateStreet', value)
-    },
     updateFurnished (value) {
       this.$emit('updateFurnished', value)
+    },
+    updateTotalAccess (value) {
+      this.$emit('updateTotalAccess', value)
     },
     updateAvailability (value) {
       this.$emit('updateAvailability', value)
@@ -334,3 +347,13 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.input-location input {
+  width: 100% !important;
+}
+.input-location {
+  width: 100% !important;
+  margin-bottom: 1rem;
+}
+</style>

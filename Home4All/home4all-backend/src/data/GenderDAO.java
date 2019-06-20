@@ -22,7 +22,7 @@ import java.util.List;
 public class GenderDAO {
 	public static Gender loadGenderByORMID(String name) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadGenderByORMID(session, name);
 		}
 		catch (Exception e) {
@@ -33,7 +33,7 @@ public class GenderDAO {
 	
 	public static Gender getGenderByORMID(String name) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getGenderByORMID(session, name);
 		}
 		catch (Exception e) {
@@ -44,7 +44,7 @@ public class GenderDAO {
 	
 	public static Gender loadGenderByORMID(String name, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadGenderByORMID(session, name, lockMode);
 		}
 		catch (Exception e) {
@@ -55,7 +55,7 @@ public class GenderDAO {
 	
 	public static Gender getGenderByORMID(String name, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getGenderByORMID(session, name, lockMode);
 		}
 		catch (Exception e) {
@@ -106,7 +106,7 @@ public class GenderDAO {
 	
 	public static List queryGender(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryGender(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -117,7 +117,7 @@ public class GenderDAO {
 	
 	public static List queryGender(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryGender(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -128,7 +128,7 @@ public class GenderDAO {
 	
 	public static Gender[] listGenderByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listGenderByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -139,7 +139,7 @@ public class GenderDAO {
 	
 	public static Gender[] listGenderByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listGenderByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -205,7 +205,7 @@ public class GenderDAO {
 	
 	public static Gender loadGenderByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadGenderByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -216,7 +216,7 @@ public class GenderDAO {
 	
 	public static Gender loadGenderByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadGenderByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -243,7 +243,7 @@ public class GenderDAO {
 	
 	public static java.util.Iterator iterateGenderByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateGenderByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -254,7 +254,7 @@ public class GenderDAO {
 	
 	public static java.util.Iterator iterateGenderByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateGenderByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -302,7 +302,7 @@ public class GenderDAO {
 	
 	public static boolean save(Gender gender) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().saveObject(gender);
+			Home4AllPersistentManager.instance().saveObject(gender);
 			return true;
 		}
 		catch (Exception e) {
@@ -313,7 +313,7 @@ public class GenderDAO {
 	
 	public static boolean delete(Gender gender) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().deleteObject(gender);
+			Home4AllPersistentManager.instance().deleteObject(gender);
 			return true;
 		}
 		catch (Exception e) {
@@ -324,7 +324,7 @@ public class GenderDAO {
 	
 	public static boolean refresh(Gender gender) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().refresh(gender);
+			Home4AllPersistentManager.instance().getSession().refresh(gender);
 			return true;
 		}
 		catch (Exception e) {
@@ -335,7 +335,7 @@ public class GenderDAO {
 	
 	public static boolean evict(Gender gender) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().evict(gender);
+			Home4AllPersistentManager.instance().getSession().evict(gender);
 			return true;
 		}
 		catch (Exception e) {

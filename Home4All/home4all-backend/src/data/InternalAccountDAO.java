@@ -24,7 +24,7 @@ import java.util.List;
 public class InternalAccountDAO {
 	public static InternalAccount loadInternalAccountByORMID(int ID) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadInternalAccountByORMID(session, ID);
 		}
 		catch (Exception e) {
@@ -35,7 +35,7 @@ public class InternalAccountDAO {
 	
 	public static InternalAccount getInternalAccountByORMID(int ID) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getInternalAccountByORMID(session, ID);
 		}
 		catch (Exception e) {
@@ -46,7 +46,7 @@ public class InternalAccountDAO {
 	
 	public static InternalAccount loadInternalAccountByORMID(int ID, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadInternalAccountByORMID(session, ID, lockMode);
 		}
 		catch (Exception e) {
@@ -57,7 +57,7 @@ public class InternalAccountDAO {
 	
 	public static InternalAccount getInternalAccountByORMID(int ID, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getInternalAccountByORMID(session, ID, lockMode);
 		}
 		catch (Exception e) {
@@ -108,7 +108,7 @@ public class InternalAccountDAO {
 	
 	public static List queryInternalAccount(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryInternalAccount(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -119,7 +119,7 @@ public class InternalAccountDAO {
 	
 	public static List queryInternalAccount(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryInternalAccount(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -130,7 +130,7 @@ public class InternalAccountDAO {
 	
 	public static InternalAccount[] listInternalAccountByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listInternalAccountByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -141,7 +141,7 @@ public class InternalAccountDAO {
 	
 	public static InternalAccount[] listInternalAccountByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listInternalAccountByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -207,7 +207,7 @@ public class InternalAccountDAO {
 	
 	public static InternalAccount loadInternalAccountByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadInternalAccountByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -218,7 +218,7 @@ public class InternalAccountDAO {
 	
 	public static InternalAccount loadInternalAccountByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadInternalAccountByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -245,7 +245,7 @@ public class InternalAccountDAO {
 	
 	public static java.util.Iterator iterateInternalAccountByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateInternalAccountByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -256,7 +256,7 @@ public class InternalAccountDAO {
 	
 	public static java.util.Iterator iterateInternalAccountByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateInternalAccountByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -304,7 +304,7 @@ public class InternalAccountDAO {
 	
 	public static boolean save(InternalAccount internalAccount) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().saveObject(internalAccount);
+			Home4AllPersistentManager.instance().saveObject(internalAccount);
 			return true;
 		}
 		catch (Exception e) {
@@ -315,7 +315,7 @@ public class InternalAccountDAO {
 	
 	public static boolean delete(InternalAccount internalAccount) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().deleteObject(internalAccount);
+			Home4AllPersistentManager.instance().deleteObject(internalAccount);
 			return true;
 		}
 		catch (Exception e) {
@@ -367,7 +367,7 @@ public class InternalAccountDAO {
 	
 	public static boolean refresh(InternalAccount internalAccount) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().refresh(internalAccount);
+			Home4AllPersistentManager.instance().getSession().refresh(internalAccount);
 			return true;
 		}
 		catch (Exception e) {
@@ -378,7 +378,7 @@ public class InternalAccountDAO {
 	
 	public static boolean evict(InternalAccount internalAccount) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().evict(internalAccount);
+			Home4AllPersistentManager.instance().getSession().evict(internalAccount);
 			return true;
 		}
 		catch (Exception e) {

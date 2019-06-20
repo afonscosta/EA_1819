@@ -20,7 +20,7 @@ License Type: Academic
 		<property name="rentPrice" column="RentPrice" type="float" not-null="false" lazy="false"/>
 		<property name="sold" column="Sold" type="boolean" not-null="false" lazy="false"/>
 		<set name="ORM_Photos" lazy="true" cascade="save-update,lock" inverse="false">
-			<key column="BedroomID" not-null="true"/>
+			<key column="BedroomID" not-null="false"/>
 			<one-to-many class="business.entities.Photo"/>
 		</set>
 	</class>

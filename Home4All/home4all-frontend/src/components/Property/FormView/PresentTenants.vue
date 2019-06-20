@@ -55,17 +55,30 @@
           @change="updateSharedOcupation"
         ></b-form-checkbox-group>
       </b-form-group>
+      <Pets :petsType="petsType"
+        @addPetType="addPetType"
+        @deletePetType="deletePetType"
+      />
     </b-form-group>
   </b-card>
 </template>
 
 <script>
+import Pets from '@/components/Pets'
+
 export default {
   name: 'PresentTenants',
+  components: {
+    Pets
+  },
   props: {
     type: {
       required: true,
       type: String
+    },
+    petsType: {
+      required: true,
+      type: Array
     }
   },
   data: () => ({
@@ -100,6 +113,12 @@ export default {
     },
     updateSharedOcupation (checked) {
       this.$emit('updateSharedOcupation', checked)
+    },
+    addPetType (pet) {
+      this.$emit('addPetType', pet)
+    },
+    deletePetType (idx) {
+      this.$emit('deletePetType', idx)
     }
   }
 }

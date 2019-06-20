@@ -22,7 +22,7 @@ import java.util.List;
 public class EquipmentDAO {
 	public static Equipment loadEquipmentByORMID(String name) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadEquipmentByORMID(session, name);
 		}
 		catch (Exception e) {
@@ -33,7 +33,7 @@ public class EquipmentDAO {
 	
 	public static Equipment getEquipmentByORMID(String name) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getEquipmentByORMID(session, name);
 		}
 		catch (Exception e) {
@@ -44,7 +44,7 @@ public class EquipmentDAO {
 	
 	public static Equipment loadEquipmentByORMID(String name, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadEquipmentByORMID(session, name, lockMode);
 		}
 		catch (Exception e) {
@@ -55,7 +55,7 @@ public class EquipmentDAO {
 	
 	public static Equipment getEquipmentByORMID(String name, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getEquipmentByORMID(session, name, lockMode);
 		}
 		catch (Exception e) {
@@ -106,7 +106,7 @@ public class EquipmentDAO {
 	
 	public static List queryEquipment(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryEquipment(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -117,7 +117,7 @@ public class EquipmentDAO {
 	
 	public static List queryEquipment(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryEquipment(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -128,7 +128,7 @@ public class EquipmentDAO {
 	
 	public static Equipment[] listEquipmentByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listEquipmentByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -139,7 +139,7 @@ public class EquipmentDAO {
 	
 	public static Equipment[] listEquipmentByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listEquipmentByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -205,7 +205,7 @@ public class EquipmentDAO {
 	
 	public static Equipment loadEquipmentByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadEquipmentByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -216,7 +216,7 @@ public class EquipmentDAO {
 	
 	public static Equipment loadEquipmentByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadEquipmentByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -243,7 +243,7 @@ public class EquipmentDAO {
 	
 	public static java.util.Iterator iterateEquipmentByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateEquipmentByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -254,7 +254,7 @@ public class EquipmentDAO {
 	
 	public static java.util.Iterator iterateEquipmentByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateEquipmentByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -302,7 +302,7 @@ public class EquipmentDAO {
 	
 	public static boolean save(Equipment equipment) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().saveObject(equipment);
+			Home4AllPersistentManager.instance().saveObject(equipment);
 			return true;
 		}
 		catch (Exception e) {
@@ -313,7 +313,7 @@ public class EquipmentDAO {
 	
 	public static boolean delete(Equipment equipment) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().deleteObject(equipment);
+			Home4AllPersistentManager.instance().deleteObject(equipment);
 			return true;
 		}
 		catch (Exception e) {
@@ -324,7 +324,7 @@ public class EquipmentDAO {
 	
 	public static boolean refresh(Equipment equipment) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().refresh(equipment);
+			Home4AllPersistentManager.instance().getSession().refresh(equipment);
 			return true;
 		}
 		catch (Exception e) {
@@ -335,7 +335,7 @@ public class EquipmentDAO {
 	
 	public static boolean evict(Equipment equipment) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().evict(equipment);
+			Home4AllPersistentManager.instance().getSession().evict(equipment);
 			return true;
 		}
 		catch (Exception e) {

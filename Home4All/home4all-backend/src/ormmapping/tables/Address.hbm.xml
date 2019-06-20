@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: Mafalda Nunes(Universidade do Minho)
+License Type: Academic
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="business.entities.Address" table="Address" lazy="false">
+		<id name="ID" column="ID" type="integer" unsaved-value="0">
+			<generator class="native">
+			</generator>
+		</id>
+		<property name="district" column="District" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="city" column="City" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="completeAddress" column="CompleteAddress" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="coordLat" column="CoordLat" type="float" not-null="true" lazy="false"/>
+		<property name="coordLng" column="CoordLng" type="float" not-null="true" lazy="false"/>
+	</class>
+</hibernate-mapping>

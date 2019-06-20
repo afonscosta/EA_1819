@@ -15,7 +15,7 @@
               :area="property.area"
               :district="property.district"
               :city="property.city"
-              :street="property.street"
+              :address="property.address"
               :furnished="property.furnished"
               :availability="property.availability"
               :operation="property.operation"

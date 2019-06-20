@@ -22,7 +22,7 @@ import java.util.List;
 public class SharedDAO {
 	public static Shared loadSharedByORMID(int ID) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadSharedByORMID(session, ID);
 		}
 		catch (Exception e) {
@@ -33,7 +33,7 @@ public class SharedDAO {
 	
 	public static Shared getSharedByORMID(int ID) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getSharedByORMID(session, ID);
 		}
 		catch (Exception e) {
@@ -44,7 +44,7 @@ public class SharedDAO {
 	
 	public static Shared loadSharedByORMID(int ID, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadSharedByORMID(session, ID, lockMode);
 		}
 		catch (Exception e) {
@@ -55,7 +55,7 @@ public class SharedDAO {
 	
 	public static Shared getSharedByORMID(int ID, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getSharedByORMID(session, ID, lockMode);
 		}
 		catch (Exception e) {
@@ -106,7 +106,7 @@ public class SharedDAO {
 	
 	public static List queryShared(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryShared(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -117,7 +117,7 @@ public class SharedDAO {
 	
 	public static List queryShared(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryShared(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -128,7 +128,7 @@ public class SharedDAO {
 	
 	public static Shared[] listSharedByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listSharedByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -139,7 +139,7 @@ public class SharedDAO {
 	
 	public static Shared[] listSharedByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listSharedByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -205,7 +205,7 @@ public class SharedDAO {
 	
 	public static Shared loadSharedByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadSharedByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -216,7 +216,7 @@ public class SharedDAO {
 	
 	public static Shared loadSharedByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadSharedByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -243,7 +243,7 @@ public class SharedDAO {
 	
 	public static java.util.Iterator iterateSharedByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateSharedByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -254,7 +254,7 @@ public class SharedDAO {
 	
 	public static java.util.Iterator iterateSharedByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateSharedByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -302,7 +302,7 @@ public class SharedDAO {
 	
 	public static boolean save(Shared shared) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().saveObject(shared);
+			Home4AllPersistentManager.instance().saveObject(shared);
 			return true;
 		}
 		catch (Exception e) {
@@ -313,7 +313,7 @@ public class SharedDAO {
 	
 	public static boolean delete(Shared shared) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().deleteObject(shared);
+			Home4AllPersistentManager.instance().deleteObject(shared);
 			return true;
 		}
 		catch (Exception e) {
@@ -357,7 +357,7 @@ public class SharedDAO {
 	
 	public static boolean refresh(Shared shared) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().refresh(shared);
+			Home4AllPersistentManager.instance().getSession().refresh(shared);
 			return true;
 		}
 		catch (Exception e) {
@@ -368,7 +368,7 @@ public class SharedDAO {
 	
 	public static boolean evict(Shared shared) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().evict(shared);
+			Home4AllPersistentManager.instance().getSession().evict(shared);
 			return true;
 		}
 		catch (Exception e) {

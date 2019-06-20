@@ -27,15 +27,28 @@
       </b-col>
     </b-row>
 
-    <p>Rua: {{ street }}</p>
+    <p>Endereço completo: {{ address }}</p>
 
-    <b-form-checkbox
-      id="checkbox-1"
-      v-model="furnished"
-      name="checkbox-1"
-      class="pb-2"
-      disable
-    >Mobilado</b-form-checkbox>
+    <b-row>
+      <b-col>
+        <b-form-checkbox
+          id="checkbox-1"
+          v-model="furnished"
+          name="checkbox-1"
+          class="pb-2"
+          disable
+        >Mobilado</b-form-checkbox>
+      </b-col>
+      <b-col>
+        <b-form-checkbox
+          id="checkbox-totalAccess"
+          v-model="totalAccess"
+          name="checkbox-totalAccess"
+          class="pb-2"
+          disable
+        >Acesso total</b-form-checkbox>
+      </b-col>
+    </b-row>
 
     <b-row>
       <b-col>
@@ -85,11 +98,15 @@ export default {
       required: true,
       type: String
     },
-    street: {
+    address: {
       required: true,
       type: String
     },
     furnished: {
+      required: true,
+      type: Boolean
+    },
+    totalAccess: {
       required: true,
       type: Boolean
     },

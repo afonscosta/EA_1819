@@ -13,6 +13,7 @@
  */
 package business.entities;
 
+import data.Home4AllPersistentManager;
 import org.orm.*;
 
 public class PropertySetCollection extends org.orm.util.ORMSet {
@@ -74,9 +75,6 @@ public class PropertySetCollection extends org.orm.util.ORMSet {
 	 * <li>name</li>
 	 * <li>description</li>
 	 * <li>area</li>
-	 * <li>district</li>
-	 * <li>city</li>
-	 * <li>street</li>
 	 * <li>allowedMinAge</li>
 	 * <li>allowedMaxAge</li>
 	 * <li>allowedSmoker</li>
@@ -96,9 +94,6 @@ public class PropertySetCollection extends org.orm.util.ORMSet {
 	 * <li>name</li>
 	 * <li>description</li>
 	 * <li>area</li>
-	 * <li>district</li>
-	 * <li>city</li>
-	 * <li>street</li>
 	 * <li>allowedMinAge</li>
 	 * <li>allowedMaxAge</li>
 	 * <li>allowedSmoker</li>
@@ -113,7 +108,7 @@ public class PropertySetCollection extends org.orm.util.ORMSet {
 	}
 	
 	protected PersistentManager getPersistentManager() throws PersistentException {
-		return data.Home4AllPersistentManager.instance();
+		return Home4AllPersistentManager.instance();
 	}
 	
 }
