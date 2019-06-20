@@ -6,8 +6,6 @@ export default {
     return home4all.post(`login`, {
       email: payload.email,
       password: payload.password
-    }, {
-      Cookie: `JSESSIONID=${store.state.SESSIONID}`
     }).then(response => response.data)
   }
 }

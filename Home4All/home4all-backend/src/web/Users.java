@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -25,19 +26,20 @@ public class Users extends HttpServlet {
         LOGGER.info("POST USERS");
         try {
             HttpSession session = request.getSession(false);
-            String id = session.getId();
+            business.entities.Users user = (business.entities.Users) session.getAttribute("currentSessionUser");
+            System.out.println("USER AUTHENTICATED:" + user.getEmail());
+            System.out.println("SESSION ID: " + session.getId());
             BufferedReader reader = request.getReader();
             LOGGER.info("Vou fazer a tradução");
-            InternalAccount u = gson.fromJson(reader, InternalAccount.class);
+            //InternalAccount u = gson.fromJson(reader, InternalAccount.class);
             LOGGER.info("Fiz a tradução");
-            Common user = Home4All.insertCommonUser(u.getEmail(), u.getName(), u.getPassword(), u.getAge(), u.getPhone(),
-                                                    null, null);
-            String userJsonString = JsonParser.userToJson(user);
+            //Common user = Home4All.insertCommonUser(u.getEmail(), u.getName(), u.getPassword(), u.getAge(), u.getPhone(),
+            //                                        null, null);
+            //String userJsonString = JsonParser.userToJson(user);
             response.setContentType("application/json"); // multipart/form-data
             response.setCharacterEncoding("UTF-8");
             PrintWriter out = response.getWriter();
-            out.print(id);
-            out.print(userJsonString);
+            //out.print(userJsonString);
             out.flush();
         }
         catch (Exception e) {

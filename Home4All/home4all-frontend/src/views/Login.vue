@@ -21,9 +21,9 @@
       <input class="password-input" type="password" name="password" v-model="input.password" placeholder="Palavra-passe">
     </div>
     <div class="centered">
-      <button class="button" type="button" v-on:click="login()"> Entrar </button>
+      <button class="button" type="button" v-on:click="loginButton()"> Entrar </button>
 
-      <button class="button" type="button" v-on:click="teste()"> teste </button>
+      <button class="button" type="button" v-on:click="testeButton()"> teste </button>
     </div>
   </div>
 </template>
@@ -44,7 +44,7 @@ export default {
   methods: {
     ...mapActions('login', ['login']),
     ...mapActions('users', ['teste']),
-    login () {
+    loginButton () {
       if (this.input.email !== '' && this.input.password !== '') {
         this.login({
           email: this.input.email,
@@ -52,7 +52,7 @@ export default {
         })
       }
     },
-    teste () {
+    testeButton () {
       this.teste()
     }
   }
