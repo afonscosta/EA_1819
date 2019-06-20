@@ -1,4 +1,5 @@
 import home4all from '@/services/home4all'
+import store from '../store/modules/login'
 
 export default {
   fetchUsers () {
@@ -9,5 +10,10 @@ export default {
   },
   deleteUser (userId) {
     return home4all.delete(`users/${userId}`).then(response => response.data)
+  },
+  teste () {
+    return home4all.get(`users`, {
+      Cookie: `JSESSIONID=123`
+    }).then(response => response.data)
   }
 }

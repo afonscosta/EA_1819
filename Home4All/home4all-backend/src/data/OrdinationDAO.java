@@ -22,7 +22,7 @@ import java.util.List;
 public class OrdinationDAO {
 	public static Ordination loadOrdinationByORMID(String name) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadOrdinationByORMID(session, name);
 		}
 		catch (Exception e) {
@@ -33,7 +33,7 @@ public class OrdinationDAO {
 	
 	public static Ordination getOrdinationByORMID(String name) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getOrdinationByORMID(session, name);
 		}
 		catch (Exception e) {
@@ -44,7 +44,7 @@ public class OrdinationDAO {
 	
 	public static Ordination loadOrdinationByORMID(String name, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadOrdinationByORMID(session, name, lockMode);
 		}
 		catch (Exception e) {
@@ -55,7 +55,7 @@ public class OrdinationDAO {
 	
 	public static Ordination getOrdinationByORMID(String name, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getOrdinationByORMID(session, name, lockMode);
 		}
 		catch (Exception e) {
@@ -106,7 +106,7 @@ public class OrdinationDAO {
 	
 	public static List queryOrdination(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryOrdination(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -117,7 +117,7 @@ public class OrdinationDAO {
 	
 	public static List queryOrdination(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryOrdination(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -128,7 +128,7 @@ public class OrdinationDAO {
 	
 	public static Ordination[] listOrdinationByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listOrdinationByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -139,7 +139,7 @@ public class OrdinationDAO {
 	
 	public static Ordination[] listOrdinationByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listOrdinationByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -205,7 +205,7 @@ public class OrdinationDAO {
 	
 	public static Ordination loadOrdinationByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadOrdinationByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -216,7 +216,7 @@ public class OrdinationDAO {
 	
 	public static Ordination loadOrdinationByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadOrdinationByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -243,7 +243,7 @@ public class OrdinationDAO {
 	
 	public static java.util.Iterator iterateOrdinationByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateOrdinationByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -254,7 +254,7 @@ public class OrdinationDAO {
 	
 	public static java.util.Iterator iterateOrdinationByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateOrdinationByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -302,7 +302,7 @@ public class OrdinationDAO {
 	
 	public static boolean save(Ordination ordination) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().saveObject(ordination);
+			Home4AllPersistentManager.instance().saveObject(ordination);
 			return true;
 		}
 		catch (Exception e) {
@@ -313,7 +313,7 @@ public class OrdinationDAO {
 	
 	public static boolean delete(Ordination ordination) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().deleteObject(ordination);
+			Home4AllPersistentManager.instance().deleteObject(ordination);
 			return true;
 		}
 		catch (Exception e) {
@@ -324,7 +324,7 @@ public class OrdinationDAO {
 	
 	public static boolean refresh(Ordination ordination) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().refresh(ordination);
+			Home4AllPersistentManager.instance().getSession().refresh(ordination);
 			return true;
 		}
 		catch (Exception e) {
@@ -335,7 +335,7 @@ public class OrdinationDAO {
 	
 	public static boolean evict(Ordination ordination) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().evict(ordination);
+			Home4AllPersistentManager.instance().getSession().evict(ordination);
 			return true;
 		}
 		catch (Exception e) {

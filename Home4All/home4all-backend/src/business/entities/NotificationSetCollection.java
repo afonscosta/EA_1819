@@ -13,6 +13,7 @@
  */
 package business.entities;
 
+import data.Home4AllPersistentManager;
 import org.orm.*;
 
 public class NotificationSetCollection extends org.orm.util.ORMSet {
@@ -74,7 +75,7 @@ public class NotificationSetCollection extends org.orm.util.ORMSet {
 	 * <li>name</li>
 	 * <li>district</li>
 	 * <li>city</li>
-	 * <li>street</li>
+	 * <li>completeAddress</li>
 	 * <li>minSellPrice</li>
 	 * <li>maxSellPrice</li>
 	 * <li>minRentPrice</li>
@@ -101,7 +102,7 @@ public class NotificationSetCollection extends org.orm.util.ORMSet {
 	 * <li>name</li>
 	 * <li>district</li>
 	 * <li>city</li>
-	 * <li>street</li>
+	 * <li>completeAddress</li>
 	 * <li>minSellPrice</li>
 	 * <li>maxSellPrice</li>
 	 * <li>minRentPrice</li>
@@ -123,7 +124,7 @@ public class NotificationSetCollection extends org.orm.util.ORMSet {
 	}
 	
 	protected PersistentManager getPersistentManager() throws PersistentException {
-		return data.Home4AllPersistentManager.instance();
+		return Home4AllPersistentManager.instance();
 	}
 	
 }

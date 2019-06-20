@@ -13,12 +13,14 @@
  */
 package business.entities;
 
+import data.ORMConstants;
+
 public class Chat {
 	public Chat() {
 	}
 	
 	private void this_setOwner(Object owner, int key) {
-		if (key == data.ORMConstants.KEY_CHAT_COMMON) {
+		if (key == ORMConstants.KEY_CHAT_COMMON) {
 			this.common = (Common) owner;
 		}
 	}

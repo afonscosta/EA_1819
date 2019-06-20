@@ -15,7 +15,7 @@ License Type: Academic
 		<property name="name" column="Name" type="string" length="255" not-null="true" lazy="false"/>
 		<property name="district" column="District" type="string" length="255" not-null="false" lazy="false"/>
 		<property name="city" column="City" type="string" length="255" not-null="false" lazy="false"/>
-		<property name="street" column="Street" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="completeAddress" column="CompleteAddress" type="string" length="255" not-null="false" lazy="false"/>
 		<property name="minSellPrice" column="MinSellPrice" type="float" not-null="false" lazy="false"/>
 		<property name="maxSellPrice" column="MaxSellPrice" type="float" not-null="false" lazy="false"/>
 		<property name="minRentPrice" column="MinRentPrice" type="float" not-null="false" lazy="false"/>

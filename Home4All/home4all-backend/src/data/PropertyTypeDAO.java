@@ -22,7 +22,7 @@ import java.util.List;
 public class PropertyTypeDAO {
 	public static PropertyType loadPropertyTypeByORMID(String name) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadPropertyTypeByORMID(session, name);
 		}
 		catch (Exception e) {
@@ -33,7 +33,7 @@ public class PropertyTypeDAO {
 	
 	public static PropertyType getPropertyTypeByORMID(String name) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getPropertyTypeByORMID(session, name);
 		}
 		catch (Exception e) {
@@ -44,7 +44,7 @@ public class PropertyTypeDAO {
 	
 	public static PropertyType loadPropertyTypeByORMID(String name, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadPropertyTypeByORMID(session, name, lockMode);
 		}
 		catch (Exception e) {
@@ -55,7 +55,7 @@ public class PropertyTypeDAO {
 	
 	public static PropertyType getPropertyTypeByORMID(String name, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getPropertyTypeByORMID(session, name, lockMode);
 		}
 		catch (Exception e) {
@@ -106,7 +106,7 @@ public class PropertyTypeDAO {
 	
 	public static List queryPropertyType(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryPropertyType(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -117,7 +117,7 @@ public class PropertyTypeDAO {
 	
 	public static List queryPropertyType(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryPropertyType(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -128,7 +128,7 @@ public class PropertyTypeDAO {
 	
 	public static PropertyType[] listPropertyTypeByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listPropertyTypeByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -139,7 +139,7 @@ public class PropertyTypeDAO {
 	
 	public static PropertyType[] listPropertyTypeByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listPropertyTypeByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -205,7 +205,7 @@ public class PropertyTypeDAO {
 	
 	public static PropertyType loadPropertyTypeByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadPropertyTypeByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -216,7 +216,7 @@ public class PropertyTypeDAO {
 	
 	public static PropertyType loadPropertyTypeByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadPropertyTypeByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -243,7 +243,7 @@ public class PropertyTypeDAO {
 	
 	public static java.util.Iterator iteratePropertyTypeByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iteratePropertyTypeByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -254,7 +254,7 @@ public class PropertyTypeDAO {
 	
 	public static java.util.Iterator iteratePropertyTypeByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iteratePropertyTypeByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -302,7 +302,7 @@ public class PropertyTypeDAO {
 	
 	public static boolean save(PropertyType propertyType) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().saveObject(propertyType);
+			Home4AllPersistentManager.instance().saveObject(propertyType);
 			return true;
 		}
 		catch (Exception e) {
@@ -313,7 +313,7 @@ public class PropertyTypeDAO {
 	
 	public static boolean delete(PropertyType propertyType) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().deleteObject(propertyType);
+			Home4AllPersistentManager.instance().deleteObject(propertyType);
 			return true;
 		}
 		catch (Exception e) {
@@ -324,7 +324,7 @@ public class PropertyTypeDAO {
 	
 	public static boolean refresh(PropertyType propertyType) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().refresh(propertyType);
+			Home4AllPersistentManager.instance().getSession().refresh(propertyType);
 			return true;
 		}
 		catch (Exception e) {
@@ -335,7 +335,7 @@ public class PropertyTypeDAO {
 	
 	public static boolean evict(PropertyType propertyType) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().evict(propertyType);
+			Home4AllPersistentManager.instance().getSession().evict(propertyType);
 			return true;
 		}
 		catch (Exception e) {

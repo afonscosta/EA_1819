@@ -11,6 +11,8 @@ License Type: Academic
 			</generator>
 		</id>
 		<discriminator column="Discriminator" type="string"/>
+		<many-to-one name="address" column="AddressID" class="business.entities.Address" cascade="save-update,lock" unique="true" not-null="true" lazy="proxy" access="field">
+		</many-to-one>
 		<many-to-one name="allowedGenders" cascade="lock" column="GenderName" class="business.entities.Gender" not-null="true" lazy="proxy" access="field">
 		</many-to-one>
 		<many-to-one name="typology" cascade="lock" column="TypologyName" class="business.entities.Typology" not-null="true" lazy="proxy" access="field">
@@ -20,9 +22,6 @@ License Type: Academic
 		<property name="name" column="Name" type="string" length="255" not-null="true" lazy="false"/>
 		<property name="description" column="Description" type="string" length="255" not-null="false" lazy="false"/>
 		<property name="area" column="Area" type="float" not-null="false" lazy="false"/>
-		<property name="district" column="District" type="string" length="255" not-null="false" lazy="false"/>
-		<property name="city" column="City" type="string" length="255" not-null="false" lazy="false"/>
-		<property name="street" column="Street" type="string" length="255" not-null="false" lazy="false"/>
 		<property name="allowedMinAge" column="AllowedMinAge" type="integer" length="10" not-null="false" lazy="false"/>
 		<property name="allowedMaxAge" column="AllowedMaxAge" type="integer" length="10" not-null="false" lazy="false"/>
 		<property name="allowedSmoker" column="AllowedSmoker" type="boolean" not-null="false" lazy="false"/>
@@ -33,7 +32,7 @@ License Type: Academic
 			<one-to-many class="business.entities.Comment"/>
 		</set>
 		<set name="ORM_Photos" lazy="true" cascade="save-update,lock" inverse="false">
-			<key column="PropertyID" not-null="true"/>
+			<key column="PropertyID" not-null="false"/>
 			<one-to-many class="business.entities.Photo"/>
 		</set>
 		<set name="ORM_ExpensesIncluded" table="Property_Expenses" lazy="true" cascade="save-update,lock">

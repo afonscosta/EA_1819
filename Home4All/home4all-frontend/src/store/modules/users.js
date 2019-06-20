@@ -47,6 +47,9 @@ const actions = {
   deleteUser ({ commit }, userID) {
     usersService.deleteUser(userID)
     commit('deleteUser', userID)
+  },
+  teste ({ commit }) {
+    usersService.teste()
   }
 }
 

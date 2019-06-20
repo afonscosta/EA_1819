@@ -13,12 +13,14 @@
  */
 package business.entities;
 
+import data.ORMConstants;
+
 public class Bedroom {
 	public Bedroom() {
 	}
 	
 	private java.util.Set this_getSet (int key) {
-		if (key == data.ORMConstants.KEY_BEDROOM_PHOTOS) {
+		if (key == ORMConstants.KEY_BEDROOM_PHOTOS) {
 			return ORM_photos;
 		}
 		
@@ -26,7 +28,7 @@ public class Bedroom {
 	}
 	
 	private void this_setOwner(Object owner, int key) {
-		if (key == data.ORMConstants.KEY_BEDROOM_TYPE) {
+		if (key == ORMConstants.KEY_BEDROOM_TYPE) {
 			this.type = (BedroomType) owner;
 		}
 	}
@@ -138,7 +140,7 @@ public class Bedroom {
 		return ORM_photos;
 	}
 	
-	public final PhotoSetCollection photos = new PhotoSetCollection(this, _ormAdapter, data.ORMConstants.KEY_BEDROOM_PHOTOS, data.ORMConstants.KEY_MUL_ONE_TO_MANY);
+	public final PhotoSetCollection photos = new PhotoSetCollection(this, _ormAdapter, ORMConstants.KEY_BEDROOM_PHOTOS, ORMConstants.KEY_MUL_ONE_TO_MANY);
 	
 	public void setType(BedroomType value) {
 		this.type = value;

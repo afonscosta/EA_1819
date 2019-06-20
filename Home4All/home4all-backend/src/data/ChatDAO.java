@@ -22,7 +22,7 @@ import java.util.List;
 public class ChatDAO {
 	public static Chat loadChatByORMID(int ID) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadChatByORMID(session, ID);
 		}
 		catch (Exception e) {
@@ -33,7 +33,7 @@ public class ChatDAO {
 	
 	public static Chat getChatByORMID(int ID) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getChatByORMID(session, ID);
 		}
 		catch (Exception e) {
@@ -44,7 +44,7 @@ public class ChatDAO {
 	
 	public static Chat loadChatByORMID(int ID, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadChatByORMID(session, ID, lockMode);
 		}
 		catch (Exception e) {
@@ -55,7 +55,7 @@ public class ChatDAO {
 	
 	public static Chat getChatByORMID(int ID, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getChatByORMID(session, ID, lockMode);
 		}
 		catch (Exception e) {
@@ -106,7 +106,7 @@ public class ChatDAO {
 	
 	public static List queryChat(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryChat(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -117,7 +117,7 @@ public class ChatDAO {
 	
 	public static List queryChat(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryChat(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -128,7 +128,7 @@ public class ChatDAO {
 	
 	public static Chat[] listChatByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listChatByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -139,7 +139,7 @@ public class ChatDAO {
 	
 	public static Chat[] listChatByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listChatByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -205,7 +205,7 @@ public class ChatDAO {
 	
 	public static Chat loadChatByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadChatByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -216,7 +216,7 @@ public class ChatDAO {
 	
 	public static Chat loadChatByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadChatByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -243,7 +243,7 @@ public class ChatDAO {
 	
 	public static java.util.Iterator iterateChatByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateChatByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -254,7 +254,7 @@ public class ChatDAO {
 	
 	public static java.util.Iterator iterateChatByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateChatByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -302,7 +302,7 @@ public class ChatDAO {
 	
 	public static boolean save(Chat chat) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().saveObject(chat);
+			Home4AllPersistentManager.instance().saveObject(chat);
 			return true;
 		}
 		catch (Exception e) {
@@ -313,7 +313,7 @@ public class ChatDAO {
 	
 	public static boolean delete(Chat chat) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().deleteObject(chat);
+			Home4AllPersistentManager.instance().deleteObject(chat);
 			return true;
 		}
 		catch (Exception e) {
@@ -357,7 +357,7 @@ public class ChatDAO {
 	
 	public static boolean refresh(Chat chat) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().refresh(chat);
+			Home4AllPersistentManager.instance().getSession().refresh(chat);
 			return true;
 		}
 		catch (Exception e) {
@@ -368,7 +368,7 @@ public class ChatDAO {
 	
 	public static boolean evict(Chat chat) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().evict(chat);
+			Home4AllPersistentManager.instance().getSession().evict(chat);
 			return true;
 		}
 		catch (Exception e) {

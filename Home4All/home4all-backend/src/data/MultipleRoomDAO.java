@@ -22,7 +22,7 @@ import java.util.List;
 public class MultipleRoomDAO {
 	public static MultipleRoom loadMultipleRoomByORMID(int ID) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadMultipleRoomByORMID(session, ID);
 		}
 		catch (Exception e) {
@@ -33,7 +33,7 @@ public class MultipleRoomDAO {
 	
 	public static MultipleRoom getMultipleRoomByORMID(int ID) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getMultipleRoomByORMID(session, ID);
 		}
 		catch (Exception e) {
@@ -44,7 +44,7 @@ public class MultipleRoomDAO {
 	
 	public static MultipleRoom loadMultipleRoomByORMID(int ID, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadMultipleRoomByORMID(session, ID, lockMode);
 		}
 		catch (Exception e) {
@@ -55,7 +55,7 @@ public class MultipleRoomDAO {
 	
 	public static MultipleRoom getMultipleRoomByORMID(int ID, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getMultipleRoomByORMID(session, ID, lockMode);
 		}
 		catch (Exception e) {
@@ -106,7 +106,7 @@ public class MultipleRoomDAO {
 	
 	public static List queryMultipleRoom(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryMultipleRoom(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -117,7 +117,7 @@ public class MultipleRoomDAO {
 	
 	public static List queryMultipleRoom(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryMultipleRoom(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -128,7 +128,7 @@ public class MultipleRoomDAO {
 	
 	public static MultipleRoom[] listMultipleRoomByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listMultipleRoomByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -139,7 +139,7 @@ public class MultipleRoomDAO {
 	
 	public static MultipleRoom[] listMultipleRoomByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listMultipleRoomByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -205,7 +205,7 @@ public class MultipleRoomDAO {
 	
 	public static MultipleRoom loadMultipleRoomByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadMultipleRoomByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -216,7 +216,7 @@ public class MultipleRoomDAO {
 	
 	public static MultipleRoom loadMultipleRoomByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadMultipleRoomByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -243,7 +243,7 @@ public class MultipleRoomDAO {
 	
 	public static java.util.Iterator iterateMultipleRoomByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateMultipleRoomByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -254,7 +254,7 @@ public class MultipleRoomDAO {
 	
 	public static java.util.Iterator iterateMultipleRoomByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateMultipleRoomByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -302,7 +302,7 @@ public class MultipleRoomDAO {
 	
 	public static boolean save(MultipleRoom multipleRoom) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().saveObject(multipleRoom);
+			Home4AllPersistentManager.instance().saveObject(multipleRoom);
 			return true;
 		}
 		catch (Exception e) {
@@ -313,7 +313,7 @@ public class MultipleRoomDAO {
 	
 	public static boolean delete(MultipleRoom multipleRoom) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().deleteObject(multipleRoom);
+			Home4AllPersistentManager.instance().deleteObject(multipleRoom);
 			return true;
 		}
 		catch (Exception e) {
@@ -324,7 +324,7 @@ public class MultipleRoomDAO {
 	
 	public static boolean refresh(MultipleRoom multipleRoom) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().refresh(multipleRoom);
+			Home4AllPersistentManager.instance().getSession().refresh(multipleRoom);
 			return true;
 		}
 		catch (Exception e) {
@@ -335,7 +335,7 @@ public class MultipleRoomDAO {
 	
 	public static boolean evict(MultipleRoom multipleRoom) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().evict(multipleRoom);
+			Home4AllPersistentManager.instance().getSession().evict(multipleRoom);
 			return true;
 		}
 		catch (Exception e) {

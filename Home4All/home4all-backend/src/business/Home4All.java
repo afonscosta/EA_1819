@@ -2,9 +2,7 @@ package business;
 
 import business.beans.PropertyBeanLocal;
 import business.beans.UsersBeanLocal;
-import business.entities.Common;
-import business.entities.Property;
-import business.entities.Users;
+import business.entities.*;
 import business.exceptions.*;
 import org.orm.PersistentException;
 
@@ -46,15 +44,16 @@ public class Home4All {
         return usersBean.listUsers();
     }
 
-    public static Common insertCommonUser(String email, String name, String password, int age, String phone) throws PersistentException {
-        return usersBean.insertCommonUser(email, name, password, age, phone);
+    public static Common insertCommonUser(String email, String name, String password, int age, String phone,
+                                          Gender gender, Occupation occupation) throws PersistentException {
+        return usersBean.insertCommonUser(email, name, password, age, phone, gender, occupation);
     }
 
     public static Property registerSharedProperty(
-                String name, List<String> photos, String description, String type, String typology,
-                float area, String district, String city, String street,
+                String name, List<String> photos, String description, String typology,
+                float area, String district, String city, String street, float lat, float lng,
                 List<String> expensesIncluded, List<String> equipmentIncluded,
-                int allowedMinAge, int allowedMaxAge, boolean allowedSmokers, boolean allowedPets,
+                Integer allowedMinAge, Integer allowedMaxAge, boolean allowedSmokers, boolean allowedPets,
                 List<String> allowedOccupations, String allowedGenders, int females, int males,
                 int smokers, int petsQuantity, List<String> pets, List<String> occupations,
                 boolean totalAccess, List<Map<String, Object>> bedrooms, int ownerId)
@@ -63,29 +62,33 @@ public class Home4All {
             BedroomTypeNotExistentException {
 
         return propertyBean.registerSharedProperty(
-                name, photos, description, type, typology, area, district, city, street, expensesIncluded,
+                name, photos, description, typology, area, district, city, street, lat, lng, expensesIncluded,
                 equipmentIncluded, allowedMinAge, allowedMaxAge, allowedSmokers, allowedPets, allowedOccupations,
                 allowedGenders, females, males, smokers, petsQuantity, pets, occupations, totalAccess, bedrooms, ownerId);
     }
 
     public static Property registerPrivateProperty(
                 String name, List<String> photos, String description, String type, String typology,
-                float area, String district, String city, String street,
-                boolean furnished, Date availability, boolean rent, boolean sell, float rentPrice, float sellPrice,
+                float area, String district, String city, String street, float lat, float lng,
+                boolean furnished, Date availability, boolean rent, boolean sell, Float rentPrice, Float sellPrice,
                 List<String> expensesIncluded, List<String> equipmentIncluded,
-                int allowedMinAge, int allowedMaxAge, boolean allowedSmokers, boolean allowedPets,
+                Integer allowedMinAge, Integer allowedMaxAge, boolean allowedSmokers, boolean allowedPets,
                 List<String> allowedOccupations, String allowedGenders, int ownerId)
             throws PersistentException, TypologyNotExistentException, ExpenseNotExistentException,
             EquipmentNotExistentException, OccupationNotExistentException, GenderNotExistentException {
 
         return propertyBean.registerPrivateProperty(
-                name, photos, description, type, typology, area, district, city, street, furnished,availability,
-                rent, sell, rentPrice, sellPrice, expensesIncluded, equipmentIncluded, allowedMinAge, allowedMaxAge,
-                allowedSmokers, allowedPets, allowedOccupations, allowedGenders, ownerId
+                name, photos, description, type, typology, area, district, city, street, lat, lng, furnished,
+                availability, rent, sell, rentPrice, sellPrice, expensesIncluded, equipmentIncluded,
+                allowedMinAge, allowedMaxAge, allowedSmokers, allowedPets, allowedOccupations, allowedGenders, ownerId
         );
     }
 
-    public static String nextImageName(String originalName) throws PersistentException {
-        return propertyBean.nextImageName(originalName);
+    public static String nextImageName(String originalName, String format) throws PersistentException {
+        return propertyBean.nextImageName(originalName, format);
+    }
+
+    public static Property getProperty(int ID) throws PersistentException {
+        return propertyBean.getProperty(ID);
     }
 }

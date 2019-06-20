@@ -13,21 +13,23 @@
  */
 package business.entities;
 
+import data.ORMConstants;
+
 public class Common extends Users {
 	public Common() {
 	}
 	
 	private java.util.Set this_getSet (int key) {
-		if (key == data.ORMConstants.KEY_COMMON_PROPERTIES) {
+		if (key == ORMConstants.KEY_COMMON_PROPERTIES) {
 			return ORM_properties;
 		}
-		else if (key == data.ORMConstants.KEY_COMMON_NOTIFICATIONS) {
+		else if (key == ORMConstants.KEY_COMMON_NOTIFICATIONS) {
 			return ORM_notifications;
 		}
-		else if (key == data.ORMConstants.KEY_COMMON_CHATS) {
+		else if (key == ORMConstants.KEY_COMMON_CHATS) {
 			return ORM_chats;
 		}
-		else if (key == data.ORMConstants.KEY_COMMON_FAVORITES) {
+		else if (key == ORMConstants.KEY_COMMON_FAVORITES) {
 			return ORM_favorites;
 		}
 		
@@ -91,7 +93,7 @@ public class Common extends Users {
 		return ORM_properties;
 	}
 	
-	public final PropertySetCollection properties = new PropertySetCollection(this, _ormAdapter, data.ORMConstants.KEY_COMMON_PROPERTIES, data.ORMConstants.KEY_PROPERTY_OWNER, data.ORMConstants.KEY_MUL_ONE_TO_MANY);
+	public final PropertySetCollection properties = new PropertySetCollection(this, _ormAdapter, ORMConstants.KEY_COMMON_PROPERTIES, ORMConstants.KEY_PROPERTY_OWNER, ORMConstants.KEY_MUL_ONE_TO_MANY);
 	
 	private void setORM_Notifications(java.util.Set value) {
 		this.ORM_notifications = value;
@@ -101,7 +103,7 @@ public class Common extends Users {
 		return ORM_notifications;
 	}
 	
-	public final NotificationSetCollection notifications = new NotificationSetCollection(this, _ormAdapter, data.ORMConstants.KEY_COMMON_NOTIFICATIONS, data.ORMConstants.KEY_MUL_ONE_TO_MANY);
+	public final NotificationSetCollection notifications = new NotificationSetCollection(this, _ormAdapter, ORMConstants.KEY_COMMON_NOTIFICATIONS, ORMConstants.KEY_MUL_ONE_TO_MANY);
 	
 	private void setORM_Chats(java.util.Set value) {
 		this.ORM_chats = value;
@@ -111,7 +113,7 @@ public class Common extends Users {
 		return ORM_chats;
 	}
 	
-	public final ChatSetCollection chats = new ChatSetCollection(this, _ormAdapter, data.ORMConstants.KEY_COMMON_CHATS, data.ORMConstants.KEY_CHAT_COMMON, data.ORMConstants.KEY_MUL_ONE_TO_MANY);
+	public final ChatSetCollection chats = new ChatSetCollection(this, _ormAdapter, ORMConstants.KEY_COMMON_CHATS, ORMConstants.KEY_CHAT_COMMON, ORMConstants.KEY_MUL_ONE_TO_MANY);
 	
 	private void setORM_Favorites(java.util.Set value) {
 		this.ORM_favorites = value;
@@ -121,7 +123,7 @@ public class Common extends Users {
 		return ORM_favorites;
 	}
 	
-	public final FolderSetCollection favorites = new FolderSetCollection(this, _ormAdapter, data.ORMConstants.KEY_COMMON_FAVORITES, data.ORMConstants.KEY_MUL_ONE_TO_MANY);
+	public final FolderSetCollection favorites = new FolderSetCollection(this, _ormAdapter, ORMConstants.KEY_COMMON_FAVORITES, ORMConstants.KEY_MUL_ONE_TO_MANY);
 	
 	public void setOccupation(Occupation value) {
 		this.occupation = value;
