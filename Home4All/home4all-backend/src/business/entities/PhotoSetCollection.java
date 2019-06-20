@@ -13,6 +13,7 @@
  */
 package business.entities;
 
+import data.Home4AllPersistentManager;
 import org.orm.*;
 
 public class PhotoSetCollection extends org.orm.util.ORMSet {
@@ -93,7 +94,7 @@ public class PhotoSetCollection extends org.orm.util.ORMSet {
 	}
 	
 	protected PersistentManager getPersistentManager() throws PersistentException {
-		return data.Home4AllPersistentManager.instance();
+		return Home4AllPersistentManager.instance();
 	}
 	
 }

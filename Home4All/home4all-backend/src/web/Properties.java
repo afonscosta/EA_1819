@@ -40,19 +40,21 @@ public class Properties extends HttpServlet {
     private String saveNewImage(Part p) throws PersistentException, IOException {
         // Obtenção do nome e formato da imagem
         String name = getSubmittedFileName(p);
-        name = Home4All.nextImageName(name.substring(0, name.lastIndexOf('.'))
-                .substring(name.lastIndexOf(File.separator) + 1));
         String format = p.getContentType().replace("image/", "");
+        String name_format = Home4All.nextImageName(
+                name.substring(0, name.lastIndexOf('.'))
+                    .substring(name.lastIndexOf(File.separator) + 1),
+                format);
 
         // Criar ficheiro para armazenar a imagem
-        File file = new File("images" + File.separator + name + "." + format);
+        File file = new File("images" + File.separator + name_format);
         file.mkdirs();
 
         // Ler e armazenar a imagem
         BufferedImage image = ImageIO.read(p.getInputStream());
         ImageIO.write(image, format, file);
 
-        return name + "." + format;
+        return name_format;
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -100,8 +102,8 @@ public class Properties extends HttpServlet {
                 i++;
             }
 
-            System.out.println(data);
-            System.out.println(imagesPaths);
+            String minAge = (String) data.get("allowedMinAge");
+            String maxAge = (String) data.get("allowedMaxAge");
 
             if (data.containsKey("type")) {
                 if (data.get("type").equals("bedrooms")) {
@@ -115,10 +117,12 @@ public class Properties extends HttpServlet {
                             (String) data.get("district"),
                             (String) data.get("city"),
                             (String) data.get("street"),
+                            0,                  // TODO: LAT
+                            0,                 // TODO: LNG
                             (List<String>) data.get("rentInc"),
                             (List<String>) data.get("divEquipInc"),
-                            Integer.parseInt((String) data.get("allowedMinAge")),
-                            Integer.parseInt((String) data.get("allowedMaxAge")),
+                            minAge == null || minAge.isEmpty() ? null : Integer.parseInt(minAge),
+                            maxAge == null || maxAge.isEmpty() ? null : Integer.parseInt(maxAge),
                             (boolean) data.get("allowedSmoker"),
                             (boolean) data.get("allowedPets"),
                             (List<String>) data.getOrDefault("allowedOcupations", new ArrayList<>()),
@@ -127,11 +131,11 @@ public class Properties extends HttpServlet {
                             Integer.parseInt((String) data.get("males")),
                             Integer.parseInt((String) data.get("smokers")),
                             Integer.parseInt((String) data.get("pets")),
-                            (List<String>) data.getOrDefault("petsType", new ArrayList<>()), // TODO: Falta no front-end
+                            (List<String>) data.getOrDefault("petsType", new ArrayList<>()),
                             (List<String>) data.getOrDefault("ocupations", new ArrayList<>()),
-                            (boolean) data.getOrDefault("totalAccess", false), // TODO: Falta no front-end
+                            (boolean) data.getOrDefault("totalAccess", false),
                             (List<Map<String, Object>>) data.get("bedrooms"),
-                            0 // TODO: Colocar o ownerId
+                            1 // TODO: Colocar o ownerId
                     );
                 }
                 else if (data.get("type").equals("apartment") || data.get("type").equals("villa")) {
@@ -145,6 +149,8 @@ public class Properties extends HttpServlet {
                             (String) data.get("district"),
                             (String) data.get("city"),
                             (String) data.get("street"),
+                            0,                  // TODO: LAT
+                            0,                 // TODO: LNG
                             (boolean) data.get("furnished"),
                             dateFormat.parse((String) data.get("availability")),
                             operation.equals("rent") || operation.equals("both"),
@@ -153,13 +159,13 @@ public class Properties extends HttpServlet {
                             Float.parseFloat((String) data.get("sellPrice")),
                             (List<String>) data.get("rentInc"),
                             (List<String>) data.get("divEquipInc"),
-                            Integer.parseInt((String) data.get("allowedMinAge")),
-                            Integer.parseInt((String) data.get("allowedMaxAge")),
+                            minAge == null || minAge.isEmpty() ? null : Integer.parseInt(minAge),
+                            maxAge == null || maxAge.isEmpty() ? null : Integer.parseInt(maxAge),
                             (boolean) data.get("allowedSmoker"),
                             (boolean) data.get("allowedPets"),
                             (List<String>) data.get("allowedOcupations"),
                             (String) data.get("allowedGenre"),
-                            0 // TODO: Colocar o ownerId
+                            1 // TODO: Colocar o ownerId
                     );
                 }
                 else {

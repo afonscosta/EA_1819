@@ -13,16 +13,18 @@
  */
 package business.entities;
 
+import data.ORMConstants;
+
 public class Comment {
 	public Comment() {
 	}
 	
 	private void this_setOwner(Object owner, int key) {
-		if (key == data.ORMConstants.KEY_COMMENT_RESPONSE) {
+		if (key == ORMConstants.KEY_COMMENT_RESPONSE) {
 			this.response = (Comment) owner;
 		}
 		
-		else if (key == data.ORMConstants.KEY_COMMENT_WRITER) {
+		else if (key == ORMConstants.KEY_COMMENT_WRITER) {
 			this.writer = (Common) owner;
 		}
 	}

@@ -13,7 +13,9 @@
  */
 package data;
 
+import business.entities.Private;
 import business.entities.Property;
+import business.entities.Shared;
 import org.orm.*;
 import org.hibernate.Query;
 
@@ -23,7 +25,7 @@ import java.util.Map;
 public class PropertyDAO {
 	public static Property loadPropertyByORMID(int ID) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadPropertyByORMID(session, ID);
 		}
 		catch (Exception e) {
@@ -34,7 +36,7 @@ public class PropertyDAO {
 	
 	public static Property getPropertyByORMID(int ID) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getPropertyByORMID(session, ID);
 		}
 		catch (Exception e) {
@@ -45,7 +47,7 @@ public class PropertyDAO {
 	
 	public static Property loadPropertyByORMID(int ID, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadPropertyByORMID(session, ID, lockMode);
 		}
 		catch (Exception e) {
@@ -56,7 +58,7 @@ public class PropertyDAO {
 	
 	public static Property getPropertyByORMID(int ID, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getPropertyByORMID(session, ID, lockMode);
 		}
 		catch (Exception e) {
@@ -107,7 +109,7 @@ public class PropertyDAO {
 	
 	public static List queryProperty(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryProperty(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -118,7 +120,7 @@ public class PropertyDAO {
 	
 	public static List queryProperty(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryProperty(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -129,7 +131,7 @@ public class PropertyDAO {
 	
 	public static Property[] listPropertyByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listPropertyByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -140,7 +142,7 @@ public class PropertyDAO {
 	
 	public static Property[] listPropertyByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listPropertyByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -206,7 +208,7 @@ public class PropertyDAO {
 	
 	public static Property loadPropertyByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadPropertyByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -217,7 +219,7 @@ public class PropertyDAO {
 	
 	public static Property loadPropertyByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadPropertyByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -244,7 +246,7 @@ public class PropertyDAO {
 	
 	public static java.util.Iterator iteratePropertyByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iteratePropertyByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -255,7 +257,7 @@ public class PropertyDAO {
 	
 	public static java.util.Iterator iteratePropertyByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iteratePropertyByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -303,7 +305,7 @@ public class PropertyDAO {
 	
 	public static boolean save(Property property) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().saveObject(property);
+			Home4AllPersistentManager.instance().saveObject(property);
 			return true;
 		}
 		catch (Exception e) {
@@ -314,7 +316,7 @@ public class PropertyDAO {
 	
 	public static boolean delete(Property property) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().deleteObject(property);
+			Home4AllPersistentManager.instance().deleteObject(property);
 			return true;
 		}
 		catch (Exception e) {
@@ -324,12 +326,12 @@ public class PropertyDAO {
 	}
 	
 	public static boolean deleteAndDissociate(Property property)throws PersistentException {
-		if (property instanceof business.entities.Shared) {
-			return data.SharedDAO.deleteAndDissociate((business.entities.Shared) property);
+		if (property instanceof Shared) {
+			return SharedDAO.deleteAndDissociate((Shared) property);
 		}
 		
-		if (property instanceof business.entities.Private) {
-			return data.PrivateDAO.deleteAndDissociate((business.entities.Private) property);
+		if (property instanceof Private) {
+			return PrivateDAO.deleteAndDissociate((Private) property);
 		}
 		
 		try {
@@ -346,12 +348,12 @@ public class PropertyDAO {
 	}
 	
 	public static boolean deleteAndDissociate(Property property, org.orm.PersistentSession session)throws PersistentException {
-		if (property instanceof business.entities.Shared) {
-			return data.SharedDAO.deleteAndDissociate((business.entities.Shared) property, session);
+		if (property instanceof Shared) {
+			return SharedDAO.deleteAndDissociate((Shared) property, session);
 		}
 		
-		if (property instanceof business.entities.Private) {
-			return data.PrivateDAO.deleteAndDissociate((business.entities.Private) property, session);
+		if (property instanceof Private) {
+			return PrivateDAO.deleteAndDissociate((Private) property, session);
 		}
 		
 		try {
@@ -374,7 +376,7 @@ public class PropertyDAO {
 	
 	public static boolean refresh(Property property) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().refresh(property);
+			Home4AllPersistentManager.instance().getSession().refresh(property);
 			return true;
 		}
 		catch (Exception e) {
@@ -385,7 +387,7 @@ public class PropertyDAO {
 	
 	public static boolean evict(Property property) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().evict(property);
+			Home4AllPersistentManager.instance().getSession().evict(property);
 			return true;
 		}
 		catch (Exception e) {
@@ -394,13 +396,14 @@ public class PropertyDAO {
 		}
 	}
 
+
 	// COSTUMED METHODS
 
 	public static Property loadPropertyByQuery(String condition, String orderBy, Map<String, Object> parameters) throws PersistentException {
 		try {
 			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
 
-			StringBuilder sb = new StringBuilder("From tables.Property as Property");
+			StringBuilder sb = new StringBuilder("From business.entities.Property as Property");
 			if (condition != null)
 				sb.append(" Where ").append(condition);
 			if (orderBy != null)
@@ -422,5 +425,4 @@ public class PropertyDAO {
 			throw new PersistentException(e);
 		}
 	}
-	
 }

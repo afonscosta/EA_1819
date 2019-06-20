@@ -14,16 +14,18 @@
 package data;
 
 import business.entities.Photo;
+import business.entities.Private;
 import org.orm.*;
 import org.hibernate.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class PhotoDAO {
 	public static Photo loadPhotoByORMID(int ID) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadPhotoByORMID(session, ID);
 		}
 		catch (Exception e) {
@@ -34,7 +36,7 @@ public class PhotoDAO {
 	
 	public static Photo getPhotoByORMID(int ID) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getPhotoByORMID(session, ID);
 		}
 		catch (Exception e) {
@@ -45,7 +47,7 @@ public class PhotoDAO {
 	
 	public static Photo loadPhotoByORMID(int ID, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadPhotoByORMID(session, ID, lockMode);
 		}
 		catch (Exception e) {
@@ -56,7 +58,7 @@ public class PhotoDAO {
 	
 	public static Photo getPhotoByORMID(int ID, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getPhotoByORMID(session, ID, lockMode);
 		}
 		catch (Exception e) {
@@ -107,7 +109,7 @@ public class PhotoDAO {
 	
 	public static List queryPhoto(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryPhoto(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -118,7 +120,7 @@ public class PhotoDAO {
 	
 	public static List queryPhoto(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryPhoto(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -129,7 +131,7 @@ public class PhotoDAO {
 	
 	public static Photo[] listPhotoByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listPhotoByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -140,7 +142,7 @@ public class PhotoDAO {
 	
 	public static Photo[] listPhotoByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listPhotoByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -206,37 +208,8 @@ public class PhotoDAO {
 	
 	public static Photo loadPhotoByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadPhotoByQuery(session, condition, orderBy);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			throw new PersistentException(e);
-		}
-	}
-
-
-	public static Photo loadPhotoByQuery(String condition, String orderBy, Map<String, Object> parameters) throws PersistentException {
-		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
-
-			StringBuffer sb = new StringBuffer("From business.entities.Photo as Photo");
-			if (condition != null)
-				sb.append(" Where ").append(condition);
-			if (orderBy != null)
-				sb.append(" Order By ").append(orderBy);
-			Query query = session.createQuery(sb.toString());
-
-			for (Map.Entry<String, Object> p: parameters.entrySet()) {
-				query.setParameter(p.getKey(), p.getValue());
-			}
-
-			List photos =  query.list();
-
-			if (photos != null && photos.size() > 0)
-				return (Photo) photos.get(0);
-			else
-				return null;
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -246,7 +219,7 @@ public class PhotoDAO {
 	
 	public static Photo loadPhotoByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadPhotoByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -273,7 +246,7 @@ public class PhotoDAO {
 	
 	public static java.util.Iterator iteratePhotoByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iteratePhotoByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -284,7 +257,7 @@ public class PhotoDAO {
 	
 	public static java.util.Iterator iteratePhotoByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iteratePhotoByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -332,7 +305,7 @@ public class PhotoDAO {
 	
 	public static boolean save(Photo photo) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().saveObject(photo);
+			Home4AllPersistentManager.instance().saveObject(photo);
 			return true;
 		}
 		catch (Exception e) {
@@ -343,7 +316,7 @@ public class PhotoDAO {
 	
 	public static boolean delete(Photo photo) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().deleteObject(photo);
+			Home4AllPersistentManager.instance().deleteObject(photo);
 			return true;
 		}
 		catch (Exception e) {
@@ -354,7 +327,7 @@ public class PhotoDAO {
 	
 	public static boolean refresh(Photo photo) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().refresh(photo);
+			Home4AllPersistentManager.instance().getSession().refresh(photo);
 			return true;
 		}
 		catch (Exception e) {
@@ -365,7 +338,7 @@ public class PhotoDAO {
 	
 	public static boolean evict(Photo photo) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().evict(photo);
+			Home4AllPersistentManager.instance().getSession().evict(photo);
 			return true;
 		}
 		catch (Exception e) {
@@ -373,5 +346,89 @@ public class PhotoDAO {
 			throw new PersistentException(e);
 		}
 	}
-	
+
+
+	// COSTUMED METHODS
+
+	public static Photo loadPhotoByQuery(String condition, String orderBy, Map<String, Object> parameters) throws PersistentException {
+		try {
+			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+
+			StringBuffer sb = new StringBuffer("From business.entities.Photo as Photo");
+			if (condition != null)
+				sb.append(" Where ").append(condition);
+			if (orderBy != null)
+				sb.append(" Order By ").append(orderBy);
+			Query query = session.createQuery(sb.toString());
+
+			for (Map.Entry<String, Object> p: parameters.entrySet()) {
+				query.setParameter(p.getKey(), p.getValue());
+			}
+
+			List photos =  query.list();
+
+			if (photos != null && photos.size() > 0)
+				return (Photo) photos.get(0);
+			else
+				return null;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			throw new PersistentException(e);
+		}
+	}
+
+	public static List<Photo> listPhotoByQuery(String condition, String orderBy, Map<String, Object> parameters) throws PersistentException {
+		try {
+			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+
+			StringBuffer sb = new StringBuffer("From business.entities.Photo as Photo");
+			if (condition != null)
+				sb.append(" Where ").append(condition);
+			if (orderBy != null)
+				sb.append(" Order By ").append(orderBy);
+			Query query = session.createQuery(sb.toString());
+
+			for (Map.Entry<String, Object> p: parameters.entrySet()) {
+				query.setParameter(p.getKey(), p.getValue());
+			}
+
+			List<Photo> photos = (List<Photo>) query.list();
+
+			if (photos != null && photos.size() > 0)
+				return photos;
+			else
+				return new ArrayList<>();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			throw new PersistentException(e);
+		}
+	}
+
+	public static Photo loadPhotoByRegexPath(String name, String format) throws PersistentException {
+		try {
+			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+
+			Query query = session.createSQLQuery(
+					"SELECT id FROM Photo " +
+							"WHERE path SIMILAR TO CONCAT(:name, '(_\\d+)?.', :format) " +
+							"ORDER BY id DESC " +
+							"LIMIT 1"
+			);
+			query.setParameter("name", name);
+			query.setParameter("format", format);
+
+			List photos_id = query.list();
+
+			if (photos_id != null && photos_id.size() > 0)
+				return PhotoDAO.loadPhotoByORMID((int) photos_id.get(0));
+			else
+				return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new PersistentException(e);
+		}
+	}
+
 }

@@ -16,6 +16,7 @@ import java.util.Map;
 @Stateless(name = "PropertyEJB")
 public class PropertyBean implements PropertyBeanLocal{
     private static PersistentSession session = null;
+    // TODO: Dúvida - variável session no PropertyBean Stateless
 
     public PropertyBean() {
     }
@@ -33,9 +34,9 @@ public class PropertyBean implements PropertyBeanLocal{
 
     private void changeProperty(Property property,
                 String name, List<String> photos, String description, String typology,
-                float area, String district, String city, String street,
+                float area, String district, String city, String completeAddress, float lat, float lng,
                 List<String> expensesIncluded, List<String> equipmentIncluded,
-                int allowedMinAge, int allowedMaxAge, boolean allowedSmokers, boolean allowedPets,
+                Integer allowedMinAge, Integer allowedMaxAge, boolean allowedSmokers, boolean allowedPets,
                 List<String> allowedOccupations, String allowedGenders, int ownerId)
             throws PersistentException, TypologyNotExistentException, GenderNotExistentException,
             OccupationNotExistentException, EquipmentNotExistentException, ExpenseNotExistentException {
@@ -49,9 +50,14 @@ public class PropertyBean implements PropertyBeanLocal{
         property.setTypology(t);
 
         property.setArea(area);
-        property.setDistrict(district);
-        property.setCity(city);
-        property.setStreet(street);
+
+        Address address = AddressDAO.createAddress();
+        address.setDistrict(district);
+        address.setCity(city);
+        address.setCompleteAddress(completeAddress);
+        address.setCoordLat(lat);
+        address.setCoordLng(lng);
+        property.setAddress(address);
 
         property.expensesIncluded.clear();
         for (String expenseName: expensesIncluded) {
@@ -98,18 +104,16 @@ public class PropertyBean implements PropertyBeanLocal{
         }
 
         property.setOwner(CommonDAO.getCommonByORMID(ownerId));
-
-        // TODO: Dúvida - variável session no PropertyBean Stateless
     }
 
 
     @Override
     public Property registerPrivateProperty(
                 String name, List<String> photos, String description, String type, String typology,
-                float area, String district, String city, String street,
+                float area, String district, String city, String completeAddress, float lat, float lng,
                 boolean furnished, Date availability, boolean rent, boolean sell, float rentPrice, float sellPrice,
                 List<String> expensesIncluded, List<String> equipmentIncluded,
-                int allowedMinAge, int allowedMaxAge, boolean allowedSmokers, boolean allowedPets,
+                Integer allowedMinAge, Integer allowedMaxAge, boolean allowedSmokers, boolean allowedPets,
                 List<String> allowedOccupations, String allowedGenders, int ownerId)
             throws PersistentException, TypologyNotExistentException, ExpenseNotExistentException,
             EquipmentNotExistentException, OccupationNotExistentException, GenderNotExistentException {
@@ -122,7 +126,7 @@ public class PropertyBean implements PropertyBeanLocal{
             property = ApartmentDAO.createApartment();
 
         changeProperty(property, name, photos, description, typology, area,
-                district, city, street, expensesIncluded, equipmentIncluded,
+                district, city, completeAddress, lat, lng, expensesIncluded, equipmentIncluded,
                 allowedMinAge, allowedMaxAge, allowedSmokers, allowedPets,
                 allowedOccupations, allowedGenders, ownerId);
 
@@ -138,15 +142,15 @@ public class PropertyBean implements PropertyBeanLocal{
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("name", name);
 
-        return PropertyDAO.loadPropertyByQuery("name = :name", null, parameters);
+        return property;
     }
 
     @Override
     public Property registerSharedProperty(
                 String name, List<String> photos, String description, String type, String typology,
-                float area, String district, String city, String street,
+                float area, String district, String city, String completeAddress, float lat, float lng,
                 List<String> expensesIncluded, List<String> equipmentIncluded,
-                int allowedMinAge, int allowedMaxAge, boolean allowedSmokers, boolean allowedPets,
+                Integer allowedMinAge, Integer allowedMaxAge, boolean allowedSmokers, boolean allowedPets,
                 List<String> allowedOccupations, String allowedGenders, int females, int males,
                 int smokers, int petsQuantity, List<String> pets, List<String> occupations,
                 boolean totalAccess, List<Map<String, Object>> bedrooms, int ownerId)
@@ -160,69 +164,59 @@ public class PropertyBean implements PropertyBeanLocal{
             Shared property = SharedDAO.createShared();
 
             changeProperty(property, name, photos, description, typology, area,
-                    district, city, street, expensesIncluded, equipmentIncluded,
+                    district, city, completeAddress, lat, lng, expensesIncluded, equipmentIncluded,
                     allowedMinAge, allowedMaxAge, allowedSmokers, allowedPets,
                     allowedOccupations, allowedGenders, ownerId);
 
+
             property.bedrooms.clear();
 
-            SharedDAO.save(property);
+            for (Map<String, Object> bedroomProps : bedrooms) {
+                Bedroom bedroom = BedroomDAO.createBedroom();
+                if (bedroomProps.containsKey("type")
+                        && bedroomProps.containsKey("furnished")
+                        && bedroomProps.containsKey("peopleAmount")
+                        && bedroomProps.containsKey("area")
+                        && bedroomProps.containsKey("privateBathroom")
+                        && bedroomProps.containsKey("availability")
+                        && bedroomProps.containsKey("rentPrice")
+                        && bedroomProps.containsKey("images")) {
 
-            Map<String, Object> parameters = new HashMap<>();
-            parameters.put("name", name);
-            property = (Shared) PropertyDAO.loadPropertyByQuery("name = :name", null, parameters);
+                    String bType = (String) bedroomProps.get("type");
 
-            if (property != null) {
-                for (Map<String, Object> bedroomProps : bedrooms) {
-                    Bedroom bedroom = BedroomDAO.createBedroom();
-                    if (bedroomProps.containsKey("type")
-                            && bedroomProps.containsKey("furnished")
-                            && bedroomProps.containsKey("peopleAmount")
-                            && bedroomProps.containsKey("area")
-                            && bedroomProps.containsKey("privateBathroom")
-                            && bedroomProps.containsKey("availability")
-                            && bedroomProps.containsKey("rentPrice")
-                            && bedroomProps.containsKey("images")) {
+                    if (bType.equals("single"))
+                        bedroom.setPeopleAmount(1);
+                    else if (bType.equals("double"))
+                        bedroom.setPeopleAmount(2);
+                    else if (bType.equals("multiple"))
+                        bedroom.setPeopleAmount(Integer.parseInt((String) bedroomProps.get("peopleAmount")));
+                    else
+                        throw new BedroomTypeNotExistentException();
 
-                        String bType = (String) bedroomProps.get("type");
+                    BedroomType bedroomType = BedroomTypeDAO.getBedroomTypeByORMID(bType);
+                    bedroom.setType(bedroomType);
 
-                        if (bType.equals("single"))
-                            bedroom.setPeopleAmount(1);
-                        else if (bType.equals("double"))
-                            bedroom.setPeopleAmount(2);
-                        else if (bType.equals("multiple"))
-                            bedroom.setPeopleAmount(Integer.parseInt((String) bedroomProps.get("peopleAmount")));
-                        else
-                            throw new BedroomTypeNotExistentException();
-
-                        BedroomType bedroomType = BedroomTypeDAO.getBedroomTypeByORMID(bType);
-                        bedroom.setType(bedroomType);
-
-                        bedroom.setFurnished((boolean) bedroomProps.get("furnished"));
-                        bedroom.setArea(Float.parseFloat((String) bedroomProps.get("area")));
-                        bedroom.setPrivateBathroom((boolean) bedroomProps.get("privateBathroom"));
-                        bedroom.setAvailability((Date) bedroomProps.get("availability"));
-                        bedroom.setRentPrice(Float.parseFloat((String) bedroomProps.get("rentPrice")));
-                        bedroom.setSold(false);
-                        bedroom.photos.clear();
-                        for (String photoPath : (List<String>) bedroomProps.get("images")) {
-                            Photo photo = PhotoDAO.createPhoto();
-                            photo.setPath(photoPath);
-                            property.photos.add(photo);
-                        }
-                    } else {
-                        throw new MissingPropertiesException();
+                    bedroom.setFurnished((boolean) bedroomProps.get("furnished"));
+                    bedroom.setArea(Float.parseFloat((String) bedroomProps.get("area")));
+                    bedroom.setPrivateBathroom((boolean) bedroomProps.get("privateBathroom"));
+                    bedroom.setAvailability((Date) bedroomProps.get("availability"));
+                    bedroom.setRentPrice(Float.parseFloat((String) bedroomProps.get("rentPrice")));
+                    bedroom.setSold(false);
+                    bedroom.photos.clear();
+                    for (String photoPath : (List<String>) bedroomProps.get("images")) {
+                        Photo photo = PhotoDAO.createPhoto();
+                        photo.setPath(photoPath);
+                        bedroom.photos.add(photo);
                     }
-                    BedroomDAO.save(bedroom);
-                    property.bedrooms.add(bedroom);
+                } else {
+                    throw new MissingPropertiesException();
                 }
 
-                SharedDAO.save(property);
-                t.commit();
+                property.bedrooms.add(bedroom);
             }
-            else {
-                t.rollback();
-            }
+
+            SharedDAO.save(property);
+            t.commit();
 
             return property;
         }
@@ -232,18 +226,18 @@ public class PropertyBean implements PropertyBeanLocal{
         }
     }
 
-    public String nextImageName(String originalName) throws PersistentException {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("path", originalName);
-        Photo photo = PhotoDAO.loadPhotoByQuery("path LIKE '^:path(\\_\\d+)?.[^.]+$'", "id DESC");
+    public String nextImageName(String originalName, String format) throws PersistentException {
+        Photo photo = PhotoDAO.loadPhotoByRegexPath(originalName, format);
+
         if (photo == null) {
-            return originalName;
+            return originalName + "." + format;
         }
         else {
-            String suffix = photo.getPath().replace(originalName, "").replace("_", "");
-            suffix = suffix.substring(0, suffix.lastIndexOf('.'));
+            String suffix = photo.getPath().replaceFirst(originalName, "")
+                                           .replaceFirst("_", "");
+            suffix = suffix.substring(0, suffix.length() - format.length() - 1);
             int suffix_int = (suffix.isEmpty() ? 0 : Integer.parseInt(suffix)) + 1;
-            return String.format("%s_%d", originalName, suffix_int);
+            return String.format("%s_%d", originalName, suffix_int) + "." + format;
         }
     }
 }

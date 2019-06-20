@@ -13,7 +13,9 @@
  */
 package data;
 
+import business.entities.Apartment;
 import business.entities.Private;
+import business.entities.Villa;
 import org.orm.*;
 import org.hibernate.Query;
 
@@ -22,7 +24,7 @@ import java.util.List;
 public class PrivateDAO {
 	public static Private loadPrivateByORMID(int ID) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadPrivateByORMID(session, ID);
 		}
 		catch (Exception e) {
@@ -33,7 +35,7 @@ public class PrivateDAO {
 	
 	public static Private getPrivateByORMID(int ID) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getPrivateByORMID(session, ID);
 		}
 		catch (Exception e) {
@@ -44,7 +46,7 @@ public class PrivateDAO {
 	
 	public static Private loadPrivateByORMID(int ID, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadPrivateByORMID(session, ID, lockMode);
 		}
 		catch (Exception e) {
@@ -55,7 +57,7 @@ public class PrivateDAO {
 	
 	public static Private getPrivateByORMID(int ID, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getPrivateByORMID(session, ID, lockMode);
 		}
 		catch (Exception e) {
@@ -106,7 +108,7 @@ public class PrivateDAO {
 	
 	public static List queryPrivate(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryPrivate(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -117,7 +119,7 @@ public class PrivateDAO {
 	
 	public static List queryPrivate(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryPrivate(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -128,7 +130,7 @@ public class PrivateDAO {
 	
 	public static Private[] listPrivateByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listPrivateByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -139,7 +141,7 @@ public class PrivateDAO {
 	
 	public static Private[] listPrivateByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listPrivateByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -205,7 +207,7 @@ public class PrivateDAO {
 	
 	public static Private loadPrivateByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadPrivateByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -216,7 +218,7 @@ public class PrivateDAO {
 	
 	public static Private loadPrivateByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadPrivateByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -243,7 +245,7 @@ public class PrivateDAO {
 	
 	public static java.util.Iterator iteratePrivateByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iteratePrivateByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -254,7 +256,7 @@ public class PrivateDAO {
 	
 	public static java.util.Iterator iteratePrivateByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iteratePrivateByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -302,7 +304,7 @@ public class PrivateDAO {
 	
 	public static boolean save(Private private1) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().saveObject(private1);
+			Home4AllPersistentManager.instance().saveObject(private1);
 			return true;
 		}
 		catch (Exception e) {
@@ -313,7 +315,7 @@ public class PrivateDAO {
 	
 	public static boolean delete(Private private1) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().deleteObject(private1);
+			Home4AllPersistentManager.instance().deleteObject(private1);
 			return true;
 		}
 		catch (Exception e) {
@@ -323,12 +325,12 @@ public class PrivateDAO {
 	}
 	
 	public static boolean deleteAndDissociate(Private private1)throws PersistentException {
-		if (private1 instanceof business.entities.Villa) {
-			return data.VillaDAO.deleteAndDissociate((business.entities.Villa) private1);
+		if (private1 instanceof Villa) {
+			return VillaDAO.deleteAndDissociate((Villa) private1);
 		}
 		
-		if (private1 instanceof business.entities.Apartment) {
-			return data.ApartmentDAO.deleteAndDissociate((business.entities.Apartment) private1);
+		if (private1 instanceof Apartment) {
+			return ApartmentDAO.deleteAndDissociate((Apartment) private1);
 		}
 		
 		try {
@@ -345,12 +347,12 @@ public class PrivateDAO {
 	}
 	
 	public static boolean deleteAndDissociate(Private private1, org.orm.PersistentSession session)throws PersistentException {
-		if (private1 instanceof business.entities.Villa) {
-			return data.VillaDAO.deleteAndDissociate((business.entities.Villa) private1, session);
+		if (private1 instanceof Villa) {
+			return VillaDAO.deleteAndDissociate((Villa) private1, session);
 		}
 		
-		if (private1 instanceof business.entities.Apartment) {
-			return data.ApartmentDAO.deleteAndDissociate((business.entities.Apartment) private1, session);
+		if (private1 instanceof Apartment) {
+			return ApartmentDAO.deleteAndDissociate((Apartment) private1, session);
 		}
 		
 		try {
@@ -373,7 +375,7 @@ public class PrivateDAO {
 	
 	public static boolean refresh(Private private1) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().refresh(private1);
+			Home4AllPersistentManager.instance().getSession().refresh(private1);
 			return true;
 		}
 		catch (Exception e) {
@@ -384,7 +386,7 @@ public class PrivateDAO {
 	
 	public static boolean evict(Private private1) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().evict(private1);
+			Home4AllPersistentManager.instance().getSession().evict(private1);
 			return true;
 		}
 		catch (Exception e) {

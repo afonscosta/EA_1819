@@ -52,9 +52,9 @@ public class Home4All {
 
     public static Property registerSharedProperty(
                 String name, List<String> photos, String description, String type, String typology,
-                float area, String district, String city, String street,
+                float area, String district, String city, String street, float lat, float lng,
                 List<String> expensesIncluded, List<String> equipmentIncluded,
-                int allowedMinAge, int allowedMaxAge, boolean allowedSmokers, boolean allowedPets,
+                Integer allowedMinAge, Integer allowedMaxAge, boolean allowedSmokers, boolean allowedPets,
                 List<String> allowedOccupations, String allowedGenders, int females, int males,
                 int smokers, int petsQuantity, List<String> pets, List<String> occupations,
                 boolean totalAccess, List<Map<String, Object>> bedrooms, int ownerId)
@@ -63,29 +63,29 @@ public class Home4All {
             BedroomTypeNotExistentException {
 
         return propertyBean.registerSharedProperty(
-                name, photos, description, type, typology, area, district, city, street, expensesIncluded,
+                name, photos, description, type, typology, area, district, city, street, lat, lng, expensesIncluded,
                 equipmentIncluded, allowedMinAge, allowedMaxAge, allowedSmokers, allowedPets, allowedOccupations,
                 allowedGenders, females, males, smokers, petsQuantity, pets, occupations, totalAccess, bedrooms, ownerId);
     }
 
     public static Property registerPrivateProperty(
                 String name, List<String> photos, String description, String type, String typology,
-                float area, String district, String city, String street,
+                float area, String district, String city, String street, float lat, float lng,
                 boolean furnished, Date availability, boolean rent, boolean sell, float rentPrice, float sellPrice,
                 List<String> expensesIncluded, List<String> equipmentIncluded,
-                int allowedMinAge, int allowedMaxAge, boolean allowedSmokers, boolean allowedPets,
+                Integer allowedMinAge, Integer allowedMaxAge, boolean allowedSmokers, boolean allowedPets,
                 List<String> allowedOccupations, String allowedGenders, int ownerId)
             throws PersistentException, TypologyNotExistentException, ExpenseNotExistentException,
             EquipmentNotExistentException, OccupationNotExistentException, GenderNotExistentException {
 
         return propertyBean.registerPrivateProperty(
-                name, photos, description, type, typology, area, district, city, street, furnished,availability,
-                rent, sell, rentPrice, sellPrice, expensesIncluded, equipmentIncluded, allowedMinAge, allowedMaxAge,
-                allowedSmokers, allowedPets, allowedOccupations, allowedGenders, ownerId
+                name, photos, description, type, typology, area, district, city, street, lat, lng, furnished,
+                availability, rent, sell, rentPrice, sellPrice, expensesIncluded, equipmentIncluded,
+                allowedMinAge, allowedMaxAge, allowedSmokers, allowedPets, allowedOccupations, allowedGenders, ownerId
         );
     }
 
-    public static String nextImageName(String originalName) throws PersistentException {
-        return propertyBean.nextImageName(originalName);
+    public static String nextImageName(String originalName, String format) throws PersistentException {
+        return propertyBean.nextImageName(originalName, format);
     }
 }

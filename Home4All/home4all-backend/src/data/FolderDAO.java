@@ -22,7 +22,7 @@ import java.util.List;
 public class FolderDAO {
 	public static Folder loadFolderByORMID(int ID) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadFolderByORMID(session, ID);
 		}
 		catch (Exception e) {
@@ -33,7 +33,7 @@ public class FolderDAO {
 	
 	public static Folder getFolderByORMID(int ID) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getFolderByORMID(session, ID);
 		}
 		catch (Exception e) {
@@ -44,7 +44,7 @@ public class FolderDAO {
 	
 	public static Folder loadFolderByORMID(int ID, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadFolderByORMID(session, ID, lockMode);
 		}
 		catch (Exception e) {
@@ -55,7 +55,7 @@ public class FolderDAO {
 	
 	public static Folder getFolderByORMID(int ID, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getFolderByORMID(session, ID, lockMode);
 		}
 		catch (Exception e) {
@@ -106,7 +106,7 @@ public class FolderDAO {
 	
 	public static List queryFolder(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryFolder(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -117,7 +117,7 @@ public class FolderDAO {
 	
 	public static List queryFolder(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryFolder(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -128,7 +128,7 @@ public class FolderDAO {
 	
 	public static Folder[] listFolderByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listFolderByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -139,7 +139,7 @@ public class FolderDAO {
 	
 	public static Folder[] listFolderByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listFolderByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -205,7 +205,7 @@ public class FolderDAO {
 	
 	public static Folder loadFolderByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadFolderByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -216,7 +216,7 @@ public class FolderDAO {
 	
 	public static Folder loadFolderByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadFolderByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -243,7 +243,7 @@ public class FolderDAO {
 	
 	public static java.util.Iterator iterateFolderByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateFolderByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -254,7 +254,7 @@ public class FolderDAO {
 	
 	public static java.util.Iterator iterateFolderByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateFolderByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -302,7 +302,7 @@ public class FolderDAO {
 	
 	public static boolean save(Folder folder) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().saveObject(folder);
+			Home4AllPersistentManager.instance().saveObject(folder);
 			return true;
 		}
 		catch (Exception e) {
@@ -313,7 +313,7 @@ public class FolderDAO {
 	
 	public static boolean delete(Folder folder) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().deleteObject(folder);
+			Home4AllPersistentManager.instance().deleteObject(folder);
 			return true;
 		}
 		catch (Exception e) {
@@ -324,7 +324,7 @@ public class FolderDAO {
 	
 	public static boolean refresh(Folder folder) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().refresh(folder);
+			Home4AllPersistentManager.instance().getSession().refresh(folder);
 			return true;
 		}
 		catch (Exception e) {
@@ -335,7 +335,7 @@ public class FolderDAO {
 	
 	public static boolean evict(Folder folder) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().evict(folder);
+			Home4AllPersistentManager.instance().getSession().evict(folder);
 			return true;
 		}
 		catch (Exception e) {

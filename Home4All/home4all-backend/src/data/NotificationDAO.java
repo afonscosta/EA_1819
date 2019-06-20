@@ -22,7 +22,7 @@ import java.util.List;
 public class NotificationDAO {
 	public static Notification loadNotificationByORMID(int ID) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadNotificationByORMID(session, ID);
 		}
 		catch (Exception e) {
@@ -33,7 +33,7 @@ public class NotificationDAO {
 	
 	public static Notification getNotificationByORMID(int ID) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getNotificationByORMID(session, ID);
 		}
 		catch (Exception e) {
@@ -44,7 +44,7 @@ public class NotificationDAO {
 	
 	public static Notification loadNotificationByORMID(int ID, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadNotificationByORMID(session, ID, lockMode);
 		}
 		catch (Exception e) {
@@ -55,7 +55,7 @@ public class NotificationDAO {
 	
 	public static Notification getNotificationByORMID(int ID, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getNotificationByORMID(session, ID, lockMode);
 		}
 		catch (Exception e) {
@@ -106,7 +106,7 @@ public class NotificationDAO {
 	
 	public static List queryNotification(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryNotification(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -117,7 +117,7 @@ public class NotificationDAO {
 	
 	public static List queryNotification(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryNotification(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -128,7 +128,7 @@ public class NotificationDAO {
 	
 	public static Notification[] listNotificationByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listNotificationByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -139,7 +139,7 @@ public class NotificationDAO {
 	
 	public static Notification[] listNotificationByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listNotificationByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -205,7 +205,7 @@ public class NotificationDAO {
 	
 	public static Notification loadNotificationByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadNotificationByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -216,7 +216,7 @@ public class NotificationDAO {
 	
 	public static Notification loadNotificationByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadNotificationByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -243,7 +243,7 @@ public class NotificationDAO {
 	
 	public static java.util.Iterator iterateNotificationByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateNotificationByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -254,7 +254,7 @@ public class NotificationDAO {
 	
 	public static java.util.Iterator iterateNotificationByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateNotificationByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -302,7 +302,7 @@ public class NotificationDAO {
 	
 	public static boolean save(Notification notification) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().saveObject(notification);
+			Home4AllPersistentManager.instance().saveObject(notification);
 			return true;
 		}
 		catch (Exception e) {
@@ -313,7 +313,7 @@ public class NotificationDAO {
 	
 	public static boolean delete(Notification notification) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().deleteObject(notification);
+			Home4AllPersistentManager.instance().deleteObject(notification);
 			return true;
 		}
 		catch (Exception e) {
@@ -324,7 +324,7 @@ public class NotificationDAO {
 	
 	public static boolean refresh(Notification notification) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().refresh(notification);
+			Home4AllPersistentManager.instance().getSession().refresh(notification);
 			return true;
 		}
 		catch (Exception e) {
@@ -335,7 +335,7 @@ public class NotificationDAO {
 	
 	public static boolean evict(Notification notification) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().evict(notification);
+			Home4AllPersistentManager.instance().getSession().evict(notification);
 			return true;
 		}
 		catch (Exception e) {

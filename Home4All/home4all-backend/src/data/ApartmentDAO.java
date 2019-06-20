@@ -22,7 +22,7 @@ import java.util.List;
 public class ApartmentDAO {
 	public static Apartment loadApartmentByORMID(int ID) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadApartmentByORMID(session, ID);
 		}
 		catch (Exception e) {
@@ -33,7 +33,7 @@ public class ApartmentDAO {
 	
 	public static Apartment getApartmentByORMID(int ID) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getApartmentByORMID(session, ID);
 		}
 		catch (Exception e) {
@@ -44,7 +44,7 @@ public class ApartmentDAO {
 	
 	public static Apartment loadApartmentByORMID(int ID, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadApartmentByORMID(session, ID, lockMode);
 		}
 		catch (Exception e) {
@@ -55,7 +55,7 @@ public class ApartmentDAO {
 	
 	public static Apartment getApartmentByORMID(int ID, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getApartmentByORMID(session, ID, lockMode);
 		}
 		catch (Exception e) {
@@ -106,7 +106,7 @@ public class ApartmentDAO {
 	
 	public static List queryApartment(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryApartment(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -117,7 +117,7 @@ public class ApartmentDAO {
 	
 	public static List queryApartment(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryApartment(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -128,7 +128,7 @@ public class ApartmentDAO {
 	
 	public static Apartment[] listApartmentByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listApartmentByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -139,7 +139,7 @@ public class ApartmentDAO {
 	
 	public static Apartment[] listApartmentByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listApartmentByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -205,7 +205,7 @@ public class ApartmentDAO {
 	
 	public static Apartment loadApartmentByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadApartmentByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -216,7 +216,7 @@ public class ApartmentDAO {
 	
 	public static Apartment loadApartmentByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadApartmentByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -243,7 +243,7 @@ public class ApartmentDAO {
 	
 	public static java.util.Iterator iterateApartmentByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateApartmentByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -254,7 +254,7 @@ public class ApartmentDAO {
 	
 	public static java.util.Iterator iterateApartmentByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateApartmentByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -302,7 +302,7 @@ public class ApartmentDAO {
 	
 	public static boolean save(Apartment apartment) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().saveObject(apartment);
+			Home4AllPersistentManager.instance().saveObject(apartment);
 			return true;
 		}
 		catch (Exception e) {
@@ -313,7 +313,7 @@ public class ApartmentDAO {
 	
 	public static boolean delete(Apartment apartment) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().deleteObject(apartment);
+			Home4AllPersistentManager.instance().deleteObject(apartment);
 			return true;
 		}
 		catch (Exception e) {
@@ -357,7 +357,7 @@ public class ApartmentDAO {
 	
 	public static boolean refresh(Apartment apartment) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().refresh(apartment);
+			Home4AllPersistentManager.instance().getSession().refresh(apartment);
 			return true;
 		}
 		catch (Exception e) {
@@ -368,7 +368,7 @@ public class ApartmentDAO {
 	
 	public static boolean evict(Apartment apartment) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().evict(apartment);
+			Home4AllPersistentManager.instance().getSession().evict(apartment);
 			return true;
 		}
 		catch (Exception e) {

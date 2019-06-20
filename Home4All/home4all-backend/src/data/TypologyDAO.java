@@ -22,7 +22,7 @@ import java.util.List;
 public class TypologyDAO {
 	public static Typology loadTypologyByORMID(String name) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadTypologyByORMID(session, name);
 		}
 		catch (Exception e) {
@@ -33,7 +33,7 @@ public class TypologyDAO {
 	
 	public static Typology getTypologyByORMID(String name) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getTypologyByORMID(session, name);
 		}
 		catch (Exception e) {
@@ -44,7 +44,7 @@ public class TypologyDAO {
 	
 	public static Typology loadTypologyByORMID(String name, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadTypologyByORMID(session, name, lockMode);
 		}
 		catch (Exception e) {
@@ -55,7 +55,7 @@ public class TypologyDAO {
 	
 	public static Typology getTypologyByORMID(String name, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getTypologyByORMID(session, name, lockMode);
 		}
 		catch (Exception e) {
@@ -106,7 +106,7 @@ public class TypologyDAO {
 	
 	public static List queryTypology(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryTypology(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -117,7 +117,7 @@ public class TypologyDAO {
 	
 	public static List queryTypology(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryTypology(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -128,7 +128,7 @@ public class TypologyDAO {
 	
 	public static Typology[] listTypologyByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listTypologyByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -139,7 +139,7 @@ public class TypologyDAO {
 	
 	public static Typology[] listTypologyByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listTypologyByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -205,7 +205,7 @@ public class TypologyDAO {
 	
 	public static Typology loadTypologyByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadTypologyByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -216,7 +216,7 @@ public class TypologyDAO {
 	
 	public static Typology loadTypologyByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadTypologyByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -243,7 +243,7 @@ public class TypologyDAO {
 	
 	public static java.util.Iterator iterateTypologyByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateTypologyByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -254,7 +254,7 @@ public class TypologyDAO {
 	
 	public static java.util.Iterator iterateTypologyByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateTypologyByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -302,7 +302,7 @@ public class TypologyDAO {
 	
 	public static boolean save(Typology typology) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().saveObject(typology);
+			Home4AllPersistentManager.instance().saveObject(typology);
 			return true;
 		}
 		catch (Exception e) {
@@ -313,7 +313,7 @@ public class TypologyDAO {
 	
 	public static boolean delete(Typology typology) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().deleteObject(typology);
+			Home4AllPersistentManager.instance().deleteObject(typology);
 			return true;
 		}
 		catch (Exception e) {
@@ -324,7 +324,7 @@ public class TypologyDAO {
 	
 	public static boolean refresh(Typology typology) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().refresh(typology);
+			Home4AllPersistentManager.instance().getSession().refresh(typology);
 			return true;
 		}
 		catch (Exception e) {
@@ -335,7 +335,7 @@ public class TypologyDAO {
 	
 	public static boolean evict(Typology typology) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().evict(typology);
+			Home4AllPersistentManager.instance().getSession().evict(typology);
 			return true;
 		}
 		catch (Exception e) {

@@ -22,7 +22,7 @@ import java.util.List;
 public class ExpensesDAO {
 	public static Expenses loadExpensesByORMID(String name) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadExpensesByORMID(session, name);
 		}
 		catch (Exception e) {
@@ -33,7 +33,7 @@ public class ExpensesDAO {
 	
 	public static Expenses getExpensesByORMID(String name) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getExpensesByORMID(session, name);
 		}
 		catch (Exception e) {
@@ -44,7 +44,7 @@ public class ExpensesDAO {
 	
 	public static Expenses loadExpensesByORMID(String name, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadExpensesByORMID(session, name, lockMode);
 		}
 		catch (Exception e) {
@@ -55,7 +55,7 @@ public class ExpensesDAO {
 	
 	public static Expenses getExpensesByORMID(String name, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return getExpensesByORMID(session, name, lockMode);
 		}
 		catch (Exception e) {
@@ -106,7 +106,7 @@ public class ExpensesDAO {
 	
 	public static List queryExpenses(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryExpenses(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -117,7 +117,7 @@ public class ExpensesDAO {
 	
 	public static List queryExpenses(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return queryExpenses(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -128,7 +128,7 @@ public class ExpensesDAO {
 	
 	public static Expenses[] listExpensesByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listExpensesByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -139,7 +139,7 @@ public class ExpensesDAO {
 	
 	public static Expenses[] listExpensesByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return listExpensesByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -205,7 +205,7 @@ public class ExpensesDAO {
 	
 	public static Expenses loadExpensesByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadExpensesByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -216,7 +216,7 @@ public class ExpensesDAO {
 	
 	public static Expenses loadExpensesByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return loadExpensesByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -243,7 +243,7 @@ public class ExpensesDAO {
 	
 	public static java.util.Iterator iterateExpensesByQuery(String condition, String orderBy) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateExpensesByQuery(session, condition, orderBy);
 		}
 		catch (Exception e) {
@@ -254,7 +254,7 @@ public class ExpensesDAO {
 	
 	public static java.util.Iterator iterateExpensesByQuery(String condition, String orderBy, org.hibernate.LockMode lockMode) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+			PersistentSession session = Home4AllPersistentManager.instance().getSession();
 			return iterateExpensesByQuery(session, condition, orderBy, lockMode);
 		}
 		catch (Exception e) {
@@ -302,7 +302,7 @@ public class ExpensesDAO {
 	
 	public static boolean save(Expenses expenses) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().saveObject(expenses);
+			Home4AllPersistentManager.instance().saveObject(expenses);
 			return true;
 		}
 		catch (Exception e) {
@@ -313,7 +313,7 @@ public class ExpensesDAO {
 	
 	public static boolean delete(Expenses expenses) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().deleteObject(expenses);
+			Home4AllPersistentManager.instance().deleteObject(expenses);
 			return true;
 		}
 		catch (Exception e) {
@@ -324,7 +324,7 @@ public class ExpensesDAO {
 	
 	public static boolean refresh(Expenses expenses) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().refresh(expenses);
+			Home4AllPersistentManager.instance().getSession().refresh(expenses);
 			return true;
 		}
 		catch (Exception e) {
@@ -335,7 +335,7 @@ public class ExpensesDAO {
 	
 	public static boolean evict(Expenses expenses) throws PersistentException {
 		try {
-			data.Home4AllPersistentManager.instance().getSession().evict(expenses);
+			Home4AllPersistentManager.instance().getSession().evict(expenses);
 			return true;
 		}
 		catch (Exception e) {
