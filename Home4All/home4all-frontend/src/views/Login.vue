@@ -22,6 +22,8 @@
     </div>
     <div class="centered">
       <button class="button" type="button" v-on:click="login()"> Entrar </button>
+
+      <button class="button" type="button" v-on:click="teste()"> teste </button>
     </div>
   </div>
 </template>
@@ -41,6 +43,7 @@ export default {
   },
   methods: {
     ...mapActions('login', ['login']),
+    ...mapActions('users', ['teste']),
     login () {
       if (this.input.email !== '' && this.input.password !== '') {
         this.login({
@@ -48,6 +51,9 @@ export default {
           password: this.input.password
         })
       }
+    },
+    teste () {
+      this.teste()
     }
   }
 }

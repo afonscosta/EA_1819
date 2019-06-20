@@ -1,38 +1,28 @@
 import loginService from '../../services/loginService'
 
-// const state = {
-//   users: []
-// }
+const state = {
+  sessionID: ''
+}
 
-// const getters = {
-//   users: state => {
-//     return state.users
-//   }
-// }
+const getters = {
+  sessionID: state => {
+    return state.sessionID
+  }
+}
 
-// const mutations = {
-//   setUsers (state, users) {
-//     state.users = users
-//   },
-//   addUser (state, user) {
-//     state.users.push(user)
-//   },
-//   updateUser (state, user) {
-//     state.users = state.users.filter(u => u.id !== user.id)
-//     state.users.push(user)
-//   },
-//   deleteUser (state, userID) {
-//     state.users = state.users.filter(u => u.id !== userID)
-//   }
-// }
+const mutations = {
+  setSessionID (state, response) {
+    state.sessionID = response.id
+  }
+}
 
 const actions = {
   login ({ commit }, payload) {
     return new Promise((resolve, reject) => {
       loginService.login(payload).then(response => {
-        // fazer algo com a response
+        commit('setSessionID', response)
       }).then(() => {
-        resolve('login com sucesso')
+        resolve(state.sessionID)
       }, error => {
         reject(error)
       })
@@ -42,8 +32,8 @@ const actions = {
 
 export default {
   namespaced: true,
-  actions
-//   state,
-//   getters,
-//   mutations
+  actions,
+  state,
+  getters,
+  mutations
 }
