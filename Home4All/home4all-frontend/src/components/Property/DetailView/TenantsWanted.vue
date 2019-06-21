@@ -6,7 +6,7 @@
   >
     <b-row>
       <b-col>
-        <p>Género: {{ genre }}</p>
+        <p>Género: {{ allowedGenders }}</p>
       </b-col>
       <b-col>
         <p>Idade mínima: {{ allowedMinAge }}</p>
@@ -18,20 +18,20 @@
     <b-form-group id="tenants-wanted-ocupation-form-group" label="Ocupação:">
       <b-form-checkbox-group
         id="checkbox-group-1"
-        v-model="ocupation"
-        :options="optionsOcupation"
+        v-model="allowedOccupations"
+        :options="optionsOccupation"
         buttons
         button-variant="secondary"
-        disable
+        disabled
       ></b-form-checkbox-group>
     </b-form-group>
     <b-row align-h="center">
       <b-col cols="3">
         <b-form-checkbox
           id="checkbox-2"
-          v-model="allowedSmoker"
+          v-model="allowedSmokers"
           name="checkbox-2"
-          disable
+          disabled
         >Permitir fumadores</b-form-checkbox>
       </b-col>
       <b-col cols="3">
@@ -39,7 +39,7 @@
           id="checkbox-3"
           v-model="allowedPets"
           name="checkbox-3"
-          disable
+          disabled
         >Permitir animais de estimação</b-form-checkbox>
       </b-col>
     </b-row>
@@ -50,33 +50,27 @@
 export default {
   name: 'TenantsWanted',
   props: {
-    genre: {
-      required: true,
+    allowedGenders: {
       type: String
     },
     allowedMinAge: {
-      required: true,
       type: Number
     },
     allowedMaxAge: {
-      required: true,
       type: Number
     },
-    ocupation: {
-      required: true,
+    allowedOccupations: {
       type: Array
     },
-    allowedSmoker: {
-      required: true,
+    allowedSmokers: {
       type: Boolean
     },
     allowedPets: {
-      required: true,
       type: Boolean
     }
   },
   data: () => ({
-    optionsOcupation: [
+    optionsOccupation: [
       { value: 'student', text: 'Estudante' },
       { value: 'studentWorker', text: 'Trabalhador-estudante' },
       { value: 'worker', text: 'Trabalhador' },

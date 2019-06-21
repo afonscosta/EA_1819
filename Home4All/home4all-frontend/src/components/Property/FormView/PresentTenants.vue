@@ -39,7 +39,7 @@
         <b-col>
           <b-form-group id="input-group-19-4" label="Animais de estimação:">
             <b-input
-              v-model.number="shared.pets"
+              v-model.number="shared.petsQuantity"
               type="number"
               @change="updateSharedPets"
             ></b-input>
@@ -55,7 +55,7 @@
           @change="updateSharedOcupation"
         ></b-form-checkbox-group>
       </b-form-group>
-      <Pets :petsType="petsType"
+      <Pets :pets="pets"
         @addPetType="addPetType"
         @deletePetType="deletePetType"
       />
@@ -76,7 +76,7 @@ export default {
       required: true,
       type: String
     },
-    petsType: {
+    pets: {
       required: true,
       type: Array
     }
@@ -86,7 +86,7 @@ export default {
       females: '0',
       males: '0',
       smokers: '0',
-      pets: '0',
+      petsQuantity: '0',
       totalAccess: false, // Não está no mockup mas está no VPP
       ocupation: []
     },

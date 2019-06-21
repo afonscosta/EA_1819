@@ -14,7 +14,7 @@
         <b-button variant="primary" @click="addPetType">Adicionar</b-button>
       </b-col>
     </b-row>
-    <b-row v-for="(pet, idx) in petsType" :key="idx">
+    <b-row v-for="(pet, idx) in pets" :key="idx">
       <b-col cols="2">
         <p>{{ pet }}</p>
       </b-col>
@@ -29,7 +29,7 @@
 export default {
   name: 'Pets',
   props: {
-    petsType: {
+    pets: {
       required: true,
       type: Array
     }

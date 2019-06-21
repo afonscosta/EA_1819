@@ -5,9 +5,12 @@
     header="Quartos disponíveis"
     header-border-variant="secondary"
   >
-    <b-row align-v="end">
+    <b-row v-for="bedroom in bedrooms" :key="bedroom.id" align-v="end">
       <b-col>
         <label>Tipo: {{ bedroom.type }}</label>
+      </b-col>
+      <b-col v-if="bedroom.type === 'multiple'">
+        <label>Nº de pessoas: {{ bedroom.peopleAmount }}</label>
       </b-col>
       <b-col>
         <label>Área: {{ bedroom.area }}</label>
@@ -19,7 +22,7 @@
               id="furnished"
               v-model="bedroom.furnished"
               name="checkbox-4"
-              disable
+              disabled
             >Mobilado</b-form-checkbox>
           </b-col>
           <b-col cols="12">
@@ -27,7 +30,7 @@
               id="privateBathroom"
               v-model="bedroom.privateBathroom"
               name="checkbox-5"
-              disable
+              disabled
             >Casa de banho privativa</b-form-checkbox>
           </b-col>
         </b-row>
@@ -47,12 +50,10 @@ export default {
   name: 'Bedroom',
   props: {
     type: {
-      required: true,
       type: String
     },
-    bedroom: {
-      required: true,
-      type: Object
+    bedrooms: {
+      type: Array
     }
   }
 }
