@@ -42,8 +42,9 @@
                 @updateFurnished="updateFurnished"
                 @updateTotalAccess="updateTotalAccess"
                 @updateAvailability="updateAvailability"
-                @updateOperation="updateOperation"
-                @updateRentPrice="updateRentPrice"
+                @updateRent="updateRent"
+                @updateSell="updateSell"
+                @updateRentPrice="updateExpensesIncluded"
                 @updateSellPrice="updateSellPrice"/>
             </b-card-group>
 
@@ -65,30 +66,29 @@
               v-if="form.operation != 'sell'"
               class="present-tenants"
               :type="form.type"
-              :petsType="form.petsType"
+              :pets="form.pets"
               @updateSharedFemales="updateSharedFemales"
               @updateSharedMales="updateSharedMales"
               @updateSharedSmokers="updateSharedSmokers"
               @updateSharedPets="updateSharedPets"
-              @updateSharedOcupation="updateSharedOcupation"
+              @updateSharedOcupation="updateSharedOccupation"
               @addPetType="addPetType"
               @deletePetType="deletePetType"/>
 
             <b-card-group deck>
               <RentInclude
                 v-if="form.operation != 'sell'"
-                @updateRentInc="updateRentInc"/>
-              <DivEquipInclude @updateDivEquipInc="updateDivEquipInc"/>
+                @updateExpensesIncluded="updateExpensesIncluded"/>
+              <DivEquipInclude @updateEquipmentIncluded="updateEquipmentIncluded"/>
             </b-card-group>
 
             <TenantsWanted
               v-if="form.operation != 'sell'"
               class="tenants-wanted"
-              @updateRentInc="updateRentInc"
-              @updateAllowedGenre="updateAllowedGenre"
+              @updateAllowedGenders="updateAllowedGenders"
               @updateAllowedMinAge="updateAllowedMinAge"
               @updateAllowedMaxAge="updateAllowedMaxAge"
-              @updateAllowedOcupations="updateAllowedOcupations"
+              @updateAllowedOccupations="updateAllowedOccupations"
               @updateAllowedSmokers="updateAllowedSmokers"
               @updateAllowedPets="updateAllowedPets"/>
 
@@ -144,30 +144,32 @@ export default {
       furnished: false,
       totalAccess: false,
       availability: '',
-      operation: null,
+      rent: false,
+      sell: false,
       rentPrice: 0,
       sellPrice: 0,
-      rentInc: [],
-      allowedGenre: 'undefined',
+      expensesIncluded: [],
+      allowedGenders: 'undefined',
       allowedMinAge: null,
       allowedMaxAge: null,
-      allowedOcupations: [
+      allowedOccupations: [
         'student',
         'studentWorker',
         'worker',
         'retired',
         'unemployed'
       ],
-      allowedSmoker: true,
+      allowedSmokers: true,
       allowedPets: true,
-      divEquipInc: [],
+      equipmentIncluded: [],
       bedrooms: [],
       females: 0,
       males: 0,
       smokers: 0,
-      pets: 0,
-      ocupations: null,
-      petsType: []
+      petsQuantity: 0,
+      occupations: [],
+      pets: [],
+      images: []
     },
     bedroom: {
       type: null,
@@ -178,13 +180,12 @@ export default {
       rentPrice: 0,
       images: [],
       peopleAmount: 0
-    },
-    images: []
+    }
   }),
   methods: {
     ...mapActions('properties', ['addProperty']),
     updateImages (imgs) {
-      this.images = imgs
+      this.form.images = imgs
     },
     onSubmit (evt) {
       evt.preventDefault()
@@ -194,8 +195,15 @@ export default {
         // this.form.bedrooms = [this.bedroom]
         // this.$bvModal.show('info')
         console.log(this.form)
-        var payload = this.prepareImagesPayload()
-        this.addProperty(payload)
+        this.form.images = this.form.images.map((i) => {
+          return btoa(i)
+        })
+        this.form.bedrooms = this.form.bedrooms.map((b) => {
+          b.images = b.images.map((i) => { return btoa(i) })
+          return b
+        })
+        this.addProperty(this.form)
+        // this.$router.push({ name: 'propertyView' })
       }
     },
     prepareImagesPayload () {
@@ -250,8 +258,11 @@ export default {
     updateAvailability (value) {
       this.form.availability = value
     },
-    updateOperation (checked) {
-      this.form.operation = checked
+    updateRent (checked) {
+      this.form.rent = checked
+    },
+    updateSell (checked) {
+      this.form.sell = checked
     },
     updateRentPrice (value) {
       this.form.rentPrice = value
@@ -260,11 +271,11 @@ export default {
       this.form.sellPrice = value
     },
 
-    updateRentInc (checked) {
-      this.form.rentInc = checked
+    updateExpensesIncluded (checked) {
+      this.form.expensesIncluded = checked
     },
-    updateAllowedGenre (value) {
-      this.form.allowedGenre = value
+    updateAllowedGenders (value) {
+      this.form.allowedGenders = value
     },
     updateAllowedMinAge (value) {
       this.form.allowedMinAge = value
@@ -272,11 +283,11 @@ export default {
     updateAllowedMaxAge (value) {
       this.form.allowedMaxAge = value
     },
-    updateAllowedOcupations (checked) {
-      this.form.allowedOcupations = checked
+    updateAllowedOccupations (checked) {
+      this.form.allowedOccupations = checked
     },
     updateAllowedSmokers (checked) {
-      this.form.allowedSmoker = checked
+      this.form.allowedSmokers = checked
     },
     updateAllowedPets (checked) {
       this.form.allowedPets = checked
@@ -292,19 +303,19 @@ export default {
       this.form.smokers = value
     },
     updateSharedPets (value) {
-      this.form.pets = value
-    },
-    updateSharedOcupation (checked) {
-      this.form.ocupations = checked
-    },
-    updateDivEquipInc (checked) {
-      this.form.divEquipInc = checked
+      this.form.petsQuantity = value
     },
     addPetType (pet) {
-      this.form.petsType.push(pet)
+      this.form.pets.push(pet)
     },
     deletePetType (idx) {
-      this.form.petsType.splice(idx, 1)
+      this.form.pets.splice(idx, 1)
+    },
+    updateSharedOccupation (checked) {
+      this.form.occupations = checked
+    },
+    updateEquipmentIncluded (checked) {
+      this.form.equipmentIncluded = checked
     },
     addBedroom () {
       this.form.bedrooms.push(this.bedroom)

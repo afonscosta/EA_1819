@@ -7,11 +7,11 @@
     <b-form-group id="rent-inc-form-group">
       <b-form-checkbox-group
         id="rent-inc-checkbox-group"
-        v-model="rentInc"
+        v-model="expensesIncluded"
         :options="optionsRentInc"
         buttons
         button-variant="secondary"
-        disable
+        disabled
       ></b-form-checkbox-group>
     </b-form-group>
   </b-card>
@@ -21,8 +21,7 @@
 export default {
   name: 'RentInclude',
   props: {
-    rentInc: {
-      required: true,
+    expensesIncluded: {
       type: Array
     }
   },

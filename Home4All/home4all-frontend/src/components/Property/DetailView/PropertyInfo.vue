@@ -10,7 +10,6 @@
         <p>Imóvel: {{ type }}</p>
       </b-col>
       <b-col>
-        <p>Imóvel: {{ type }}</p>
         <p>Tipologia: {{ typology }}</p>
       </b-col>
       <b-col>
@@ -28,6 +27,8 @@
     </b-row>
 
     <p>Endereço completo: {{ address }}</p>
+    <p>Latitude: {{ lat }}</p>
+    <p>Longitude: {{ lng }}</p>
 
     <b-row>
       <b-col>
@@ -36,7 +37,7 @@
           v-model="furnished"
           name="checkbox-1"
           class="pb-2"
-          disable
+          disabled
         >Mobilado</b-form-checkbox>
       </b-col>
       <b-col>
@@ -45,7 +46,7 @@
           v-model="totalAccess"
           name="checkbox-totalAccess"
           class="pb-2"
-          disable
+          disabled
         >Acesso total</b-form-checkbox>
       </b-col>
     </b-row>
@@ -54,17 +55,23 @@
       <b-col>
         <p v-if="type !== 'bedrooms'">Disponível a partir de: {{ availability }}</p>
       </b-col>
-      <b-col>
-        <p v-if="type !== 'bedrooms'">Operação: {{ operation }}</p>
+      <b-col v-if="type !== 'bedrooms' && rent && !sell">
+        <p>Operação: arrendar</p>
+      </b-col>
+      <b-col v-if="type !== 'bedrooms' && !rent && sell">
+        <p>Operação: vender</p>
+      </b-col>
+      <b-col v-if="type !== 'bedrooms' && rent && sell">
+        <p>Operação: vender/arrendar</p>
       </b-col>
     </b-row>
 
     <b-row>
       <b-col>
-        <p v-if="type !== 'bedrooms'">Mensalidade: {{ rentPrice }}</p>
+        <p v-if="type !== 'bedrooms' && rent">Mensalidade: {{ rentPrice }}</p>
       </b-col>
       <b-col>
-        <p v-if="type !== 'bedrooms'">Preço total: {{ sellPrice }}</p>
+        <p v-if="type !== 'bedrooms' && sell">Preço total: {{ sellPrice }}</p>
       </b-col>
     </b-row>
   </b-card>
@@ -75,55 +82,51 @@ export default {
   name: 'PropertyInfo',
   props: {
     description: {
-      required: true,
       type: String
     },
     type: {
-      required: true,
       type: String
     },
     typology: {
-      required: true,
       type: String
     },
     area: {
-      required: true,
       type: Number
     },
     district: {
-      required: true,
       type: String
     },
     city: {
-      required: true,
       type: String
     },
     address: {
-      required: true,
       type: String
     },
+    lat: {
+      type: Number
+    },
+    lng: {
+      type: Number
+    },
     furnished: {
-      required: true,
       type: Boolean
     },
     totalAccess: {
-      required: true,
       type: Boolean
     },
     availability: {
-      required: true,
       type: String
     },
-    operation: {
-      required: true,
-      type: String
+    rent: {
+      type: Boolean
+    },
+    sell: {
+      type: Boolean
     },
     rentPrice: {
-      required: true,
       type: Number
     },
     sellPrice: {
-      required: true,
       type: Number
     }
   }

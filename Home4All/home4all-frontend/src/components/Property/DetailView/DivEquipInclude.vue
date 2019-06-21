@@ -6,9 +6,9 @@
   >
     <b-form-group id="div-equip-form-group">
       <b-form-checkbox-group
-        disable
+        disabled
         id="checkbox-group-3"
-        v-model="divEquipInc"
+        v-model="equipmentIncluded"
         :options="optionsDivEquipInc"
         buttons
         button-variant="secondary"
@@ -21,8 +21,7 @@
 export default {
   name: 'DivEquipInclude',
   props: {
-    divEquipInc: {
-      required: true,
+    equipmentIncluded: {
       type: Array
     }
   },

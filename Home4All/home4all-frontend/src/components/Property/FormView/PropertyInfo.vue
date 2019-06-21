@@ -99,19 +99,28 @@
           ></b-input>
         </b-form-group>
       </b-col>
-      <b-col>
-        <b-form-group id="input-group-12" v-if="type !== 'bedrooms'" label="Operação:" label-for="input-12">
-          <b-form-select
-            v-model="operation"
-            :options="optionsOperation"
-            @change="updateOperation"
-          ></b-form-select>
-        </b-form-group>
+      <b-col v-if="type !== 'bedrooms'">
+        <b-form-checkbox
+          id="checkbox-rent"
+          v-model="rent"
+          name="checkbox-rent"
+        >
+          Arrendar
+        </b-form-checkbox>
+      </b-col>
+      <b-col v-if="type !== 'bedrooms'">
+        <b-form-checkbox
+          id="checkbox-sell"
+          v-model="sell"
+          name="checkbox-sell"
+        >
+          Vender
+        </b-form-checkbox>
       </b-col>
     </b-row>
 
     <b-row>
-      <b-col v-if="type !== 'bedrooms' && operation !== 'sell'">
+      <b-col v-if="type !== 'bedrooms' && rent">
         <b-form-group
           id="input-group-13"
           label="Mensalidade:"
@@ -124,7 +133,7 @@
           ></b-input>
         </b-form-group>
       </b-col>
-      <b-col v-if="type !== 'bedrooms' && operation !== 'rent'">
+      <b-col v-if="type !== 'bedrooms' && sell">
         <b-form-group
           id="input-group-14"
           label="Preço total:"
@@ -144,62 +153,7 @@
 <script>
 export default {
   name: 'PropertyInfo',
-  props: {
-    descriptionData: {
-      required: false,
-      type: String
-    },
-    typeData: {
-      required: false,
-      type: String
-    },
-    typologyData: {
-      required: false,
-      type: String
-    },
-    areaData: {
-      required: false,
-      type: Number
-    },
-    districtData: {
-      required: false,
-      type: String
-    },
-    cityData: {
-      required: false,
-      type: String
-    },
-    addressData: {
-      required: false,
-      type: String
-    },
-    furnishedData: {
-      required: false,
-      type: Boolean
-    },
-    totalAccessData: {
-      required: false,
-      type: Boolean
-    },
-    availabilityData: {
-      required: false,
-      type: String
-    },
-    operationData: {
-      required: false,
-      type: String
-    },
-    rentPriceData: {
-      required: false,
-      type: Number
-    },
-    sellPriceData: {
-      required: false,
-      type: Number
-    }
-  },
   data: () => ({
-    currentPlace: null,
     description: '',
     type: '',
     typology: null,
@@ -212,7 +166,8 @@ export default {
     furnished: false,
     totalAccess: false,
     availability: '',
-    operation: null,
+    rent: true,
+    sell: false,
     rentPrice: 0,
     sellPrice: 0,
     optionsType: [
@@ -243,57 +198,8 @@ export default {
       { value: 'both', text: 'Vender/Arrendar' }
     ]
   }),
-  created () {
-    if (this.descriptionData) {
-      this.description = this.descriptionData
-    }
-    if (this.typeData) {
-      this.type = this.typeData
-    }
-    if (this.typologyData) {
-      this.typology = this.typologyData
-    }
-    if (this.areaData) {
-      this.area = this.areaData
-    }
-    if (this.districtData) {
-      this.district = this.districtData
-    }
-    if (this.cityData) {
-      this.city = this.cityData
-    }
-    if (this.addressData) {
-      this.address = this.addressData
-    }
-    if (this.latData) {
-      this.lat = this.latData
-    }
-    if (this.lngData) {
-      this.lng = this.lngData
-    }
-    if (this.furnishedData) {
-      this.furnished = this.furnishedData
-    }
-    if (this.totalAccessData) {
-      this.totalAccess = this.totalAccessData
-    }
-    if (this.availabilityData) {
-      this.availability = this.availabilityData
-    }
-    if (this.operationData) {
-      this.operation = this.operationData
-    }
-    if (this.rentPriceData) {
-      this.rentPrice = this.rentPriceData
-    }
-    if (this.sellPriceData) {
-      this.sellPrice = this.sellPriceData
-    }
-  },
   methods: {
     setPlace (place) {
-      this.currentPlace = place
-      console.log('setPlace', this.currentPlace)
       var addrComponents = place.address_components
       if (addrComponents) {
         addrComponents.forEach((comp) => {
@@ -320,6 +226,10 @@ export default {
       // eslint-disable-next-line
       if (checked == 'apartment' || checked == 'villa') {
         this.$emit('updateTotalAccess', true)
+      // eslint-disable-next-line
+      } else if (checked == 'bedrooms') {
+        this.$emit('updateRent', true)
+        this.$emit('updateSell', false)
       }
     },
     updateTypology (checked) {
@@ -337,8 +247,11 @@ export default {
     updateAvailability (value) {
       this.$emit('updateAvailability', value)
     },
-    updateOperation (checked) {
-      this.$emit('updateOperation', checked)
+    updateRent (checked) {
+      this.$emit('updateRent', checked)
+    },
+    updateSell (checked) {
+      this.$emit('updateSell', checked)
     },
     updateRentPrice (value) {
       this.$emit('updateRentPrice', value)
