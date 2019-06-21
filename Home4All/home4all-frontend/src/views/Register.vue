@@ -58,7 +58,6 @@
             <b-form-input
               id="input-5"
               v-model="form.phone"
-              required
               placeholder="Insira o seu número"
             ></b-form-input>
           </b-form-group>
