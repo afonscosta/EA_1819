@@ -1,5 +1,6 @@
 package web;
 
+import business.Home4All;
 import business.entities.InternalAccount;
 import business.entities.Users;
 import com.google.gson.Gson;
@@ -16,6 +17,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -33,22 +35,23 @@ public class Login extends HttpServlet {
             String email = (String) user.get("email");
             String password = (String) user.get("password");
             System.out.println("Autenticate user " + email + "...");
-            Users currentUser = UsersDAO.loadUsersByQuery("email='"+email+"' AND password='"+password+"'", null);
+            Users currentUser = Home4All.login(email, password);
             if (currentUser!=null) {
                 session.setAttribute("currentSessionUser", currentUser);
+                /*
                 Enumeration<String> headers = request.getHeaderNames();
                 while (headers.hasMoreElements()) {
                     String header = headers.nextElement();
                     System.out.println(header);
                     System.out.println(request.getHeader(header));
                 }
-                LinkedTreeMap data = new LinkedTreeMap();
+                */
+                Map data = new HashMap();
                 data.put("id", session.getId());
                 response.setContentType("application/json"); // multipart/form-data
                 response.setCharacterEncoding("UTF-8");
                 PrintWriter out = response.getWriter();
                 out.print(gson.toJson(data));
-                LOGGER.info("FINISH LOGIN");
                 out.flush();
             }
             else{

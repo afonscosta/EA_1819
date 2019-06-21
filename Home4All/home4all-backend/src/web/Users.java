@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 @WebServlet(name = "Users", urlPatterns = {"/users"})
@@ -26,9 +27,15 @@ public class Users extends HttpServlet {
         LOGGER.info("POST USERS");
         try {
             BufferedReader reader = request.getReader();
-            InternalAccount u = gson.fromJson(reader, InternalAccount.class);
-            Common user = Home4All.insertCommonUser(u.getEmail(), u.getName(), u.getPassword(), u.getAge(), u.getPhone(),
-                                                    null, null);
+            Map u = gson.fromJson(reader, Map.class);
+            Common user = Home4All.insertCommonUser((String) u.getOrDefault("email", null),
+                                                    (String) u.getOrDefault("name",null),
+                                                    (String) u.getOrDefault("password", null),
+                                                    (String) u.getOrDefault("age", null),
+                                                    (String) u.getOrDefault("phone", null),
+                                                    (String) u.getOrDefault("gender",null),
+                                                    (String) u.getOrDefault("occupation", null));
+            LOGGER.info("DONE THE JOB");
             String userJsonString = JsonParser.userToJson(user);
             response.setContentType("application/json"); // multipart/form-data
             response.setCharacterEncoding("UTF-8");

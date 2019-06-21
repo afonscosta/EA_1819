@@ -39,13 +39,18 @@ public class Home4All {
         return null;
     }
 
+    public static Users login(String email, String password) throws PersistentException{
+        return usersBean.login(email,password);
+    }
+
 
     public static List<Users> listUsers() throws PersistentException {
         return usersBean.listUsers();
     }
 
-    public static Common insertCommonUser(String email, String name, String password, int age, String phone,
-                                          Gender gender, Occupation occupation) throws PersistentException {
+    public static Common insertCommonUser(String email, String name, String password, String age, String phone,
+                                          String gender, String occupation)
+                                throws PersistentException, GenderNotExistentException, OccupationNotExistentException {
         return usersBean.insertCommonUser(email, name, password, age, phone, gender, occupation);
     }
 
