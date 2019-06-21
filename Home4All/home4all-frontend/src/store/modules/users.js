@@ -29,6 +29,7 @@ const mutations = {
 const actions = {
   getUsers ({ commit }) {
     usersService.fetchUsers().then(users => {
+      console.log(users)
       commit('setUsers', users)
     })
   },
