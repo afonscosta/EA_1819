@@ -8,14 +8,13 @@ import org.orm.PersistentSession;
 import org.orm.PersistentTransaction;
 
 import javax.ejb.Stateless;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 @Stateless(name = "PropertyEJB")
-public class PropertyBean implements PropertyBeanLocal{
-    // TODO: Dúvida - variável session no PropertyBean Stateless
-
+public class PropertyBean implements PropertyBeanLocal {
     private static PersistentSession session = null;
 
     public PropertyBean() {
@@ -109,21 +108,30 @@ public class PropertyBean implements PropertyBeanLocal{
 
     @Override
     public Property registerPrivateProperty(
-                String name, List<String> photos, String description, String type, String typology,
+                Integer ID, String name, List<String> photos, String description, String type, String typology,
                 float area, String district, String city, String completeAddress, float lat, float lng,
                 boolean furnished, Date availability, boolean rent, boolean sell, Float rentPrice, Float sellPrice,
                 List<String> expensesIncluded, List<String> equipmentIncluded,
                 Integer allowedMinAge, Integer allowedMaxAge, boolean allowedSmokers, boolean allowedPets,
                 List<String> allowedOccupations, String allowedGenders, int ownerId)
             throws PersistentException, TypologyNotExistentException, ExpenseNotExistentException,
-            EquipmentNotExistentException, OccupationNotExistentException, GenderNotExistentException {
+            EquipmentNotExistentException, OccupationNotExistentException, GenderNotExistentException, PropertyNotExistentException {
 
         Private property;
 
-        if (type.equals("villa"))
-            property = VillaDAO.createVilla();
-        else
-            property = ApartmentDAO.createApartment();
+        if (ID == null) {
+            if (type.equals("villa"))
+                property = VillaDAO.createVilla();
+            else
+                property = ApartmentDAO.createApartment();
+        }
+        else {
+            Property p = getProperty(ID);
+            if (p instanceof Private)
+                property = (Private) p;
+            else
+                throw new PropertyNotExistentException();
+        }
 
         changeProperty(property, name, photos, description, typology, area,
                 district, city, completeAddress, lat, lng, expensesIncluded, equipmentIncluded,
@@ -150,7 +158,7 @@ public class PropertyBean implements PropertyBeanLocal{
 
     @Override
     public Property registerSharedProperty(
-                String name, List<String> photos, String description, String typology,
+                Integer ID, String name, List<String> photos, String description, String typology,
                 float area, String district, String city, String completeAddress, float lat, float lng,
                 List<String> expensesIncluded, List<String> equipmentIncluded,
                 Integer allowedMinAge, Integer allowedMaxAge, boolean allowedSmokers, boolean allowedPets,
@@ -159,12 +167,23 @@ public class PropertyBean implements PropertyBeanLocal{
                 boolean totalAccess, List<Map<String, Object>> bedrooms, int ownerId)
             throws TypologyNotExistentException, OccupationNotExistentException, EquipmentNotExistentException,
             ExpenseNotExistentException, PersistentException, GenderNotExistentException, MissingPropertiesException,
-            BedroomTypeNotExistentException {
+            BedroomTypeNotExistentException, PropertyNotExistentException {
 
         PersistentSession s = getSession();
         PersistentTransaction t = s.beginTransaction();
         try {
-            Shared property = SharedDAO.createShared();
+            Shared property;
+
+            if (ID == null) {
+                property = SharedDAO.createShared();
+            }
+            else {
+                Property p = getProperty(ID);
+                if (p instanceof Shared)
+                    property = (Shared) p;
+                else
+                    throw new PropertyNotExistentException();
+            }
 
             changeProperty(property, name, photos, description, typology, area,
                     district, city, completeAddress, lat, lng, expensesIncluded, equipmentIncluded,
@@ -252,7 +271,9 @@ public class PropertyBean implements PropertyBeanLocal{
     }
 
     public String nextImageName(String originalName, String format) throws PersistentException {
-        Photo photo = PhotoDAO.loadPhotoByRegexPath(originalName, format);
+        PersistentSession session = getSession();
+        /*
+        Photo photo = PhotoDAO.loadPhotoByRegexPath(originalName, format, session);
 
         if (photo == null) {
             return originalName + "." + format;
@@ -264,9 +285,21 @@ public class PropertyBean implements PropertyBeanLocal{
             int suffix_int = (suffix.isEmpty() ? 0 : Integer.parseInt(suffix)) + 1;
             return String.format("%s_%d", originalName, suffix_int) + "." + format;
         }
+        */
+
+        BigInteger next_new_path_id = (BigInteger) session.createSQLQuery("SELECT nextval('new_image_id')")
+                                                          .list().get(0);
+        return String.format("%s_%d.%s", originalName, next_new_path_id, format);
     }
 
     public Property getProperty(int ID) throws PersistentException {
-        return PropertyDAO.getPropertyByORMID(ID);
+        PersistentSession session = getSession();
+        return PropertyDAO.getPropertyByORMID(session, ID);
+    }
+
+    public boolean deleteProperty(int ID) throws PersistentException {
+        PersistentSession session = getSession();
+        Property property = PropertyDAO.getPropertyByORMID(session, ID);
+        return PropertyDAO.deleteAndDissociate(property, session);
     }
 }

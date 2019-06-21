@@ -406,10 +406,8 @@ public class PhotoDAO {
 		}
 	}
 
-	public static Photo loadPhotoByRegexPath(String name, String format) throws PersistentException {
+	public static Photo loadPhotoByRegexPath(String name, String format, PersistentSession session) throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
-
 			Query query = session.createSQLQuery(
 					"SELECT id FROM Photo " +
 							"WHERE path SIMILAR TO CONCAT(:name, '(_\\d+)?.', :format) " +

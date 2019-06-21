@@ -3,6 +3,7 @@ package tests;
 import business.entities.*;
 import data.*;
 import org.orm.PersistentException;
+import org.orm.PersistentSession;
 import org.orm.PersistentTransaction;
 
 public class PopulateEnumerations {
@@ -56,7 +57,8 @@ public class PopulateEnumerations {
 
     public static void main(String[] args) {
         try {
-            PersistentTransaction t = data.Home4AllPersistentManager.instance().getSession().beginTransaction();
+            PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+            PersistentTransaction t = session.beginTransaction();
             try {
                 // GENDERS
                 createGender("female");
@@ -131,6 +133,10 @@ public class PopulateEnumerations {
                 createOrdination("Publication Date: oldest first");
                 createOrdination("Advertiser Login: newest first");
                 createOrdination("Advertiser Login: oldest first");
+
+                // Create images name sequence
+                session.createSQLQuery("DROP SEQUENCE IF EXISTS new_image_id; " +
+                                          "CREATE  SEQUENCE new_image_id").executeUpdate();
 
                 t.commit();
             }
