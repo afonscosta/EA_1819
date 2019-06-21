@@ -35,7 +35,6 @@ public class Users extends HttpServlet {
                                                     (String) u.getOrDefault("phone", null),
                                                     (String) u.getOrDefault("gender",null),
                                                     (String) u.getOrDefault("occupation", null));
-            LOGGER.info("DONE THE JOB");
             String userJsonString = JsonParser.userToJson(user);
             response.setContentType("application/json"); // multipart/form-data
             response.setCharacterEncoding("UTF-8");

@@ -42,7 +42,6 @@ public class UsersBean implements UsersBeanLocal {
         else {
             user = CommonDAO.createCommon();
         }
-        System.out.println("vou buscar o genero e occupation");
         Gender genderValue;
         if (gender!=null) {
             genderValue = GenderDAO.loadGenderByORMID(gender);
@@ -71,7 +70,6 @@ public class UsersBean implements UsersBeanLocal {
         user.setOccupation(occupationValue);
         user.setLastLogin(new Date());
         CommonDAO.save(user);
-        System.out.println(user);
         return CommonDAO.loadCommonByQuery("email = '" + email + "'", null);
     }
 
