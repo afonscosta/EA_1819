@@ -63,6 +63,21 @@
             ></b-form-input>
           </b-form-group>
 
+          <b-form-group
+            id="input-group-6"
+            label="Data de nascimento:"
+            label-for="input-6"
+          >
+            <b-form-input
+              id="input-6"
+              v-model="form.birthday"
+              required
+              placeholder="Selecione a sua data de nascimento"
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-select v-model="form.gender" :options="gender_options"></b-form-select>
+
           <b-button type="submit" variant="primary">Submit</b-button>
           <b-button type="reset" variant="danger">Reset</b-button>
           <b-button v-if="selected.length > 0" @click="deleteU" variant="danger"
@@ -107,9 +122,16 @@ export default {
       name: '',
       password: '',
       age: null,
-      phone: ''
+      phone: '',
+      birthday: '',
+      gender: ''
     },
-    selected: []
+    selected: [],
+    gender_options: [
+      { value: null, text: 'Selecione o seu género' },
+      { value: 'male', text: 'Masculino' },
+      { value: 'female', text: 'Feminino' }
+    ]
   }),
   created () {
     this.getUsers()
