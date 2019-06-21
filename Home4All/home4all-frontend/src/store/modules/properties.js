@@ -24,6 +24,7 @@ const mutations = {
   },
   addProperty (state, property) {
     state.properties.push(property)
+    state.property = property
   },
   updateProperty (state, property) {
     state.properties = state.properties.filter(u => u.id !== property.id)
@@ -57,6 +58,7 @@ const actions = {
   addProperty ({ commit }, property) {
     console.log('add property enviado para o backend')
     propertiesService.postProperty(property).then(newProperty => {
+      console.log('newProperty', newProperty)
       commit('addProperty', newProperty)
     })
   },

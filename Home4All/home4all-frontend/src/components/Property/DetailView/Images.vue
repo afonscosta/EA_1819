@@ -2,8 +2,8 @@
   <b-card>
     <b-row align-v="start">
       <b-col class="images-col">
-        <div v-for="(file, key) in files" :key="key">
-          <img class="preview" v-bind:ref="'image'+parseInt( key )"/>
+        <div v-for="(image, key) in images" :key="key">
+          <img v-bind:src="'data:image/jpeg;base64,'+image"/>
         </div>
       </b-col>
     </b-row>
@@ -14,8 +14,7 @@
 export default {
   name: 'Images',
   props: {
-    files: {
-      required: true,
+    images: {
       type: Array
     }
   }

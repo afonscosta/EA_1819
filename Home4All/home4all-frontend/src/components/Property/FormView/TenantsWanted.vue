@@ -6,11 +6,11 @@
   >
     <b-row>
       <b-col>
-        <b-form-group id="genre-form-group" label="Género:">
+        <b-form-group id="gender-form-group" label="Género:">
           <b-form-select
-            v-model="genre"
-            :options="optionsGenre"
-            @change="updateAllowedGenre"
+            v-model="allowedGenders"
+            :options="optionsGender"
+            @change="updateAllowedGenders"
           ></b-form-select>
         </b-form-group>
       </b-col>
@@ -33,21 +33,21 @@
         </b-form-group>
       </b-col>
     </b-row>
-    <b-form-group id="tenants-wanted-ocupation-form-group" label="Ocupação:">
+    <b-form-group id="tenants-wanted-occupation-form-group" label="Ocupação:">
       <b-form-checkbox-group
         id="checkbox-group-1"
-        v-model="ocupation"
-        :options="optionsOcupation"
+        v-model="allowedOccupations"
+        :options="optionsOccupation"
         buttons
         button-variant="secondary"
-        @change="updateAllowedOcupations"
+        @change="updateAllowedOccupations"
       ></b-form-checkbox-group>
     </b-form-group>
     <b-row align-h="center">
       <b-col cols="3">
         <b-form-checkbox
           id="checkbox-2"
-          v-model="allowedSmoker"
+          v-model="allowedSmokers"
           name="checkbox-2"
           @change="updateAllowedSmokers"
         >Permitir fumadores</b-form-checkbox>
@@ -67,51 +67,25 @@
 <script>
 export default {
   name: 'TenantsWanted',
-  props: {
-    genreData: {
-      required: false,
-      type: String
-    },
-    allowedMinAgeData: {
-      required: false,
-      type: Number
-    },
-    allowedMaxAgeData: {
-      required: false,
-      type: Number
-    },
-    ocupationData: {
-      required: false,
-      type: Array
-    },
-    allowedSmokerData: {
-      required: false,
-      type: Boolean
-    },
-    allowedPetsData: {
-      required: false,
-      type: Boolean
-    }
-  },
   data: () => ({
-    genre: 'undefined',
+    allowedGenders: 'undefined',
     allowedMinAge: null,
     allowedMaxAge: null,
-    ocupation: [
+    allowedOccupations: [
       'student',
       'studentWorker',
       'worker',
       'retired',
       'unemployed'
     ],
-    allowedSmoker: true,
+    allowedSmokers: true,
     allowedPets: true,
-    optionsGenre: [
+    optionsGender: [
       { value: 'undefined', text: 'Indiferente' },
       { value: 'female', text: 'Feminino' },
       { value: 'male', text: 'Masculino' }
     ],
-    optionsOcupation: [
+    optionsOccupation: [
       { value: 'student', text: 'Estudante' },
       { value: 'studentWorker', text: 'Trabalhador-estudante' },
       { value: 'worker', text: 'Trabalhador' },
@@ -119,29 +93,9 @@ export default {
       { value: 'unemployed', text: 'Desempregado' }
     ]
   }),
-  created () {
-    if (this.genreData) {
-      this.genre = this.genreData
-    }
-    if (this.allowedMinAgeData) {
-      this.allowedMinAge = this.allowedMinAgeData
-    }
-    if (this.allowedMaxAgeData) {
-      this.allowedMaxAge = this.allowedMaxAgeData
-    }
-    if (this.ocupationData) {
-      this.ocupation = this.ocupationData
-    }
-    if (this.allowedSmokerData) {
-      this.allowedSmoker = this.allowedSmokerData
-    }
-    if (this.allowedPetsData) {
-      this.allowedPets = this.allowedPetsData
-    }
-  },
   methods: {
-    updateAllowedGenre (value) {
-      this.$emit('updateAllowedGenre', value)
+    updateAllowedGenders (value) {
+      this.$emit('updateAllowedGenders', value)
     },
     updateAllowedMinAge (value) {
       this.$emit('updateAllowedMinAge', value)
@@ -149,8 +103,8 @@ export default {
     updateAllowedMaxAge (value) {
       this.$emit('updateAllowedMaxAge', value)
     },
-    updateAllowedOcupations (checked) {
-      this.$emit('updateAllowedOcupations', checked)
+    updateAllowedOccupations (checked) {
+      this.$emit('updateAllowedOccupations', checked)
     },
     updateAllowedSmokers (checked) {
       this.$emit('updateAllowedSmokers', checked)

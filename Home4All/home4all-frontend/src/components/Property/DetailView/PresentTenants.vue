@@ -7,24 +7,26 @@
   >
     <b-row>
       <b-col>
-        <label>Feminino: {{ shared.females }}</label>
+        <label>Feminino: {{ females }}</label>
       </b-col>
       <b-col>
-        <label>Masculino: {{ shared.males }}</label>
+        <label>Masculino: {{ males }}</label>
       </b-col>
       <b-col>
-        <label>Fumadores: {{ shared.smokers }}</label>
+        <label>Fumadores: {{ smokers }}</label>
       </b-col>
       <b-col>
-        <label>Animais de estimação: {{ shared.pets }}</label>
+        <label>Nº de animais de estimação: {{ petsQuantity }}</label>
       </b-col>
-      {{ shared.petsType }}
+      <b-col>
+        <label>Tipos de animais de estimação: {{ pets }}</label>
+      </b-col>
     </b-row>
     <b-form-group id="present-tenants-ocupation-form-group" label="Ocupações dos arrendatários atuais:">
       <b-form-checkbox-group
-        disable
-        v-model="shared.ocupation"
-        :options="optionsOcupation"
+        disabled
+        v-model="occupations"
+        :options="optionsOccupation"
         buttons
         button-variant="secondary"
       ></b-form-checkbox-group>
@@ -39,13 +41,27 @@ export default {
     type: {
       type: String
     },
-    shared: {
-      required: true,
-      type: Object
+    females: {
+      type: Number
+    },
+    males: {
+      type: Number
+    },
+    occupations: {
+      type: Array
+    },
+    pets: {
+      type: Array
+    },
+    petsQuantity: {
+      type: Number
+    },
+    smokers: {
+      type: Number
     }
   },
   data: () => ({
-    optionsOcupation: [
+    optionsOccupation: [
       { value: 'student', text: 'Estudante' },
       { value: 'studentWorker', text: 'Trabalhador-estudante' },
       { value: 'worker', text: 'Trabalhador' },

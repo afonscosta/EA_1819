@@ -7,7 +7,7 @@
         <b-col>
           <label>Nome: {{ property.name }}</label>
           <b-card-group deck class="deck-images-prop-info">
-            <Images images="property.images" class="images"/>
+            <Images :images="property.images" class="images"/>
             <PropertyInfo
               :description="property.description"
               :type="property.type"
@@ -16,34 +16,43 @@
               :district="property.district"
               :city="property.city"
               :address="property.address"
+              :lat="property.lat"
+              :lng="property.lng"
               :furnished="property.furnished"
+              :totalAccess="property.totalAccess"
               :availability="property.availability"
-              :operation="property.operation"
+              :rent="property.rent"
+              :sell="property.sell"
               :rentPrice="property.rentPrice"
               :sellPrice="property.sellPrice"/>
           </b-card-group>
 
           <Bedroom
             :type="property.type"
-            :bedroom="property.bedroom"/>
+            :bedrooms="property.bedrooms"/>
 
           <PresentTenants
             :type="property.type"
-            :shared="property.shared"
+            :females="property.females"
+            :males="property.males"
+            :occupations="property.occupations"
+            :pets="property.pets"
+            :petsQuantity="property.petsQuantity"
+            :smokers="property.smokers"
             class="present-tenants"/>
 
           <b-card-group deck>
-            <RentInclude :rentInc="property.rentInc"/>
-            <DivEquipInclude :divEquipInc="property.divEquipInc"/>
+            <RentInclude :rentInc="property.expensesIncluded"/>
+            <DivEquipInclude :divEquipInc="property.equipmentIncluded"/>
           </b-card-group>
 
           <TenantsWanted
             class="tenants-wanted"
-            :genre="property.genre"
+            :allowedGenders="property.allowedGenders"
             :allowedMinAge="property.allowedMinAge"
             :allowedMaxAge="property.allowedMaxAge"
-            :ocupation="property.ocupation"
-            :allowedSmoker="property.allowedSmoker"
+            :allowedOccupations="property.allowedOccupations"
+            :allowedSmokers="property.allowedSmokers"
             :allowedPets="property.allowedPets"/>
           <b-button @click="$router.push({ name: 'propertyEdit' })" variant="danger">Editar</b-button>
         </b-col>
