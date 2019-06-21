@@ -80,7 +80,7 @@
             label="Género:"
             label-for="input-7"
           >
-            <b-form-select v-model="form.gender" :options="gender_options"></b-form-select>
+            <b-form-select v-model="form.gender" required :options="gender_options"></b-form-select>
           </b-form-group>
 
           <b-form-group
@@ -88,7 +88,7 @@
             label="Ocupação:"
             label-for="input-8"
           >
-            <b-form-select v-model="form.ocupation" :options="ocupation_options"></b-form-select>
+            <b-form-select v-model="form.ocupation" required :options="ocupation_options"></b-form-select>
           </b-form-group>
 
           <b-button type="submit" variant="primary">Submit</b-button>
@@ -167,16 +167,7 @@ export default {
     ...mapActions('users', ['getUsers', 'addUser', 'updateUser', 'deleteUser']),
     onSubmit (evt) {
       evt.preventDefault()
-
-      if (this.form.email !== '' &&
-          this.form.name !== '' &&
-          this.form.password !== '' &&
-          this.form.age !== '' &&
-          this.form.birthday !== '' &&
-          this.form.gender !== '' &&
-          this.form.ocupation !== '') {
-        this.addUser(this.form)
-      }
+      this.addUser(this.form)
     },
     onReset (evt) {
       evt.preventDefault()
