@@ -70,6 +70,7 @@
             <b-form-input
               id="input-6"
               v-model="form.birthday"
+              type="date"
               required
               placeholder="Selecione a sua data de nascimento"
             ></b-form-input>
@@ -167,6 +168,7 @@ export default {
     ...mapActions('users', ['getUsers', 'addUser', 'updateUser', 'deleteUser']),
     onSubmit (evt) {
       evt.preventDefault()
+      console.log(this.form)
       this.addUser(this.form)
     },
     onReset (evt) {
