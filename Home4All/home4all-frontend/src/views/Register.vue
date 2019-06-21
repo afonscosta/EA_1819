@@ -76,7 +76,21 @@
             ></b-form-input>
           </b-form-group>
 
-          <b-form-select v-model="form.gender" :options="gender_options"></b-form-select>
+          <b-form-group
+            id="input-group-7"
+            label="Género:"
+            label-for="input-7"
+          >
+            <b-form-select v-model="form.gender" :options="gender_options"></b-form-select>
+          </b-form-group>
+
+          <b-form-group
+            id="input-group-8"
+            label="Ocupação:"
+            label-for="input-8"
+          >
+            <b-form-select v-model="form.ocupation" :options="ocupation_options"></b-form-select>
+          </b-form-group>
 
           <b-button type="submit" variant="primary">Submit</b-button>
           <b-button type="reset" variant="danger">Reset</b-button>
@@ -124,13 +138,22 @@ export default {
       age: null,
       phone: '',
       birthday: '',
-      gender: ''
+      gender: '',
+      ocupation: ''
     },
     selected: [],
     gender_options: [
       { value: null, text: 'Selecione o seu género' },
       { value: 'male', text: 'Masculino' },
       { value: 'female', text: 'Feminino' }
+    ],
+    ocupation_options: [
+      { value: null, text: 'Selecione a sua ocupação' },
+      { value: 'student', text: 'Estudante' },
+      { value: 'studentWorker', text: 'Trabalhador-estudante' },
+      { value: 'worker', text: 'Trabalhador' },
+      { value: 'retired', text: 'Reformado' },
+      { value: 'unemployed', text: 'Desempregado' }
     ]
   }),
   created () {
@@ -145,9 +168,14 @@ export default {
     ...mapActions('users', ['getUsers', 'addUser', 'updateUser', 'deleteUser']),
     onSubmit (evt) {
       evt.preventDefault()
-      if (this.form.id) {
-        this.updateUser(this.form)
-      } else {
+
+      if (this.form.email !== '' &&
+          this.form.name !== '' &&
+          this.form.password !== '' &&
+          this.form.age !== '' &&
+          this.form.birthday !== '' &&
+          this.form.gender !== '' &&
+          this.form.ocupation !== '') {
         this.addUser(this.form)
       }
     },
