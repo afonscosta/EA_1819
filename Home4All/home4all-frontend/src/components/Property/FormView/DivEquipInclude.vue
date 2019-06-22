@@ -7,11 +7,11 @@
     <b-form-group id="div-equip-form-group">
       <b-form-checkbox-group
         id="checkbox-group-3"
-        v-model="divEquipInc"
-        :options="optionsDivEquipInc"
+        v-model="equipmentIncluded"
+        :options="optionsEquipmentIncluded"
         buttons
         button-variant="secondary"
-        @change="updateDivEquipInc"
+        @change="updateEquipmentIncluded"
       ></b-form-checkbox-group>
     </b-form-group>
   </b-card>
@@ -20,15 +20,9 @@
 <script>
 export default {
   name: 'DivEquipInclude',
-  props: {
-    divEquipIncData: {
-      required: false,
-      type: Array
-    }
-  },
   data: () => ({
-    divEquipInc: [],
-    optionsDivEquipInc: [
+    equipmentIncluded: [],
+    optionsEquipmentIncluded: [
       { value: 'kitchen', text: 'Cozinha' },
       { value: 'microwave', text: 'Micro-ondas' },
       { value: 'dishwasher', text: 'Máq. lavar loiça' },
@@ -47,14 +41,9 @@ export default {
       { value: 'freeParking', text: 'Estacionamento gratuito' }
     ]
   }),
-  created () {
-    if (this.divEquipIncData) {
-      this.divEquipInc = this.divEquipIncData
-    }
-  },
   methods: {
-    updateDivEquipInc (checked) {
-      this.$emit('updateDivEquipInc', checked)
+    updateEquipmentIncluded (checked) {
+      this.$emit('updateEquipmentIncluded', checked)
     }
   }
 }

@@ -44,7 +44,7 @@
                 @updateAvailability="updateAvailability"
                 @updateRent="updateRent"
                 @updateSell="updateSell"
-                @updateRentPrice="updateExpensesIncluded"
+                @updateRentPrice="updateRentPrice"
                 @updateSellPrice="updateSellPrice"/>
             </b-card-group>
 
@@ -194,7 +194,6 @@ export default {
       } else {
         // this.form.bedrooms = [this.bedroom]
         // this.$bvModal.show('info')
-        console.log(this.form)
         this.form.images = this.form.images.map((i) => {
           return btoa(i)
         })
@@ -202,6 +201,7 @@ export default {
           b.images = b.images.map((i) => { return btoa(i) })
           return b
         })
+        console.log(this.form)
         this.addProperty(this.form)
         // this.$router.push({ name: 'propertyView' })
       }
