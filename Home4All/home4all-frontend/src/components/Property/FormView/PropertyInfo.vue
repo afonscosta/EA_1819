@@ -200,9 +200,13 @@ export default {
   }),
   methods: {
     setPlace (place) {
+      var hasStreet = false
       var addrComponents = place.address_components
       if (addrComponents) {
         addrComponents.forEach((comp) => {
+          if (comp.types.includes('route')) {
+            hasStreet = true
+          }
           if (comp.types.includes('locality', 'political')) {
             this.$emit('updateCity', comp.long_name)
           }
@@ -212,7 +216,9 @@ export default {
         })
         this.$emit('updateLatitude', place.geometry.location.lat())
         this.$emit('updateLongitude', place.geometry.location.lng())
-        this.$emit('updateAddress', place.formatted_address)
+        if (hasStreet) {
+          this.$emit('updateAddress', place.formatted_address)
+        }
       }
     },
     updateDescription (value) {

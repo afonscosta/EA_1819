@@ -231,9 +231,13 @@ export default {
   methods: {
     ...mapActions('search', ['doSearch']),
     setPlace (place) {
+      var hasStreet = false
       var addrComponents = place.address_components
       if (addrComponents) {
         addrComponents.forEach((comp) => {
+          if (comp.types.includes('route')) {
+            hasStreet = true
+          }
           if (comp.types.includes('locality', 'political')) {
             this.city = comp.long_name
           }
@@ -241,7 +245,9 @@ export default {
             this.district = comp.long_name
           }
         })
-        this.address = place.formatted_address
+        if (hasStreet) {
+          this.address = place.formatted_address
+        }
       }
     },
     search (evt) {
