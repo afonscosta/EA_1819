@@ -14,6 +14,11 @@ import * as VueGoogleMaps from 'vue2-google-maps'
 // VueLightBox
 import Lightbox from 'vue-easy-lightbox'
 
+// Slider
+import VueSlider from 'vue-slider-component'
+import 'vue-slider-component/theme/default.css'
+
+Vue.component('VueSlider', VueSlider)
 Vue.use(BootstrapVue)
 Vue.use(Lightbox)
 Vue.use(VueGoogleMaps, {

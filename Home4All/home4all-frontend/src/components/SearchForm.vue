@@ -1,24 +1,37 @@
 <template>
-  <b-container>
-    <b-row class="justify-content-md-center">
-      <b-form inline>
-        <label class="input-location">
-          Rua:
-          <gmap-autocomplete
-            placeholder="Insira uma localização"
-            :componentRestrictions="{ country: ['pt'] }"
-            @place_changed="setPlace">
-          </gmap-autocomplete>
-        </label>
+  <b-container class="mt-3">
+    <b-row align-h="center">
+      <b-col>
+        <b-card bg-variant="light">
+          <b-row align-h="center">
+            <b-col>
+              <p align="left">Localização</p>
+            </b-col>
+          </b-row>
+          <b-row align-h="center">
+            <b-col>
+              <b-form inline @submit="search">
+                <label class="mb-2 mr-2">
+                  <gmap-autocomplete
+                    class="form-control"
+                    placeholder="Insira uma localização"
+                    :componentRestrictions="{ country: ['pt'] }"
+                    @place_changed="setPlace">
+                  </gmap-autocomplete>
+                </label>
 
-        <b-form-select
-          v-model="selectedDistance"
-          :options="optionsDistance"
-          class="mb-2 mr-2 ml-2"
-        ></b-form-select>
+                <b-form-select
+                  v-model="selectedDistance"
+                  :options="optionsDistance"
+                  class="mb-2 mr-2 ml-2"
+                ></b-form-select>
 
-        <b-button @click="search" class="mb-2 ml-2" variant="primary">Pesquisar</b-button>
-      </b-form>
+                <b-button type="submit" class="search-button">Pesquisar</b-button>
+              </b-form>
+            </b-col>
+          </b-row>
+        </b-card>
+      </b-col>
     </b-row>
   </b-container>
 </template>
@@ -57,7 +70,8 @@ export default {
         this.address = place.formatted_address
       }
     },
-    search () {
+    search (evt) {
+      evt.preventDefault()
       var payload = {
         ...(this.district && { district: this.district }),
         ...(this.city && { city: this.city }),
@@ -70,3 +84,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.search-button {
+  background-color: #FF8000 !important;
+  border-color: #FF8000 !important;
+  margin-bottom: 0.5rem;
+  margin-left: 0.5rem;
+}
+</style>
