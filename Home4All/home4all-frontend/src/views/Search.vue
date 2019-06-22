@@ -110,67 +110,126 @@
                       </b-col>
                     </b-dropdown>
                   </b-col>
+
                   <b-col cols="12">
                     <b-dropdown id="dropdown-form" right variant="light" text="Avançados" ref="dropdown">
                       <b-col>
-                        <p>Nº de clientes envolvidos no negócio aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                        <b-row>
+                          <b-col cols="9">
+                            <p>Nº de clientes envolvidos no negócio</p>
+                          </b-col>
+                          <b-col cols="1">
+                            <b-button
+                              variant="primary"
+                              :disabled="filters.peopleQuantity === 2"
+                              @click="filters.peopleQuantity -= 1">-</b-button>
+                          </b-col>
+                          <b-col cols="1">
+                            <p>{{ filters.peopleQuantity }}</p>
+                          </b-col>
+                          <b-col cols="1">
+                            <b-button
+                              variant="primary"
+                              @click="filters.peopleQuantity += 1">+</b-button>
+                          </b-col>
+                        </b-row>
+
                         <b-dropdown-divider></b-dropdown-divider>
                         <p>Tipo de quartos</p>
                         <b-row>
-                          <b-col>
+                          <b-col cols="2">
                             <b-form-checkbox
-                              v-model="filters.priceLowestFirst"
+                              v-model="filters.single"
                               class="mb-3">Individual</b-form-checkbox>
                           </b-col>
-                          <b-col>
+                          <b-col cols="2">
                             <b-form-checkbox
-                              v-model="filters.priceLowestFirst"
+                              v-model="filters.double"
                               class="mb-3">Casal</b-form-checkbox>
                           </b-col>
-                          <b-col>
+                          <b-col cols="8">
                             <b-form-checkbox
-                              v-model="filters.priceLowestFirst"
-                              class="mb-3">Múltiplo com X pessoa(s)</b-form-checkbox>
+                              v-model="filters.multiple"
+                              class="mb-3"
+                            >Múltiplo com
+                              <b-form-input id="peopleAmountMultiple"
+                                size="sm" :disabled="!filters.multiple"
+                                v-model.number="filters.peopleAmountMultiple" type="number"></b-form-input>
+                              pessoa(s)</b-form-checkbox>
                           </b-col>
                         </b-row>
                         <b-row>
                           <b-col>
                             <b-form-checkbox
-                              v-model="filters.priceHighestFirst"
-                              class="mb-3">Partilhado</b-form-checkbox>
-                            <b-dropdown-divider></b-dropdown-divider>
+                              v-model="filters.privateWC"
+                              class="mb-3">WC privado</b-form-checkbox>
                           </b-col>
                           <b-col>
                             <b-form-checkbox
-                              v-model="filters.priceHighestFirst"
-                              class="mb-3">Não partilhado</b-form-checkbox>
-                            <b-dropdown-divider></b-dropdown-divider>
-                          </b-col>
-                        </b-row>
-                        <b-row>
-                          <b-col>
-                            <b-form-checkbox
-                              v-model="filters.priceHighestFirst"
-                              class="mb-3">Com WC</b-form-checkbox>
-                            <b-dropdown-divider></b-dropdown-divider>
-                          </b-col>
-                          <b-col>
-                            <b-form-checkbox
-                              v-model="filters.priceHighestFirst"
-                              class="mb-3">Sem WC</b-form-checkbox>
-                            <b-dropdown-divider></b-dropdown-divider>
+                              v-model="filters.sharedWC"
+                              class="mb-3">WC partilhado</b-form-checkbox>
                           </b-col>
                         </b-row>
 
                         <b-dropdown-divider></b-dropdown-divider>
 
-                        <p>Login do anunciante</p>
-                        <b-form-checkbox
-                          v-model="filters.advertiserLoginNewestFirst"
-                          class="mb-3">mais recente - mais antigo</b-form-checkbox>
-                        <b-form-checkbox
-                          v-model="filters.advertiserLoginOldestFirst"
-                          class="mb-3">mais antigo - mais recente</b-form-checkbox>
+                        <p>Partilhar com</p>
+                        <b-form-checkbox-group
+                          id="checkbox-group-1"
+                          v-model="filters.hasOccupations"
+                          :options="optionsOccupation"
+                          name="occupations-1"
+                        ></b-form-checkbox-group>
+                        <b-row class="mt-2">
+                          <b-col>
+                            <b-form-checkbox
+                              v-model="filters.hasSmokers"
+                              class="mb-3">Fumador</b-form-checkbox>
+                          </b-col>
+                          <b-col>
+                            <b-form-checkbox
+                              v-model="filters.notSmokers"
+                              class="mb-3">Não fumador</b-form-checkbox>
+                          </b-col>
+                          <b-col>
+                            <b-form-checkbox
+                              v-model="filters.hasPets"
+                              class="mb-3">Animais de estimação</b-form-checkbox>
+                          </b-col>
+                          <b-col>
+                            <b-form-checkbox
+                              v-model="filters.notPets"
+                              class="mb-3">S/ animais de estimação</b-form-checkbox>
+                          </b-col>
+                        </b-row>
+
+                        <b-dropdown-divider></b-dropdown-divider>
+
+                        <p>Imóvel</p>
+                        <b-row>
+                          <b-col>
+                            <b-form-checkbox
+                              v-model="filters.furnished"
+                              class="mb-3">Mobilado</b-form-checkbox>
+                          </b-col>
+                          <b-col>
+                            <b-form-checkbox
+                              v-model="filters.notFurnished"
+                              class="mb-3">Não mobilado</b-form-checkbox>
+                          </b-col>
+                        </b-row>
+                        <b-row>
+                          <b-col>
+                            <b-form-checkbox
+                              v-model="filters.totalAccess"
+                              class="mb-3">Acesso total</b-form-checkbox>
+                          </b-col>
+                          <b-col>
+                            <b-form-checkbox
+                              v-model="filters.notTotalAccess"
+                              class="mb-3">Restrições de acesso</b-form-checkbox>
+                          </b-col>
+                        </b-row>
                       </b-col>
                     </b-dropdown>
                   </b-col>
@@ -225,8 +284,29 @@ export default {
       publicationDateNewestFirst: false,
       publicationDateOldestFirst: false,
       advertiserLoginNewestFirst: false,
-      advertiserLoginOldestFirst: false
-    }
+      advertiserLoginOldestFirst: false,
+      single: false,
+      double: false,
+      multiple: false,
+      hasOccupations: [],
+      hasPets: false,
+      notPets: false,
+      hasSmokers: false,
+      notSmokers: false,
+      furnished: false,
+      notFurnished: false,
+      totalAccess: false,
+      notTotalAccess: false,
+      peopleQuantity: 2,
+      peopleAmountMultiple: 0
+    },
+    optionsOccupation: [
+      { value: 'student', text: 'Estudante' },
+      { value: 'studentWorker', text: 'Trabalhador-estudante' },
+      { value: 'worker', text: 'Trabalhador' },
+      { value: 'retired', text: 'Reformado' },
+      { value: 'unemployed', text: 'Desempregado' }
+    ]
   }),
   methods: {
     ...mapActions('search', ['doSearch']),
@@ -263,7 +343,9 @@ export default {
       if (this.filters.bedrooms) { types.push('bedrooms') }
       if (this.filters.apartment) { types.push('apartment') }
       if (this.filters.villa) { types.push('villa') }
-      filters.types = types
+      if (types.length > 0) {
+        filters.types = types
+      }
 
       var typologies = []
       if (this.filters.T0) { typologies.push('T0') }
@@ -315,6 +397,58 @@ export default {
       }
       if (ordination) {
         filters.ordination = ordination
+      }
+
+      // Advanced filters
+      if (this.filters.peopleQuantity > 2) {
+        filters.peopleQuantity = this.filters.peopleQuantity
+      }
+
+      if (this.filters.single) {
+        filters.single = this.filters.single
+      }
+      if (this.filters.double) {
+        filters.double = this.filters.double
+      }
+      if (this.filters.multiple) {
+        filters.multiple = this.filters.multiple
+        filters.peopleAmountMultiple = this.filters.peopleAmountMultiple
+      }
+
+      if (this.filters.privateWC) {
+        filters.privateWC = this.filters.privateWC
+      }
+      if (this.filters.sharedWC) {
+        filters.sharedWC = this.filters.sharedWC
+      }
+
+      if (this.filters.hasOccupations.length > 0) {
+        filters.hasOccupations = this.filters.hasOccupations
+      }
+      if (this.filters.hasSmokers) {
+        filters.hasSmokers = this.filters.hasSmokers
+      }
+      if (this.filters.notSmokers) {
+        filters.notSmokers = this.filters.notSmokers
+      }
+      if (this.filters.hasPets) {
+        filters.hasPets = this.filters.hasPets
+      }
+      if (this.filters.notPets) {
+        filters.notPets = this.filters.notPets
+      }
+
+      if (this.filters.furnished) {
+        filters.furnished = this.filters.furnished
+      }
+      if (this.filters.notFurnished) {
+        filters.notFurnished = this.filters.notFurnished
+      }
+      if (this.filters.totalAccess) {
+        filters.totalAccess = this.filters.totalAccess
+      }
+      if (this.filters.notTotalAccess) {
+        filters.notTotalAccess = this.filters.notTotalAccess
       }
 
       payload.filters = filters
