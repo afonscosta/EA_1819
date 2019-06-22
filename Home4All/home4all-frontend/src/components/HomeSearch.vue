@@ -29,9 +29,9 @@ import { mapActions } from 'vuex'
 export default {
   name: 'HomeSearch',
   data: () => ({
-    district: '',
-    city: '',
-    address: '',
+    district: null,
+    city: null,
+    address: null,
     selectedDistance: null,
     optionsDistance: [
       { value: null, text: 'Selecione uma distância' },
@@ -59,11 +59,13 @@ export default {
     },
     search () {
       var payload = {
-        district: this.district,
-        city: this.city,
-        address: this.address
+        ...(this.district && { district: this.district }),
+        ...(this.city && { city: this.city }),
+        ...(this.address && { address: this.address })
       }
-      this.doSearch(payload)
+      if (Object.keys(payload).length !== 0 && payload.constructor === Object) {
+        this.doSearch(payload)
+      }
     }
   }
 }
