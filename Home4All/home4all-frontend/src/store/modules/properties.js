@@ -60,6 +60,9 @@ const actions = {
     propertiesService.postProperty(property).then(newProperty => {
       console.log('newProperty', newProperty)
       commit('addProperty', newProperty)
+      commit('addPropCompare', newProperty)
+      commit('addPropCompare', newProperty)
+      commit('addPropCompare', newProperty)
     })
   },
   updateProperty ({ commit }, property) {

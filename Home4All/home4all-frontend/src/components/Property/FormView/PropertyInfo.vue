@@ -87,6 +87,7 @@
           id="checkbox-rent"
           v-model="rent"
           name="checkbox-rent"
+          @change="updateRent"
         >
           Arrendar
         </b-form-checkbox>
@@ -96,6 +97,7 @@
           id="checkbox-sell"
           v-model="sell"
           name="checkbox-sell"
+          @change="updateSell"
         >
           Vender
         </b-form-checkbox>

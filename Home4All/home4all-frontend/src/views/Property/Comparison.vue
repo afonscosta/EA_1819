@@ -6,45 +6,47 @@
       size="lg"
       hide-footer title="Localização do imóvel"
     >
-      <google-map/>
+      <google-map :marker="marker"/>
     </b-modal>
 
-    <ImagesLightbox v-if="lightboxVisible" @lightboxHidden="lightboxVisible = false" :imgs="images"/>
+    <b-modal
+      ref="modal-images"
+      centered
+      size="lg"
+      hide-footer title="Imagens do imóvel"
+    >
+      <Images class="images" :images="images"/>
+    </b-modal>
 
     <b-container class="mt-3">
       <b-row>
         <b-col>
           <b-table bordered striped hover :fields="fields" :items="items">
             <template slot="col1" slot-scope="row">
-              <label v-if="row.index != 1 && row.index != 5 && row.index != 6">{{ row.value }}</label>
-              <div v-if="row.index == 1">
+              <label v-if="row.index != 0 && row.index != 10 && row.index != 11">{{ row.value }}</label>
+              <div v-if="row.index == 0">
                 <ImagesPreview :imgs="row.value" :numImgPreview="numImgPreview" @showLightbox="showLightbox"/>
               </div>
-              <b-button variant="primary" v-if="row.index == 5" @click="openMap(row.value)">Localização</b-button>
-              <b-button variant="primary" v-if="row.index == 6" @click="goToProperty(row.value)">Ver detalhes</b-button>
+              <b-button variant="primary" v-if="row.index == 10" @click="openMap(row.value)">Localização</b-button>
+              <b-button variant="primary" v-if="row.index == 11" @click="goToProperty(row.value)">Ver detalhes</b-button>
             </template>
             <template slot="col2" slot-scope="row">
-              <label v-if="row.index != 1 && row.index != 5 && row.index != 6">{{ row.value }}</label>
-              <div v-if="row.index == 1">
+              <label v-if="row.index != 0 && row.index != 10 && row.index != 11">{{ row.value }}</label>
+              <div v-if="row.index == 0">
                 <ImagesPreview :imgs="row.value" :numImgPreview="numImgPreview" @showLightbox="showLightbox"/>
               </div>
-              <b-button variant="primary" v-if="row.index == 5" @click="openMap(row.value)">Localização</b-button>
-              <b-button variant="primary" v-if="row.index == 6" @click="goToProperty(row.value)">Ver detalhes</b-button>
+              <b-button variant="primary" v-if="row.index == 10" @click="openMap(row.value)">Localização</b-button>
+              <b-button variant="primary" v-if="row.index == 11" @click="goToProperty(row.value)">Ver detalhes</b-button>
             </template>
             <template slot="col3" slot-scope="row">
-              <label v-if="row.index != 1 && row.index != 5 && row.index != 6">{{ row.value }}</label>
-              <div v-if="row.index == 1">
+              <label v-if="row.index != 0 && row.index != 10 && row.index != 11">{{ row.value }}</label>
+              <div v-if="row.index == 0">
                 <ImagesPreview :imgs="row.value" :numImgPreview="numImgPreview" @showLightbox="showLightbox"/>
               </div>
-              <b-button variant="primary" v-if="row.index == 5" @click="openMap(row.value)">Localização</b-button>
-              <b-button variant="primary" v-if="row.index == 6" @click="goToProperty(row.value)">Ver detalhes</b-button>
+              <b-button variant="primary" v-if="row.index == 10" @click="openMap(row.value)">Localização</b-button>
+              <b-button variant="primary" v-if="row.index == 11" @click="goToProperty(row.value)">Ver detalhes</b-button>
             </template>
           </b-table>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col>
-          <google-map/>
         </b-col>
       </b-row>
     </b-container>
@@ -54,18 +56,19 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import GoogleMap from '@/components/GoogleMap'
-import ImagesLightbox from '@/components/ImagesLightbox'
+import Images from '@/components/Property/DetailView/Images'
 import ImagesPreview from '@/components/ImagesPreview'
 
 export default {
   name: 'comparison',
   components: {
     GoogleMap,
-    ImagesLightbox,
-    ImagesPreview
+    ImagesPreview,
+    Images
   },
   data: () => ({
     headers: [
+      'images',
       'type',
       'typology',
       'area',
@@ -73,41 +76,16 @@ export default {
       'availability',
       'rentPrice',
       'sellPrice',
-      'distance',
-      'rentInc',
-      'contact'
-    ],
-    props: [
-      {
-        id: 1,
-        images: [
-          '1.jpg',
-          '2.jpg',
-          '3.jpg',
-          '4.jpg',
-          '5.jpg',
-          '6.jpg',
-          '7.jpg'
-        ],
-        name: 'nome1',
-        tipo: 'tipo1',
-        area: 100,
-        map: 'map1',
-        link: '1'
-      },
-      { id: 2, images: ['2.jpg', '4.jpg', '6.jpg'], name: 'nome2', tipo: 'tipo2', area: 200, map: 'map2', link: '2' },
-      { id: 3, images: ['3.jpg', '5.jpg', '7.jpg'], name: 'nome3', tipo: 'tipo3', area: 300, map: 'map3', link: '3' }
+      'expensesIncluded',
+      'contact',
+      'map',
+      'link'
     ],
     images: [],
-    lightboxVisible: false,
-    numImgPreview: 4
+    numImgPreview: 4,
+    marker: null
   }),
   created () {
-    // TODO: Remover quando o backend tiver feito
-    this.props.forEach(p => {
-      this.addPropCompare(p)
-    })
-    this.setProperties(this.props)
   },
   computed: {
     ...mapState({
@@ -131,8 +109,8 @@ export default {
     },
     items () {
       var listParsed = []
-      var keys = Object.keys(this.props_compare[0])
-      keys.forEach(key => {
+      // var keys = Object.keys(this.props_compare[0])
+      this.headers.forEach(key => {
         listParsed.push(this.translateInfo(this.props_compare, key))
       })
       return listParsed
@@ -147,9 +125,18 @@ export default {
     translateInfo (props, key) {
       var i = 0; var content = {}
       content['col' + i++] = key
-      props.map(p => p[key]).forEach(function (item) {
-        content['col' + i++] = item
-      })
+      console.log(props)
+      if (key === 'map') {
+        props.map(p => {
+          return { lat: p.lat, lng: p.lng }
+        }).forEach(function (item) {
+          content['col' + i++] = item
+        })
+      } else {
+        props.map(p => p[key]).forEach(function (item) {
+          content['col' + i++] = item
+        })
+      }
       content['_cellVariants'] = { col0: 'warning' }
       return content
     },
@@ -159,16 +146,12 @@ export default {
       this.$router.push({ name: 'propertyView' })
     },
     openMap (value) {
+      this.marker = value
       this.$refs['modal-map'].show()
     },
     showLightbox (imgs) {
-      console.log('showLightbox')
-      this.images = []
-      imgs.forEach(i => this.images.push(this.getImgUrl(i)))
-      this.lightboxVisible = true
-    },
-    getImgUrl (img) {
-      return require('../../assets/' + img)
+      this.images = imgs
+      this.$refs['modal-images'].show()
     }
   }
 }
@@ -194,5 +177,13 @@ thead {
   thead th:first-child{
     display: none;
   }
+}
+
+.images img {
+  position: relative;
+  float: left;
+  width:200px;
+  height:200px;
+  object-fit:scale-down;
 }
 </style>

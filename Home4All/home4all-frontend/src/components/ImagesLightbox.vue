@@ -2,7 +2,7 @@
   <div>
     <VueEasyLightbox
       :visible="visible"
-      :imgs="imgs"
+      :imgs="images"
       :index="index"
       @hide="handleHide"
     ></VueEasyLightbox>
@@ -36,6 +36,13 @@ export default {
     visible: true,
     index: 0 // default
   }),
+  computed: {
+    images () {
+      return this.imgs.map((i) => {
+        return btoa(i)
+      })
+    }
+  },
   methods: {
     handleHide () {
       this.visible = false
