@@ -78,11 +78,13 @@
                   <b-col>
                     <b-dropdown id="dropdown-form" variant="light" text="Ordenação" ref="dropdown">
                       <b-col>
-                        <p>Preço</p>
+                        <p v-if="filters.rent ^ filters.sell">Preço</p>
                         <b-form-checkbox
+                          v-if="filters.rent ^ filters.sell"
                           v-model="filters.priceLowestFirst"
                           class="mb-3">mais baixo - mais caro</b-form-checkbox>
                         <b-form-checkbox
+                          v-if="filters.rent ^ filters.sell"
                           v-model="filters.priceHighestFirst"
                           class="mb-3">mais caro - mais baixo</b-form-checkbox>
                         <b-dropdown-divider></b-dropdown-divider>
