@@ -10,14 +10,18 @@
           </b-row>
           <b-row align-h="center">
             <b-col align="left">
-              <label class="mb-2 mr-2">
-                <gmap-autocomplete
-                  class="form-control"
-                  placeholder="Insira uma localização"
-                  :componentRestrictions="{ country: ['pt'] }"
-                  @place_changed="setPlace">
-                </gmap-autocomplete>
-              </label>
+              <gmap-autocomplete
+                class="form-control"
+                placeholder="Insira uma localização"
+                :componentRestrictions="{ country: ['pt'] }"
+                @place_changed="setPlace">
+              </gmap-autocomplete>
+            </b-col>
+            <b-col>
+              <b-form-checkbox v-model="filters.rent">Arrendar</b-form-checkbox>
+            </b-col>
+            <b-col>
+              <b-form-checkbox v-model="filters.sell">Comprar</b-form-checkbox>
             </b-col>
           </b-row>
           <b-row align-h="center">
@@ -96,6 +100,70 @@
                           v-model="filters.publicationDateOldestFirst"
                           class="mb-3">mais antiga - mais recente</b-form-checkbox>
                         <b-dropdown-divider></b-dropdown-divider>
+                        <p>Login do anunciante</p>
+                        <b-form-checkbox
+                          v-model="filters.advertiserLoginNewestFirst"
+                          class="mb-3">mais recente - mais antigo</b-form-checkbox>
+                        <b-form-checkbox
+                          v-model="filters.advertiserLoginOldestFirst"
+                          class="mb-3">mais antigo - mais recente</b-form-checkbox>
+                      </b-col>
+                    </b-dropdown>
+                  </b-col>
+                  <b-col cols="12">
+                    <b-dropdown id="dropdown-form" right variant="light" text="Avançados" ref="dropdown">
+                      <b-col>
+                        <p>Nº de clientes envolvidos no negócio aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                        <b-dropdown-divider></b-dropdown-divider>
+                        <p>Tipo de quartos</p>
+                        <b-row>
+                          <b-col>
+                            <b-form-checkbox
+                              v-model="filters.priceLowestFirst"
+                              class="mb-3">Individual</b-form-checkbox>
+                          </b-col>
+                          <b-col>
+                            <b-form-checkbox
+                              v-model="filters.priceLowestFirst"
+                              class="mb-3">Casal</b-form-checkbox>
+                          </b-col>
+                          <b-col>
+                            <b-form-checkbox
+                              v-model="filters.priceLowestFirst"
+                              class="mb-3">Múltiplo com X pessoa(s)</b-form-checkbox>
+                          </b-col>
+                        </b-row>
+                        <b-row>
+                          <b-col>
+                            <b-form-checkbox
+                              v-model="filters.priceHighestFirst"
+                              class="mb-3">Partilhado</b-form-checkbox>
+                            <b-dropdown-divider></b-dropdown-divider>
+                          </b-col>
+                          <b-col>
+                            <b-form-checkbox
+                              v-model="filters.priceHighestFirst"
+                              class="mb-3">Não partilhado</b-form-checkbox>
+                            <b-dropdown-divider></b-dropdown-divider>
+                          </b-col>
+                        </b-row>
+                        <b-row>
+                          <b-col>
+                            <b-form-checkbox
+                              v-model="filters.priceHighestFirst"
+                              class="mb-3">Com WC</b-form-checkbox>
+                            <b-dropdown-divider></b-dropdown-divider>
+                          </b-col>
+                          <b-col>
+                            <b-form-checkbox
+                              v-model="filters.priceHighestFirst"
+                              class="mb-3">Sem WC</b-form-checkbox>
+                            <b-dropdown-divider></b-dropdown-divider>
+                          </b-col>
+                        </b-row>
+
+                        <b-dropdown-divider></b-dropdown-divider>
+
                         <p>Login do anunciante</p>
                         <b-form-checkbox
                           v-model="filters.advertiserLoginNewestFirst"
@@ -259,5 +327,9 @@ export default {
   border-color: #FF8000 !important;
   margin-bottom: 0.5rem;
   margin-left: 0.5rem;
+}
+
+.form-control {
+  width: 100%;
 }
 </style>
