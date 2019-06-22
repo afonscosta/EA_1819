@@ -2,24 +2,14 @@
   <b-container>
     <b-row class="justify-content-md-center">
       <b-form inline>
-        <b-form-select
-          v-model="selectedDistrict"
-          :options="optionsDistrict"
-          class="mb-2 mr-2 ml-2"
-        ></b-form-select>
-
-        <b-form-select
-          v-model="selectedCity"
-          :options="optionsCity"
-          class="mb-2 mr-2 ml-2"
-        ></b-form-select>
-
-        <b-input
-          id="inline-form-input-street"
-          v-model="street"
-          class="mb-2 mr-2 ml-2"
-          placeholder="Rua"
-        ></b-input>
+        <label class="input-location">
+          Rua:
+          <gmap-autocomplete
+            placeholder="Insira uma localização"
+            :componentRestrictions="{ country: ['pt'] }"
+            @place_changed="setPlace">
+          </gmap-autocomplete>
+        </label>
 
         <b-form-select
           v-model="selectedDistance"
@@ -27,47 +17,21 @@
           class="mb-2 mr-2 ml-2"
         ></b-form-select>
 
-        <b-button class="mb-2 ml-2" variant="primary">Pesquisar</b-button>
+        <b-button @click="search" class="mb-2 ml-2" variant="primary">Pesquisar</b-button>
       </b-form>
     </b-row>
-
-    <b-row class="justify-content-md-center">
-      <div class="mt-3">District selected: <strong>{{ selectedDistrict }}</strong></div>
-    </b-row>
-    <b-row class="justify-content-md-center">
-      <div class="mt-3">City selected: <strong>{{ selectedCity }}</strong></div>
-    </b-row>
-    <b-row class="justify-content-md-center">
-      <div class="mt-3">Rua: <strong>{{ street }}</strong></div>
-    </b-row>
-    <b-row class="justify-content-md-center">
-      <div class="mt-3">Raio: <strong>{{ selectedDistance }}</strong></div>
-    </b-row>
-
   </b-container>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'HomeSearch',
   data: () => ({
-    street: '',
-    selectedDistrict: null,
-    optionsDistrict: [
-      { value: null, text: 'Selecione um distrito' },
-      { value: 'porto', text: 'Porto' },
-      { value: 'braga', text: 'Braga' },
-      { value: 'lisboa', text: 'Lisboa' },
-      { value: 'algarve', text: 'Algarve' }
-    ],
-    selectedCity: null,
-    optionsCity: [
-      { value: null, text: 'Selecione uma cidade' },
-      { value: 'trofa', text: 'Trofa' },
-      { value: 'valongo', text: 'Valongo' },
-      { value: 'matosinhos', text: 'Matosinhos' },
-      { value: 'penafiel', text: 'Penafiel' }
-    ],
+    district: '',
+    city: '',
+    address: '',
     selectedDistance: null,
     optionsDistance: [
       { value: null, text: 'Selecione uma distância' },
@@ -76,6 +40,31 @@ export default {
       { value: '60', text: '+60 km' },
       { value: '80', text: '+80 km' }
     ]
-  })
+  }),
+  methods: {
+    ...mapActions('search', ['doSearch']),
+    setPlace (place) {
+      var addrComponents = place.address_components
+      if (addrComponents) {
+        addrComponents.forEach((comp) => {
+          if (comp.types.includes('locality', 'political')) {
+            this.city = comp.long_name
+          }
+          if (comp.types.includes('administrative_area_level_1', 'political')) {
+            this.district = comp.long_name
+          }
+        })
+        this.address = place.formatted_address
+      }
+    },
+    search () {
+      var payload = {
+        district: this.district,
+        city: this.city,
+        address: this.address
+      }
+      this.doSearch(payload)
+    }
+  }
 }
 </script>

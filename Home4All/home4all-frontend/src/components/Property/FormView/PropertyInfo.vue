@@ -204,17 +204,14 @@ export default {
       if (addrComponents) {
         addrComponents.forEach((comp) => {
           if (comp.types.includes('locality', 'political')) {
-            console.log('city', comp.long_name)
             this.$emit('updateCity', comp.long_name)
           }
           if (comp.types.includes('administrative_area_level_1', 'political')) {
-            console.log('district', comp.long_name)
             this.$emit('updateDistrict', comp.long_name)
           }
         })
         this.$emit('updateLatitude', place.geometry.location.lat())
         this.$emit('updateLongitude', place.geometry.location.lng())
-        console.log('address', place.formatted_address)
         this.$emit('updateAddress', place.formatted_address)
       }
     },
