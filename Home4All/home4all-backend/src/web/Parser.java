@@ -17,14 +17,20 @@ class Parser {
 
     static String userToJson(Common user) {
         LinkedTreeMap data = new LinkedTreeMap();
+        System.out.println(user);
         data.put("id", user.getID());
         data.put("email", user.getEmail());
         data.put("name", user.getName());
-        if (user instanceof InternalAccount) {
-            data.put("password", ((InternalAccount) user).getPassword());
-        }
+        //if (user instanceof InternalAccount) {
+        //    data.put("password", ((InternalAccount) user).getPassword());
+        //}
         data.put("age", user.getAge());
-        data.put("phone", user.getPhone());
+        String phone = user.getPhone();
+        if (!phone.isEmpty()) {
+            data.put("phone", phone);
+        }
+        data.put("gender", user.getGender().getName());
+        data.put("occupation", user.getOccupation().getName());
         return gson.toJson(data);
     }
 

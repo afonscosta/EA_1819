@@ -55,7 +55,7 @@ public class Login extends HttpServlet {
                 out.flush();
             }
             else{
-                LOGGER.info("FAILED LOGGIN");
+                LOGGER.info("FAILED LOGIN");
                 response.sendError(403);
             }
         } catch (Exception e) {

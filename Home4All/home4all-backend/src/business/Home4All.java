@@ -55,6 +55,17 @@ public class Home4All {
         return usersBean.insertCommonUser(email, name, password, age, phone, gender, occupation);
     }
 
+    public static Common updateCommonUser(int id, String email, String name, String password, String age, String phone,
+                                          String gender, String occupation)
+            throws PersistentException, GenderNotExistentException, OccupationNotExistentException {
+        return usersBean.updateCommonUser(id, email, name, password, age, phone, gender, occupation);
+    }
+
+
+    public static Common getUser(int ID) throws PersistentException {
+        return usersBean.getUser(ID);
+    }
+
     public static Property registerSharedProperty(
                 Integer id,  String name, List<String> photos, String description, String typology,
                 float area, String district, String city, String street, float lat, float lng,
