@@ -145,7 +145,7 @@ public class Properties extends HttpServlet {
                 }
 
                 Property property;
-                String operation = (String) data.get("operation");
+                //String operation = (String) data.get("operation");
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
                 int i = 0;
@@ -203,8 +203,8 @@ public class Properties extends HttpServlet {
                                 parseToFloat(data.get("lng"), false),
                                 (boolean) data.get("furnished"),
                                 dateFormat.parse((String) data.get("availability")),
-                                operation.equals("rent") || operation.equals("both"),
-                                operation.equals("sell") || operation.equals("both"),
+                                (boolean) data.get("rent"), //operation.equals("rent") || operation.equals("both"),
+                                (boolean) data.get("sell"), //operation.equals("sell") || operation.equals("both"),
                                 parseToFloat(data.get("rentPrice"), true),
                                 parseToFloat(data.get("sellPrice"), true),
                                 (List<String>) data.get("rentInc"),

@@ -28,7 +28,11 @@
             </b-form-group>
 
             <b-card-group deck class="deck-images-prop-info">
-              <LoadImages class="load-images" @updateImages="updateImages"/>
+              <LoadImages class="load-images"
+                :images="form.images"
+                @addImage="addImage"
+                @removeImage="removeImage"
+                @updateImages="updateImages"/>
               <PropertyInfo
                 @updateDescription="updateDescription"
                 @updateType="updateType"
@@ -60,6 +64,8 @@
               @updateBedroomPrivateBathroom="updateBedroomPrivateBathroom"
               @updateBedroomAvailability="updateBedroomAvailability"
               @updateBedroomRentPrice="updateBedroomRentPrice"
+              @addBedroomImage="addBedroomImage"
+              @removeBedroomImage="removeBedroomImage"
               @updateBedroomImages="updateBedroomImages"/>
 
             <PresentTenants
@@ -187,40 +193,21 @@ export default {
     updateImages (imgs) {
       this.form.images = imgs
     },
+    addImage (img) {
+      this.form.images.push(img)
+    },
+    removeImage (idx) {
+      this.form.images.splice(idx, 1)
+    },
     onSubmit (evt) {
       evt.preventDefault()
       if (this.form.id) {
         // this.updateProperty(this.form)
       } else {
-        // this.form.bedrooms = [this.bedroom]
-        // this.$bvModal.show('info')
-        this.form.images = this.form.images.map((i) => {
-          return btoa(i)
-        })
-        this.form.bedrooms = this.form.bedrooms.map((b) => {
-          b.images = b.images.map((i) => { return btoa(i) })
-          return b
-        })
         console.log(this.form)
         this.addProperty(this.form)
         // this.$router.push({ name: 'propertyView' })
       }
-    },
-    prepareImagesPayload () {
-      let formData = new FormData()
-      for (var i = 0; i < this.form.bedrooms.length; i++) {
-        var bedroom = this.form.bedrooms[i]
-        var images = bedroom.images
-        for (var j = 0; j < images.length; j++) {
-          formData.append('bedImage[' + i + '][' + j + ']', images[j])
-        }
-        // delete this.form.bedrooms[i].images
-      }
-      for (var w = 0; w < this.images.length; w++) {
-        formData.append('image[' + w + ']', this.images[w])
-      }
-      formData.append('property', JSON.stringify(this.form))
-      return formData
     },
     updateDescription (value) {
       this.form.description = value
@@ -356,6 +343,12 @@ export default {
     },
     updateBedroomImages (value) {
       this.bedroom.images = value
+    },
+    addBedroomImage (img) {
+      this.bedroom.images.push(img)
+    },
+    removeBedroomImage (idx) {
+      this.bedroom.images.splice(idx, 1)
     }
   }
 }

@@ -6,8 +6,8 @@
       size="xl"
     >
       <div v-if="showImagesIdx !== null" class="images-modal">
-        <div v-for="(file, key) in files" :key="key">
-          <img class="preview" v-bind:ref="'image'+parseInt( key )"/>
+        <div v-for="(image, key) in bedrooms[showImagesIdx].images" :key="key">
+          <img class="preview" v-bind:src="image"/>
         </div>
       </div>
     </b-modal>
@@ -76,7 +76,11 @@
       >
         <b-row align-v="end">
           <b-col>
-            <LoadImages class="load-images-bedroom" @updateImages="updateBedroomImages"/>
+            <LoadImages class="load-images-bedroom"
+              :images="bedroom.images"
+              @addImage="addBedroomImage"
+              @removeImage="removeBedroomImage"
+              @updateImages="updateBedroomImages"/>
           </b-col>
         </b-row>
         <b-row align-v="end">
@@ -200,7 +204,6 @@ export default {
   methods: {
     showImages (idx) {
       this.showImagesIdx = idx
-      this.getImagePreviews()
       this.$refs['show-images-modal'].show()
     },
     updateBedroomType (checked) {
@@ -225,7 +228,16 @@ export default {
       this.$emit('updateBedroomRentPrice', value)
     },
     updateBedroomImages (value) {
+      this.bedroom.images = value
       this.$emit('updateBedroomImages', value)
+    },
+    addBedroomImage (value) {
+      this.bedroom.images.push(value)
+      this.$emit('addBedroomImage', value)
+    },
+    removeBedroomImage (value) {
+      this.bedroom.images.splice(value, 1)
+      this.$emit('removeBedroomImage', value)
     },
     addBedroom () {
       this.hidden = true
@@ -239,38 +251,6 @@ export default {
         rentPrice: 0,
         images: [],
         peopleAmount: 0
-      }
-    },
-    getImagePreviews () {
-      this.files = this.bedrooms[this.showImagesIdx].images
-      /*
-        Iterate over all of the files and generate an image preview for each one.
-      */
-      for (let i = 0; i < this.files.length; i++) {
-        /*
-          Ensure the file is an image file
-        */
-        if (/\.(jpe?g|png|gif)$/i.test(this.files[i].name)) {
-          /*
-            Create a new FileReader object
-          */
-          let reader = new FileReader()
-
-          /*
-            Add an event listener for when the file has been loaded
-            to update the src on the file preview.
-          */
-          reader.addEventListener('load', function () {
-            this.$refs['image' + parseInt(i)][0].src = reader.result
-          }.bind(this), false)
-
-          /*
-            Read the data for the file in through the reader. When it has
-            been loaded, we listen to the event propagated and set the image
-            src to what was loaded from the reader.
-          */
-          reader.readAsDataURL(this.files[i])
-        }
       }
     }
   }
