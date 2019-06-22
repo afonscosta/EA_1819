@@ -127,8 +127,8 @@ public class PopulateEnumerations {
                 // Ordination
                 createOrdination("Price: lowest first");
                 createOrdination("Price: highest first");
-                createOrdination("Distance: closest first");
-                createOrdination("Distance: farthest first");
+                //createOrdination("Distance: closest first");
+                //createOrdination("Distance: farthest first");
                 createOrdination("Publication Date: newest first");
                 createOrdination("Publication Date: oldest first");
                 createOrdination("Advertiser Login: newest first");

@@ -2,7 +2,6 @@ package web;
 
 import business.Home4All;
 import business.entities.Common;
-import business.entities.InternalAccount;
 import com.google.gson.Gson;
 
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -35,8 +33,8 @@ public class Users extends HttpServlet {
                                                     (String) u.getOrDefault("phone", null),
                                                     (String) u.getOrDefault("gender",null),
                                                     (String) u.getOrDefault("occupation", null));
-            String userJsonString = JsonParser.userToJson(user);
-            response.setContentType("application/json"); // multipart/form-data
+            String userJsonString = Parser.userToJson(user);
+            response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             PrintWriter out = response.getWriter();
             out.print(userJsonString);
@@ -59,7 +57,7 @@ public class Users extends HttpServlet {
             System.out.println("USER AUTHENTICATED:" + currentUser.getEmail());
             System.out.println("SESSION ID: " + session.getId());
             List<business.entities.Users> users = Home4All.listUsers();
-            String usersJsonString = JsonParser.usersToJson(users);
+            String usersJsonString = Parser.usersToJson(users);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             PrintWriter out = response.getWriter();

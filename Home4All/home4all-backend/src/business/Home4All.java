@@ -9,6 +9,7 @@ import org.orm.PersistentException;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -64,7 +65,7 @@ public class Home4All {
                 boolean totalAccess, List<Map<String, Object>> bedrooms, int ownerId)
             throws TypologyNotExistentException, OccupationNotExistentException, EquipmentNotExistentException,
             ExpenseNotExistentException, PersistentException, GenderNotExistentException, MissingPropertiesException,
-            BedroomTypeNotExistentException, PropertyNotExistentException {
+            BedroomTypeNotExistentException, PropertyNotExistentException, IOException {
 
         return propertyBean.registerSharedProperty(
                 id, name, photos, description, typology, area, district, city, street, lat, lng, expensesIncluded,
@@ -81,7 +82,7 @@ public class Home4All {
                 List<String> allowedOccupations, String allowedGenders, int ownerId)
             throws PersistentException, TypologyNotExistentException, ExpenseNotExistentException,
             EquipmentNotExistentException, OccupationNotExistentException, GenderNotExistentException,
-            PropertyNotExistentException {
+            PropertyNotExistentException, IOException {
 
         return propertyBean.registerPrivateProperty(
                 id, name, photos, description, type, typology, area, district, city, street, lat, lng, furnished,
@@ -90,15 +91,32 @@ public class Home4All {
         );
     }
 
-    public static String nextImageName(String originalName, String format) throws PersistentException {
-        return propertyBean.nextImageName(originalName, format);
-    }
-
     public static Property getProperty(int ID) throws PersistentException {
         return propertyBean.getProperty(ID);
     }
 
-    public boolean deleteProperty(int ID) throws PersistentException {
+    public static boolean deleteProperty(int ID) throws PersistentException {
         return propertyBean.deleteProperty(ID);
+    }
+
+    public static List<Property> searchProperties(String district, String city, String completeAddress,
+                int page, int propsPerPage, int numberOfPages,
+                // Filters
+                List<String> types, List<String> typologies, boolean sell, boolean rent,
+                Float minSellPrice, Float maxSellPrice, Float minRentPrice, Float maxRentPrice,
+                Integer peopleQuantity, List<String> bedroomsTypes, Integer peopleAmountMultiple,
+                boolean privateWC, boolean sharedWC, List<String> hasOccupations, boolean hasPets,
+                boolean notPets, boolean hasSmokers, boolean notSmokers, boolean furnished,
+                boolean notFurnished, boolean totalAccess, boolean notTotalAccess,
+                // Ordination
+                String ordination,
+                // User Information
+                Gender userGender, Occupation userOccupation, Integer userAge)
+            throws PersistentException, OrdinationNotExistentException {
+        return propertyBean.searchProperties(district, city, completeAddress, page, propsPerPage, numberOfPages,
+                types, typologies, sell, rent, minSellPrice, maxSellPrice, minRentPrice, maxRentPrice,
+                peopleQuantity, bedroomsTypes, peopleAmountMultiple, privateWC, sharedWC, hasOccupations, hasPets, notPets,
+                hasSmokers, notSmokers, furnished, notFurnished, totalAccess, notTotalAccess, ordination,
+                userGender, userOccupation, userAge);
     }
 }

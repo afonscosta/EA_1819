@@ -1,5 +1,6 @@
 package tests;
 
+import business.Utils;
 import business.entities.*;
 import data.*;
 import org.orm.PersistentException;
@@ -15,7 +16,7 @@ public class CreateUser {
                 InternalAccount u = InternalAccountDAO.createInternalAccount();
                 u.setName("Nome de utilizador");
                 u.setEmail("email@email.com");
-                u.setPassword("password"); // TODO: hash da password
+                u.setPassword(Utils.hash("password"));
                 u.setAge(20);
                 u.setGender(GenderDAO.loadGenderByORMID("female"));
                 u.setLastLogin(new Date());

@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-class JsonParser {
+class Parser {
     private static Gson gson = new Gson();
 
     static String userToJson(Common user) {
@@ -58,7 +58,7 @@ class JsonParser {
         return images;
     }
 
-    static String propertyToJson(Property property) throws IOException {
+    private static Map<String, Object> propertyToMap(Property property) throws IOException {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         Map<String, Object> data = new HashMap<>();
@@ -77,8 +77,8 @@ class JsonParser {
         data.put("lng", address.getCoordLng());
 
         List<String> aux = Arrays.stream(property.equipmentIncluded.toArray())
-                    .map(Equipment::getName)
-                    .collect(Collectors.toList());
+                .map(Equipment::getName)
+                .collect(Collectors.toList());
         data.put("equipmentIncluded", aux);
 
         if (property instanceof Shared || ((Private) property).getRentPrice() != null) {
@@ -153,6 +153,76 @@ class JsonParser {
             data.put("sellPrice", priv.getSellPrice());
         }
 
-        return gson.toJson(data);
+        return data;
     }
+
+    static String propertyToJson(Property property) throws IOException {
+        return gson.toJson(propertyToMap(property));
+    }
+
+    private static List<Map<String, Object>> propertyListToMap(List<Property> properties) throws IOException {
+        List<Map<String, Object>> data = new ArrayList<>();
+        for (Property p: properties) {
+            data.add(propertyToMap(p));
+        }
+        return data;
+    }
+
+    static String propertyListToJson(List<Property> properties) throws IOException {
+        return gson.toJson(propertyListToMap(properties));
+    }
+
+    static Float parseToFloat(Object o, boolean allowNulls) throws Exception {
+        try {
+            if (o == null && allowNulls) {
+                return null;
+            }
+            else if (o instanceof String) {
+                if (((String) o).isEmpty()) {
+                    if (allowNulls)
+                        return null;
+                }
+                else
+                    return Float.parseFloat((String) o);
+            }
+            else if (o instanceof Double) {
+                return Float.parseFloat(Double.toString((double) o));
+            }
+            else if (o instanceof Float || o instanceof Integer) {
+                return (float) o;
+            }
+        }
+        catch (Exception e) {
+            throw new Exception("ERRO: Tipo de dados inesperado (<" + o + "> é do tipo " + o.getClass() + ", mas deveria ser float).");
+        }
+        throw new Exception("ERRO: Tipo de dados inesperado (<" + o + "> é do tipo " + o.getClass() + ", mas deveria ser float).");
+    }
+
+    static Integer parseToInt(Object o, boolean allowNulls) throws Exception {
+        try {
+            if (o == null && allowNulls) {
+                return null;
+            }
+            else if (o instanceof String) {
+                if (((String) o).isEmpty()) {
+                    if (allowNulls)
+                        return null;
+                }
+                else
+                    return Integer.parseInt((String) o);
+            }
+            else if ((o instanceof Double || o instanceof Float)
+                    && ((double) o) % 1 == 0) {
+                return (int) Math.round((double) o);
+            }
+            else if (o instanceof Integer) {
+                return (int) o;
+            }
+        }
+        catch (Exception e) {
+            throw new Exception("ERRO: Tipo de dados inesperado (<" + o + "> é do tipo " + o.getClass() + ", mas deveria ser inteiro).");
+        }
+        throw new Exception("ERRO: Tipo de dados inesperado (<" + o + "> é do tipo " + o.getClass() + ", mas deveria ser inteiro).");
+    }
+
 }
