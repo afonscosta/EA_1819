@@ -55,16 +55,15 @@
       </b-col>
     </b-row>
 
-    <label class="input-location">
-      Rua:
-      <gmap-autocomplete
-        placeholder="Insira uma localização"
-        :componentRestrictions="{ country: ['pt'] }"
-        @place_changed="setPlace">
-      </gmap-autocomplete>
-    </label>
+    <label class="input-location mb-1">Rua:</label>
+    <gmap-autocomplete
+      class="form-control mb-3"
+      placeholder="Insira uma localização"
+      :componentRestrictions="{ country: ['pt'] }"
+      @place_changed="setPlace">
+    </gmap-autocomplete>
 
-    <b-row>
+    <b-row class="mb-1">
       <b-col>
         <b-form-checkbox
           id="checkbox-1"
@@ -83,22 +82,6 @@
           class="pb-2"
         >Acesso total</b-form-checkbox>
       </b-col>
-    </b-row>
-
-    <b-row>
-      <b-col>
-        <b-form-group id="input-group-11"
-          v-if="type !== 'bedrooms'"
-          label="Disponível a partir de:"
-          label-for="input-11"
-        >
-          <b-input
-            v-model="availability"
-            type="date"
-            @change="updateAvailability"
-          ></b-input>
-        </b-form-group>
-      </b-col>
       <b-col v-if="type !== 'bedrooms'">
         <b-form-checkbox
           id="checkbox-rent"
@@ -116,6 +99,22 @@
         >
           Vender
         </b-form-checkbox>
+      </b-col>
+    </b-row>
+
+    <b-row>
+      <b-col>
+        <b-form-group id="input-group-11"
+          v-if="type !== 'bedrooms'"
+          label="Disponível a partir de:"
+          label-for="input-11"
+        >
+          <b-input
+            v-model="availability"
+            type="date"
+            @change="updateAvailability"
+          ></b-input>
+        </b-form-group>
       </b-col>
     </b-row>
 

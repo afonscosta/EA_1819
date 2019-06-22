@@ -83,7 +83,7 @@
               @updateImages="updateBedroomImages"/>
           </b-col>
         </b-row>
-        <b-row align-v="end">
+        <b-row class="mt-3 mb-3" align-v="end">
           <b-col>
             <b-form-group id="type" label="Tipo:" label-for="input-11">
               <b-form-select
@@ -153,8 +153,8 @@
           </b-col>
         </b-row>
         <b-row align-h="center">
-          <b-col align-self="center">
-            <b-button @click="addBedroom">Adicionar</b-button>
+          <b-col align="right">
+            <b-button variant="primary" @click="addBedroom">Adicionar</b-button>
           </b-col>
         </b-row>
       </b-form-group>

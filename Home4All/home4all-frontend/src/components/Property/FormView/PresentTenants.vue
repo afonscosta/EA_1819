@@ -46,19 +46,25 @@
           </b-form-group>
         </b-col>
       </b-row>
-      <b-form-group id="present-tenants-ocupation-form-group" label="Ocupações dos arrendatários atuais:">
-        <b-form-checkbox-group
-          v-model="shared.ocupation"
-          :options="optionsOcupation"
-          buttons
-          button-variant="secondary"
-          @change="updateSharedOcupation"
-        ></b-form-checkbox-group>
-      </b-form-group>
-      <Pets :pets="pets"
-        @addPetType="addPetType"
-        @deletePetType="deletePetType"
-      />
+      <b-row>
+        <b-col>
+          <Pets :pets="pets"
+            @addPetType="addPetType"
+            @deletePetType="deletePetType"
+          />
+        </b-col>
+        <b-col>
+          <b-form-group id="present-tenants-ocupation-form-group" label="Ocupações dos arrendatários atuais:">
+            <b-form-checkbox-group
+              v-model="shared.ocupation"
+              :options="optionsOcupation"
+              buttons
+              button-variant="secondary"
+              @change="updateSharedOcupation"
+            ></b-form-checkbox-group>
+          </b-form-group>
+        </b-col>
+      </b-row>
     </b-form-group>
   </b-card>
 </template>
