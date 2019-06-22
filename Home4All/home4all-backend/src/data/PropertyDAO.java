@@ -16,9 +16,12 @@ package data;
 import business.entities.Private;
 import business.entities.Property;
 import business.entities.Shared;
+import org.hibernate.SQLQuery;
 import org.orm.*;
 import org.hibernate.Query;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -419,6 +422,80 @@ public class PropertyDAO {
 				return (Property) properties.get(0);
 			else
 				return null;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			throw new PersistentException(e);
+		}
+	}
+
+	public static List<Property> listPropertyByQuery(String condition, String orderBy, String limit, Map<String, Object> parameters) throws PersistentException {
+		try {
+			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+
+			StringBuilder sb = new StringBuilder("From business.entities.Property as Property");
+			if (condition != null)
+				sb.append(" Where ").append(condition);
+			if (orderBy != null)
+				sb.append(" Order By ").append(orderBy);
+			if (limit != null)
+				sb.append(" Limit ").append(limit);
+			Query query = session.createQuery(sb.toString());
+
+			for (Map.Entry<String, Object> p: parameters.entrySet()) {
+				query.setParameter(p.getKey(), p.getValue());
+			}
+
+			List properties = query.list();
+			if (properties != null && properties.size() > 0)
+				return Arrays.asList((Property[]) properties.toArray(new Property[properties.size()]));
+			else
+				return new ArrayList<>();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			throw new PersistentException(e);
+		}
+	}
+
+
+	public static List<Property> listPropertyBySQLQuery(String joinTables,
+														String condition, String orderBy,
+														String limit, String offset,
+														Map<String, Object> parameters)
+			throws PersistentException {
+		try {
+			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
+
+			StringBuilder sb = new StringBuilder("SELECT DISTINCT * FROM (SELECT Property.* FROM Property");
+			if (joinTables != null)
+				sb.append(joinTables);
+			if (condition != null)
+				sb.append(" WHERE ").append(condition);
+			if (orderBy != null)
+				sb.append(" ORDER BY ").append(orderBy);
+			if (limit != null)
+				sb.append(") AS Property LIMIT ").append(limit);
+			else
+				sb.append(") AS Property");
+			if (limit != null)
+				sb.append(" OFFSET ").append(offset);
+
+			System.out.println(sb.toString());
+
+			SQLQuery query = session.createSQLQuery(sb.toString());
+
+			for (Map.Entry<String, Object> p: parameters.entrySet()) {
+				query.setParameter(p.getKey(), p.getValue());
+			}
+
+			query.addEntity(Property.class);
+
+			List properties = query.list();
+			if (properties != null && properties.size() > 0)
+				return Arrays.asList((Property[]) properties.toArray(new Property[properties.size()]));
+			else
+				return new ArrayList<>();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
