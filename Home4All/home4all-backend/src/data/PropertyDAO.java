@@ -398,6 +398,19 @@ public class PropertyDAO {
 			throw new PersistentException(e);
 		}
 	}
+	
+	public static Property loadPropertyByCriteria(PropertyCriteria propertyCriteria) {
+		Property[] propertys = listPropertyByCriteria(propertyCriteria);
+		if(propertys == null || propertys.length == 0) {
+			return null;
+		}
+		return propertys[0];
+	}
+	
+	public static Property[] listPropertyByCriteria(PropertyCriteria propertyCriteria) {
+		return propertyCriteria.listProperty();
+	}
+
 
 
 	// COSTUMED METHODS

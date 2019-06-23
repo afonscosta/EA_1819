@@ -23,6 +23,7 @@ License Type: Academic
 		<mapping resource="ormmapping/tables/BedroomType.hbm.xml" />
 		<mapping resource="ormmapping/tables/Chat.hbm.xml" />
 		<mapping resource="ormmapping/tables/Comment.hbm.xml" />
+		<mapping resource="ormmapping/tables/Complaint.hbm.xml" />
 		<mapping resource="ormmapping/tables/Equipment.hbm.xml" />
 		<mapping resource="ormmapping/tables/Expenses.hbm.xml" />
 		<mapping resource="ormmapping/tables/Folder.hbm.xml" />

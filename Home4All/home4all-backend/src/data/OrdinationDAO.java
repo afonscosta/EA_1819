@@ -344,4 +344,15 @@ public class OrdinationDAO {
 		}
 	}
 	
+	public static Ordination loadOrdinationByCriteria(OrdinationCriteria ordinationCriteria) {
+		Ordination[] ordinations = listOrdinationByCriteria(ordinationCriteria);
+		if(ordinations == null || ordinations.length == 0) {
+			return null;
+		}
+		return ordinations[0];
+	}
+	
+	public static Ordination[] listOrdinationByCriteria(OrdinationCriteria ordinationCriteria) {
+		return ordinationCriteria.listOrdination();
+	}
 }

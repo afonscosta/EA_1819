@@ -344,4 +344,15 @@ public class FolderDAO {
 		}
 	}
 	
+	public static Folder loadFolderByCriteria(FolderCriteria folderCriteria) {
+		Folder[] folders = listFolderByCriteria(folderCriteria);
+		if(folders == null || folders.length == 0) {
+			return null;
+		}
+		return folders[0];
+	}
+	
+	public static Folder[] listFolderByCriteria(FolderCriteria folderCriteria) {
+		return folderCriteria.listFolder();
+	}
 }

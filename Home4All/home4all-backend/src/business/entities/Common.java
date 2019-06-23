@@ -15,6 +15,11 @@ package business.entities;
 
 import data.ORMConstants;
 
+import java.util.Calendar;
+import java.util.Date;
+
+import static java.util.Calendar.*;
+
 public class Common extends Users {
 	public Common() {
 	}
@@ -47,11 +52,13 @@ public class Common extends Users {
 	
 	private Occupation occupation;
 	
-	private int age;
+	private java.util.Date birthdate;
 	
 	private String phone;
 	
 	private java.util.Date lastLogin;
+	
+	private boolean blocked;
 	
 	private java.util.Set ORM_properties = new java.util.HashSet();
 	
@@ -61,12 +68,12 @@ public class Common extends Users {
 	
 	private java.util.Set ORM_favorites = new java.util.HashSet();
 	
-	public void setAge(int value) {
-		this.age = value;
+	public void setBirthdate(java.util.Date value) {
+		this.birthdate = value;
 	}
 	
-	public int getAge() {
-		return age;
+	public java.util.Date getBirthdate() {
+		return birthdate;
 	}
 	
 	public void setPhone(String value) {
@@ -83,6 +90,14 @@ public class Common extends Users {
 	
 	public java.util.Date getLastLogin() {
 		return lastLogin;
+	}
+	
+	public void setBlocked(boolean value) {
+		this.blocked = value;
+	}
+	
+	public boolean getBlocked() {
+		return blocked;
 	}
 	
 	private void setORM_Properties(java.util.Set value) {
@@ -144,5 +159,17 @@ public class Common extends Users {
 	public String toString() {
 		return super.toString();
 	}
-	
+
+	public int getAge() {
+		Calendar a = Calendar.getInstance();
+		a.setTime(this.birthdate);
+		Calendar b = Calendar.getInstance();
+
+		int diff = b.get(YEAR) - a.get(YEAR);
+		if (a.get(MONTH) > b.get(MONTH) ||
+				(a.get(MONTH) == b.get(MONTH) && a.get(DATE) > b.get(DATE))) {
+			diff--;
+		}
+		return diff;
+	}
 }

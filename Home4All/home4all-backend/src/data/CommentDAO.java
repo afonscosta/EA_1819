@@ -344,4 +344,15 @@ public class CommentDAO {
 		}
 	}
 	
+	public static Comment loadCommentByCriteria(CommentCriteria commentCriteria) {
+		Comment[] comments = listCommentByCriteria(commentCriteria);
+		if(comments == null || comments.length == 0) {
+			return null;
+		}
+		return comments[0];
+	}
+	
+	public static Comment[] listCommentByCriteria(CommentCriteria commentCriteria) {
+		return commentCriteria.listComment();
+	}
 }

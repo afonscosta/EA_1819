@@ -344,4 +344,15 @@ public class PetDAO {
 		}
 	}
 	
+	public static Pet loadPetByCriteria(PetCriteria petCriteria) {
+		Pet[] pets = listPetByCriteria(petCriteria);
+		if(pets == null || pets.length == 0) {
+			return null;
+		}
+		return pets[0];
+	}
+	
+	public static Pet[] listPetByCriteria(PetCriteria petCriteria) {
+		return petCriteria.listPet();
+	}
 }

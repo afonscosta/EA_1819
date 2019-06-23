@@ -344,4 +344,15 @@ public class AddressDAO {
 		}
 	}
 	
+	public static Address loadAddressByCriteria(AddressCriteria addressCriteria) {
+		Address[] addresses = listAddressByCriteria(addressCriteria);
+		if(addresses == null || addresses.length == 0) {
+			return null;
+		}
+		return addresses[0];
+	}
+	
+	public static Address[] listAddressByCriteria(AddressCriteria addressCriteria) {
+		return addressCriteria.listAddress();
+	}
 }

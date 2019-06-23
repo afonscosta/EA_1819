@@ -4,6 +4,7 @@ import business.entities.*;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 
+import javax.jms.Session;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,16 +16,44 @@ import java.util.stream.Collectors;
 class Parser {
     private static Gson gson = new Gson();
 
+    static String currentUserToJson(String sessionID, Common user){
+        Map data = new HashMap();
+        data.put("id", sessionID);
+        Map data_user = new HashMap();
+        data.put("user", data_user);
+        data_user.put("id", user.getID());
+        data_user.put("email", user.getEmail());
+        data_user.put("name", user.getName());
+        //if (user instanceof InternalAccount) {
+        //    data.put("password", ((InternalAccount) user).getPassword());
+        //}
+        data_user.put("birthday", user.getBirthdate());
+        String phone = user.getPhone();
+        if (!phone.isEmpty()) {
+            data_user.put("phone", phone);
+        }
+        data_user.put("gender", user.getGender().getName());
+        data_user.put("occupation", user.getOccupation().getName());
+        return gson.toJson(data);
+
+    }
+
     static String userToJson(Common user) {
         LinkedTreeMap data = new LinkedTreeMap();
+        System.out.println(user);
         data.put("id", user.getID());
         data.put("email", user.getEmail());
         data.put("name", user.getName());
-        if (user instanceof InternalAccount) {
-            data.put("password", ((InternalAccount) user).getPassword());
+        //if (user instanceof InternalAccount) {
+        //    data.put("password", ((InternalAccount) user).getPassword());
+        //}
+        data.put("birthday", user.getBirthdate());
+        String phone = user.getPhone();
+        if (!phone.isEmpty()) {
+            data.put("phone", phone);
         }
-        data.put("age", user.getAge());
-        data.put("phone", user.getPhone());
+        data.put("gender", user.getGender().getName());
+        data.put("occupation", user.getOccupation().getName());
         return gson.toJson(data);
     }
 
@@ -52,8 +81,8 @@ class Parser {
         for (Photo photo: photos) {
             File file = new File("images" + File.separator + photo.getPath());
             byte[] bytes = Files.readAllBytes(file.toPath());
-            String encodeImage = Base64.getEncoder().withoutPadding().encodeToString(bytes);
-            images.add(encodeImage);
+            // String encodeImage = Base64.getEncoder().withoutPadding().encodeToString(bytes);
+            images.add(new String(bytes));
         }
         return images;
     }

@@ -377,4 +377,15 @@ public class ApartmentDAO {
 		}
 	}
 	
+	public static Apartment loadApartmentByCriteria(ApartmentCriteria apartmentCriteria) {
+		Apartment[] apartments = listApartmentByCriteria(apartmentCriteria);
+		if(apartments == null || apartments.length == 0) {
+			return null;
+		}
+		return apartments[0];
+	}
+	
+	public static Apartment[] listApartmentByCriteria(ApartmentCriteria apartmentCriteria) {
+		return apartmentCriteria.listApartment();
+	}
 }

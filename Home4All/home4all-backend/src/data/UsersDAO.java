@@ -19,7 +19,7 @@ import org.hibernate.Query;
 
 import java.util.List;
 
-public class  UsersDAO {
+public class UsersDAO {
 	public static Users loadUsersByORMID(int ID) throws PersistentException {
 		try {
 			PersistentSession session = Home4AllPersistentManager.instance().getSession();
@@ -344,4 +344,15 @@ public class  UsersDAO {
 		}
 	}
 	
+	public static Users loadUsersByCriteria(UsersCriteria usersCriteria) {
+		Users[] userses = listUsersByCriteria(usersCriteria);
+		if(userses == null || userses.length == 0) {
+			return null;
+		}
+		return userses[0];
+	}
+	
+	public static Users[] listUsersByCriteria(UsersCriteria usersCriteria) {
+		return usersCriteria.listUsers();
+	}
 }

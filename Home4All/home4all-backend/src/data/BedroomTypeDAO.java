@@ -344,4 +344,15 @@ public class BedroomTypeDAO {
 		}
 	}
 	
+	public static BedroomType loadBedroomTypeByCriteria(BedroomTypeCriteria bedroomTypeCriteria) {
+		BedroomType[] bedroomTypes = listBedroomTypeByCriteria(bedroomTypeCriteria);
+		if(bedroomTypes == null || bedroomTypes.length == 0) {
+			return null;
+		}
+		return bedroomTypes[0];
+	}
+	
+	public static BedroomType[] listBedroomTypeByCriteria(BedroomTypeCriteria bedroomTypeCriteria) {
+		return bedroomTypeCriteria.listBedroomType();
+	}
 }

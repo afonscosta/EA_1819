@@ -387,4 +387,15 @@ public class InternalAccountDAO {
 		}
 	}
 	
+	public static InternalAccount loadInternalAccountByCriteria(InternalAccountCriteria internalAccountCriteria) {
+		InternalAccount[] internalAccounts = listInternalAccountByCriteria(internalAccountCriteria);
+		if(internalAccounts == null || internalAccounts.length == 0) {
+			return null;
+		}
+		return internalAccounts[0];
+	}
+	
+	public static InternalAccount[] listInternalAccountByCriteria(InternalAccountCriteria internalAccountCriteria) {
+		return internalAccountCriteria.listInternalAccount();
+	}
 }

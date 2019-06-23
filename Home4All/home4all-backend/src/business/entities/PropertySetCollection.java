@@ -80,6 +80,7 @@ public class PropertySetCollection extends org.orm.util.ORMSet {
 	 * <li>allowedSmoker</li>
 	 * <li>allowedPets</li>
 	 * <li>publishDate</li>
+	 * <li>blocked</li>
 	 * </ul>
 	 * @return The persistent objects sorted array
 	 */
@@ -99,6 +100,7 @@ public class PropertySetCollection extends org.orm.util.ORMSet {
 	 * <li>allowedSmoker</li>
 	 * <li>allowedPets</li>
 	 * <li>publishDate</li>
+	 * <li>blocked</li>
 	 * </ul>
 	 * @param ascending true for ascending, false for descending
 	 * @return The persistent objects sorted array

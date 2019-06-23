@@ -14,7 +14,6 @@
 package data;
 
 import business.entities.Photo;
-import business.entities.Private;
 import org.orm.*;
 import org.hibernate.Query;
 
@@ -345,6 +344,18 @@ public class PhotoDAO {
 			e.printStackTrace();
 			throw new PersistentException(e);
 		}
+	}
+	
+	public static Photo loadPhotoByCriteria(PhotoCriteria photoCriteria) {
+		Photo[] photos = listPhotoByCriteria(photoCriteria);
+		if(photos == null || photos.length == 0) {
+			return null;
+		}
+		return photos[0];
+	}
+	
+	public static Photo[] listPhotoByCriteria(PhotoCriteria photoCriteria) {
+		return photoCriteria.listPhoto();
 	}
 
 

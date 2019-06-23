@@ -20,7 +20,6 @@ License Type: Academic
 		<property name="maxSellPrice" column="MaxSellPrice" type="float" not-null="false" lazy="false"/>
 		<property name="minRentPrice" column="MinRentPrice" type="float" not-null="false" lazy="false"/>
 		<property name="maxRentPrice" column="MaxRentPrice" type="float" not-null="false" lazy="false"/>
-		<property name="peopleAmount" column="PeopleAmount" type="integer" length="10" not-null="false" lazy="false"/>
 		<property name="singleRooms" column="SingleRooms" type="integer" length="10" not-null="false" lazy="false"/>
 		<property name="doubleRooms" column="DoubleRooms" type="integer" length="10" not-null="false" lazy="false"/>
 		<property name="privateWC" column="PrivateWC" type="boolean" not-null="false" lazy="false"/>
@@ -33,24 +32,24 @@ License Type: Academic
 			<many-to-many column="PropertyID" class="business.entities.Property">
 			</many-to-many>
 		</set>
-		<set name="ORM_MultipleRoom" lazy="true" cascade="all-delete-orphan" inverse="false">
+		<set name="ORM_AllowedOccupations" table="Notification_Occupation" lazy="true" cascade="save-update,lock">
 			<key column="NotificationID" not-null="true"/>
-			<one-to-many class="business.entities.MultipleRoom"/>
+			<many-to-many column="OccupationName" class="business.entities.Occupation">
+			</many-to-many>
 		</set>
 		<set name="ORM_Typologies" table="Notification_Typology" lazy="true" cascade="save-update,lock">
 			<key column="NotificationID" not-null="true"/>
 			<many-to-many column="TypologyName" class="business.entities.Typology">
 			</many-to-many>
 		</set>
-		<set name="ORM_AllowedOccupations" table="Notification_Occupation" lazy="true" cascade="save-update,lock">
-			<key column="NotificationID" not-null="true"/>
-			<many-to-many column="OccupationName" class="business.entities.Occupation">
-			</many-to-many>
-		</set>
 		<set name="ORM_PropertyTypes" table="Notification_PropertyType" lazy="true" cascade="save-update,lock">
 			<key column="NotificationID" not-null="true"/>
 			<many-to-many column="PropertyTypeName" class="business.entities.PropertyType">
 			</many-to-many>
+		</set>
+		<set name="ORM_MultipleRoom" lazy="true" cascade="all-delete-orphan" inverse="false">
+			<key column="NotificationID" not-null="true"/>
+			<one-to-many class="business.entities.MultipleRoom"/>
 		</set>
 	</class>
 </hibernate-mapping>
