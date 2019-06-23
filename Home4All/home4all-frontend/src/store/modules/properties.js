@@ -19,6 +19,9 @@ const getters = {
   },
   propertyEdit: state => {
     return state.propertyEdit
+  },
+  num_props_compare: state => {
+    return state.props_compare.length
   }
 }
 
@@ -41,7 +44,7 @@ const mutations = {
   addPropCompare (state, property) {
     state.props_compare.push(property)
   },
-  removeProCompare (state, propertyID) {
+  removePropCompare (state, propertyID) {
     state.props_compare = state.props_compare.filter(u => u.id !== propertyID)
   },
   // Details
@@ -70,7 +73,7 @@ const actions = {
       commit('addProperty', newProperty)
       commit('addPropCompare', newProperty)
       commit('addPropCompare', newProperty)
-      commit('addPropCompare', newProperty)
+      // commit('addPropCompare', newProperty)
     })
   },
   updateProperty ({ commit }, property) {
@@ -93,6 +96,7 @@ const actions = {
     commit('addPropCompare', property)
   },
   removePropCompare ({ commit }, propertyID) {
+    console.log('property removed from compare')
     commit('removePropCompare', propertyID)
   },
   // Details

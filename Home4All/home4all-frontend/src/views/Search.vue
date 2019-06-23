@@ -74,9 +74,41 @@
                   </b-col>
                   <b-col>
                     <b-dropdown id="dropdown-form" variant="light" text="Preço" ref="dropdown">
-                      <b-col>
-                        <vue-slider v-model="filters.priceRange"></vue-slider>
-                      </b-col>
+                      <b-row>
+                        <b-col>
+                          <p>Preço renda</p>
+                        </b-col>
+                      </b-row>
+                      <b-row>
+                        <b-col>
+                          <b-form-input type="number"
+                            v-model.number="filters.minRentPrice"
+                          ></b-form-input>
+                        </b-col>
+                        <b-col>
+                          <b-form-input type="number"
+                            v-model.number="filters.maxRentPrice"
+                          ></b-form-input>
+                        </b-col>
+                      </b-row>
+                      <b-dropdown-divider></b-dropdown-divider>
+                      <b-row>
+                        <b-col>
+                          <p>Preço compra</p>
+                        </b-col>
+                      </b-row>
+                      <b-row>
+                        <b-col>
+                          <b-form-input type="number"
+                            v-model.number="filters.minSellPrice"
+                          ></b-form-input>
+                        </b-col>
+                        <b-col>
+                          <b-form-input type="number"
+                            v-model.number="filters.maxSellPrice"
+                          ></b-form-input>
+                        </b-col>
+                      </b-row>
                     </b-dropdown>
                   </b-col>
                   <b-col>
@@ -114,48 +146,62 @@
                   <b-col cols="12">
                     <b-dropdown id="dropdown-form" right variant="light" text="Avançados" ref="dropdown">
                       <b-col>
+                        <p><strong>Tipo de quartos</strong></p>
                         <b-row>
                           <b-col cols="9">
-                            <p>Nº de clientes envolvidos no negócio</p>
+                            <p>Individual</p>
                           </b-col>
                           <b-col cols="1">
                             <b-button
                               variant="primary"
-                              :disabled="filters.peopleQuantity === 2"
-                              @click="filters.peopleQuantity -= 1">-</b-button>
+                              :disabled="filters.single === 0"
+                              @click="filters.single -= 1">-</b-button>
                           </b-col>
                           <b-col cols="1">
-                            <p>{{ filters.peopleQuantity }}</p>
+                            <p>{{ filters.single }}</p>
                           </b-col>
                           <b-col cols="1">
                             <b-button
                               variant="primary"
-                              @click="filters.peopleQuantity += 1">+</b-button>
+                              @click="filters.single += 1">+</b-button>
                           </b-col>
                         </b-row>
-
-                        <b-dropdown-divider></b-dropdown-divider>
-                        <p>Tipo de quartos</p>
                         <b-row>
-                          <b-col cols="2">
-                            <b-form-checkbox
-                              v-model="filters.single"
-                              class="mb-3">Individual</b-form-checkbox>
+                          <b-col cols="9">
+                            <p>Casal</p>
                           </b-col>
-                          <b-col cols="2">
-                            <b-form-checkbox
-                              v-model="filters.double"
-                              class="mb-3">Casal</b-form-checkbox>
+                          <b-col cols="1">
+                            <b-button
+                              variant="primary"
+                              :disabled="filters.double === 0"
+                              @click="filters.double -= 1">-</b-button>
                           </b-col>
-                          <b-col cols="8">
-                            <b-form-checkbox
-                              v-model="filters.multiple"
-                              class="mb-3"
-                            >Múltiplo com
-                              <b-form-input id="peopleAmountMultiple"
-                                size="sm" :disabled="!filters.multiple"
-                                v-model.number="filters.peopleAmountMultiple" type="number"></b-form-input>
-                              pessoa(s)</b-form-checkbox>
+                          <b-col cols="1">
+                            <p>{{ filters.double }}</p>
+                          </b-col>
+                          <b-col cols="1">
+                            <b-button
+                              variant="primary"
+                              @click="filters.double += 1">+</b-button>
+                          </b-col>
+                        </b-row>
+                        <b-row>
+                          <b-col cols="9">
+                            <p>Múltiplo</p>
+                          </b-col>
+                          <b-col cols="1">
+                            <b-button
+                              variant="primary"
+                              :disabled="filters.multiple === 0"
+                              @click="filters.multiple -= 1">-</b-button>
+                          </b-col>
+                          <b-col cols="1">
+                            <p>{{ filters.multiple }}</p>
+                          </b-col>
+                          <b-col cols="1">
+                            <b-button
+                              variant="primary"
+                              @click="filters.multiple += 1">+</b-button>
                           </b-col>
                         </b-row>
                         <b-row>
@@ -173,7 +219,7 @@
 
                         <b-dropdown-divider></b-dropdown-divider>
 
-                        <p>Partilhar com</p>
+                        <p><strong>Partilhar com</strong></p>
                         <b-form-checkbox-group
                           id="checkbox-group-1"
                           v-model="filters.hasOccupations"
@@ -205,7 +251,7 @@
 
                         <b-dropdown-divider></b-dropdown-divider>
 
-                        <p>Imóvel</p>
+                        <p><strong>Imóvel</strong></p>
                         <b-row>
                           <b-col>
                             <b-form-checkbox
@@ -285,9 +331,9 @@ export default {
       publicationDateOldestFirst: false,
       advertiserLoginNewestFirst: false,
       advertiserLoginOldestFirst: false,
-      single: false,
-      double: false,
-      multiple: false,
+      single: 0,
+      double: 0,
+      multiple: 0,
       hasOccupations: [],
       hasPets: false,
       notPets: false,
@@ -298,7 +344,6 @@ export default {
       totalAccess: false,
       notTotalAccess: false,
       peopleQuantity: 2,
-      peopleAmountMultiple: 0,
       privateWC: false,
       sharedWC: false
     },
@@ -369,13 +414,17 @@ export default {
       filters.rent = this.filters.rent
       filters.sell = this.filters.sell
 
-      if (this.filters.rent) {
-        filters.minRentPrice = this.filters.priceRange[0]
-        filters.maxRentPrice = this.filters.priceRange[1]
+      if (this.filters.minRentPrice !== 0) {
+        filters.minRentPrice = this.filters.minRentPrice
       }
-      if (this.filters.sell) {
-        filters.minSellPrice = this.filters.priceRange[0]
-        filters.maxSellPrice = this.filters.priceRange[1]
+      if (this.filters.maxRentPrice !== 0) {
+        filters.maxRentPrice = this.filters.maxRentPrice
+      }
+      if (this.filters.minSellPrice !== 0) {
+        filters.minSellPrice = this.filters.minSellPrice
+      }
+      if (this.filters.maxSellPrice !== 0) {
+        filters.maxSellPrice = this.filters.maxSellPrice
       }
 
       var ordination = null
@@ -406,11 +455,14 @@ export default {
         filters.peopleQuantity = this.filters.peopleQuantity
       }
 
-      filters.single = this.filters.single
-      filters.double = this.filters.double
-      filters.multiple = this.filters.multiple
-      if (this.filters.multiple) {
-        filters.peopleAmountMultiple = this.filters.peopleAmountMultiple
+      if (this.filters.single > 0) {
+        filters.single = this.filters.single
+      }
+      if (this.filters.double > 0) {
+        filters.double = this.filters.double
+      }
+      if (this.filters.multiple > 0) {
+        filters.multiple = this.filters.multiple
       }
 
       filters.privateWC = this.filters.privateWC

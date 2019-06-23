@@ -23,28 +23,34 @@
         <b-col>
           <b-table bordered striped hover :fields="fields" :items="items">
             <template slot="col1" slot-scope="row">
-              <label v-if="row.index != 0 && row.index != 10 && row.index != 11">{{ row.value }}</label>
+              <label v-if="row.index != 0 && row.index != 10 && row.index != 11 && row.index != 12">{{ row.value }}</label>
               <div v-if="row.index == 0">
                 <ImagesPreview :imgs="row.value" :numImgPreview="numImgPreview" @showLightbox="showLightbox"/>
               </div>
-              <b-button variant="primary" v-if="row.index == 10" @click="openMap(row.value)">Localização</b-button>
+              <label v-if="row.index == 10">Endereço: {{ row.value.addr }}</label>
+              <b-button variant="primary" v-if="row.index == 10" @click="openMap(row.value.loc)">Localização</b-button>
               <b-button variant="primary" v-if="row.index == 11" @click="goToProperty(row.value)">Ver detalhes</b-button>
+              <b-button variant="danger" v-if="row.index == 12" @click="removePropCompare(row.value)">Remover</b-button>
             </template>
             <template slot="col2" slot-scope="row">
-              <label v-if="row.index != 0 && row.index != 10 && row.index != 11">{{ row.value }}</label>
+              <label v-if="row.index != 0 && row.index != 10 && row.index != 11 && row.index != 12">{{ row.value }}</label>
               <div v-if="row.index == 0">
                 <ImagesPreview :imgs="row.value" :numImgPreview="numImgPreview" @showLightbox="showLightbox"/>
               </div>
-              <b-button variant="primary" v-if="row.index == 10" @click="openMap(row.value)">Localização</b-button>
+              <label v-if="row.index == 10">Endereço: {{ row.value.addr }}</label>
+              <b-button variant="primary" v-if="row.index == 10" @click="openMap(row.value.loc)">Localização</b-button>
               <b-button variant="primary" v-if="row.index == 11" @click="goToProperty(row.value)">Ver detalhes</b-button>
+              <b-button variant="danger" v-if="row.index == 12" @click="removePropCompare(row.value)">Remover</b-button>
             </template>
             <template slot="col3" slot-scope="row">
-              <label v-if="row.index != 0 && row.index != 10 && row.index != 11">{{ row.value }}</label>
+              <label v-if="row.index != 0 && row.index != 10 && row.index != 11 && row.index != 12">{{ row.value }}</label>
               <div v-if="row.index == 0">
                 <ImagesPreview :imgs="row.value" :numImgPreview="numImgPreview" @showLightbox="showLightbox"/>
               </div>
-              <b-button variant="primary" v-if="row.index == 10" @click="openMap(row.value)">Localização</b-button>
+              <label v-if="row.index == 10">Endereço: {{ row.value.addr }}</label>
+              <b-button variant="primary" v-if="row.index == 10" @click="openMap(row.value.loc)">Localização</b-button>
               <b-button variant="primary" v-if="row.index == 11" @click="goToProperty(row.value)">Ver detalhes</b-button>
+              <b-button variant="danger" v-if="row.index == 12" @click="removePropCompare(row.value)">Remover</b-button>
             </template>
           </b-table>
         </b-col>
@@ -68,18 +74,19 @@ export default {
   },
   data: () => ({
     headers: [
-      'images',
-      'type',
-      'typology',
-      'area',
-      'furnished',
-      'availability',
-      'rentPrice',
-      'sellPrice',
-      'expensesIncluded',
-      'contact',
-      'map',
-      'id'
+      { value: 'images', text: 'Imagens' },
+      { value: 'type', text: 'Tipo' },
+      { value: 'typology', text: 'Tipologia' },
+      { value: 'area', text: 'Área' },
+      { value: 'furnished', text: 'Mobilado' },
+      { value: 'availability', text: 'Disponibilidade' },
+      { value: 'rentPrice', text: 'Preço para arrendar' },
+      { value: 'sellPrice', text: 'Preço para compra' },
+      { value: 'expensesIncluded', text: 'Despesas incluídas' },
+      { value: 'contact', text: 'Contacto' },
+      { value: 'map', text: 'Localização' },
+      { value: 'id', text: 'Detalhes' },
+      { value: 'id', text: 'Remover' }
     ],
     images: [],
     numImgPreview: 4,
@@ -102,7 +109,7 @@ export default {
         i++
         fields.push({
           key: 'col' + i,
-          label: 'Imóvel ' + i
+          label: this.props_compare[i - 1].name
         })
       }
       return fields
@@ -120,25 +127,54 @@ export default {
     ...mapActions('properties', [
       'setProperty',
       'addPropCompare',
+      'removePropCompare',
       'setProperties'
     ]),
     translateInfo (props, key) {
       var i = 0; var content = {}
-      content['col' + i++] = key
-      console.log(props)
-      if (key === 'map') {
+      content['col' + i++] = key.text
+      if (key.value === 'map') {
         props.map(p => {
-          return { lat: p.lat, lng: p.lng }
-        }).forEach(function (item) {
+          return { addr: p.address, loc: { lat: p.lat, lng: p.lng } }
+        }).forEach((item) => {
+          content['col' + i++] = item
+        })
+      } else if (key.value === 'type') {
+        props.map(p => p[key.value]).forEach((item) => {
+          content['col' + i++] = this.parseType(item)
+        })
+      } else if (key.value === 'area') {
+        props.map(p => p[key.value]).forEach((item) => {
+          content['col' + i++] = item + ' m²'
+        })
+      } else if (key.value === 'rentPrice') {
+        props.map(p => p[key.value]).forEach((item) => {
+          content['col' + i++] = item + ' €/mês'
+        })
+      } else if (key.value === 'sellPrice') {
+        props.map(p => p[key.value]).forEach((item) => {
+          content['col' + i++] = item + ' €'
+        })
+      } else if (key.value === 'furnished') {
+        props.map(p => p[key.value]).forEach((item) => {
+          content['col' + i++] = item ? 'Sim' : 'Não'
+        })
+      } else if (key.value === 'expensesIncluded') {
+        props.map(p => p[key.value]).forEach((item) => {
           content['col' + i++] = item
         })
       } else {
-        props.map(p => p[key]).forEach(function (item) {
+        props.map(p => p[key.value]).forEach((item) => {
           content['col' + i++] = item
         })
       }
       content['_cellVariants'] = { col0: 'warning' }
       return content
+    },
+    parseType (type) {
+      if (type === 'bedrooms') return 'Quartos'
+      if (type === 'apartment') return 'Apartamento'
+      if (type === 'villa') return 'Vivenda'
     },
     goToProperty (id) {
       var prop = this.properties.find(p => p.id === id)

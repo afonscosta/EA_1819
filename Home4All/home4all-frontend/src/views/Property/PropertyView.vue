@@ -1,7 +1,10 @@
 <template>
   <div>
     <h3 class="title">{{ property.name }}</h3>
-    <b-button @click="editProperty()" variant="danger">Editar</b-button>
+    <b-button @click="editProperty()" variant="primary">Editar</b-button>
+    <b-button :disabled="num_props_compare === 3"
+      @click="addPropCompare(property)" variant="primary">Comparar</b-button>
+    <b-button variant="danger">Denunciar</b-button>
     <b-container>
       <b-row class="justify-content-md-center">
         <b-col>
@@ -53,7 +56,10 @@
             :allowedOccupations="property.allowedOccupations"
             :allowedSmokers="property.allowedSmokers"
             :allowedPets="property.allowedPets"/>
-          <b-button @click="editProperty()" variant="danger">Editar</b-button>
+          <b-button @click="editProperty()" variant="primary">Editar</b-button>
+          <b-button :disabled="num_props_compare === 3"
+            @click="addPropCompare(property)" variant="primary">Comparar</b-button>
+          <b-button variant="danger">Denunciar</b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -61,7 +67,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapGetters, mapActions, mapState } from 'vuex'
 import Bedroom from '@/components/Property/DetailView/Bedroom'
 import DivEquipInclude from '@/components/Property/DetailView/DivEquipInclude'
 import Images from '@/components/Property/DetailView/Images'
@@ -87,10 +93,11 @@ export default {
     ...mapState({
       properties: state => state.properties.properties,
       property: state => state.properties.property
-    })
+    }),
+    ...mapGetters('properties', [ 'num_props_compare' ])
   },
   methods: {
-    ...mapActions('properties', [ 'setPropertyEdit' ]),
+    ...mapActions('properties', [ 'addPropCompare', 'setPropertyEdit' ]),
     editProperty () {
       this.setPropertyEdit(this.property)
       this.$router.push({ name: 'propertyEdit' })

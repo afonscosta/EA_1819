@@ -13,7 +13,11 @@
             <router-link :to="{ name: 'search' }">Pesquisar</router-link>
           </b-nav-item>
           <b-nav-item>
-            <router-link disable :to="{ name: 'comparison' }">Comparação</router-link>
+            <router-link disable :to="{ name: 'comparison' }">Comparação
+              <b-badge v-if="num_props_compare === 1" variant="success">{{ num_props_compare }}</b-badge>
+              <b-badge v-if="num_props_compare === 2" variant="warning">{{ num_props_compare }}</b-badge>
+              <b-badge v-if="num_props_compare === 3" variant="danger">{{ num_props_compare }}</b-badge>
+            </router-link>
           </b-nav-item>
           <b-nav-item>
             <router-link :to="{ name: 'propertyAdd' }">Vender</router-link>
@@ -31,7 +35,12 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
-  name: 'Navbar'
+  name: 'Navbar',
+  computed: {
+    ...mapGetters('properties', [ 'num_props_compare' ])
+  }
 }
 </script>
