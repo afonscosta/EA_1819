@@ -27,7 +27,7 @@ class Parser {
         //if (user instanceof InternalAccount) {
         //    data.put("password", ((InternalAccount) user).getPassword());
         //}
-        data_user.put("age", user.getAge());
+        data_user.put("birthday", user.getBirthdate());
         String phone = user.getPhone();
         if (!phone.isEmpty()) {
             data_user.put("phone", phone);
@@ -47,7 +47,7 @@ class Parser {
         //if (user instanceof InternalAccount) {
         //    data.put("password", ((InternalAccount) user).getPassword());
         //}
-        data.put("age", user.getAge());
+        data.put("birthday", user.getBirthdate());
         String phone = user.getPhone();
         if (!phone.isEmpty()) {
             data.put("phone", phone);
