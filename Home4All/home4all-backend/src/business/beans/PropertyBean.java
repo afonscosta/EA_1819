@@ -14,6 +14,10 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 @Stateless(name = "PropertyEJB")
@@ -36,6 +40,7 @@ public class PropertyBean implements PropertyBeanLocal {
 
 
     private String saveNewImage(String image_b64) throws PersistentException, IOException, IOException {
+        /*
         String[] split = image_b64.split(",");
         String format = split[0].replace("data:image/","")
                                 .replace(";base64","");
@@ -59,7 +64,17 @@ public class PropertyBean implements PropertyBeanLocal {
         BufferedImage image = ImageIO.read(bis);
         bis.close();
         ImageIO.write(image, format, file);
+        */
+        // Obter próximo id de path de imagem
+        PersistentSession session = getSession();
+        BigInteger next_new_path_id = (BigInteger) session
+                .createSQLQuery("SELECT nextval('new_image_id')")
+                .list().get(0);
+        String name = String.format("image_%d.txt", next_new_path_id);
 
+        // Armazenar a imagem
+        Path file = Paths.get("images" + File.separator + name);
+        Files.write(file, image_b64.getBytes());
         return name;
     }
 
@@ -137,6 +152,8 @@ public class PropertyBean implements PropertyBeanLocal {
         }
 
         property.setOwner(CommonDAO.getCommonByORMID(ownerId));
+
+        property.setBlocked(false);
     }
 
 
@@ -405,12 +422,12 @@ public class PropertyBean implements PropertyBeanLocal {
         }
 
         // Filters - PropertyType
+        if (types != null && types.contains("Bedrooms")) {
+            types.remove("Bedrooms");
+            if (rent)
+                types.add("Shared");
+        }
         if (types!=null && !types.isEmpty()) {
-            if (types.contains("Bedrooms")) {
-                types.remove("Bedrooms");
-                if (rent)
-                    types.add("Shared");
-            }
             conditions.add("(Property.discriminator = " +
                     String.join(" OR Property.discriminator = ")
                     + ")");
