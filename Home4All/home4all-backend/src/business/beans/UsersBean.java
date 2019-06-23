@@ -5,6 +5,8 @@ import business.entities.*;
 import business.exceptions.*;
 import data.*;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.orm.PersistentException;
 import org.orm.PersistentSession;
@@ -163,11 +165,18 @@ public class UsersBean implements UsersBeanLocal {
         PersistentSession session = getSession();
         Map<Date,Integer> data = new HashMap<>();
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
         LocalDate dateB = LocalDate.parse(dateBegin, formatter);
         LocalDate dateE = LocalDate.parse(dateEnd, formatter);
-        //Criteria crit = session.createCriteria(Property.class);
-        //crit.add(Restrictions.)
+        Criteria crit = session.createCriteria(Property.class)
+                                .add(Restrictions.between("publishDate", dateB, dateE))
+                                .setProjection(Projections.projectionList()
+                                        .add(Projections.property("ID"), "ID")
+                                        .add(Projections.property("Name"), "Name")
+                                        .add(Projections.rowCount())
+                                        .add(Projections.groupProperty("publishDate")))
+                                .addOrder(Order.asc("publishDate"));
+        System.out.println(crit.list());
         return data;
     }
 }

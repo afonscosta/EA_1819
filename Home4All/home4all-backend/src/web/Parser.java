@@ -27,7 +27,8 @@ class Parser {
         //if (user instanceof InternalAccount) {
         //    data.put("password", ((InternalAccount) user).getPassword());
         //}
-        data_user.put("birthday", user.getBirthdate());
+        data_user.put("birthday", user.getBirthdate().toString());
+        System.out.println(user.getBirthdate());
         String phone = user.getPhone();
         if (!phone.isEmpty()) {
             data_user.put("phone", phone);
