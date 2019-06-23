@@ -344,4 +344,15 @@ public class OccupationDAO {
 		}
 	}
 	
+	public static Occupation loadOccupationByCriteria(OccupationCriteria occupationCriteria) {
+		Occupation[] occupations = listOccupationByCriteria(occupationCriteria);
+		if(occupations == null || occupations.length == 0) {
+			return null;
+		}
+		return occupations[0];
+	}
+	
+	public static Occupation[] listOccupationByCriteria(OccupationCriteria occupationCriteria) {
+		return occupationCriteria.listOccupation();
+	}
 }

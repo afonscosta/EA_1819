@@ -345,6 +345,18 @@ public class PhotoDAO {
 			throw new PersistentException(e);
 		}
 	}
+	
+	public static Photo loadPhotoByCriteria(PhotoCriteria photoCriteria) {
+		Photo[] photos = listPhotoByCriteria(photoCriteria);
+		if(photos == null || photos.length == 0) {
+			return null;
+		}
+		return photos[0];
+	}
+	
+	public static Photo[] listPhotoByCriteria(PhotoCriteria photoCriteria) {
+		return photoCriteria.listPhoto();
+	}
 
 
 	// COSTUMED METHODS

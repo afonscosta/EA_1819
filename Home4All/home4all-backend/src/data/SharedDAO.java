@@ -377,4 +377,15 @@ public class SharedDAO {
 		}
 	}
 	
+	public static Shared loadSharedByCriteria(SharedCriteria sharedCriteria) {
+		Shared[] shareds = listSharedByCriteria(sharedCriteria);
+		if(shareds == null || shareds.length == 0) {
+			return null;
+		}
+		return shareds[0];
+	}
+	
+	public static Shared[] listSharedByCriteria(SharedCriteria sharedCriteria) {
+		return sharedCriteria.listShared();
+	}
 }

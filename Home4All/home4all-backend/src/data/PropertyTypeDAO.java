@@ -344,4 +344,15 @@ public class PropertyTypeDAO {
 		}
 	}
 	
+	public static PropertyType loadPropertyTypeByCriteria(PropertyTypeCriteria propertyTypeCriteria) {
+		PropertyType[] propertyTypes = listPropertyTypeByCriteria(propertyTypeCriteria);
+		if(propertyTypes == null || propertyTypes.length == 0) {
+			return null;
+		}
+		return propertyTypes[0];
+	}
+	
+	public static PropertyType[] listPropertyTypeByCriteria(PropertyTypeCriteria propertyTypeCriteria) {
+		return propertyTypeCriteria.listPropertyType();
+	}
 }

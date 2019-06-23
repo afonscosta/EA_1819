@@ -10,6 +10,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -49,16 +50,16 @@ public class Home4All {
         return usersBean.listUsers();
     }
 
-    public static Common insertCommonUser(String email, String name, String password, String age, String phone,
+    public static Common insertCommonUser(String email, String name, String password, String birthdate, String phone,
                                           String gender, String occupation)
-                                throws PersistentException, GenderNotExistentException, OccupationNotExistentException {
-        return usersBean.insertCommonUser(email, name, password, age, phone, gender, occupation);
+            throws PersistentException, GenderNotExistentException, OccupationNotExistentException, ParseException {
+        return usersBean.insertCommonUser(email, name, password, birthdate, phone, gender, occupation);
     }
 
-    public static Common updateCommonUser(int id, String name, String password, String age, String phone,
+    public static Common updateCommonUser(int id, String name, String password, String birthdate, String phone,
                                           String gender, String occupation)
-            throws PersistentException, GenderNotExistentException, OccupationNotExistentException {
-        return usersBean.updateCommonUser(id, name, password, age, phone, gender, occupation);
+            throws PersistentException, GenderNotExistentException, OccupationNotExistentException, ParseException {
+        return usersBean.updateCommonUser(id, name, password, birthdate, phone, gender, occupation);
     }
 
 

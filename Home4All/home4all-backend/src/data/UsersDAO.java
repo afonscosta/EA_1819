@@ -344,4 +344,15 @@ public class UsersDAO {
 		}
 	}
 	
+	public static Users loadUsersByCriteria(UsersCriteria usersCriteria) {
+		Users[] userses = listUsersByCriteria(usersCriteria);
+		if(userses == null || userses.length == 0) {
+			return null;
+		}
+		return userses[0];
+	}
+	
+	public static Users[] listUsersByCriteria(UsersCriteria usersCriteria) {
+		return usersCriteria.listUsers();
+	}
 }

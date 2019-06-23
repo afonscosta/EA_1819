@@ -29,7 +29,7 @@ public class Users extends HttpServlet {
             Common user = Home4All.insertCommonUser((String) u.getOrDefault("email", null),
                                                     (String) u.getOrDefault("name",null),
                                                     (String) u.getOrDefault("password", null),
-                                                    (String) u.getOrDefault("age", null),
+                                                    (String) u.getOrDefault("birthday", null),
                                                     (String) u.getOrDefault("phone", null),
                                                     (String) u.getOrDefault("gender",null),
                                                     (String) u.getOrDefault("ocupation", null));
@@ -90,7 +90,7 @@ public class Users extends HttpServlet {
             Common user = Home4All.updateCommonUser( currentUser.getID(),
                                                     (String) u.getOrDefault("name",null),
                                                     (String) u.getOrDefault("password", null),
-                                                    (String) u.getOrDefault("age", null),
+                                                    (String) u.getOrDefault("birthday", null),
                                                     (String) u.getOrDefault("phone", null),
                                                     (String) u.getOrDefault("gender",null),
                                                     (String) u.getOrDefault("occupation", null));

@@ -344,4 +344,15 @@ public class ExpensesDAO {
 		}
 	}
 	
+	public static Expenses loadExpensesByCriteria(ExpensesCriteria expensesCriteria) {
+		Expenses[] expenseses = listExpensesByCriteria(expensesCriteria);
+		if(expenseses == null || expenseses.length == 0) {
+			return null;
+		}
+		return expenseses[0];
+	}
+	
+	public static Expenses[] listExpensesByCriteria(ExpensesCriteria expensesCriteria) {
+		return expensesCriteria.listExpenses();
+	}
 }

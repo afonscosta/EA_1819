@@ -377,4 +377,15 @@ public class VillaDAO {
 		}
 	}
 	
+	public static Villa loadVillaByCriteria(VillaCriteria villaCriteria) {
+		Villa[] villas = listVillaByCriteria(villaCriteria);
+		if(villas == null || villas.length == 0) {
+			return null;
+		}
+		return villas[0];
+	}
+	
+	public static Villa[] listVillaByCriteria(VillaCriteria villaCriteria) {
+		return villaCriteria.listVilla();
+	}
 }

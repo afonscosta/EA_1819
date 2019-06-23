@@ -5,9 +5,6 @@ import business.entities.Common;
 import business.entities.InternalAccount;
 import business.entities.Users;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.internal.LinkedTreeMap;
-import data.UsersDAO;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,7 +14,6 @@ import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;

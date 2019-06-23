@@ -344,4 +344,15 @@ public class NotificationDAO {
 		}
 	}
 	
+	public static Notification loadNotificationByCriteria(NotificationCriteria notificationCriteria) {
+		Notification[] notifications = listNotificationByCriteria(notificationCriteria);
+		if(notifications == null || notifications.length == 0) {
+			return null;
+		}
+		return notifications[0];
+	}
+	
+	public static Notification[] listNotificationByCriteria(NotificationCriteria notificationCriteria) {
+		return notificationCriteria.listNotification();
+	}
 }

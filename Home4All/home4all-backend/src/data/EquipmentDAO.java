@@ -344,4 +344,15 @@ public class EquipmentDAO {
 		}
 	}
 	
+	public static Equipment loadEquipmentByCriteria(EquipmentCriteria equipmentCriteria) {
+		Equipment[] equipments = listEquipmentByCriteria(equipmentCriteria);
+		if(equipments == null || equipments.length == 0) {
+			return null;
+		}
+		return equipments[0];
+	}
+	
+	public static Equipment[] listEquipmentByCriteria(EquipmentCriteria equipmentCriteria) {
+		return equipmentCriteria.listEquipment();
+	}
 }

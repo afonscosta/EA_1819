@@ -17,7 +17,7 @@ public class CreateUser {
                 u.setName("Nome de utilizador");
                 u.setEmail("email@email.com");
                 u.setPassword(Utils.hash("password"));
-                u.setAge(20);
+                u.setBirthdate(new Date());
                 u.setGender(GenderDAO.loadGenderByORMID("female"));
                 u.setLastLogin(new Date());
                 u.setOccupation(OccupationDAO.getOccupationByORMID("student"));
