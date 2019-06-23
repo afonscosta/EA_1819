@@ -1,0 +1,502 @@
+<template>
+  <b-container>
+    <b-row align-h="center">
+      <b-col>
+        <b-card bg-variant="light">
+          <b-row align-h="center">
+            <b-col>
+              <p align="left">Localização</p>
+            </b-col>
+          </b-row>
+          <b-row align-h="center">
+            <b-col align="left">
+              <gmap-autocomplete
+                class="form-control"
+                placeholder="Insira uma localização"
+                :componentRestrictions="{ country: ['pt'] }"
+                @place_changed="setPlace">
+              </gmap-autocomplete>
+            </b-col>
+            <b-col>
+              <b-form-checkbox v-model="filters.rent">Arrendar</b-form-checkbox>
+            </b-col>
+            <b-col>
+              <b-form-checkbox v-model="filters.sell">Comprar</b-form-checkbox>
+            </b-col>
+          </b-row>
+          <b-row align-h="center">
+            <b-col>
+              <b-card>
+                <b-row align-h="center">
+                  <b-col>
+                    <p align="left">Filtros</p>
+                  </b-col>
+                </b-row>
+                <b-row align-h="center">
+                  <b-col>
+                    <b-dropdown id="dropdown-form" variant="light" text="Imóvel" ref="dropdown">
+                      <b-col>
+                        <b-form-checkbox v-model="filters.bedrooms" class="mb-3">Quarto</b-form-checkbox>
+                        <b-form-checkbox v-model="filters.apartment" class="mb-3">Apartamento</b-form-checkbox>
+                        <b-form-checkbox v-model="filters.villa" class="mb-3">Vivenda</b-form-checkbox>
+                      </b-col>
+                    </b-dropdown>
+                  </b-col>
+                  <b-col>
+                    <b-dropdown id="dropdown-form" variant="light" text="Tipologia" ref="dropdown">
+                      <b-row>
+                        <b-col>
+                          <b-form-checkbox v-model="filters.T0" class="mb-3">T0</b-form-checkbox>
+                          <b-form-checkbox v-model="filters.T1" class="mb-3">T1</b-form-checkbox>
+                          <b-form-checkbox v-model="filters.T2" class="mb-3">T2</b-form-checkbox>
+                          <b-form-checkbox v-model="filters.T3" class="mb-3">T3</b-form-checkbox>
+                          <b-form-checkbox v-model="filters.T4" class="mb-3">T4</b-form-checkbox>
+                          <b-form-checkbox v-model="filters.T5" class="mb-3">T5</b-form-checkbox>
+                        </b-col>
+                        <b-col>
+                          <b-form-checkbox v-model="filters.T6" class="mb-3">T6</b-form-checkbox>
+                          <b-form-checkbox v-model="filters.T7" class="mb-3">T7</b-form-checkbox>
+                          <b-form-checkbox v-model="filters.T8" class="mb-3">T8</b-form-checkbox>
+                          <b-form-checkbox v-model="filters.T9" class="mb-3">T9</b-form-checkbox>
+                          <b-form-checkbox v-model="filters.T10" class="mb-3">T10</b-form-checkbox>
+                          <b-form-checkbox v-model="filters.T10P" class="mb-3">T10+</b-form-checkbox>
+                        </b-col>
+                      </b-row>
+                    </b-dropdown>
+                  </b-col>
+                  <b-col>
+                    <b-dropdown id="dropdown-form" variant="light" text="Operação" ref="dropdown">
+                      <b-col>
+                        <b-form-checkbox v-model="filters.rent" class="mb-3">Arrendar</b-form-checkbox>
+                        <b-form-checkbox v-model="filters.sell" class="mb-3">Comprar</b-form-checkbox>
+                      </b-col>
+                    </b-dropdown>
+                  </b-col>
+                  <b-col>
+                    <b-dropdown id="dropdown-form" variant="light" text="Preço" ref="dropdown">
+                      <b-row>
+                        <b-col>
+                          <p>Preço renda</p>
+                        </b-col>
+                      </b-row>
+                      <b-row>
+                        <b-col>
+                          <b-form-input type="number"
+                            v-model.number="filters.minRentPrice"
+                          ></b-form-input>
+                        </b-col>
+                        <b-col>
+                          <b-form-input type="number"
+                            v-model.number="filters.maxRentPrice"
+                          ></b-form-input>
+                        </b-col>
+                      </b-row>
+                      <b-dropdown-divider></b-dropdown-divider>
+                      <b-row>
+                        <b-col>
+                          <p>Preço compra</p>
+                        </b-col>
+                      </b-row>
+                      <b-row>
+                        <b-col>
+                          <b-form-input type="number"
+                            v-model.number="filters.minSellPrice"
+                          ></b-form-input>
+                        </b-col>
+                        <b-col>
+                          <b-form-input type="number"
+                            v-model.number="filters.maxSellPrice"
+                          ></b-form-input>
+                        </b-col>
+                      </b-row>
+                    </b-dropdown>
+                  </b-col>
+                  <b-col>
+                    <b-dropdown id="dropdown-form" variant="light" text="Ordenação" ref="dropdown">
+                      <b-col>
+                        <p v-if="filters.rent ^ filters.sell">Preço</p>
+                        <b-form-checkbox
+                          v-if="filters.rent ^ filters.sell"
+                          v-model="filters.priceLowestFirst"
+                          class="mb-3">mais baixo - mais caro</b-form-checkbox>
+                        <b-form-checkbox
+                          v-if="filters.rent ^ filters.sell"
+                          v-model="filters.priceHighestFirst"
+                          class="mb-3">mais caro - mais baixo</b-form-checkbox>
+                        <b-dropdown-divider></b-dropdown-divider>
+                        <p>Data publicação</p>
+                        <b-form-checkbox
+                          v-model="filters.publicationDateNewestFirst"
+                          class="mb-3">mais recente - mais antiga</b-form-checkbox>
+                        <b-form-checkbox
+                          v-model="filters.publicationDateOldestFirst"
+                          class="mb-3">mais antiga - mais recente</b-form-checkbox>
+                        <b-dropdown-divider></b-dropdown-divider>
+                        <p>Login do anunciante</p>
+                        <b-form-checkbox
+                          v-model="filters.advertiserLoginNewestFirst"
+                          class="mb-3">mais recente - mais antigo</b-form-checkbox>
+                        <b-form-checkbox
+                          v-model="filters.advertiserLoginOldestFirst"
+                          class="mb-3">mais antigo - mais recente</b-form-checkbox>
+                      </b-col>
+                    </b-dropdown>
+                  </b-col>
+
+                  <b-col>
+                    <b-dropdown id="dropdown-form" right variant="light" text="Avançados" ref="dropdown">
+                      <b-col style="width: 700px;">
+                        <p><strong>Tipo de quartos</strong></p>
+                        <b-row>
+                          <b-col cols="9">
+                            <p>Individual</p>
+                          </b-col>
+                          <b-col cols="1">
+                            <b-button
+                              variant="primary"
+                              :disabled="filters.single === 0"
+                              @click="filters.single -= 1">-</b-button>
+                          </b-col>
+                          <b-col cols="1">
+                            <p>{{ filters.single }}</p>
+                          </b-col>
+                          <b-col cols="1">
+                            <b-button
+                              variant="primary"
+                              @click="filters.single += 1">+</b-button>
+                          </b-col>
+                        </b-row>
+                        <b-row>
+                          <b-col cols="9">
+                            <p>Casal</p>
+                          </b-col>
+                          <b-col cols="1">
+                            <b-button
+                              variant="primary"
+                              :disabled="filters.double === 0"
+                              @click="filters.double -= 1">-</b-button>
+                          </b-col>
+                          <b-col cols="1">
+                            <p>{{ filters.double }}</p>
+                          </b-col>
+                          <b-col cols="1">
+                            <b-button
+                              variant="primary"
+                              @click="filters.double += 1">+</b-button>
+                          </b-col>
+                        </b-row>
+                        <b-row>
+                          <b-col cols="9">
+                            <p>Múltiplo</p>
+                          </b-col>
+                          <b-col cols="1">
+                            <b-button
+                              variant="primary"
+                              :disabled="filters.multiple === 0"
+                              @click="filters.multiple -= 1">-</b-button>
+                          </b-col>
+                          <b-col cols="1">
+                            <p>{{ filters.multiple }}</p>
+                          </b-col>
+                          <b-col cols="1">
+                            <b-button
+                              variant="primary"
+                              @click="filters.multiple += 1">+</b-button>
+                          </b-col>
+                        </b-row>
+                        <b-row>
+                          <b-col>
+                            <b-form-checkbox
+                              v-model="filters.privateWC"
+                              class="mb-3">WC privado</b-form-checkbox>
+                          </b-col>
+                          <b-col>
+                            <b-form-checkbox
+                              v-model="filters.sharedWC"
+                              class="mb-3">WC partilhado</b-form-checkbox>
+                          </b-col>
+                        </b-row>
+
+                        <b-dropdown-divider></b-dropdown-divider>
+
+                        <p><strong>Partilhar com</strong></p>
+                        <b-form-checkbox-group
+                          id="checkbox-group-1"
+                          v-model="filters.hasOccupations"
+                          :options="optionsOccupation"
+                          name="occupations-1"
+                        ></b-form-checkbox-group>
+                        <b-row class="mt-2">
+                          <b-col>
+                            <b-form-checkbox
+                              v-model="filters.hasSmokers"
+                              class="mb-3">Fumador</b-form-checkbox>
+                          </b-col>
+                          <b-col>
+                            <b-form-checkbox
+                              v-model="filters.notSmokers"
+                              class="mb-3">Não fumador</b-form-checkbox>
+                          </b-col>
+                          <b-col>
+                            <b-form-checkbox
+                              v-model="filters.hasPets"
+                              class="mb-3">Animais de estimação</b-form-checkbox>
+                          </b-col>
+                          <b-col>
+                            <b-form-checkbox
+                              v-model="filters.notPets"
+                              class="mb-3">S/ animais de estimação</b-form-checkbox>
+                          </b-col>
+                        </b-row>
+
+                        <b-dropdown-divider></b-dropdown-divider>
+
+                        <p><strong>Imóvel</strong></p>
+                        <b-row>
+                          <b-col>
+                            <b-form-checkbox
+                              v-model="filters.furnished"
+                              class="mb-3">Mobilado</b-form-checkbox>
+                          </b-col>
+                          <b-col>
+                            <b-form-checkbox
+                              v-model="filters.notFurnished"
+                              class="mb-3">Não mobilado</b-form-checkbox>
+                          </b-col>
+                        </b-row>
+                        <b-row>
+                          <b-col>
+                            <b-form-checkbox
+                              v-model="filters.totalAccess"
+                              class="mb-3">Acesso total</b-form-checkbox>
+                          </b-col>
+                          <b-col>
+                            <b-form-checkbox
+                              v-model="filters.notTotalAccess"
+                              class="mb-3">Restrições de acesso</b-form-checkbox>
+                          </b-col>
+                        </b-row>
+                      </b-col>
+                    </b-dropdown>
+                  </b-col>
+                </b-row>
+              </b-card>
+            </b-col>
+          </b-row>
+          <b-row align-h="center">
+            <b-col>
+              <b-button @click="search" class="search-button">Pesquisar</b-button>
+            </b-col>
+          </b-row>
+        </b-card>
+      </b-col>
+    </b-row>
+  </b-container>
+</template>
+
+<script>
+import { mapActions } from 'vuex'
+
+export default {
+  name: 'SearchBox',
+  data: () => ({
+    district: null,
+    city: null,
+    address: null,
+    filters: {
+      bedrooms: false,
+      apartment: false,
+      villa: false,
+      T0: false,
+      T1: false,
+      T2: false,
+      T3: false,
+      T4: false,
+      T5: false,
+      T6: false,
+      T7: false,
+      T8: false,
+      T9: false,
+      T10: false,
+      T10P: false,
+      rent: false,
+      sell: false,
+      priceRange: [0, 10000],
+      priceLowestFirst: false,
+      priceHighestFirst: false,
+      publicationDateNewestFirst: false,
+      publicationDateOldestFirst: false,
+      advertiserLoginNewestFirst: false,
+      advertiserLoginOldestFirst: false,
+      single: 0,
+      double: 0,
+      multiple: 0,
+      hasOccupations: [],
+      hasPets: false,
+      notPets: false,
+      hasSmokers: false,
+      notSmokers: false,
+      furnished: false,
+      notFurnished: false,
+      totalAccess: false,
+      notTotalAccess: false,
+      peopleQuantity: 2,
+      privateWC: false,
+      sharedWC: false
+    },
+    optionsOccupation: [
+      { value: 'student', text: 'Estudante' },
+      { value: 'studentWorker', text: 'Trabalhador-estudante' },
+      { value: 'worker', text: 'Trabalhador' },
+      { value: 'retired', text: 'Reformado' },
+      { value: 'unemployed', text: 'Desempregado' }
+    ]
+  }),
+  methods: {
+    ...mapActions('search', ['doSearch']),
+    setPlace (place) {
+      var hasStreet = false
+      var addrComponents = place.address_components
+      if (addrComponents) {
+        addrComponents.forEach((comp) => {
+          if (comp.types.includes('route')) {
+            hasStreet = true
+          }
+          if (comp.types.includes('locality', 'political')) {
+            this.city = comp.long_name
+          }
+          if (comp.types.includes('administrative_area_level_1', 'political')) {
+            this.district = comp.long_name
+          }
+        })
+        if (hasStreet) {
+          this.address = place.formatted_address
+        }
+      }
+    },
+    search (evt) {
+      evt.preventDefault()
+      var payload = {
+        ...(this.district && { district: this.district }),
+        ...(this.city && { city: this.city }),
+        ...(this.address && { address: this.address })
+      }
+      var filters = {}
+
+      var types = []
+      if (this.filters.bedrooms) { types.push('bedrooms') }
+      if (this.filters.apartment) { types.push('apartment') }
+      if (this.filters.villa) { types.push('villa') }
+      if (types.length > 0) {
+        filters.types = types
+      }
+
+      var typologies = []
+      if (this.filters.T0) { typologies.push('T0') }
+      if (this.filters.T1) { typologies.push('T1') }
+      if (this.filters.T2) { typologies.push('T2') }
+      if (this.filters.T3) { typologies.push('T3') }
+      if (this.filters.T4) { typologies.push('T4') }
+      if (this.filters.T5) { typologies.push('T5') }
+      if (this.filters.T6) { typologies.push('T6') }
+      if (this.filters.T7) { typologies.push('T7') }
+      if (this.filters.T8) { typologies.push('T8') }
+      if (this.filters.T9) { typologies.push('T9') }
+      if (this.filters.T10) { typologies.push('T10') }
+      if (this.filters.T10P) { typologies.push('T10+') }
+      if (typologies.length > 0) {
+        filters.typologies = typologies
+      }
+
+      filters.rent = this.filters.rent
+      filters.sell = this.filters.sell
+
+      if (this.filters.minRentPrice !== 0) {
+        filters.minRentPrice = this.filters.minRentPrice
+      }
+      if (this.filters.maxRentPrice !== 0) {
+        filters.maxRentPrice = this.filters.maxRentPrice
+      }
+      if (this.filters.minSellPrice !== 0) {
+        filters.minSellPrice = this.filters.minSellPrice
+      }
+      if (this.filters.maxSellPrice !== 0) {
+        filters.maxSellPrice = this.filters.maxSellPrice
+      }
+
+      var ordination = null
+      if (this.filters.priceLowestFirst) {
+        ordination = 'Price: lowest first'
+      }
+      if (this.filters.priceHighestFirst) {
+        ordination = 'Price: highest first'
+      }
+      if (this.filters.publicationDateNewestFirst) {
+        ordination = 'Publication Date: newest first'
+      }
+      if (this.filters.publicationDateOldestFirst) {
+        ordination = 'Publication Date: oldest first'
+      }
+      if (this.filters.advertiserLoginNewestFirst) {
+        ordination = 'Advertiser Login: newest first'
+      }
+      if (this.filters.advertiserLoginOldestFirst) {
+        ordination = 'Advertiser Login: oldest first'
+      }
+      if (ordination) {
+        filters.ordination = ordination
+      }
+
+      // Advanced filters
+      if (this.filters.peopleQuantity > 2) {
+        filters.peopleQuantity = this.filters.peopleQuantity
+      }
+
+      if (this.filters.single > 0) {
+        filters.single = this.filters.single
+      }
+      if (this.filters.double > 0) {
+        filters.double = this.filters.double
+      }
+      if (this.filters.multiple > 0) {
+        filters.multiple = this.filters.multiple
+      }
+
+      filters.privateWC = this.filters.privateWC
+      filters.sharedWC = this.filters.sharedWC
+
+      if (this.filters.hasOccupations.length > 0) {
+        filters.hasOccupations = this.filters.hasOccupations
+      }
+      filters.hasSmokers = this.filters.hasSmokers
+      filters.notSmokers = this.filters.notSmokers
+      filters.hasPets = this.filters.hasPets
+      filters.notPets = this.filters.notPets
+
+      filters.furnished = this.filters.furnished
+      filters.notFurnished = this.filters.notFurnished
+      filters.totalAccess = this.filters.totalAccess
+      filters.notTotalAccess = this.filters.notTotalAccess
+
+      payload.filters = filters
+
+      if (Object.keys(payload).length !== 0 && payload.constructor === Object) {
+        this.doSearch(payload)
+      }
+    }
+  }
+}
+</script>
+
+<style scoped>
+.search-button {
+  background-color: #FF8000 !important;
+  border-color: #FF8000 !important;
+  margin-bottom: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.form-control {
+  width: 100%;
+}
+</style>

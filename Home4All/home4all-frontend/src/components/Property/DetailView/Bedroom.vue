@@ -8,7 +8,7 @@
     >
       <div v-if="images.length > 0" class="images-modal">
         <div v-for="(image, key) in images" :key="key">
-          <img v-bind:src="'data:image/jpeg;base64,'+image"/>
+          <img v-bind:src="image"/>
         </div>
       </div>
     </b-modal>

@@ -1,18 +1,23 @@
 <template>
-  <div>
-    <gmap-map
-      :center="center"
-      :zoom="12"
-      style="width:100%;  height: 400px;"
-    >
-      <gmap-marker
-        :key="index"
-        v-for="(m, index) in markers"
-        :position="m.position"
-        @click="center=m.position"
-      ></gmap-marker>
-    </gmap-map>
-  </div>
+  <b-container>
+    <b-row>
+      <b-col>
+        <gmap-map
+          :center="center"
+          :zoom="12"
+          :style="'width:100%; height: ' + height + 'px;'"
+          :options="{ disableDefaultUI: disableUI, draggable: drag }"
+        >
+          <gmap-marker
+            :key="index"
+            v-for="(m, index) in markers"
+            :position="m.position"
+            @click="center=m.position"
+          ></gmap-marker>
+        </gmap-map>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -21,6 +26,18 @@ export default {
   props: {
     marker: {
       type: Object
+    },
+    disableUI: {
+      default: false,
+      type: Boolean
+    },
+    drag: {
+      default: true,
+      type: Boolean
+    },
+    height: {
+      default: 400,
+      type: Number
     }
   },
   computed: {
