@@ -82,8 +82,8 @@ class Parser {
         for (Photo photo: photos) {
             File file = new File("images" + File.separator + photo.getPath());
             byte[] bytes = Files.readAllBytes(file.toPath());
-            String encodeImage = Base64.getEncoder().withoutPadding().encodeToString(bytes);
-            images.add(encodeImage);
+            // String encodeImage = Base64.getEncoder().withoutPadding().encodeToString(bytes);
+            images.add(new String(bytes));
         }
         return images;
     }
