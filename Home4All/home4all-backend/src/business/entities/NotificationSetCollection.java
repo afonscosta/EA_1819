@@ -80,7 +80,6 @@ public class NotificationSetCollection extends org.orm.util.ORMSet {
 	 * <li>maxSellPrice</li>
 	 * <li>minRentPrice</li>
 	 * <li>maxRentPrice</li>
-	 * <li>peopleAmount</li>
 	 * <li>singleRooms</li>
 	 * <li>doubleRooms</li>
 	 * <li>privateWC</li>
@@ -107,7 +106,6 @@ public class NotificationSetCollection extends org.orm.util.ORMSet {
 	 * <li>maxSellPrice</li>
 	 * <li>minRentPrice</li>
 	 * <li>maxRentPrice</li>
-	 * <li>peopleAmount</li>
 	 * <li>singleRooms</li>
 	 * <li>doubleRooms</li>
 	 * <li>privateWC</li>

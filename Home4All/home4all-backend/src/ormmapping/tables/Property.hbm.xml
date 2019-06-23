@@ -27,6 +27,7 @@ License Type: Academic
 		<property name="allowedSmoker" column="AllowedSmoker" type="boolean" not-null="false" lazy="false"/>
 		<property name="allowedPets" column="AllowedPets" type="boolean" not-null="false" lazy="false"/>
 		<property name="publishDate" column="PublishDate" type="date" not-null="true" lazy="false"/>
+		<property name="blocked" column="Blocked" type="boolean" not-null="true" lazy="false"/>
 		<set name="ORM_Comments" lazy="true" cascade="save-update,lock" inverse="false">
 			<key column="PropertyID" not-null="true"/>
 			<one-to-many class="business.entities.Comment"/>
@@ -49,6 +50,10 @@ License Type: Academic
 			<key column="PropertyID" not-null="true"/>
 			<many-to-many column="EquipmentName" class="business.entities.Equipment">
 			</many-to-many>
+		</set>
+		<set name="ORM_Complaints" lazy="true" cascade="save-update,lock" inverse="false">
+			<key column="PropertyID" not-null="true"/>
+			<one-to-many class="business.entities.Complaint"/>
 		</set>
 		<subclass name="business.entities.Shared" discriminator-value="Shared" lazy="false">
 			<property name="females" column="Females" type="integer" length="10" not-null="false" lazy="false"/>

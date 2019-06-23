@@ -35,6 +35,9 @@ public class Property {
 		else if (key == ORMConstants.KEY_PROPERTY_EQUIPMENTINCLUDED) {
 			return ORM_equipmentIncluded;
 		}
+		else if (key == ORMConstants.KEY_PROPERTY_COMPLAINTS) {
+			return ORM_complaints;
+		}
 		
 		return null;
 	}
@@ -94,6 +97,8 @@ public class Property {
 	
 	private java.util.Date publishDate;
 	
+	private boolean blocked;
+	
 	private java.util.Set ORM_comments = new java.util.HashSet();
 	
 	private java.util.Set ORM_photos = new java.util.HashSet();
@@ -103,6 +108,8 @@ public class Property {
 	private java.util.Set ORM_allowedOccupations = new java.util.HashSet();
 	
 	private java.util.Set ORM_equipmentIncluded = new java.util.HashSet();
+	
+	private java.util.Set ORM_complaints = new java.util.HashSet();
 	
 	private void setID(int value) {
 		this.ID = value;
@@ -178,6 +185,14 @@ public class Property {
 	
 	public java.util.Date getPublishDate() {
 		return publishDate;
+	}
+	
+	public void setBlocked(boolean value) {
+		this.blocked = value;
+	}
+	
+	public boolean getBlocked() {
+		return blocked;
 	}
 	
 	public void setOwner(Common value) {
@@ -277,6 +292,16 @@ public class Property {
 	public Address getAddress() {
 		return address;
 	}
+	
+	private void setORM_Complaints(java.util.Set value) {
+		this.ORM_complaints = value;
+	}
+	
+	private java.util.Set getORM_Complaints() {
+		return ORM_complaints;
+	}
+	
+	public final ComplaintSetCollection complaints = new ComplaintSetCollection(this, _ormAdapter, ORMConstants.KEY_PROPERTY_COMPLAINTS, ORMConstants.KEY_MUL_ONE_TO_MANY);
 	
 	public String toString() {
 		return String.valueOf(getID());

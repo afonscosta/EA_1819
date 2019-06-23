@@ -24,6 +24,7 @@ License Type: Academic
 			<property name="age" column="Age" type="integer" length="10" not-null="false" lazy="false"/>
 			<property name="phone" column="Phone" type="string" length="255" not-null="false" lazy="false"/>
 			<property name="lastLogin" column="LastLogin" type="date" not-null="false" lazy="false"/>
+			<property name="blocked" column="Blocked" type="boolean" not-null="false" lazy="false"/>
 			<set name="ORM_Properties" lazy="true" cascade="save-update,lock" inverse="true">
 				<key column="UsersID" not-null="true"/>
 				<one-to-many class="business.entities.Property"/>

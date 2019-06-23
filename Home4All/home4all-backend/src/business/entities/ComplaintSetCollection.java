@@ -16,12 +16,12 @@ package business.entities;
 import data.Home4AllPersistentManager;
 import org.orm.*;
 
-public class PropertySetCollection extends org.orm.util.ORMSet {
-	public PropertySetCollection(Object owner, org.orm.util.ORMAdapter adapter, int ownerKey, int targetKey, int collType) {
+public class ComplaintSetCollection extends org.orm.util.ORMSet {
+	public ComplaintSetCollection(Object owner, org.orm.util.ORMAdapter adapter, int ownerKey, int targetKey, int collType) {
 		super(owner, adapter, ownerKey, targetKey, true, collType);
 	}
 	
-	public PropertySetCollection(Object owner, org.orm.util.ORMAdapter adapter, int ownerKey, int collType) {
+	public ComplaintSetCollection(Object owner, org.orm.util.ORMAdapter adapter, int ownerKey, int collType) {
 		super(owner, adapter, ownerKey, -1, false, collType);
 	}
 	
@@ -37,9 +37,9 @@ public class PropertySetCollection extends org.orm.util.ORMSet {
 	 * Add the specified persistent object to ORMSet
 	 * @param value the persistent object
 	 */
-	public void add(Property value) {
+	public void add(Complaint value) {
 		if (value != null) {
-			super.add(value, value._ormAdapter);
+			super.add(value, null);
 		}
 	}
 	
@@ -47,8 +47,8 @@ public class PropertySetCollection extends org.orm.util.ORMSet {
 	 * Remove the specified persistent object from ORMSet
 	 * @param value the persistent object
 	 */
-	public void remove(Property value) {
-		super.remove(value, value._ormAdapter);
+	public void remove(Complaint value) {
+		super.remove(value, null);
 	}
 	
 	/**
@@ -56,7 +56,7 @@ public class PropertySetCollection extends org.orm.util.ORMSet {
 	 * @param value the persistent object
 	 * @return True if this contains the specified persistent object
 	 */
-	public boolean contains(Property value) {
+	public boolean contains(Complaint value) {
 		return super.contains(value);
 	}
 	
@@ -64,27 +64,19 @@ public class PropertySetCollection extends org.orm.util.ORMSet {
 	 * Return an array containing all of the persistent objects in ORMSet
 	 * @return The persistent objects array
 	 */
-	public Property[] toArray() {
-		return (Property[]) super.toArray(new Property[size()]);
+	public Complaint[] toArray() {
+		return (Complaint[]) super.toArray(new Complaint[size()]);
 	}
 	
 	/**
 	 * Return an sorted array containing all of the persistent objects in ORMSet
 	 * @param propertyName Name of the property for sorting:<ul>
 	 * <li>ID</li>
-	 * <li>name</li>
 	 * <li>description</li>
-	 * <li>area</li>
-	 * <li>allowedMinAge</li>
-	 * <li>allowedMaxAge</li>
-	 * <li>allowedSmoker</li>
-	 * <li>allowedPets</li>
-	 * <li>publishDate</li>
-	 * <li>blocked</li>
 	 * </ul>
 	 * @return The persistent objects sorted array
 	 */
-	public Property[] toArray(String propertyName) {
+	public Complaint[] toArray(String propertyName) {
 		return toArray(propertyName, true);
 	}
 	
@@ -92,21 +84,13 @@ public class PropertySetCollection extends org.orm.util.ORMSet {
 	 * Return an sorted array containing all of the persistent objects in ORMSet
 	 * @param propertyName Name of the property for sorting:<ul>
 	 * <li>ID</li>
-	 * <li>name</li>
 	 * <li>description</li>
-	 * <li>area</li>
-	 * <li>allowedMinAge</li>
-	 * <li>allowedMaxAge</li>
-	 * <li>allowedSmoker</li>
-	 * <li>allowedPets</li>
-	 * <li>publishDate</li>
-	 * <li>blocked</li>
 	 * </ul>
 	 * @param ascending true for ascending, false for descending
 	 * @return The persistent objects sorted array
 	 */
-	public Property[] toArray(String propertyName, boolean ascending) {
-		return (Property[]) super.toArray(new Property[size()], propertyName, ascending);
+	public Complaint[] toArray(String propertyName, boolean ascending) {
+		return (Complaint[]) super.toArray(new Complaint[size()], propertyName, ascending);
 	}
 	
 	protected PersistentManager getPersistentManager() throws PersistentException {

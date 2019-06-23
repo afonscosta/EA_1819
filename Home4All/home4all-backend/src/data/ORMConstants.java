@@ -58,6 +58,8 @@ public interface ORMConstants extends org.orm.util.ORMBaseConstants {
 	
 	final int KEY_PROPERTY_COMMENTS = -975752962;
 	
+	final int KEY_PROPERTY_COMPLAINTS = 1454854578;
+	
 	final int KEY_PROPERTY_EQUIPMENTINCLUDED = -1622109024;
 	
 	final int KEY_PROPERTY_EXPENSESINCLUDED = -208845311;
