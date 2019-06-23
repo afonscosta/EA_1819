@@ -9,6 +9,9 @@ import org.orm.PersistentSession;
 import org.orm.PersistentTransaction;
 
 import javax.ejb.Stateless;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -48,9 +51,9 @@ public class UsersBean implements UsersBeanLocal {
     }
 
     @Override
-    public Common insertCommonUser(String email, String name, String password, String age, String phone, String gender,
+    public Common insertCommonUser(String email, String name, String password, String birthdate, String phone, String gender,
                                    String occupation) throws PersistentException, GenderNotExistentException,
-                                                             OccupationNotExistentException {
+            OccupationNotExistentException, ParseException {
         PersistentSession s = getSession();
         PersistentTransaction t = s.beginTransaction();
         try {
@@ -84,7 +87,9 @@ public class UsersBean implements UsersBeanLocal {
             user.setEmail(email);
             user.setName(name);
             user.setPhone(phone);
-            user.setAge(Integer.parseInt(age));
+
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            user.setBirthdate(format.parse(birthdate));
             user.setGender(genderValue);
             user.setOccupation(occupationValue);
             user.setLastLogin(new Date());
@@ -100,9 +105,9 @@ public class UsersBean implements UsersBeanLocal {
     }
 
     @Override
-    public Common updateCommonUser(int id, String email, String name, String password, String age, String phone, String gender,
+    public Common updateCommonUser(int id, String email, String name, String password, String birthdate, String phone, String gender,
                                    String occupation) throws PersistentException, GenderNotExistentException,
-            OccupationNotExistentException {
+            OccupationNotExistentException, ParseException {
         PersistentSession s = getSession();
         PersistentTransaction t = s.beginTransaction();
         try {
@@ -130,8 +135,10 @@ public class UsersBean implements UsersBeanLocal {
                 user.setName(name);
             if (!phone.isEmpty())
                 user.setPhone(phone);
-            if (!age.isEmpty())
-                user.setAge(Integer.parseInt(age));
+            if (!birthdate.isEmpty()) {
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                user.setBirthdate(format.parse(birthdate));
+            }
             CommonDAO.save(user);
             t.commit();
             return user;

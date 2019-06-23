@@ -344,4 +344,15 @@ public class GenderDAO {
 		}
 	}
 	
+	public static Gender loadGenderByCriteria(GenderCriteria genderCriteria) {
+		Gender[] genders = listGenderByCriteria(genderCriteria);
+		if(genders == null || genders.length == 0) {
+			return null;
+		}
+		return genders[0];
+	}
+	
+	public static Gender[] listGenderByCriteria(GenderCriteria genderCriteria) {
+		return genderCriteria.listGender();
+	}
 }

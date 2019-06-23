@@ -344,4 +344,15 @@ public class MultipleRoomDAO {
 		}
 	}
 	
+	public static MultipleRoom loadMultipleRoomByCriteria(MultipleRoomCriteria multipleRoomCriteria) {
+		MultipleRoom[] multipleRooms = listMultipleRoomByCriteria(multipleRoomCriteria);
+		if(multipleRooms == null || multipleRooms.length == 0) {
+			return null;
+		}
+		return multipleRooms[0];
+	}
+	
+	public static MultipleRoom[] listMultipleRoomByCriteria(MultipleRoomCriteria multipleRoomCriteria) {
+		return multipleRoomCriteria.listMultipleRoom();
+	}
 }

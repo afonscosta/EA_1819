@@ -395,4 +395,15 @@ public class PrivateDAO {
 		}
 	}
 	
+	public static Private loadPrivateByCriteria(PrivateCriteria privateCriteria) {
+		Private[] privates = listPrivateByCriteria(privateCriteria);
+		if(privates == null || privates.length == 0) {
+			return null;
+		}
+		return privates[0];
+	}
+	
+	public static Private[] listPrivateByCriteria(PrivateCriteria privateCriteria) {
+		return privateCriteria.listPrivate();
+	}
 }

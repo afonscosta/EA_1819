@@ -344,4 +344,15 @@ public class ComplaintDAO {
 		}
 	}
 	
+	public static Complaint loadComplaintByCriteria(ComplaintCriteria complaintCriteria) {
+		Complaint[] complaints = listComplaintByCriteria(complaintCriteria);
+		if(complaints == null || complaints.length == 0) {
+			return null;
+		}
+		return complaints[0];
+	}
+	
+	public static Complaint[] listComplaintByCriteria(ComplaintCriteria complaintCriteria) {
+		return complaintCriteria.listComplaint();
+	}
 }

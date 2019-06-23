@@ -344,4 +344,15 @@ public class AdminDAO {
 		}
 	}
 	
+	public static Admin loadAdminByCriteria(AdminCriteria adminCriteria) {
+		Admin[] admins = listAdminByCriteria(adminCriteria);
+		if(admins == null || admins.length == 0) {
+			return null;
+		}
+		return admins[0];
+	}
+	
+	public static Admin[] listAdminByCriteria(AdminCriteria adminCriteria) {
+		return adminCriteria.listAdmin();
+	}
 }

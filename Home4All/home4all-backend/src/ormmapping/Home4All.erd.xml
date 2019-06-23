@@ -184,11 +184,11 @@
       <Index>false</Index>
       <UserTypes/>
     </Column>
-    <Column name="Age">
+    <Column name="Birthdate">
       <PrimaryKey>false</PrimaryKey>
       <ForeignKey>false</ForeignKey>
-      <Type>9</Type>
-      <Length>10</Length>
+      <Type>17</Type>
+      <Length>0</Length>
       <Nullable>true</Nullable>
       <IDGenerator>native</IDGenerator>
       <Unique>false</Unique>

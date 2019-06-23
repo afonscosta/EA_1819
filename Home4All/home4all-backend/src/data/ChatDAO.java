@@ -377,4 +377,15 @@ public class ChatDAO {
 		}
 	}
 	
+	public static Chat loadChatByCriteria(ChatCriteria chatCriteria) {
+		Chat[] chats = listChatByCriteria(chatCriteria);
+		if(chats == null || chats.length == 0) {
+			return null;
+		}
+		return chats[0];
+	}
+	
+	public static Chat[] listChatByCriteria(ChatCriteria chatCriteria) {
+		return chatCriteria.listChat();
+	}
 }

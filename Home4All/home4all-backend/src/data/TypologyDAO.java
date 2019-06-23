@@ -344,4 +344,15 @@ public class TypologyDAO {
 		}
 	}
 	
+	public static Typology loadTypologyByCriteria(TypologyCriteria typologyCriteria) {
+		Typology[] typologys = listTypologyByCriteria(typologyCriteria);
+		if(typologys == null || typologys.length == 0) {
+			return null;
+		}
+		return typologys[0];
+	}
+	
+	public static Typology[] listTypologyByCriteria(TypologyCriteria typologyCriteria) {
+		return typologyCriteria.listTypology();
+	}
 }

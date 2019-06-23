@@ -396,4 +396,15 @@ public class CommonDAO {
 		}
 	}
 	
+	public static Common loadCommonByCriteria(CommonCriteria commonCriteria) {
+		Common[] commons = listCommonByCriteria(commonCriteria);
+		if(commons == null || commons.length == 0) {
+			return null;
+		}
+		return commons[0];
+	}
+	
+	public static Common[] listCommonByCriteria(CommonCriteria commonCriteria) {
+		return commonCriteria.listCommon();
+	}
 }
