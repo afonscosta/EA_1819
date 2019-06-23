@@ -2,6 +2,15 @@
   <div id="login">
     <h1> Login </h1>
 
+    <facebook-login class="button"
+      appId="1326428550840901"
+      @login="getUserData"
+      @logout="onLogout"
+      @get-initial-status="getUserData">
+    </facebook-login>
+
+    <hr class="hr-text" data-content="OR">
+
     <div class="row">
       <div class="col-md">
         <hr class="left-hr" style="width: 20%">
@@ -35,6 +44,7 @@
 
 <script>
 import { mapActions } from 'vuex'
+import facebookLogin from 'facebook-login-vuejs'
 
 export default {
   name: 'login',
@@ -44,7 +54,11 @@ export default {
         email: '',
         password: ''
       },
-      invalidCredencials: false
+      invalidCredencials: false,
+      isConnected: false,
+      name: '',
+      personalID: '',
+      FB: undefined
     }
   },
   methods: {
@@ -57,6 +71,7 @@ export default {
           password: this.input.password
         }).then(sessionID => {
           console.log('sessionID ' + sessionID)
+          this.$router.push('/')
         }).catch(errorResponse => {
           if (errorResponse.status === 403) {
             console.log('credenciais inválidas')
@@ -75,7 +90,31 @@ export default {
         .catch(error => {
           console.log(error)
         })
+    },
+    getUserData () {
+      this.FB.api('/me', 'GET', { fields: 'id,name,email' },
+        userInformation => {
+          this.personalID = userInformation.id
+          this.email = userInformation.email
+          this.name = userInformation.name
+        }
+      )
+    },
+    sdkLoaded (payload) {
+      this.isConnected = payload.isConnected
+      this.FB = payload.FB
+      if (this.isConnected) this.getUserData()
+    },
+    onLogin () {
+      this.isConnected = true
+      this.getUserData()
+    },
+    onLogout () {
+      this.isConnected = false
     }
+  },
+  components: {
+    facebookLogin
   }
 }
 </script>

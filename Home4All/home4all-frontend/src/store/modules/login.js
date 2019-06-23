@@ -1,18 +1,31 @@
 import loginService from '../../services/loginService'
+import usersService from '../../services/usersService'
 
 const state = {
-  sessionID: ''
+  sessionID: '',
+  user: null
 }
 
 const getters = {
   sessionID: state => {
     return state.sessionID
+  },
+  user: state => {
+    return state.user
   }
 }
 
 const mutations = {
   setSessionID (state, response) {
     state.sessionID = response.id
+    state.user = response.user
+  },
+  setUser (state, response) {
+    state.user = response
+  },
+  logout (state) {
+    state.user = null
+    state.sessionID = ''
   }
 }
 
@@ -26,6 +39,18 @@ const actions = {
       }, error => {
         reject(error.response)
       })
+    })
+  },
+  logout ({ commit }) {
+    return new Promise((resolve, reject) => {
+      commit('logout')
+      resolve('logout')
+    })
+  },
+  getUser ({ commit }) {
+    usersService.fetchUser().then(user => {
+      console.log(user)
+      commit('setUser', user)
     })
   }
 }

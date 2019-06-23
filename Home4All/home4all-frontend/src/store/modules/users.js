@@ -27,12 +27,6 @@ const mutations = {
 }
 
 const actions = {
-  getUsers ({ commit }) {
-    usersService.fetchUsers().then(users => {
-      console.log(users)
-      commit('setUsers', users)
-    })
-  },
   addUser ({ commit }, user) {
     console.log('add user enviado para o backend', user)
     usersService.postUser(user).then(user => {
@@ -41,7 +35,7 @@ const actions = {
   },
   updateUser ({ commit }, user) {
     console.log('update user enviado para o backend', user)
-    usersService.postUser(user).then(() => {
+    usersService.putUser(user).then(() => {
       commit('updateUser', user)
     })
   },

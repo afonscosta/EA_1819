@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "apexcharts": "^3.8.1",
     "axios": "^0.18.0",
     "bootstrap-vue": "^2.0.0-rc.19",
     "core-js": "^2.6.5",
@@ -15,6 +16,7 @@
     "js-cookie": "^2.2.0",
     "vue": "^2.6.10",
     "vue-easy-lightbox": "^0.3.11",
+    "vue-google-charts": "^0.3.2",
     "vue-router": "^3.0.3",
     "vue-slider-component": "^3.0.32",
     "vue2-google-maps": "^0.10.6",

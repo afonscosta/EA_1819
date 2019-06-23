@@ -11,6 +11,7 @@ import Comparison from '@/views/Property/Comparison.vue'
 
 import Register from '@/views/Register.vue'
 import Login from '@/views/Login.vue'
+import UserInfo from '@/views/UserInfo.vue'
 
 Vue.use(Router)
 
@@ -55,6 +56,11 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: Login
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: UserInfo
     }
   ]
 })

@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "facebook-login-vuejs": "^2.1.3"
+  }
+}
