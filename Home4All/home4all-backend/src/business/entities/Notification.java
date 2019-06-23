@@ -23,17 +23,17 @@ public class Notification {
 		if (key == ORMConstants.KEY_NOTIFICATION_NEWPROPERTIES) {
 			return ORM_newProperties;
 		}
-		else if (key == ORMConstants.KEY_NOTIFICATION_MULTIPLEROOM) {
-			return ORM_multipleRoom;
+		else if (key == ORMConstants.KEY_NOTIFICATION_ALLOWEDOCCUPATIONS) {
+			return ORM_allowedOccupations;
 		}
 		else if (key == ORMConstants.KEY_NOTIFICATION_TYPOLOGIES) {
 			return ORM_typologies;
 		}
-		else if (key == ORMConstants.KEY_NOTIFICATION_ALLOWEDOCCUPATIONS) {
-			return ORM_allowedOccupations;
-		}
 		else if (key == ORMConstants.KEY_NOTIFICATION_PROPERTYTYPES) {
 			return ORM_propertyTypes;
+		}
+		else if (key == ORMConstants.KEY_NOTIFICATION_MULTIPLEROOM) {
+			return ORM_multipleRoom;
 		}
 		
 		return null;
@@ -76,8 +76,6 @@ public class Notification {
 	
 	private float maxRentPrice;
 	
-	private int peopleAmount;
-	
 	private int singleRooms;
 	
 	private int doubleRooms;
@@ -94,13 +92,13 @@ public class Notification {
 	
 	private java.util.Set ORM_newProperties = new java.util.HashSet();
 	
-	private java.util.Set ORM_multipleRoom = new java.util.HashSet();
+	private java.util.Set ORM_allowedOccupations = new java.util.HashSet();
 	
 	private java.util.Set ORM_typologies = new java.util.HashSet();
 	
-	private java.util.Set ORM_allowedOccupations = new java.util.HashSet();
-	
 	private java.util.Set ORM_propertyTypes = new java.util.HashSet();
+	
+	private java.util.Set ORM_multipleRoom = new java.util.HashSet();
 	
 	private void setID(int value) {
 		this.ID = value;
@@ -178,14 +176,6 @@ public class Notification {
 		return maxRentPrice;
 	}
 	
-	public void setPeopleAmount(int value) {
-		this.peopleAmount = value;
-	}
-	
-	public int getPeopleAmount() {
-		return peopleAmount;
-	}
-	
 	public void setSingleRooms(int value) {
 		this.singleRooms = value;
 	}
@@ -252,25 +242,13 @@ public class Notification {
 	
 	public final PropertySetCollection newProperties = new PropertySetCollection(this, _ormAdapter, ORMConstants.KEY_NOTIFICATION_NEWPROPERTIES, ORMConstants.KEY_MUL_MANY_TO_MANY);
 	
-	private void setORM_MultipleRoom(java.util.Set value) {
-		this.ORM_multipleRoom = value;
+	public void setOrdination(Ordination value) {
+		this.ordination = value;
 	}
 	
-	private java.util.Set getORM_MultipleRoom() {
-		return ORM_multipleRoom;
+	public Ordination getOrdination() {
+		return ordination;
 	}
-	
-	public final MultipleRoomSetCollection multipleRoom = new MultipleRoomSetCollection(this, _ormAdapter, ORMConstants.KEY_NOTIFICATION_MULTIPLEROOM, ORMConstants.KEY_MUL_ONE_TO_MANY);
-	
-	private void setORM_Typologies(java.util.Set value) {
-		this.ORM_typologies = value;
-	}
-	
-	private java.util.Set getORM_Typologies() {
-		return ORM_typologies;
-	}
-	
-	public final TypologySetCollection typologies = new TypologySetCollection(this, _ormAdapter, ORMConstants.KEY_NOTIFICATION_TYPOLOGIES, ORMConstants.KEY_MUL_MANY_TO_MANY);
 	
 	private void setORM_AllowedOccupations(java.util.Set value) {
 		this.ORM_allowedOccupations = value;
@@ -282,6 +260,16 @@ public class Notification {
 	
 	public final OccupationSetCollection allowedOccupations = new OccupationSetCollection(this, _ormAdapter, ORMConstants.KEY_NOTIFICATION_ALLOWEDOCCUPATIONS, ORMConstants.KEY_MUL_MANY_TO_MANY);
 	
+	private void setORM_Typologies(java.util.Set value) {
+		this.ORM_typologies = value;
+	}
+	
+	private java.util.Set getORM_Typologies() {
+		return ORM_typologies;
+	}
+	
+	public final TypologySetCollection typologies = new TypologySetCollection(this, _ormAdapter, ORMConstants.KEY_NOTIFICATION_TYPOLOGIES, ORMConstants.KEY_MUL_MANY_TO_MANY);
+	
 	private void setORM_PropertyTypes(java.util.Set value) {
 		this.ORM_propertyTypes = value;
 	}
@@ -292,13 +280,15 @@ public class Notification {
 	
 	public final PropertyTypeSetCollection propertyTypes = new PropertyTypeSetCollection(this, _ormAdapter, ORMConstants.KEY_NOTIFICATION_PROPERTYTYPES, ORMConstants.KEY_MUL_MANY_TO_MANY);
 	
-	public void setOrdination(Ordination value) {
-		this.ordination = value;
+	private void setORM_MultipleRoom(java.util.Set value) {
+		this.ORM_multipleRoom = value;
 	}
 	
-	public Ordination getOrdination() {
-		return ordination;
+	private java.util.Set getORM_MultipleRoom() {
+		return ORM_multipleRoom;
 	}
+	
+	public final MultipleRoomSetCollection multipleRoom = new MultipleRoomSetCollection(this, _ormAdapter, ORMConstants.KEY_NOTIFICATION_MULTIPLEROOM, ORMConstants.KEY_MUL_ONE_TO_MANY);
 	
 	public String toString() {
 		return String.valueOf(getID());

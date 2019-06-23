@@ -9,7 +9,7 @@ License Type: Academic
 <hibernate-configuration>
 	<session-factory>
    	<!-- properties -->
-		<property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+		<property name="dialect">org.hibernate.dialect.PostgreSQL94Dialect</property>
 		<property name="connection.driver_class">org.postgresql.Driver</property>
 		<property name="connection.url">jdbc:postgresql://localhost/home4alldb</property>
 		<property name="connection.username">postgres</property>
@@ -23,6 +23,7 @@ License Type: Academic
 		<mapping resource="ormmapping/tables/BedroomType.hbm.xml" />
 		<mapping resource="ormmapping/tables/Chat.hbm.xml" />
 		<mapping resource="ormmapping/tables/Comment.hbm.xml" />
+		<mapping resource="ormmapping/tables/Complaint.hbm.xml" />
 		<mapping resource="ormmapping/tables/Equipment.hbm.xml" />
 		<mapping resource="ormmapping/tables/Expenses.hbm.xml" />
 		<mapping resource="ormmapping/tables/Folder.hbm.xml" />

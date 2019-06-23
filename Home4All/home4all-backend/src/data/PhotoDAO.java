@@ -14,7 +14,6 @@
 package data;
 
 import business.entities.Photo;
-import business.entities.Private;
 import org.orm.*;
 import org.hibernate.Query;
 

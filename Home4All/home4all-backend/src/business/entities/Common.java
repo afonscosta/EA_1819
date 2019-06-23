@@ -53,6 +53,8 @@ public class Common extends Users {
 	
 	private java.util.Date lastLogin;
 	
+	private boolean blocked;
+	
 	private java.util.Set ORM_properties = new java.util.HashSet();
 	
 	private java.util.Set ORM_notifications = new java.util.HashSet();
@@ -83,6 +85,14 @@ public class Common extends Users {
 	
 	public java.util.Date getLastLogin() {
 		return lastLogin;
+	}
+	
+	public void setBlocked(boolean value) {
+		this.blocked = value;
+	}
+	
+	public boolean getBlocked() {
+		return blocked;
 	}
 	
 	private void setORM_Properties(java.util.Set value) {
