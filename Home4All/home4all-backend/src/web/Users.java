@@ -32,7 +32,7 @@ public class Users extends HttpServlet {
                                                     (String) u.getOrDefault("birthday", null),
                                                     (String) u.getOrDefault("phone", null),
                                                     (String) u.getOrDefault("gender",null),
-                                                    (String) u.getOrDefault("ocupation", null));
+                                                    (String) u.getOrDefault("occupation", null));
             String userJsonString = Parser.userToJson(user);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");

@@ -40,16 +40,6 @@
             ></b-form-input>
           </b-form-group>
 
-          <b-form-group id="input-group-4" label="Idade:" label-for="input-4">
-            <b-form-input
-              id="input-4"
-              v-model="form.age"
-              type="number"
-              required
-              placeholder="Insira a idade"
-            ></b-form-input>
-          </b-form-group>
-
           <b-form-group
             id="input-group-5"
             label="Telefone/Telemóvel:"
@@ -132,7 +122,6 @@ export default {
       email: '',
       name: '',
       password: '',
-      age: null,
       phone: '',
       birthday: '',
       gender: '',
@@ -144,7 +133,7 @@ export default {
       { value: 'male', text: 'Masculino' },
       { value: 'female', text: 'Feminino' }
     ],
-    ocupation_options: [
+    occupation_options: [
       { value: null, text: 'Selecione a sua ocupação' },
       { value: 'student', text: 'Estudante' },
       { value: 'studentWorker', text: 'Trabalhador-estudante' },
@@ -165,6 +154,7 @@ export default {
     ...mapActions('users', ['getUsers', 'addUser', 'updateUser', 'deleteUser']),
     onSubmit (evt) {
       evt.preventDefault()
+      console.log(this.form.birthday)
       console.log(this.form)
       this.addUser(this.form)
     },

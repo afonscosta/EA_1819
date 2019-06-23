@@ -93,12 +93,45 @@
       </b-col>
     </b-row> -->
 
-    <GChart
-    type="ColumnChart"
-    :data="chartData"
-    :options="chartOptions"
-  />
+    <b-button v-on:click="showInfoVendas = !showInfoVendas" variant="primary">Mais informação</b-button>
 
+
+    <div v-if="showInfoVendas" class="vendasinfo">
+      <hr>
+      <b-row class="justify-content-md-center">
+        <b-form-group
+                id="input-group-6"
+                label="A partir de:"
+                label-for="input-6"
+              >
+                <b-form-input
+                  id="input-6"
+                  v-model="eventsFrom"
+                  type="date"
+                  placeholder="Selecione uma data"
+                ></b-form-input>
+        </b-form-group>
+
+        <b-form-group
+                id="input-group-6"
+                label="Até:"
+                label-for="input-6"
+              >
+                <b-form-input
+                  id="input-6"
+                  v-model="eventsTo"
+                  type="date"
+                  placeholder="Selecione uma data"
+                ></b-form-input>
+        </b-form-group>
+      </b-row>
+
+      <GChart
+        type="ColumnChart"
+        :data="chartData"
+        :options="chartOptions"
+      />
+    </div>
   </b-container>
 </template>
 
@@ -107,8 +140,11 @@ import { mapActions } from 'vuex'
 import { GChart } from 'vue-google-charts'
 
 export default {
-  name: 'register',
+  name: 'userInfo',
   data: () => ({
+    showInfoVendas: false,
+    eventsTo: '',
+    eventsFrom: '',
     chartData: [
         ['Data', 'Vendas'],
         ['2/3/2014', 1000],
@@ -125,7 +161,6 @@ export default {
     form: {
       name: '',
       password: '',
-      age: null,
       phone: '',
       birthday: '',
       gender: '',
@@ -152,7 +187,8 @@ export default {
     if (this.$store.state.login.user.phone) {
       this.form.phone = this.$store.state.login.user.phone
     }
-    this.form.birthday = this.$store.state.login.birthday
+    console.log(this.$store.state.login.user.birthday)
+    this.form.birthday = this.$store.state.login.user.birthday
     this.form.gender = this.$store.state.login.user.gender
     console.log(this.$store.state.login.user.occupation)
     this.form.ocupation = this.$store.state.login.user.occupation
@@ -174,9 +210,8 @@ export default {
       } else {
         this.updateUser({
           name: this.form.name,
-          // age: this.form.birthday,
           phone: this.form.phone,
-          // birthday: this.form.birthday,
+          birthday: this.form.birthday,
           gender: this.form.gender,
           ocupation: this.form.occupation
         })
