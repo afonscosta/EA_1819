@@ -4,6 +4,7 @@
       ref="show-images-modal"
       hide-footer title="Imagens do quarto"
       size="xl"
+      scrollable
     >
       <div v-if="showImagesIdx !== null" class="images-modal">
         <div v-for="(image, key) in bedrooms[showImagesIdx].images" :key="key">

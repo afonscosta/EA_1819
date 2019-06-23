@@ -81,6 +81,32 @@
 <script>
 export default {
   name: 'TenantsWanted',
+  props: {
+    allowedGendersData: {
+      required: false,
+      type: String
+    },
+    allowedMinAgeData: {
+      required: false,
+      type: Number
+    },
+    allowedMaxAgeData: {
+      required: false,
+      type: Number
+    },
+    allowedOccupationsData: {
+      required: false,
+      type: Array
+    },
+    allowedSmokersData: {
+      required: false,
+      type: Boolean
+    },
+    allowedPetsData: {
+      required: false,
+      type: Boolean
+    }
+  },
   data: () => ({
     showCard: false,
     allowedGenders: 'undefined',
@@ -108,6 +134,26 @@ export default {
       { value: 'unemployed', text: 'Desempregado' }
     ]
   }),
+  created () {
+    if (this.allowedGendersData) {
+      this.allowedGenders = this.allowedGendersData
+    }
+    if (this.allowedMinAgeData) {
+      this.allowedMinAge = this.allowedMinAgeData
+    }
+    if (this.allowedMaxAgeData) {
+      this.allowedMaxAge = this.allowedMaxAgeData
+    }
+    if (this.allowedOccupationsData) {
+      this.allowedOccupations = this.allowedOccupationsData
+    }
+    if (this.allowedSmokersData) {
+      this.allowedSmokers = this.allowedSmokersData
+    }
+    if (this.allowedPetsData) {
+      this.allowedPets = this.allowedPetsData
+    }
+  },
   methods: {
     updateAllowedGenders (value) {
       this.$emit('updateAllowedGenders', value)

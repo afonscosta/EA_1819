@@ -278,7 +278,7 @@ export default {
       T10P: false,
       rent: false,
       sell: false,
-      priceRange: [0, 50],
+      priceRange: [0, 10000],
       priceLowestFirst: false,
       priceHighestFirst: false,
       publicationDateNewestFirst: false,
@@ -298,7 +298,9 @@ export default {
       totalAccess: false,
       notTotalAccess: false,
       peopleQuantity: 2,
-      peopleAmountMultiple: 0
+      peopleAmountMultiple: 0,
+      privateWC: false,
+      sharedWC: false
     },
     optionsOccupation: [
       { value: 'student', text: 'Estudante' },
@@ -404,52 +406,28 @@ export default {
         filters.peopleQuantity = this.filters.peopleQuantity
       }
 
-      if (this.filters.single) {
-        filters.single = this.filters.single
-      }
-      if (this.filters.double) {
-        filters.double = this.filters.double
-      }
+      filters.single = this.filters.single
+      filters.double = this.filters.double
+      filters.multiple = this.filters.multiple
       if (this.filters.multiple) {
-        filters.multiple = this.filters.multiple
         filters.peopleAmountMultiple = this.filters.peopleAmountMultiple
       }
 
-      if (this.filters.privateWC) {
-        filters.privateWC = this.filters.privateWC
-      }
-      if (this.filters.sharedWC) {
-        filters.sharedWC = this.filters.sharedWC
-      }
+      filters.privateWC = this.filters.privateWC
+      filters.sharedWC = this.filters.sharedWC
 
       if (this.filters.hasOccupations.length > 0) {
         filters.hasOccupations = this.filters.hasOccupations
       }
-      if (this.filters.hasSmokers) {
-        filters.hasSmokers = this.filters.hasSmokers
-      }
-      if (this.filters.notSmokers) {
-        filters.notSmokers = this.filters.notSmokers
-      }
-      if (this.filters.hasPets) {
-        filters.hasPets = this.filters.hasPets
-      }
-      if (this.filters.notPets) {
-        filters.notPets = this.filters.notPets
-      }
+      filters.hasSmokers = this.filters.hasSmokers
+      filters.notSmokers = this.filters.notSmokers
+      filters.hasPets = this.filters.hasPets
+      filters.notPets = this.filters.notPets
 
-      if (this.filters.furnished) {
-        filters.furnished = this.filters.furnished
-      }
-      if (this.filters.notFurnished) {
-        filters.notFurnished = this.filters.notFurnished
-      }
-      if (this.filters.totalAccess) {
-        filters.totalAccess = this.filters.totalAccess
-      }
-      if (this.filters.notTotalAccess) {
-        filters.notTotalAccess = this.filters.notTotalAccess
-      }
+      filters.furnished = this.filters.furnished
+      filters.notFurnished = this.filters.notFurnished
+      filters.totalAccess = this.filters.totalAccess
+      filters.notTotalAccess = this.filters.notTotalAccess
 
       payload.filters = filters
 

@@ -12,7 +12,7 @@
         <b-col>
           <b-form-group id="input-group-19-1" label="Feminino:">
             <b-input
-              v-model.number="shared.females"
+              v-model.number="females"
               type="number"
               @change="updateSharedFemales"
             ></b-input>
@@ -21,7 +21,7 @@
         <b-col>
           <b-form-group id="input-group-19-2" label="Masculino:">
             <b-input
-              v-model.number="shared.males"
+              v-model.number="males"
               type="number"
               @change="updateSharedMales"
             ></b-input>
@@ -30,7 +30,7 @@
         <b-col>
           <b-form-group id="input-group-19-3" label="Fumadores:">
             <b-input
-              v-model.number="shared.smokers"
+              v-model.number="smokers"
               type="number"
               @change="updateSharedSmokers"
             ></b-input>
@@ -39,16 +39,16 @@
         <b-col>
           <b-form-group id="input-group-19-4" label="Animais de estimação:">
             <b-input
-              v-model.number="shared.petsQuantity"
+              v-model.number="petsQuantity"
               type="number"
-              @change="updateSharedPets"
+              @change="updateSharedPetsQuantity"
             ></b-input>
           </b-form-group>
         </b-col>
       </b-row>
       <b-row>
         <b-col>
-          <Pets :pets="pets"
+          <Pets :pets="petsData"
             @addPetType="addPetType"
             @deletePetType="deletePetType"
           />
@@ -56,11 +56,11 @@
         <b-col>
           <b-form-group id="present-tenants-ocupation-form-group" label="Ocupações dos arrendatários atuais:">
             <b-form-checkbox-group
-              v-model="shared.ocupation"
-              :options="optionsOcupation"
+              v-model="occupations"
+              :options="optionsOccupation"
               buttons
               button-variant="secondary"
-              @change="updateSharedOcupation"
+              @change="updateSharedOccupation"
             ></b-form-checkbox-group>
           </b-form-group>
         </b-col>
@@ -82,21 +82,42 @@ export default {
       required: true,
       type: String
     },
-    pets: {
+    femalesData: {
+      required: false,
+      type: Number
+    },
+    malesData: {
+      required: false,
+      type: Number
+    },
+    smokersData: {
+      required: false,
+      type: Number
+    },
+    petsData: {
       required: true,
+      default: function () {
+        return []
+      },
+      type: Array
+    },
+    petsQuantityData: {
+      required: false,
+      type: Number
+    },
+    occupationsData: {
+      required: false,
       type: Array
     }
   },
   data: () => ({
-    shared: {
-      females: '0',
-      males: '0',
-      smokers: '0',
-      petsQuantity: '0',
-      totalAccess: false, // Não está no mockup mas está no VPP
-      ocupation: []
-    },
-    optionsOcupation: [
+    females: 0,
+    males: 0,
+    smokers: 0,
+    petsQuantity: 0,
+    totalAccess: false, // Não está no mockup mas está no VPP
+    occupations: [],
+    optionsOccupation: [
       { value: 'student', text: 'Estudante' },
       { value: 'studentWorker', text: 'Trabalhador-estudante' },
       { value: 'worker', text: 'Trabalhador' },
@@ -104,6 +125,13 @@ export default {
       { value: 'unemployed', text: 'Desempregado' }
     ]
   }),
+  created () {
+    if (this.femalesData) { this.females = this.femalesData }
+    if (this.malesData) { this.males = this.malesData }
+    if (this.smokersData) { this.smokers = this.smokersData }
+    if (this.petsQuantityData) { this.petsQuantity = this.petsQuantityData }
+    if (this.occupationsData) { this.occupations = this.occupationsData }
+  },
   methods: {
     updateSharedFemales (value) {
       this.$emit('updateSharedFemales', value)
@@ -114,11 +142,11 @@ export default {
     updateSharedSmokers (value) {
       this.$emit('updateSharedSmokers', value)
     },
-    updateSharedPets (value) {
-      this.$emit('updateSharedPets', value)
+    updateSharedPetsQuantity (value) {
+      this.$emit('updateSharedPetsQuantity', value)
     },
-    updateSharedOcupation (checked) {
-      this.$emit('updateSharedOcupation', checked)
+    updateSharedOccupation (checked) {
+      this.$emit('updateSharedOccupation', checked)
     },
     addPetType (pet) {
       this.$emit('addPetType', pet)

@@ -1,11 +1,10 @@
 <template>
   <div>
     <h3 class="title">{{ property.name }}</h3>
-    <b-button @click="$router.push({ name: 'propertyEdit' })" variant="danger">Editar</b-button>
+    <b-button @click="editProperty()" variant="danger">Editar</b-button>
     <b-container>
       <b-row class="justify-content-md-center">
         <b-col>
-          <label>Nome: {{ property.name }}</label>
           <b-card-group deck class="deck-images-prop-info">
             <Images :images="property.images" class="images"/>
             <PropertyInfo
@@ -33,17 +32,17 @@
 
           <PresentTenants
             :type="property.type"
-            :females="property.females"
-            :males="property.males"
-            :occupations="property.occupations"
+            :females="parseInt(property.females)"
+            :males="parseInt(property.males)"
+            :smokers="parseInt(property.smokers)"
             :pets="property.pets"
-            :petsQuantity="property.petsQuantity"
-            :smokers="property.smokers"
+            :petsQuantity="parseInt(property.petsQuantity)"
+            :occupations="property.occupations"
             class="present-tenants"/>
 
           <b-card-group deck>
-            <RentInclude :rentInc="property.expensesIncluded"/>
-            <DivEquipInclude :divEquipInc="property.equipmentIncluded"/>
+            <RentInclude :expensesIncluded="property.expensesIncluded"/>
+            <DivEquipInclude :equipmentIncluded="property.equipmentIncluded"/>
           </b-card-group>
 
           <TenantsWanted
@@ -54,7 +53,7 @@
             :allowedOccupations="property.allowedOccupations"
             :allowedSmokers="property.allowedSmokers"
             :allowedPets="property.allowedPets"/>
-          <b-button @click="$router.push({ name: 'propertyEdit' })" variant="danger">Editar</b-button>
+          <b-button @click="editProperty()" variant="danger">Editar</b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -62,7 +61,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import Bedroom from '@/components/Property/DetailView/Bedroom'
 import DivEquipInclude from '@/components/Property/DetailView/DivEquipInclude'
 import Images from '@/components/Property/DetailView/Images'
@@ -86,10 +85,16 @@ export default {
   }),
   computed: {
     ...mapState({
+      properties: state => state.properties.properties,
       property: state => state.properties.property
     })
   },
   methods: {
+    ...mapActions('properties', [ 'setPropertyEdit' ]),
+    editProperty () {
+      this.setPropertyEdit(this.property)
+      this.$router.push({ name: 'propertyEdit' })
+    }
   }
 }
 </script>

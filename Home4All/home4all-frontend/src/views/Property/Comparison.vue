@@ -79,7 +79,7 @@ export default {
       'expensesIncluded',
       'contact',
       'map',
-      'link'
+      'id'
     ],
     images: [],
     numImgPreview: 4,
@@ -141,8 +141,8 @@ export default {
       return content
     },
     goToProperty (id) {
-      // eslint-disable-next-line
-      this.setProperty(this.properties.find(p => p.id == id))
+      var prop = this.properties.find(p => p.id === id)
+      this.setProperty(prop)
       this.$router.push({ name: 'propertyView' })
     },
     openMap (value) {

@@ -3,7 +3,8 @@ import propertiesService from '../../services/propertiesService'
 const state = {
   properties: [], // All properties being used
   props_compare: [], // Properties to compare
-  property: {} // View details
+  property: {}, // View details
+  propertyEdit: {} // Edit details
 }
 
 const getters = {
@@ -15,6 +16,9 @@ const getters = {
   },
   property: state => {
     return state.property
+  },
+  propertyEdit: state => {
+    return state.propertyEdit
   }
 }
 
@@ -43,6 +47,10 @@ const mutations = {
   // Details
   setProperty (state, property) {
     state.property = property
+  },
+  // Edit
+  setPropertyEdit (state, property) {
+    state.propertyEdit = property
   }
 }
 
@@ -69,11 +77,15 @@ const actions = {
     console.log('update property enviado para o backend', property)
     propertiesService.postProperty(property).then(() => {
       commit('updateProperty', property)
+      commit('setProperty', property)
+      commit('setPropertyEdit', {})
     })
   },
   deleteProperty ({ commit }, propertyID) {
     propertiesService.deleteProperty(propertyID)
     commit('deleteProperty', propertyID)
+    commit('setProperty', {})
+    commit('removePropCompare', propertyID)
   },
   // Compare
   addPropCompare ({ commit }, property) {
@@ -87,6 +99,11 @@ const actions = {
   setProperty ({ commit }, property) {
     console.log('setting property to view details', property)
     commit('setProperty', property)
+  },
+  // Details
+  setPropertyEdit ({ commit }, property) {
+    console.log('setting property to edit details', property)
+    commit('setPropertyEdit', JSON.parse(JSON.stringify(property)))
   }
 }
 

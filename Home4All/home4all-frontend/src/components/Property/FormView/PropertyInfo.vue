@@ -23,6 +23,7 @@
           label-for="input-3"
         >
           <b-form-select
+            :disabled="disableType"
             v-model="type"
             :options="optionsType"
             @change="updateType"
@@ -55,7 +56,8 @@
       </b-col>
     </b-row>
 
-    <label class="input-location mb-1">Rua:</label>
+    <label v-if="showCurrentLocation">Localização atual: {{ address }}</label>
+    <label class="input-location mb-1">Localização:</label>
     <gmap-autocomplete
       class="form-control mb-3"
       placeholder="Insira uma localização"
@@ -154,6 +156,80 @@
 <script>
 export default {
   name: 'PropertyInfo',
+  props: {
+    disableType: {
+      required: true,
+      type: Boolean
+    },
+    showCurrentLocation: {
+      required: true,
+      type: Boolean
+    },
+    descriptionData: {
+      required: false,
+      type: String
+    },
+    typeData: {
+      required: false,
+      type: String
+    },
+    typologyData: {
+      required: false,
+      type: String
+    },
+    areaData: {
+      required: false,
+      type: Number
+    },
+    districtData: {
+      required: false,
+      type: String
+    },
+    cityData: {
+      required: false,
+      type: String
+    },
+    addressData: {
+      required: false,
+      type: String
+    },
+    latData: {
+      required: false,
+      type: Number
+    },
+    lngData: {
+      required: false,
+      type: Number
+    },
+    furnishedData: {
+      required: false,
+      type: Boolean
+    },
+    totalAccessData: {
+      required: false,
+      type: Boolean
+    },
+    availabilityData: {
+      required: false,
+      type: String
+    },
+    rentData: {
+      required: false,
+      type: Boolean
+    },
+    sellData: {
+      required: false,
+      type: Boolean
+    },
+    rentPriceData: {
+      required: false,
+      type: Number
+    },
+    sellPriceData: {
+      required: false,
+      type: Number
+    }
+  },
   data: () => ({
     description: '',
     type: '',
@@ -199,6 +275,24 @@ export default {
       { value: 'both', text: 'Vender/Arrendar' }
     ]
   }),
+  created () {
+    if (this.descriptionData) { this.description = this.descriptionData }
+    if (this.typeData) { this.type = this.typeData }
+    if (this.typologyData) { this.typology = this.typologyData }
+    if (this.areaData) { this.area = this.areaData }
+    if (this.districtData) { this.district = this.districtData }
+    if (this.cityData) { this.city = this.cityData }
+    if (this.addressData) { this.address = this.addressData }
+    if (this.latData) { this.lat = this.latData }
+    if (this.lngData) { this.lng = this.lngData }
+    if (this.furnishedData) { this.furnished = this.furnishedData }
+    if (this.totalAccessData) { this.totalAccess = this.totalAccessData }
+    if (this.availabilityData) { this.availability = this.availabilityData }
+    if (this.rentData) { this.rent = this.rentData }
+    if (this.sellData) { this.sell = this.sellData }
+    if (this.rentPriceData) { this.rentPrice = this.rentPriceData }
+    if (this.sellPriceData) { this.sellPrice = this.sellPriceData }
+  },
   methods: {
     setPlace (place) {
       var hasStreet = false
@@ -252,6 +346,7 @@ export default {
       this.$emit('updateAvailability', value)
     },
     updateRent (checked) {
+      console.log(checked)
       this.$emit('updateRent', checked)
     },
     updateSell (checked) {
