@@ -4,6 +4,8 @@ import business.Utils;
 import business.entities.*;
 import business.exceptions.*;
 import data.*;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.orm.PersistentException;
 import org.orm.PersistentSession;
 import org.orm.PersistentTransaction;
@@ -91,6 +93,7 @@ public class UsersBean implements UsersBeanLocal {
             user.setGender(genderValue);
             user.setOccupation(occupationValue);
             user.setLastLogin(new Date());
+            user.setBlocked(false);
             CommonDAO.save(user);
             t.commit();
             return user;
@@ -163,8 +166,8 @@ public class UsersBean implements UsersBeanLocal {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
         LocalDate dateB = LocalDate.parse(dateBegin, formatter);
         LocalDate dateE = LocalDate.parse(dateEnd, formatter);
-        //String condition = ""
-        //PropertyDAO.queryProperty(session,)
+        //Criteria crit = session.createCriteria(Property.class);
+        //crit.add(Restrictions.)
         return data;
     }
 }
