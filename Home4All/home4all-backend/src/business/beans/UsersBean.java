@@ -14,10 +14,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Stateless(name = "UsersEJB")
 public class UsersBean implements UsersBeanLocal {
@@ -105,7 +103,8 @@ public class UsersBean implements UsersBeanLocal {
     }
 
     @Override
-    public Common updateCommonUser(int id, String email, String name, String password, String birthdate, String phone, String gender,
+
+    public Common updateCommonUser(int id, String name, String password, String birthdate, String phone, String gender,
                                    String occupation) throws PersistentException, GenderNotExistentException,
             OccupationNotExistentException, ParseException {
         PersistentSession s = getSession();
@@ -113,7 +112,7 @@ public class UsersBean implements UsersBeanLocal {
         try {
             Common user;
             user = CommonDAO.getCommonByORMID(s,id);
-
+            System.out.println(user.getID());
             Gender genderValue;
             if (gender != null) {
                 genderValue = GenderDAO.loadGenderByORMID(gender);
@@ -129,13 +128,16 @@ public class UsersBean implements UsersBeanLocal {
                 if (occupationValue == null)
                     throw new OccupationNotExistentException();
             }
-            if (!email.isEmpty())
-                user.setEmail(email);
-            if (!name.isEmpty())
+            if (password!= null){
+                InternalAccount user_internal = InternalAccountDAO.getInternalAccountByORMID(s,id);
+                user_internal.setPassword(Utils.hash(password));
+            }
+
+            if (name != null)
                 user.setName(name);
-            if (!phone.isEmpty())
+            if (phone != null)
                 user.setPhone(phone);
-            if (!birthdate.isEmpty()) {
+            if (birthdate != null) {
                 DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 user.setBirthdate(format.parse(birthdate));
             }
@@ -154,4 +156,15 @@ public class UsersBean implements UsersBeanLocal {
         return CommonDAO.getCommonByORMID(session, ID);
     }
 
+    public Map<Date,Integer>  getStatistics(int ID, String dateBegin, String dateEnd) throws PersistentException{
+        PersistentSession session = getSession();
+        Map<Date,Integer> data = new HashMap<>();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+        LocalDate dateB = LocalDate.parse(dateBegin, formatter);
+        LocalDate dateE = LocalDate.parse(dateEnd, formatter);
+        //String condition = ""
+        //PropertyDAO.queryProperty(session,)
+        return data;
+    }
 }

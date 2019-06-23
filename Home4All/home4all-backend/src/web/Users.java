@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -30,7 +29,7 @@ public class Users extends HttpServlet {
             Common user = Home4All.insertCommonUser((String) u.getOrDefault("email", null),
                                                     (String) u.getOrDefault("name",null),
                                                     (String) u.getOrDefault("password", null),
-                                                    (String) u.getOrDefault("age", null),
+                                                    (String) u.getOrDefault("birthday", null),
                                                     (String) u.getOrDefault("phone", null),
                                                     (String) u.getOrDefault("gender",null),
                                                     (String) u.getOrDefault("ocupation", null));
@@ -87,14 +86,14 @@ public class Users extends HttpServlet {
             business.entities.Users currentUser = (business.entities.Users) session.getAttribute("currentSessionUser");
             BufferedReader reader = request.getReader();
             Map u = gson.fromJson(reader, Map.class);
+            System.out.println(currentUser.getID());
             Common user = Home4All.updateCommonUser( currentUser.getID(),
-                                                    (String) u.getOrDefault("email", null),
                                                     (String) u.getOrDefault("name",null),
                                                     (String) u.getOrDefault("password", null),
-                                                    (String) u.getOrDefault("age", null),
+                                                    (String) u.getOrDefault("birthday", null),
                                                     (String) u.getOrDefault("phone", null),
                                                     (String) u.getOrDefault("gender",null),
-                                                    (String) u.getOrDefault("ocupation", null));
+                                                    (String) u.getOrDefault("occupation", null));
             session.setAttribute("currentSessionUser", currentUser);
             String userJsonString = Parser.userToJson(user);
             response.setContentType("application/json");
