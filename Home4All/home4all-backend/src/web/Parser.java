@@ -4,6 +4,7 @@ import business.entities.*;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 
+import javax.jms.Session;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,6 +15,28 @@ import java.util.stream.Collectors;
 
 class Parser {
     private static Gson gson = new Gson();
+
+    static String currentUserToJson(String sessionID, Common user){
+        Map data = new HashMap();
+        data.put("id", sessionID);
+        Map data_user = new HashMap();
+        data.put("user", data_user);
+        data_user.put("id", user.getID());
+        data_user.put("email", user.getEmail());
+        data_user.put("name", user.getName());
+        //if (user instanceof InternalAccount) {
+        //    data.put("password", ((InternalAccount) user).getPassword());
+        //}
+        data_user.put("age", user.getAge());
+        String phone = user.getPhone();
+        if (!phone.isEmpty()) {
+            data_user.put("phone", phone);
+        }
+        data_user.put("gender", user.getGender().getName());
+        data_user.put("occupation", user.getOccupation().getName());
+        return gson.toJson(data);
+
+    }
 
     static String userToJson(Common user) {
         LinkedTreeMap data = new LinkedTreeMap();

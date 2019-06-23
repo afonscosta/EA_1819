@@ -1,6 +1,7 @@
 package web;
 
 import business.Home4All;
+import business.entities.Common;
 import business.entities.InternalAccount;
 import business.entities.Users;
 import com.google.gson.Gson;
@@ -36,6 +37,7 @@ public class Login extends HttpServlet {
             String password = (String) user.get("password");
             System.out.println("Autenticate user " + email + "...");
             Users currentUser = Home4All.login(email, password);
+
             if (currentUser!=null) {
                 session.setAttribute("currentSessionUser", currentUser);
                 /*
@@ -46,12 +48,12 @@ public class Login extends HttpServlet {
                     System.out.println(request.getHeader(header));
                 }
                 */
-                Map data = new HashMap();
-                data.put("id", session.getId());
+                Common info_user = Home4All.getUser(currentUser.getID());
+                String data_parser = Parser.currentUserToJson(session.getId(), info_user);
                 response.setContentType("application/json"); // multipart/form-data
                 response.setCharacterEncoding("UTF-8");
                 PrintWriter out = response.getWriter();
-                out.print(gson.toJson(data));
+                out.print(data_parser);
                 out.flush();
             }
             else{
