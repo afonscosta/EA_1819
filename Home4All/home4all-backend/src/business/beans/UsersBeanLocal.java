@@ -21,6 +21,6 @@ public interface UsersBeanLocal {
                                    String occupation) throws PersistentException, GenderNotExistentException, OccupationNotExistentException, ParseException;
     public Users login(String email, String password) throws PersistentException;
     public Common getUser(int ID) throws PersistentException;
-    public Map<Date,Integer> getStatistics(int ID, String dateBegin, String dateEnd) throws PersistentException;
+    public Map<Date,Long> getStatistics(int ID, String dateBegin, String dateEnd) throws PersistentException, ParseException;
 
 }

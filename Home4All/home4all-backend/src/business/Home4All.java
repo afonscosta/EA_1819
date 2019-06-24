@@ -67,7 +67,7 @@ public class Home4All {
         return usersBean.getUser(ID);
     }
 
-    public static Map<Date,Integer> getStatistics(int ID, String dateBegin, String dateEnd) throws PersistentException {
+    public static Map<Date,Long> getStatistics(int ID, String dateBegin, String dateEnd) throws PersistentException, ParseException {
         return usersBean.getStatistics(ID, dateBegin, dateEnd);
     }
 
