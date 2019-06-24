@@ -14,6 +14,7 @@
 package business.entities;
 
 import data.ORMConstants;
+import org.hibernate.annotations.Formula;
 
 public class Property {
 	public Property() {
@@ -110,6 +111,9 @@ public class Property {
 	private java.util.Set ORM_equipmentIncluded = new java.util.HashSet();
 	
 	private java.util.Set ORM_complaints = new java.util.HashSet();
+
+	@Formula("TO_CHAR(publishDate, 'MM')") //to use one criteria to get date by month
+	private String monthDate;
 	
 	private void setID(int value) {
 		this.ID = value;
@@ -306,5 +310,12 @@ public class Property {
 	public String toString() {
 		return String.valueOf(getID());
 	}
-	
+
+	public String getMonthDate() {
+		return monthDate;
+	}
+
+	public void setMonthDate(String monthDate) {
+		this.monthDate = monthDate;
+	}
 }

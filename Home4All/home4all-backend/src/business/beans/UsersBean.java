@@ -4,11 +4,14 @@ import business.Utils;
 import business.entities.*;
 import business.exceptions.*;
 import data.*;
+import javafx.util.Pair;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.type.StringType;
+import org.hibernate.type.Type;
 import org.orm.PersistentException;
 import org.orm.PersistentSession;
 import org.orm.PersistentTransaction;
@@ -162,9 +165,9 @@ public class UsersBean implements UsersBeanLocal {
         return CommonDAO.getCommonByORMID(session, ID);
     }
 
-    public Map<Date,Long>  getStatistics(int ID, String dateBegin, String dateEnd) throws PersistentException, ParseException {
+    public Map<String, Map.Entry<Long,Long>>  getStatisticsPropertyAddSold(int ID, String dateBegin, String dateEnd) throws PersistentException, ParseException {
         PersistentSession session = getSession();
-        Map<Date,Long> data = new HashMap<>();
+        Map<String, Map.Entry<Long,Long>> data = new HashMap<>();
 
         System.out.println(dateBegin);
         System.out.println(dateEnd);
@@ -178,11 +181,76 @@ public class UsersBean implements UsersBeanLocal {
                     .add(Restrictions.between("publishDate", dateB, dateE))
                     .createAlias("P.owner", "u")
                     .add(Restrictions.eq("u.ID", ID))
+                   // .add(Restrictions.eq("sold", Boolean.TRUE))
                     .setProjection(Projections.projectionList()
-                            .add(Projections.property("publishDate"))
-                            .add(Projections.rowCount())
-                            .add(Projections.groupProperty("publishDate")))
-                    .addOrder(Order.desc("publishDate"));
+                            .add(Projections.sqlGroupProjection("TO_CHAR(publishDate, 'MM') as month","month", new String[]{"month"},new Type[]{new StringType()}))
+                            //.add(Projections.property("monthDate"))
+                            .add(Projections.rowCount()));
+                            //.add(Projections.sqlGroupProjection("{alias} month")));
+                    //.addOrder(Order.desc("monthDate"));
+
+        Criteria crit2 = session.createCriteria(Property.class, "P")
+                .add(Restrictions.between("publishDate", dateB, dateE))
+                .createAlias("P.owner", "u")
+                .add(Restrictions.eq("u.ID", ID))
+                .add(Restrictions.eq("sold", Boolean.TRUE))
+                .setProjection(Projections.projectionList()
+                        .add(Projections.sqlGroupProjection("TO_CHAR(publishDate, 'MM') as month","month", new String[]{"month"},new Type[]{new StringType()}))
+                        //.add(Projections.property("monthDate"))
+                        .add(Projections.rowCount()));
+        //.add(Projections.sqlGroupProjection("{alias} month")));
+        //.addOrder(Order.desc("monthDate"));
+
+        System.out.println("Done");
+        try {
+            List allResults = crit.list();
+            List soldResults = crit.list();
+            System.out.println(allResults);
+            System.out.println(soldResults);
+            for (Iterator iter = allResults.iterator(); iter.hasNext();)
+            {
+                Object object[] = (Object[]) iter.next();
+                System.out.println(object[0]);
+                System.out.println(object[1]);
+                Map.Entry<Long, Long> pair = new AbstractMap.SimpleEntry<>((Long)object[1],(Long) object[1]);
+                data.put((String) object[0],pair);
+
+
+            }
+            System.out.println(data);
+            System.out.println(data.size());
+
+
+        }
+        catch(HibernateException e){
+            e.printStackTrace();
+        }
+
+        return data;
+    }
+
+    public Map<Date, Long> getStatisticsQuantity(int ID, String dateBegin, String dateEnd) throws PersistentException, ParseException {
+        PersistentSession session = getSession();
+        Map<Date,Long> data = new HashMap<>();
+
+        System.out.println(dateBegin);
+        System.out.println(dateEnd);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-d");
+        Date dateB = formatter.parse(dateBegin);
+        Date dateE = formatter.parse(dateEnd);
+        System.out.println(dateB);
+        System.out.println(dateE);
+
+        Criteria crit = session.createCriteria(Property.class, "P")
+                .add(Restrictions.between("publishDate", dateB, dateE))
+                .createAlias("P.owner", "u")
+                .add(Restrictions.eq("u.ID", ID))
+                .add(Restrictions.eq("sold", Boolean.TRUE))
+                .setProjection(Projections.projectionList()
+                        .add(Projections.property("publishDate"))
+                        .add(Projections.rowCount())
+                        .add(Projections.groupProperty("publishDate")))
+                .addOrder(Order.desc("publishDate"));
 
         System.out.println("Done");
         try {
@@ -208,4 +276,5 @@ public class UsersBean implements UsersBeanLocal {
 
         return data;
     }
+
 }
