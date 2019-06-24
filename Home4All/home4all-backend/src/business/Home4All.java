@@ -125,7 +125,7 @@ public class Home4All {
                 // Filters
                 List<String> types, List<String> typologies, boolean sell, boolean rent,
                 Float minSellPrice, Float maxSellPrice, Float minRentPrice, Float maxRentPrice,
-                Integer peopleQuantity, List<String> bedroomsTypes, Integer peopleAmountMultiple,
+                List<String> bedroomsTypes, Integer peopleAmountMultiple,
                 boolean privateWC, boolean sharedWC, List<String> hasOccupations, boolean hasPets,
                 boolean notPets, boolean hasSmokers, boolean notSmokers, boolean furnished,
                 boolean notFurnished, boolean totalAccess, boolean notTotalAccess,
@@ -136,7 +136,7 @@ public class Home4All {
             throws PersistentException, OrdinationNotExistentException {
         return propertyBean.searchProperties(district, city, completeAddress, page, propsPerPage, numberOfPages,
                 types, typologies, sell, rent, minSellPrice, maxSellPrice, minRentPrice, maxRentPrice,
-                peopleQuantity, bedroomsTypes, peopleAmountMultiple, privateWC, sharedWC, hasOccupations, hasPets, notPets,
+                bedroomsTypes, peopleAmountMultiple, privateWC, sharedWC, hasOccupations, hasPets, notPets,
                 hasSmokers, notSmokers, furnished, notFurnished, totalAccess, notTotalAccess, ordination,
                 userGender, userOccupation, userAge);
     }
