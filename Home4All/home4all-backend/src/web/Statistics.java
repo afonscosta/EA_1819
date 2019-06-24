@@ -2,6 +2,7 @@ package web;
 
 import business.Home4All;
 import com.google.gson.Gson;
+import javafx.util.Pair;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,12 +33,17 @@ public class Statistics extends HttpServlet {
             Map dates = gson.fromJson(reader, Map.class);
             String dateBegin = (String) dates.get("dateBegin");
             String dateEnd = (String) dates.get("dateEnd");
-            Map<Date, Integer> info = new HashMap<>();
-            info = Home4All.getStatistics(currentUser.getID(), dateBegin, dateEnd);
+            System.out.println(dateBegin);
+            System.out.println(dateEnd);
+            Map<Date, Long> info1 = new HashMap<>();
+            Map<String, Map.Entry<Long,Long>> info2 = new HashMap<>();
+            info1 = Home4All.getStatisticsQuantity(currentUser.getID(), dateBegin, dateEnd);
+            info2 = Home4All.getStatisticsPropertyAddSold(currentUser.getID(), dateBegin, dateEnd);
+            String jsonResponse = Parser.statisticsToJson(info1,info2);
             response.setContentType("application/json"); // multipart/form-data
             response.setCharacterEncoding("UTF-8");
             PrintWriter out = response.getWriter();
-            out.print(gson.toJson(info));
+            out.print(jsonResponse);
             out.flush();
         }
         catch (Exception e) {

@@ -17,6 +17,8 @@ import business.entities.Private;
 import business.entities.Property;
 import business.entities.Shared;
 import org.hibernate.SQLQuery;
+import org.hibernate.type.IntegerType;
+import org.hibernate.type.StringType;
 import org.orm.*;
 import org.hibernate.Query;
 
@@ -481,16 +483,16 @@ public class PropertyDAO {
 			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
 
 			StringBuilder sb = new StringBuilder("SELECT DISTINCT * FROM (SELECT Property.* FROM Property");
+			//StringBuilder sb = new StringBuilder("SELECT Property.* FROM Property");
 			if (joinTables != null)
 				sb.append(joinTables);
 			if (condition != null)
 				sb.append(" WHERE ").append(condition);
 			if (orderBy != null)
 				sb.append(" ORDER BY ").append(orderBy);
+			sb.append(") AS Property ");
 			if (limit != null)
-				sb.append(") AS Property LIMIT ").append(limit);
-			else
-				sb.append(") AS Property");
+				sb.append(" LIMIT ").append(limit);
 			if (limit != null)
 				sb.append(" OFFSET ").append(offset);
 
@@ -502,11 +504,14 @@ public class PropertyDAO {
 				query.setParameter(p.getKey(), p.getValue());
 			}
 
-			query.addEntity(Property.class);
+			query.addEntity("Property", Property.class);
 
-			List properties = query.list();
+			List<Property> properties = query.list();
+
+			System.out.println(properties);
+
 			if (properties != null && properties.size() > 0)
-				return Arrays.asList((Property[]) properties.toArray(new Property[properties.size()]));
+				return properties;
 			else
 				return new ArrayList<>();
 		}

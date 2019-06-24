@@ -21,7 +21,7 @@ import static web.Parser.parseToFloat;
 import static web.Parser.parseToInt;
 
 
-@WebServlet(name = "Properties", urlPatterns = {"/properties"})
+@WebServlet(name = "Properties", urlPatterns = {"/properties/*"})
 @MultipartConfig
 public class Properties extends HttpServlet {
     private Gson gson = new Gson();
@@ -42,18 +42,18 @@ public class Properties extends HttpServlet {
                 Property property;
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-                for (Map<String, Object> bedroom : (List<Map<String, Object>>) data.get("bedrooms")) {
-                    bedroom.put("availability", dateFormat.parse((String) bedroom.get("availability")));
-                    bedroom.put("area", parseToFloat(bedroom.get("area"), false));
-                    bedroom.put("rentPrice", parseToFloat(bedroom.get("rentPrice"), false));
-                }
-
                 if (data.containsKey("type")) {
                     if (data.get("type").equals("bedrooms")) {
+                        for (Map<String, Object> bedroom : (List<Map<String, Object>>) data.get("bedrooms")) {
+                            bedroom.put("availability", dateFormat.parse((String) bedroom.get("availability")));
+                            bedroom.put("area", parseToFloat(bedroom.get("area"), false));
+                            bedroom.put("rentPrice", parseToFloat(bedroom.get("rentPrice"), false));
+                        }
+
                         property = Home4All.registerSharedProperty(
                                 parseToInt(data.get("id"), true),
                                 (String) data.get("name"),
-                                (List<String>) data.get("images"),   // TODO: Guardar fotos em ficheiro
+                                (List<String>) data.get("images"),
                                 (String) data.get("description"),
                                 (String) data.get("typology"),
                                 parseToFloat(data.get("area"), false),
@@ -84,7 +84,7 @@ public class Properties extends HttpServlet {
                         property = Home4All.registerPrivateProperty(
                                 parseToInt(data.get("id"), true),
                                 (String) data.get("name"),
-                                (List<String>) data.get("images"),   // TODO: Guardar fotos em ficheiro
+                                (List<String>) data.get("images"),
                                 (String) data.get("description"),
                                 (String) data.get("type"),
                                 (String) data.get("typology"),
@@ -117,7 +117,7 @@ public class Properties extends HttpServlet {
                     throw new Exception("ERRO: Obrigatório selecionar tipo de imóvel.");
                 }
 
-                String propertyJsonString = Parser.propertyToJson(property);
+                String propertyJsonString = Parser.allPropertyToJson(property);
                 response.setContentType("application/json"); // multipart/form-data
                 response.setCharacterEncoding("UTF-8");
                 PrintWriter out = response.getWriter();
@@ -137,16 +137,40 @@ public class Properties extends HttpServlet {
 
     }
 
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            String id_str = request.getParameter("propertyId");
+            if (id_str != null) {
+                int id = Integer.parseInt(id_str);
+                if (!Home4All.deleteProperty(id))
+                    throw new Exception("ERRO: Imóvel não encontrado.");
+            }
+            else {
+                throw new Exception("ERRO: Identificador do imóvel em falta.");
+            }
+
+            response.setContentType("application/json"); // multipart/form-data
+            response.setCharacterEncoding("UTF-8");
+        }
+        catch (Exception e) {
+            response.setContentType("text/html");
+            response.setCharacterEncoding("UTF-8");
+            response.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String jsonData;
 
+            // System.out.println(request.getPathInfo());
             String id_str = request.getParameter("propertyId");
             if (id_str != null) {
                 int id = Integer.parseInt(id_str);
                 Property property = Home4All.getProperty(id);
                 if (property != null) {
-                    jsonData = Parser.propertyToJson(property);
+                    jsonData = Parser.allPropertyToJson(property);
                 }
                 else {
                     throw new Exception("ERRO: Imóvel não encontrado.");

@@ -55,7 +55,7 @@ public class PropertiesSearch extends HttpServlet {
                     (String) data.get("address"),
                     0,
                     10,
-                    4,
+                    2,
                     (List<String>) filters.get("types"),
                     (List<String>) filters.get("typologies"),
                     (boolean) filters.get("sell"),
@@ -64,7 +64,6 @@ public class PropertiesSearch extends HttpServlet {
                     parseToFloat(filters.get("maxSellPrice"), true),
                     parseToFloat(filters.get("minRentPrice"), true),
                     parseToFloat(filters.get("maxRentPrice"), true),
-                    parseToInt(filters.get("peopleQuantity"), true),
                     (List<String>) filters.get("bedroomTypes"),
                     parseToInt(filters.get("peopleAmountMultiple"), true),
                     (boolean) filters.get("privateWC"),
@@ -84,6 +83,7 @@ public class PropertiesSearch extends HttpServlet {
                     userAge
             );
 
+            System.out.println(results);
             String jsonData = Parser.propertyListToJson(results);
 
             response.setContentType("application/json"); // multipart/form-data

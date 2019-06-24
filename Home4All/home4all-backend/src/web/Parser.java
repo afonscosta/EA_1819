@@ -4,7 +4,6 @@ import business.entities.*;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 
-import javax.jms.Session;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,6 +14,13 @@ import java.util.stream.Collectors;
 
 class Parser {
     private static Gson gson = new Gson();
+
+    static String statisticsToJson(Map info_1, Map info_2){
+        Map data = new HashMap();
+        data.put("g1",info_1);
+        data.put("g2", info_2);
+        return gson.toJson(data);
+    }
 
     static String currentUserToJson(String sessionID, Common user){
         Map data = new HashMap();
@@ -27,7 +33,8 @@ class Parser {
         //if (user instanceof InternalAccount) {
         //    data.put("password", ((InternalAccount) user).getPassword());
         //}
-        data_user.put("birthday", user.getBirthdate());
+        data_user.put("birthday", user.getBirthdate().toString());
+        System.out.println(user.getBirthdate());
         String phone = user.getPhone();
         if (!phone.isEmpty()) {
             data_user.put("phone", phone);
@@ -87,7 +94,7 @@ class Parser {
         return images;
     }
 
-    private static Map<String, Object> propertyToMap(Property property) throws IOException {
+    private static Map<String, Object> allPropertyToMap(Property property) throws IOException {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         Map<String, Object> data = new HashMap<>();
@@ -182,11 +189,114 @@ class Parser {
             data.put("sellPrice", priv.getSellPrice());
         }
 
+        Common user = property.getOwner();
+        Map<String, Object> ownerData = new HashMap<>();
+        ownerData.put("id", user.getID());
+        ownerData.put("nome", user.getName());
+        ownerData.put("email", user.getEmail());
+        ownerData.put("phone", user.getPhone());
+        data.put("owner", ownerData);
+
         return data;
     }
 
-    static String propertyToJson(Property property) throws IOException {
-        return gson.toJson(propertyToMap(property));
+    static String allPropertyToJson(Property property) throws IOException {
+        return gson.toJson(allPropertyToMap(property));
+    }
+
+    private static Map<String, Object> propertyToMap(Property property) throws IOException {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("id", property.getID());
+        data.put("name", property.getName());
+        data.put("images", mapPathsToImages(property.photos.toArray()));
+        data.put("description", property.getDescription());
+        data.put("typology", property.getTypology().getName());
+        data.put("area", property.getArea());
+
+        Address address = property.getAddress();
+        data.put("district", address.getDistrict());
+        data.put("city", address.getCity());
+        data.put("address", address.getCompleteAddress());
+        data.put("lat", address.getCoordLat());
+        data.put("lng", address.getCoordLng());
+
+        List<String> aux;
+        /*
+        List<String> aux = Arrays.stream(property.equipmentIncluded.toArray())
+                .map(Equipment::getName)
+                .collect(Collectors.toList());
+        data.put("equipmentIncluded", aux);
+        */
+
+        if (property instanceof Shared) {
+            Shared shared = (Shared) property;
+            data.put("type", "bedrooms");
+
+            List<Map<String,Object>> bedrooms = new ArrayList<>();
+
+            for (Bedroom bedroom: shared.bedrooms.toArray()) {
+                Map<String,Object> b = new HashMap<>();
+                b.put("id", bedroom.getID());
+                b.put("availability", dateFormat.format(bedroom.getAvailability()));
+                b.put("furnished", bedroom.getFurnished());
+                b.put("type", bedroom.getType().getName());
+                b.put("peopleAmount", bedroom.getPeopleAmount());
+                b.put("privateBathroom", bedroom.getPrivateBathroom());
+                b.put("rentPrice", bedroom.getRentPrice());
+                b.put("sold", bedroom.getSold());
+                bedrooms.add(b);
+            }
+            data.put("bedrooms", bedrooms);
+
+            /*
+            Float minRentPrice = null;
+            Float maxRentPrice = null;
+            Date availability = null;
+
+            for (Bedroom bedroom: shared.bedrooms.toArray()) {
+                if (minRentPrice == null)
+                    minRentPrice = bedroom.getRentPrice();
+                else
+                    minRentPrice = Math.min(minRentPrice,  bedroom.getRentPrice());
+
+                if (maxRentPrice == null)
+                    maxRentPrice = bedroom.getRentPrice();
+                else
+                    maxRentPrice = Math.max(maxRentPrice,  bedroom.getRentPrice());
+
+                if (availability == null)
+                    availability = bedroom.getAvailability();
+                else if (availability.after(bedroom.getAvailability()))
+                    availability = bedroom.getAvailability();
+            }
+            data.put("minRentPrice", minRentPrice);
+            data.put("maxRentPrice", maxRentPrice);
+            data.put("firstAvailability", maxRentPrice);
+            */
+            data.put("totalAccess", shared.getTotalAccess());
+
+            data.put("rent", true);
+            data.put("sell", false);
+        }
+        else if (property instanceof Private) {
+            Private priv = (Private) property;
+
+            if (priv instanceof Villa)
+                data.put("type", "villa");
+            else if (priv instanceof Apartment)
+                data.put("type", "apartment");
+
+            data.put("furnished", priv.getFurnished());
+            data.put("availability", dateFormat.format(priv.getAvailability()));
+            data.put("rent", priv.getRentPrice() != null);
+            data.put("sell", priv.getSellPrice() != null);
+            data.put("rentPrice", priv.getRentPrice());
+            data.put("sellPrice", priv.getSellPrice());
+        }
+
+        return data;
     }
 
     private static List<Map<String, Object>> propertyListToMap(List<Property> properties) throws IOException {
