@@ -2,7 +2,6 @@ package web;
 
 import business.Home4All;
 import com.google.gson.Gson;
-import javafx.util.Pair;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

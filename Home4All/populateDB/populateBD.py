@@ -348,7 +348,7 @@ def save_images(min_n_images, max_n_images, origin_images_ids, id_property = 'nu
         with open(path, 'rb') as fd:
             image_b64 = base64.b64encode(fd.read())
             with open(f'./properties_images_txt/image_{id_image}.txt', 'wb+') as fd_w:
-                fd_w.write(f'data:image/{file_format.lower()};base64'.encode() + image_b64)
+                fd_w.write(f'data:image/{file_format.lower()};base64,'.encode() + image_b64)
         output.write(f'''INSERT INTO Photo VALUES (default, 'image_{id_image}.txt', {id_bedroom}, {id_property});\n\n''')
         id_image += 1
     

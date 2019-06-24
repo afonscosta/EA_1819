@@ -139,7 +139,8 @@ public class Properties extends HttpServlet {
 
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            String id_str = request.getParameter("propertyId");
+            // String id_str = request.getParameter("propertyId");
+            String id_str = request.getPathInfo().substring(1);
             if (id_str != null) {
                 int id = Integer.parseInt(id_str);
                 if (!Home4All.deleteProperty(id))
@@ -165,7 +166,8 @@ public class Properties extends HttpServlet {
             String jsonData;
 
             // System.out.println(request.getPathInfo());
-            String id_str = request.getParameter("propertyId");
+            // String id_str = request.getParameter("propertyId");
+            String id_str = request.getPathInfo().substring(1);
             if (id_str != null) {
                 int id = Integer.parseInt(id_str);
                 Property property = Home4All.getProperty(id);

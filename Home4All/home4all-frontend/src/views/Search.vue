@@ -110,11 +110,15 @@ export default {
   },
   methods: {
     ...mapActions('properties', [
-      'setProperty'
+      'getProperty'
     ]),
     goToProperty (prop) {
-      this.setProperty(prop)
-      this.$router.push({ name: 'propertyView' })
+      console.log(prop.id)
+      this.getProperty(prop.id)
+        .then(() => {
+          // this.setProperty(prop)
+          this.$router.push({ name: 'propertyView' })
+        })
     }
   }
 }

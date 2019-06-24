@@ -349,7 +349,7 @@ export default {
     ]
   }),
   methods: {
-    ...mapActions('search', ['doSearch']),
+    ...mapActions('properties', ['doSearch']),
     setPlace (place) {
       var hasStreet = false
       var addrComponents = place.address_components

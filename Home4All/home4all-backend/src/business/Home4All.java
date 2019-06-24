@@ -4,7 +4,6 @@ import business.beans.PropertyBeanLocal;
 import business.beans.UsersBeanLocal;
 import business.entities.*;
 import business.exceptions.*;
-import javafx.util.Pair;
 import org.orm.PersistentException;
 
 import javax.naming.Context;
