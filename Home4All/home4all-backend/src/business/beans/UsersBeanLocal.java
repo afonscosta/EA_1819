@@ -6,6 +6,7 @@ import business.entities.Occupation;
 import business.entities.Users;
 import business.exceptions.GenderNotExistentException;
 import business.exceptions.OccupationNotExistentException;
+import javafx.util.Pair;
 import org.orm.PersistentException;
 import java.text.ParseException;
 import java.util.Date;
@@ -21,6 +22,7 @@ public interface UsersBeanLocal {
                                    String occupation) throws PersistentException, GenderNotExistentException, OccupationNotExistentException, ParseException;
     public Users login(String email, String password) throws PersistentException;
     public Common getUser(int ID) throws PersistentException;
-    public Map<Date,Long> getStatistics(int ID, String dateBegin, String dateEnd) throws PersistentException, ParseException;
+    public  Map<Date, Map.Entry<Long,Long>> getStatisticsPropertyAddSold(int ID, String dateBegin, String dateEnd) throws PersistentException, ParseException;
+    public Map<Date,Long> getStatisticsQuantity(int ID, String dateBegin, String dateEnd) throws PersistentException, ParseException;
 
 }
