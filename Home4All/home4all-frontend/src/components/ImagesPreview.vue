@@ -2,14 +2,14 @@
   <div>
     <div v-if="imgs.length <= numImgPreview">
       <div v-for="img in imgs" :key="img">
-        <img v-bind:src="'data:image/jpeg;base64,'+img"/>
+        <img v-bind:src="img"/>
       </div>
     </div>
     <div v-if="imgs.length > numImgPreview">
       <b-row>
         <b-col>
           <div v-for="i in numImgPreview" :key="i">
-            <img v-bind:src="'data:image/jpeg;base64,'+imgs[i-1]"/>
+            <img v-bind:src="imgs[i-1]"/>
           </div>
         </b-col>
       </b-row>

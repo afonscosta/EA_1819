@@ -19,7 +19,12 @@
     </b-modal>
 
     <b-container class="mt-3">
-      <b-row>
+      <b-row v-if="num_props_compare === 0">
+        <b-col>
+          <h4 class="mt-4">Não foram acrescentados imóveis à comparação</h4>
+        </b-col>
+      </b-row>
+      <b-row v-if="num_props_compare > 0">
         <b-col>
           <b-table bordered striped hover :fields="fields" :items="items">
             <template slot="col1" slot-scope="row">
@@ -60,7 +65,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapGetters, mapActions, mapState } from 'vuex'
 import GoogleMap from '@/components/GoogleMap'
 import Images from '@/components/Property/DetailView/Images'
 import ImagesPreview from '@/components/ImagesPreview'
@@ -89,12 +94,13 @@ export default {
       { value: 'id', text: 'Remover' }
     ],
     images: [],
-    numImgPreview: 4,
+    numImgPreview: 3,
     marker: null
   }),
   created () {
   },
   computed: {
+    ...mapGetters('properties', [ 'num_props_compare' ]),
     ...mapState({
       properties: state => state.properties.properties,
       props_compare: state => state.properties.props_compare

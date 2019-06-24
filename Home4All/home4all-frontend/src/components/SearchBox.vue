@@ -5,11 +5,11 @@
         <b-card bg-variant="light">
           <b-row align-h="center">
             <b-col>
-              <p align="left">Localização</p>
+              <h5 align="left">Localização</h5>
             </b-col>
           </b-row>
-          <b-row align-h="center">
-            <b-col align="left">
+          <b-row class="mb-3">
+            <b-col align="left" lg="8">
               <gmap-autocomplete
                 class="form-control"
                 placeholder="Insira uma localização"
@@ -17,10 +17,10 @@
                 @place_changed="setPlace">
               </gmap-autocomplete>
             </b-col>
-            <b-col>
+            <b-col lg="2">
               <b-form-checkbox v-model="filters.rent">Arrendar</b-form-checkbox>
             </b-col>
-            <b-col>
+            <b-col lg="2">
               <b-form-checkbox v-model="filters.sell">Comprar</b-form-checkbox>
             </b-col>
           </b-row>
@@ -29,7 +29,7 @@
               <b-card>
                 <b-row align-h="center">
                   <b-col>
-                    <p align="left">Filtros</p>
+                    <h6 align="left">Filtros</h6>
                   </b-col>
                 </b-row>
                 <b-row align-h="center">
@@ -62,14 +62,6 @@
                           <b-form-checkbox v-model="filters.T10P" class="mb-3">T10+</b-form-checkbox>
                         </b-col>
                       </b-row>
-                    </b-dropdown>
-                  </b-col>
-                  <b-col>
-                    <b-dropdown id="dropdown-form" variant="light" text="Operação" ref="dropdown">
-                      <b-col>
-                        <b-form-checkbox v-model="filters.rent" class="mb-3">Arrendar</b-form-checkbox>
-                        <b-form-checkbox v-model="filters.sell" class="mb-3">Comprar</b-form-checkbox>
-                      </b-col>
                     </b-dropdown>
                   </b-col>
                   <b-col>
@@ -283,9 +275,9 @@
               </b-card>
             </b-col>
           </b-row>
-          <b-row align-h="center">
-            <b-col>
-              <b-button @click="search" class="search-button">Pesquisar</b-button>
+          <b-row class="mt-3">
+            <b-col align="right">
+              <b-button class="search-button" @click="search">Pesquisar</b-button>
             </b-col>
           </b-row>
         </b-card>
@@ -319,12 +311,12 @@ export default {
       T9: false,
       T10: false,
       T10P: false,
-      rent: false,
-      sell: false,
+      rent: true,
+      sell: true,
       priceRange: [0, 10000],
       priceLowestFirst: false,
       priceHighestFirst: false,
-      publicationDateNewestFirst: false,
+      publicationDateNewestFirst: true,
       publicationDateOldestFirst: false,
       advertiserLoginNewestFirst: false,
       advertiserLoginOldestFirst: false,
@@ -496,8 +488,6 @@ export default {
 .search-button {
   background-color: #FF8000 !important;
   border-color: #FF8000 !important;
-  margin-bottom: 0.5rem;
-  margin-left: 0.5rem;
 }
 
 .form-control {

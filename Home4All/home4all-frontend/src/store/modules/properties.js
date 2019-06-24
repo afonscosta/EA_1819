@@ -122,9 +122,6 @@ const actions = {
       commit('addProperty', newProperty)
       commit('addProperty', newProperty)
       commit('addProperty', newProperty)
-      commit('addPropCompare', newProperty)
-      commit('addPropCompare', newProperty)
-      // commit('addPropCompare', newProperty)
     })
   },
   updateProperty ({ commit }, property) {
