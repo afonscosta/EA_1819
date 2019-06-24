@@ -4,6 +4,7 @@ import business.beans.PropertyBeanLocal;
 import business.beans.UsersBeanLocal;
 import business.entities.*;
 import business.exceptions.*;
+import javafx.util.Pair;
 import org.orm.PersistentException;
 
 import javax.naming.Context;
@@ -67,8 +68,12 @@ public class Home4All {
         return usersBean.getUser(ID);
     }
 
-    public static Map<Date,Long> getStatistics(int ID, String dateBegin, String dateEnd) throws PersistentException, ParseException {
-        return usersBean.getStatistics(ID, dateBegin, dateEnd);
+    public static Map<Date, Map.Entry<Long,Long>> getStatisticsPropertyAddSold(int ID, String dateBegin, String dateEnd) throws PersistentException, ParseException {
+        return usersBean.getStatisticsPropertyAddSold(ID, dateBegin, dateEnd);
+    }
+
+    public static Map<Date,Long> getStatisticsQuantity(int ID, String dateBegin, String dateEnd) throws PersistentException, ParseException {
+        return usersBean.getStatisticsQuantity(ID, dateBegin, dateEnd);
     }
 
     public static Property registerSharedProperty(

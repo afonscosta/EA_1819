@@ -16,10 +16,10 @@ import java.util.stream.Collectors;
 class Parser {
     private static Gson gson = new Gson();
 
-    static String statisticsToJson(Map info_1){
+    static String statisticsToJson(Map info_1, Map info_2){
         Map data = new HashMap();
         data.put("g1",info_1);
-        data.put("g2", "");
+        data.put("g2", info_2);
         return gson.toJson(data);
     }
 
