@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-row align-v="end" class="mt-3">
+    <b-row align-v="end">
       <b-col>
         <label for="input-pet">Tipo de animal de estimação:</label>
         <b-form-input

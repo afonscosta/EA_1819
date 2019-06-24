@@ -16,6 +16,13 @@ import java.util.stream.Collectors;
 class Parser {
     private static Gson gson = new Gson();
 
+    static String statisticsToJson(Map info_1){
+        Map data = new HashMap();
+        data.put("g1",info_1);
+        data.put("g2", "");
+        return gson.toJson(data);
+    }
+
     static String currentUserToJson(String sessionID, Common user){
         Map data = new HashMap();
         data.put("id", sessionID);
@@ -27,8 +34,9 @@ class Parser {
         //if (user instanceof InternalAccount) {
         //    data.put("password", ((InternalAccount) user).getPassword());
         //}
-        System.out.println(user.getBirthdate());
+
         data_user.put("birthday", user.getBirthdate().toString());
+        System.out.println(user.getBirthdate());
         String phone = user.getPhone();
         if (!phone.isEmpty()) {
             data_user.put("phone", phone);
@@ -83,8 +91,8 @@ class Parser {
         for (Photo photo: photos) {
             File file = new File("images" + File.separator + photo.getPath());
             byte[] bytes = Files.readAllBytes(file.toPath());
-            String encodeImage = Base64.getEncoder().withoutPadding().encodeToString(bytes);
-            images.add(encodeImage);
+            // String encodeImage = Base64.getEncoder().withoutPadding().encodeToString(bytes);
+            images.add(new String(bytes));
         }
         return images;
     }

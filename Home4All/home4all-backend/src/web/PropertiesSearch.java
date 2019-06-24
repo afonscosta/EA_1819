@@ -37,11 +37,14 @@ public class PropertiesSearch extends HttpServlet {
             Integer userAge = null;
 
             if (s != null) {
-                Common u = (Common) s.getAttribute("currentSessionUser");
-                if (u != null) {
-                    userGender = u.getGender();
-                    userOccupation = u.getOccupation();
-                    userAge = u.getAge();
+                if (s.getAttribute("currentSessionUser") != null) {
+                    Users user = (Users) s.getAttribute("currentSessionUser");
+                    if (user instanceof Common) {
+                        Common u = (Common) s.getAttribute("currentSessionUser");
+                        userGender = u.getGender();
+                        userOccupation = u.getOccupation();
+                        userAge = u.getAge();
+                    }
                 }
             }
 

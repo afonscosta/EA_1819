@@ -20,6 +20,12 @@
 <script>
 export default {
   name: 'DivEquipInclude',
+  props: {
+    equipmentIncludedData: {
+      required: false,
+      type: Array
+    }
+  },
   data: () => ({
     equipmentIncluded: [],
     optionsEquipmentIncluded: [
@@ -41,6 +47,11 @@ export default {
       { value: 'freeParking', text: 'Estacionamento gratuito' }
     ]
   }),
+  created () {
+    if (this.equipmentIncludedData) {
+      this.equipmentIncluded = this.equipmentIncludedData
+    }
+  },
   methods: {
     updateEquipmentIncluded (checked) {
       this.$emit('updateEquipmentIncluded', checked)

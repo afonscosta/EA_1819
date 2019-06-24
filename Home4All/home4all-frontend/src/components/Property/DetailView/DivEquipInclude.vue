@@ -9,7 +9,7 @@
         disabled
         id="checkbox-group-3"
         v-model="equipmentIncluded"
-        :options="optionsDivEquipInc"
+        :options="optionsEquipmentIncluded"
         buttons
         button-variant="secondary"
       ></b-form-checkbox-group>
@@ -26,7 +26,7 @@ export default {
     }
   },
   data: () => ({
-    optionsDivEquipInc: [
+    optionsEquipmentIncluded: [
       { value: 'kitchen', text: 'Cozinha' },
       { value: 'microwave', text: 'Micro-ondas' },
       { value: 'dishwasher', text: 'Máq. lavar loiça' },
@@ -51,5 +51,34 @@ export default {
 <style scope>
 #div-equip-form-group {
   margin: 0px !important;
+}
+
+.btn-secondary {
+  background-color: rgba(220,53,69, 0.7) !important;
+}
+
+.btn-secondary:not(:disabled):not(.disabled):active,
+.btn-secondary:not(:disabled):not(.disabled).active,
+.show > .btn-secondary.dropdown-toggle {
+  background-color: rgba(0,128,0,0.7) !important;
+  border-color: rgba(0,128,0,0.7) !important;
+  box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, 0.5) !important;
+}
+
+.btn-group {
+  display: flex !important;
+  flex-wrap: wrap;
+}
+
+.btn-group > .btn.active {
+  background-color: rgba(0,128,0,0.7) !important;
+  border-color: rgba(0,128,0,0.7) !important;
+  box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, 0.5) !important;
+}
+
+.btn-group > .btn,
+.btn-group > .btn-group > .btn {
+  margin: 0.375rem 0.75rem;
+  border-radius: 0.25rem !important;
 }
 </style>

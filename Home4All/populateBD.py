@@ -4,11 +4,11 @@ import hashlib
 import requests
 
 # psql -U postgres -f .\populate_db.sql
-output_filename = 'populate_db.sql'
+output_filename = 'populate_db_small.sql'
 output = open(output_filename, 'w+')
 
 # Configs - Users
-users_quantity = 10
+users_quantity = 100
 users_password = '12345678'
 user_descriminators = ['InternalAccount', 'Common']
 user_desc_probabilities = [0.6, 0.4]
@@ -21,8 +21,8 @@ max_age = 70
 blocked_probability = 0.1
 
 # Configs - Properties
-props_quantity = 10
-props_descriminators = ['Shared', 'Apartment', 'Vila']
+props_quantity = 50
+props_descriminators = ['Shared', 'Apartment', 'Villa']
 props_descriminators_probabilities = [0.4, 0.3, 0.3]
 props_allowed_genders_probabilities = [0.35, 0.35, 0.3]
 props_typologies = ['T0', 'T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T10+']
@@ -101,6 +101,7 @@ output.write("ALTER SEQUENCE photo_id_seq RESTART WITH 1;\n")
 output.write("ALTER SEQUENCE new_image_id RESTART WITH 1;\n")
 output.write("DELETE FROM Pet;\n")
 output.write("ALTER SEQUENCE pet_id_seq RESTART WITH 1;\n")
+output.write("DELETE FROM Property_Expenses;\n")
 output.write("DELETE FROM Property_Equipment;\n")
 output.write("DELETE FROM Property_Occupation;\n")
 output.write("DELETE FROM Property_Occupation2;\n")
@@ -122,7 +123,7 @@ output.write("ALTER SEQUENCE notification_id_seq RESTART WITH 1;\n")
 fake = Faker('pt_PT')
 
 # Populate users
-# (id, discriminator, email, name, password, gendername, occupationname, age, phone, lastlogin, blocked)
+# (id, discriminator, email, name, password, gendername, occupationname, birthdate, phone, lastlogin, blocked)
 output.write('\n-- POPULATE Users\n')
 output.write(f'''INSERT INTO Users VALUES (default, 'Admin', 'admin@home4all.net', 'Admin', '{hashlib.sha256(b'_admin*pass_')}', NULL, NULL, NULL, NULL, NULL, NULL);\n\n''')
 
@@ -136,7 +137,7 @@ for i in range(users_quantity):
     else:
         password = 'null'
 
-    age = np.random.randint(min_age, max_age)
+    birthdate = fake.date_of_birth(minimum_age=min_age, maximum_age=max_age)
     phone = fake.phone_number()
     if phone.startswith('(351)'):
         phone = phone[5:]
@@ -151,8 +152,8 @@ for i in range(users_quantity):
         name = fake.name()
     occupation_name = np.random.choice(occupations, 1, p=occupations_probabilities)[0]
     blocked = get_boolean_str(blocked_probability)
-    
-    output.write(f'''INSERT INTO Users VALUES (default, '{discriminator}', '{email}', '{name}', {password}, '{gender_name}', '{occupation_name}', {age}, '{phone}', DATE '{last_login}', {blocked});\n\n''')
+
+    output.write(f'''INSERT INTO Users VALUES (default, '{discriminator}', '{email}', '{name}', {password}, '{gender_name}', '{occupation_name}', DATE '{birthdate}', '{phone}', DATE '{last_login}', {blocked});\n\n''')
 
 
 # Populate Address (id, district, city, completeaddress, coordlat, coordlng)
@@ -342,15 +343,9 @@ for i in range(props_quantity):
             for image in images:
                 output.write(f'''INSERT INTO Photo VALUES (default, 'image_{image}.txt', {id_bedroom}, null);\n\n''')
 
-    
-
-# images_quantity = 13
-# images_bedroom = [7, 8, 9, 10]
-# images_per_property = [4, 8]
-# images_per_bedroom = [1, 2]
 
 # TODO: Notification e MultipleRoom
 
 output.close()
 
-print('Now you just have to run:\n    $ psql -U postgres -f .\populate_db.sql')
+print('Now you just have to run:\n    $ psql -U postgres -f .\\' + output_filename)
