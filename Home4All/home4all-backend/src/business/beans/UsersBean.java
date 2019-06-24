@@ -5,6 +5,7 @@ import business.entities.*;
 import business.exceptions.*;
 import data.*;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -161,22 +162,50 @@ public class UsersBean implements UsersBeanLocal {
         return CommonDAO.getCommonByORMID(session, ID);
     }
 
-    public Map<Date,Integer>  getStatistics(int ID, String dateBegin, String dateEnd) throws PersistentException{
+    public Map<Date,Long>  getStatistics(int ID, String dateBegin, String dateEnd) throws PersistentException, ParseException {
         PersistentSession session = getSession();
-        Map<Date,Integer> data = new HashMap<>();
+        Map<Date,Long> data = new HashMap<>();
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
-        LocalDate dateB = LocalDate.parse(dateBegin, formatter);
-        LocalDate dateE = LocalDate.parse(dateEnd, formatter);
-        Criteria crit = session.createCriteria(Property.class)
-                                .add(Restrictions.between("publishDate", dateB, dateE))
-                                .setProjection(Projections.projectionList()
-                                        .add(Projections.property("ID"), "ID")
-                                        .add(Projections.property("Name"), "Name")
-                                        .add(Projections.rowCount())
-                                        .add(Projections.groupProperty("publishDate")))
-                                .addOrder(Order.asc("publishDate"));
-        System.out.println(crit.list());
+        System.out.println(dateBegin);
+        System.out.println(dateEnd);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-d");
+        Date dateB = formatter.parse(dateBegin);
+        Date dateE = formatter.parse(dateEnd);
+        System.out.println(dateB);
+        System.out.println(dateE);
+
+            Criteria crit = session.createCriteria(Property.class, "P")
+                    .add(Restrictions.between("publishDate", dateB, dateE))
+                    .createAlias("P.owner", "u")
+                    .add(Restrictions.eq("u.ID", ID))
+                    .setProjection(Projections.projectionList()
+                            .add(Projections.property("publishDate"))
+                            .add(Projections.rowCount())
+                            .add(Projections.groupProperty("publishDate")))
+                    .addOrder(Order.desc("publishDate"));
+
+        System.out.println("Done");
+        try {
+            List results = crit.list();
+            System.out.println(results);
+
+            for (Iterator iter = results.iterator(); iter.hasNext();)
+            {
+                Object object[] = (Object[]) iter.next();
+                System.out.println(object[0]);
+                System.out.println(object[1]);
+                data.put((Date)object[0],(Long) object[1]);
+
+            }
+            System.out.println(data);
+            System.out.println(data.size());
+
+
+        }
+        catch(HibernateException e){
+            e.printStackTrace();
+        }
+
         return data;
     }
 }
