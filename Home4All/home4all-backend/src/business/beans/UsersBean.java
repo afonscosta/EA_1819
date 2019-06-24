@@ -2,9 +2,9 @@ package business.beans;
 
 import business.Utils;
 import business.entities.*;
-import business.exceptions.*;
+import business.exceptions.GenderNotExistentException;
+import business.exceptions.OccupationNotExistentException;
 import data.*;
-import javafx.util.Pair;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -22,9 +22,6 @@ import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Stateless(name = "UsersEJB")

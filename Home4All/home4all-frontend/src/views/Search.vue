@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SearchBox />
+    <SearchBox class="mt-3" />
     <b-container class="mt-3">
       <b-row>
         <b-col>
@@ -10,6 +10,7 @@
             :total-rows="rows"
             :per-page="perPage"
             aria-controls="my-table"
+            @change="operation = []"
           ></b-pagination>
         </b-col>
       </b-row>
@@ -20,16 +21,24 @@
             v-for="(prop, idx) in currentList" :key="idx"
           >
             <b-row>
-              <b-col lg="3" cols="12">
-                <img :src="prop.images[0]"/>
+              <b-col class="container-image" lg="3" cols="12">
+                <img :src="prop.images[currentImage[idx]]"/>
+                <b-button
+                  :disabled="currentImage[idx] === 0"
+                  @click="operation = [currentImage, '-', idx]"
+                  class="btn-left round" variant="primary">&#8249;</b-button>
+                <b-button
+                  :disabled="currentImage[idx] === prop.images.length - 1"
+                  @click="operation = [currentImage, '+', idx]"
+                  class="btn-right round" variant="primary">&#8250;</b-button>
               </b-col>
-              <b-col align="left" lg="6" cols="12">
-                <b-card-text>{{ prop.name }}</b-card-text>
+              <b-col @click="goToProperty(prop)" class="data-col" align="left" lg="6" cols="12">
+                <b-card-text class="mt-2">{{ prop.name }}</b-card-text>
                 <b-card-text v-if="prop.rent">{{ prop.rentPrice }} €/mês</b-card-text>
                 <b-card-text v-if="prop.sell">{{ prop.sellPrice }} €</b-card-text>
-                <b-card-text>{{ prop.address }} €</b-card-text>
+                <b-card-text>{{ prop.address }}</b-card-text>
               </b-col>
-              <b-col lg="3" cols="12">
+              <b-col class="p-0" lg="3" cols="12">
                 <GoogleMap :disableUI="true"
                   :drag="false" :height="200"
                   :marker="{ lat: prop.lat, lng: prop.lng }"/>
@@ -46,6 +55,7 @@
             :total-rows="rows"
             :per-page="perPage"
             aria-controls="my-table"
+            @change="operation = []"
           ></b-pagination>
         </b-col>
       </b-row>
@@ -54,7 +64,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import SearchBox from '@/components/SearchBox'
 import GoogleMap from '@/components/GoogleMap'
 
@@ -66,7 +76,8 @@ export default {
   },
   data: () => ({
     perPage: 5,
-    currentPage: 1
+    currentPage: 1,
+    operation: []
   }),
   computed: {
     ...mapState({
@@ -74,14 +85,40 @@ export default {
     }),
     currentList () {
       var items = this.properties
-      // Return just page of items needed
       return items.slice(
         (this.currentPage - 1) * this.perPage,
         this.currentPage * this.perPage
       )
     },
+    currentImage () {
+      var images = new Array(this.perPage).fill(0)
+      if (this.operation.length > 0) {
+        images = this.operation[0]
+        var op = this.operation[1]
+        var idx = parseInt(this.operation[2])
+        if (op === '-') {
+          images[idx] -= 1
+        } else if (op === '+') {
+          images[idx] += 1
+        }
+      }
+      return images
+    },
     rows () {
       return this.properties.length
+    }
+  },
+  methods: {
+    ...mapActions('properties', [
+      'getProperty'
+    ]),
+    goToProperty (prop) {
+      console.log(prop.id)
+      this.getProperty(prop.id)
+        .then(() => {
+          // this.setProperty(prop)
+          this.$router.push({ name: 'propertyView' })
+        })
     }
   }
 }
@@ -98,5 +135,81 @@ img {
 
 .card-prop {
   margin-bottom: 1rem;
+}
+
+.data-col {
+  cursor: pointer;
+  border-width: 2px;
+}
+
+.data-col:hover {
+  background-color: #f8f9fa;
+  border-color: #343a40;
+  border-radius: 2%;
+}
+
+.container-image {
+  position: relative;
+  width: 50%;
+}
+
+.container-image img {
+  width: 100%;
+  left: 10%;
+  height: auto;
+}
+
+.container-image .btn-left {
+  position: absolute;
+  top: 50%;
+  left: 8%;
+  height: 100px;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: transparent;
+  border-color: transparent;
+  color: black;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.container-image .btn-right {
+  position: absolute;
+  top: 50%;
+  left: 94%;
+  height: 100px;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: transparent;
+  border-color: transparent;
+  color: black;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.container-image .btn:hover {
+  background-color: #f8f9fa;
+  border-color: #343a40;
+  color: black;
+}
+
+.container-image .btn-primary:active {
+  background-color: #6c757d !important;
+  border-color: #343a40 !important;
+  color: black !important;
+}
+
+.container-image .btn-primary:focus {
+  background-color: #f8f9fa;
+  border-color: #343a40;
+  color: black;
+  box-shadow: none;
+}
+
+.container-image .btn-primary:disabled {
+  cursor: default;
+  background-color: transparent;
+  border-color: transparent;
+  color: black;
 }
 </style>

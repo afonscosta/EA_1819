@@ -202,6 +202,11 @@ export default {
       { value: 'multiple', text: 'Múltiplo' }
     ]
   }),
+  created () {
+    if (this.bedrooms.length > 0) {
+      this.hidden = true
+    }
+  },
   methods: {
     showImages (idx) {
       this.showImagesIdx = idx

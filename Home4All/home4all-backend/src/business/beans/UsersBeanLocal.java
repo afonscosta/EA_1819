@@ -1,13 +1,11 @@
 package business.beans;
 
 import business.entities.Common;
-import business.entities.Gender;
-import business.entities.Occupation;
 import business.entities.Users;
 import business.exceptions.GenderNotExistentException;
 import business.exceptions.OccupationNotExistentException;
-import javafx.util.Pair;
 import org.orm.PersistentException;
+
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;

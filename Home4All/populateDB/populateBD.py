@@ -1,7 +1,9 @@
+import os
 from faker import Faker
 import numpy as np
 import hashlib
 import requests
+import base64
 
 # psql -U postgres -f .\populate_db.sql
 output_filename = 'populate_db_small.sql'
@@ -214,7 +216,7 @@ for i in range(props_quantity):
     name = fake.company()
     description = fake.text(max_nb_chars=254)
     address_id = i + 1
-    user_id = np.random.randint(users_quantity) + 1
+    user_id = np.random.randint(users_quantity) + 2 # id do ADMIN é 1
     typology = np.random.choice(props_typologies, 1, p=props_typologies_probabilities)[0]
     area = np.random.randint(1000)
     if get_boolean(props_limit_min_age_probability):
@@ -329,21 +331,40 @@ for i, n in enumerate(pets_per_property):
         output.write(f'''INSERT INTO Pet VALUES (default, '{p}', {i+1});\n\n''')
 
 # Populate Photo (id, path, bedroomid, propertyid)
+id_image = 1
+
+def save_images(min_n_images, max_n_images, origin_images_ids, id_property = 'null', id_bedroom = 'null'):
+    global id_image
+    n_images = np.random.randint(min_n_images, max_n_images)
+    images = np.random.choice(origin_images_ids, n_images, replace=False)
+    for image in images:
+        path = None
+        file_format = None
+        for file in os.listdir('properties_images/'):
+            if os.path.isfile('properties_images/' + file) and file.startswith(f'image_{image}'):
+                path = 'properties_images/' + file
+                file_format = file.split('.')[-1]
+                break
+        with open(path, 'rb') as fd:
+            image_b64 = base64.b64encode(fd.read())
+            with open(f'./properties_images_txt/image_{id_image}.txt', 'wb+') as fd_w:
+                fd_w.write(f'data:image/{file_format.lower()};base64,'.encode() + image_b64)
+        output.write(f'''INSERT INTO Photo VALUES (default, 'image_{id_image}.txt', {id_bedroom}, {id_property});\n\n''')
+        id_image += 1
+    
+
 output.write('\n-- POPULATE Photo\n')
 for i in range(props_quantity):
     # Property
-    n_images = np.random.randint(images_per_property[0], images_per_property[1])
-    images = np.random.choice(list(range(1, images_quantity+1)), n_images, replace=False)
     id_property = i+1
-    for image in images:
-        output.write(f'''INSERT INTO Photo VALUES (default, 'image_{image}.txt', null, {id_property});\n\n''')
+    origin_images_ids = list(range(1, images_quantity+1))
+    save_images(images_per_property[0], images_per_property[1], origin_images_ids, id_property=id_property)
     # Bedrooms
     if id_property in shared_properties:
         for id_bedroom in shared_properties[id_property]:
-            n_images = np.random.randint(images_per_bedroom[0], images_per_bedroom[1])
-            images = np.random.choice(images_bedroom, n_images, replace=False)
-            for image in images:
-                output.write(f'''INSERT INTO Photo VALUES (default, 'image_{image}.txt', {id_bedroom}, null);\n\n''')
+            save_images(images_per_bedroom[0], images_per_bedroom[1], images_bedroom, id_bedroom=id_bedroom)
+
+output.write(f"ALTER SEQUENCE new_image_id RESTART WITH {id_image};\n")
 
 
 # TODO: Notification e MultipleRoom

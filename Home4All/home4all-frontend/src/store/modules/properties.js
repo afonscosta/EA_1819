@@ -1,10 +1,12 @@
 import propertiesService from '../../services/propertiesService'
+import searchService from '../../services/searchService'
 
 const state = {
   properties: [], // All properties being used
   props_compare: [], // Properties to compare
   property: {}, // View details
-  propertyEdit: {} // Edit details
+  propertyEdit: {}, // Edit details
+  searchParams: {}
 }
 
 const getters = {
@@ -22,6 +24,9 @@ const getters = {
   },
   num_props_compare: state => {
     return state.props_compare.length
+  },
+  searchParams: state => {
+    return state.searchParams
   }
 }
 
@@ -54,6 +59,9 @@ const mutations = {
   // Edit
   setPropertyEdit (state, property) {
     state.propertyEdit = property
+  },
+  setSearchParams (state, payload) {
+    state.searchParams = payload
   }
 }
 
@@ -66,65 +74,25 @@ const actions = {
       commit('setProperties', properties)
     })
   },
+  getProperty ({ commit }, propertyID) {
+    return new Promise((resolve, reject) => {
+      propertiesService.fetchProperty(propertyID)
+        .then(property => {
+          commit('setProperty', property)
+        })
+        .then(() => {
+          resolve()
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
+  },
   addProperty ({ commit }, property) {
     console.log('add property enviado para o backend')
     propertiesService.postProperty(property).then(newProperty => {
       console.log('newProperty', newProperty)
       commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addProperty', newProperty)
-      commit('addPropCompare', newProperty)
-      commit('addPropCompare', newProperty)
-      // commit('addPropCompare', newProperty)
     })
   },
   updateProperty ({ commit }, property) {
@@ -159,6 +127,14 @@ const actions = {
   setPropertyEdit ({ commit }, property) {
     console.log('setting property to edit details', property)
     commit('setPropertyEdit', JSON.parse(JSON.stringify(property)))
+  },
+  doSearch ({ commit }, payload) {
+    console.log('payload do search', payload)
+    searchService.fetchProperties(payload).then(properties => {
+      console.log('properties received after search', properties)
+      commit('setSearchParams', payload)
+      commit('setProperties', properties)
+    })
   }
 }
 

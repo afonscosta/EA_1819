@@ -262,7 +262,7 @@ public class PropertyBean implements PropertyBeanLocal {
                     else if (bType.equals("double"))
                         bedroom.setPeopleAmount(2);
                     else if (bType.equals("multiple"))
-                        bedroom.setPeopleAmount(Integer.parseInt((String) bedroomProps.get("peopleAmount")));
+                        bedroom.setPeopleAmount(Integer.parseInt(String.valueOf(bedroomProps.get("peopleAmount"))));
                     else
                         throw new BedroomTypeNotExistentException();
 
@@ -386,7 +386,7 @@ public class PropertyBean implements PropertyBeanLocal {
                // Filters
                List<String> types, List<String> typologies, boolean sell, boolean rent,
                Float minSellPrice, Float maxSellPrice, Float minRentPrice, Float maxRentPrice,
-               Integer peopleQuantity, List<String> bedroomsTypes, Integer peopleAmountMultiple,
+               List<String> bedroomsTypes, Integer peopleAmountMultiple,
                boolean privateWC, boolean sharedWC, List<String> hasOccupations, boolean hasPets,
                boolean notPets, boolean hasSmokers, boolean notSmokers, boolean furnished,
                boolean notFurnished, boolean totalAccess, boolean notTotalAcess,
@@ -396,7 +396,7 @@ public class PropertyBean implements PropertyBeanLocal {
                Gender userGender, Occupation userOccupation, Integer userAge)
             throws PersistentException, OrdinationNotExistentException {
 
-        // TODO: peopleQuantity
+
         List<String> tables = new ArrayList<>();
         List<String> conditions = new ArrayList<>();
         Map<String, Object> parameters = new HashMap<>();
