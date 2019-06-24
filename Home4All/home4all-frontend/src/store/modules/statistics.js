@@ -25,6 +25,7 @@ const mutations = {
 
 const actions = {
   getStatisticsInfo ({ commit }, payload) {
+    console.log(payload)
     statisticsService.fetchStatistics(payload).then(statistics => {
       commit('setStatistics', statistics)
     })

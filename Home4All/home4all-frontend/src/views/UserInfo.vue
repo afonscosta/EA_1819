@@ -183,17 +183,17 @@ export default {
   }),
   created () {
     this.getUser()
-    this.eventsFrom = getDateBegin()
-    this.eventsTo = getDateEnd()
+    this.eventsFrom = this.getDateBegin()
+    this.eventsTo = this.getDateEnd()
     this.getStatisticsInfo({
       dateBegin: this.eventsFrom,
       dateEnd: this.eventsTo
     })
+    console.log(this.$store.state.statistics)
     this.form.name = this.$store.state.login.user.name
     if (this.$store.state.login.user.phone) {
       this.form.phone = this.$store.state.login.user.phone
     }
-    console.log(this.$store.state.login.user.birthday)
     this.form.birthday = this.$store.state.login.user.birthday
     this.form.gender = this.$store.state.login.user.gender
     console.log(this.$store.state.login.user.occupation)
