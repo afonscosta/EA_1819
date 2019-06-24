@@ -153,10 +153,7 @@ export default {
         ['2017', 1030]
       ],
     chartOptions: {
-      chart: {
-        title: 'Company Performance',
-        subtitle: 'Sales, Expenses, and Profit: 2014-2017',
-      }
+      title: 'Company Performance'
     },
     form: {
       name: '',
@@ -183,11 +180,17 @@ export default {
   }),
   created () {
     this.getUser()
+    this.eventsFrom = this.getDateBegin()
+    this.eventsTo = this.getDateEnd()
+    this.getStatisticsInfo({
+      dateBegin: this.eventsFrom,
+      dateEnd: this.eventsTo
+    })
+    console.log(this.$store.state.statistics)
     this.form.name = this.$store.state.login.user.name
     if (this.$store.state.login.user.phone) {
       this.form.phone = this.$store.state.login.user.phone
     }
-    console.log(this.$store.state.login.user.birthday)
     this.form.birthday = this.$store.state.login.user.birthday
     this.form.gender = this.$store.state.login.user.gender
     console.log(this.$store.state.login.user.occupation)
@@ -201,6 +204,25 @@ export default {
   methods: {
     ...mapActions('users', ['addUser', 'updateUser', 'deleteUser']),
     ...mapActions('login', ['getUser']),
+    ...mapActions('statistics', ['getStatisticsInfo']),
+    getDateEnd () {
+      const toTwoDigits = num => num < 10 ? '0' + num : num
+      let today = new Date()
+      let year = today.getFullYear()
+      let month = toTwoDigits(today.getMonth())
+      let day = toTwoDigits(today.getDate())
+      return `${year}-${month}-${day}`
+    },
+    getDateBegin () {
+      const toTwoDigits = num => num < 10 ? '0' + num : num
+      let today = new Date()
+      let year = today.getFullYear()
+      today.setMonth(today.getMonth() - 1)
+      let month = toTwoDigits(today.getMonth())
+      let day = toTwoDigits(today.getDate())
+      return `${year}-${month}-${day}`
+    },
+    
     onSubmit (evt) {
       evt.preventDefault()
       console.log(this.form)

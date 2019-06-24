@@ -35,8 +35,9 @@ class Parser {
         //    data.put("password", ((InternalAccount) user).getPassword());
         //}
 
-        data_user.put("birthday", user.getBirthdate().toString());
-        System.out.println(user.getBirthdate());
+        String dataBirthday = new SimpleDateFormat("yyyy-MM-d").format(user.getBirthdate());
+        data_user.put("birthday", dataBirthday);
+        System.out.println(dataBirthday);
         String phone = user.getPhone();
         if (!phone.isEmpty()) {
             data_user.put("phone", phone);
@@ -56,8 +57,9 @@ class Parser {
         //if (user instanceof InternalAccount) {
         //    data.put("password", ((InternalAccount) user).getPassword());
         //}
-        System.out.println(user.getBirthdate());
-        data.put("birthday", user.getBirthdate().toString());
+        String dataBirthday = new SimpleDateFormat("yyyy-MM-d").format(user.getBirthdate());
+        data.put("birthday", dataBirthday);
+        System.out.println(dataBirthday);
         String phone = user.getPhone();
         if (!phone.isEmpty()) {
             data.put("phone", phone);

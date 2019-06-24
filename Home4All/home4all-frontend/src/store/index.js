@@ -4,6 +4,7 @@ import users from './modules/users'
 import properties from './modules/properties'
 import search from './modules/search'
 import login from './modules/login'
+import statistics from './modules/statistics'
 
 Vue.use(Vuex)
 
@@ -12,6 +13,7 @@ export default new Vuex.Store({
     users,
     properties,
     search,
-    login
+    login,
+    statistics
   }
 })
