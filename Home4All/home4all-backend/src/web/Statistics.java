@@ -36,9 +36,9 @@ public class Statistics extends HttpServlet {
             System.out.println(dateBegin);
             System.out.println(dateEnd);
             Map<Date, Long> info1 = new HashMap<>();
-            Map<Date, Map.Entry<Long,Long>> info2 = new HashMap<>();
-            info2 = Home4All.getStatisticsPropertyAddSold(currentUser.getID(), dateBegin, dateEnd);
+            Map<String, Map.Entry<Long,Long>> info2 = new HashMap<>();
             info1 = Home4All.getStatisticsQuantity(currentUser.getID(), dateBegin, dateEnd);
+            info2 = Home4All.getStatisticsPropertyAddSold(currentUser.getID(), dateBegin, dateEnd);
             String jsonResponse = Parser.statisticsToJson(info1,info2);
             response.setContentType("application/json"); // multipart/form-data
             response.setCharacterEncoding("UTF-8");

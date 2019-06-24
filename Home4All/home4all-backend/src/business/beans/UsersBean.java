@@ -10,6 +10,8 @@ import org.hibernate.HibernateException;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.type.StringType;
+import org.hibernate.type.Type;
 import org.orm.PersistentException;
 import org.orm.PersistentSession;
 import org.orm.PersistentTransaction;
@@ -163,9 +165,9 @@ public class UsersBean implements UsersBeanLocal {
         return CommonDAO.getCommonByORMID(session, ID);
     }
 
-    public Map<Date, Map.Entry<Long,Long>>  getStatisticsPropertyAddSold(int ID, String dateBegin, String dateEnd) throws PersistentException, ParseException {
+    public Map<String, Map.Entry<Long,Long>>  getStatisticsPropertyAddSold(int ID, String dateBegin, String dateEnd) throws PersistentException, ParseException {
         PersistentSession session = getSession();
-        Map<Date, Map.Entry<Long,Long>> data = new HashMap<>();
+        Map<String, Map.Entry<Long,Long>> data = new HashMap<>();
 
         System.out.println(dateBegin);
         System.out.println(dateEnd);
@@ -179,24 +181,39 @@ public class UsersBean implements UsersBeanLocal {
                     .add(Restrictions.between("publishDate", dateB, dateE))
                     .createAlias("P.owner", "u")
                     .add(Restrictions.eq("u.ID", ID))
+                   // .add(Restrictions.eq("sold", Boolean.TRUE))
                     .setProjection(Projections.projectionList()
-                            .add(Projections.property("publishDate"))
-                            .add(Projections.rowCount())
-                            .add(Projections.groupProperty("publishDate")))
-                    .addOrder(Order.desc("publishDate"));
+                            .add(Projections.sqlGroupProjection("TO_CHAR(publishDate, 'MM') as month","month", new String[]{"month"},new Type[]{new StringType()}))
+                            //.add(Projections.property("monthDate"))
+                            .add(Projections.rowCount()));
+                            //.add(Projections.sqlGroupProjection("{alias} month")));
+                    //.addOrder(Order.desc("monthDate"));
+
+        Criteria crit2 = session.createCriteria(Property.class, "P")
+                .add(Restrictions.between("publishDate", dateB, dateE))
+                .createAlias("P.owner", "u")
+                .add(Restrictions.eq("u.ID", ID))
+                .add(Restrictions.eq("sold", Boolean.TRUE))
+                .setProjection(Projections.projectionList()
+                        .add(Projections.sqlGroupProjection("TO_CHAR(publishDate, 'MM') as month","month", new String[]{"month"},new Type[]{new StringType()}))
+                        //.add(Projections.property("monthDate"))
+                        .add(Projections.rowCount()));
+        //.add(Projections.sqlGroupProjection("{alias} month")));
+        //.addOrder(Order.desc("monthDate"));
 
         System.out.println("Done");
         try {
-            List results = crit.list();
-            System.out.println(results);
-
-            for (Iterator iter = results.iterator(); iter.hasNext();)
+            List allResults = crit.list();
+            List soldResults = crit.list();
+            System.out.println(allResults);
+            System.out.println(soldResults);
+            for (Iterator iter = allResults.iterator(); iter.hasNext();)
             {
                 Object object[] = (Object[]) iter.next();
                 System.out.println(object[0]);
                 System.out.println(object[1]);
                 Map.Entry<Long, Long> pair = new AbstractMap.SimpleEntry<>((Long)object[1],(Long) object[1]);
-                data.put((Date)object[0],pair);
+                data.put((String) object[0],pair);
 
 
             }
@@ -228,6 +245,7 @@ public class UsersBean implements UsersBeanLocal {
                 .add(Restrictions.between("publishDate", dateB, dateE))
                 .createAlias("P.owner", "u")
                 .add(Restrictions.eq("u.ID", ID))
+                .add(Restrictions.eq("sold", Boolean.TRUE))
                 .setProjection(Projections.projectionList()
                         .add(Projections.property("publishDate"))
                         .add(Projections.rowCount())
