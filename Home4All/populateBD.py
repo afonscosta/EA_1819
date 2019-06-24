@@ -125,7 +125,9 @@ fake = Faker('pt_PT')
 # Populate users
 # (id, discriminator, email, name, password, gendername, occupationname, birthdate, phone, lastlogin, blocked)
 output.write('\n-- POPULATE Users\n')
-output.write(f'''INSERT INTO Users VALUES (default, 'Admin', 'admin@home4all.net', 'Admin', '{hashlib.sha256(b'_admin*pass_')}', NULL, NULL, NULL, NULL, NULL, NULL);\n\n''')
+m = hashlib.sha256()
+m.update(b'_admin*pass_')
+output.write(f'''INSERT INTO Users VALUES (default, 'Admin', 'admin@home4all.net', 'Admin', '{m.digest().hex()}', NULL, NULL, NULL, NULL, NULL, NULL);\n\n''')
 
 for i in range(users_quantity):
     discriminator = np.random.choice(user_descriminators, 1, p=user_desc_probabilities)[0]

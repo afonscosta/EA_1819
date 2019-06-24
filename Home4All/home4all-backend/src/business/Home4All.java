@@ -76,6 +76,14 @@ public class Home4All {
         return usersBean.getStatisticsQuantity(ID, dateBegin, dateEnd);
     }
 
+    public static List<Map<String,Object>> getComplaints() throws PersistentException{
+        return usersBean.getComplaints();
+    }
+
+    public static void blockUser(Integer userId)  throws PersistentException{
+        usersBean.blockUser(userId);
+    }
+
     public static Property registerSharedProperty(
                 Integer id,  String name, List<String> photos, String description, String typology,
                 float area, String district, String city, String street, float lat, float lng,

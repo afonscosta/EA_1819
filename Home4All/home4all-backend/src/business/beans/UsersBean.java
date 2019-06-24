@@ -7,6 +7,7 @@ import data.*;
 import javafx.util.Pair;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -17,6 +18,7 @@ import org.orm.PersistentSession;
 import org.orm.PersistentTransaction;
 
 import javax.ejb.Stateless;
+import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -202,42 +204,37 @@ public class UsersBean implements UsersBeanLocal {
         //.addOrder(Order.desc("monthDate"));
 
         System.out.println("Done");
-        try {
-            List allResults = crit.list();
-            List soldResults = crit2.list();
-            System.out.println(allResults);
-            for (Iterator iter = allResults.iterator(); iter.hasNext();)
-            {
-                Object object[] = (Object[]) iter.next();
-                System.out.println(object[0]);
-                System.out.println(object[1]);
-                //Map.Entry<Long, Long> pair = new AbstractMap.SimpleEntry<>((Long)object[1],(Long) object[1]);
-                Map.Entry<Long, Long> pair = new AbstractMap.SimpleEntry<>((Long)object[1], 0L);
-                data.put((String) object[0],pair);
+        List allResults = crit.list();
+        List soldResults = crit2.list();
+        System.out.println(allResults);
+        for (Iterator iter = allResults.iterator(); iter.hasNext();)
+        {
+            Object object[] = (Object[]) iter.next();
+            System.out.println(object[0]);
+            System.out.println(object[1]);
+            //Map.Entry<Long, Long> pair = new AbstractMap.SimpleEntry<>((Long)object[1],(Long) object[1]);
+            Map.Entry<Long, Long> pair = new AbstractMap.SimpleEntry<>((Long)object[1], 0L);
+            data.put((String) object[0],pair);
 
 
-            }
-            System.out.println(data);
-            System.out.println(data.size());
-            System.out.println(soldResults);
-            for (Iterator iter = soldResults.iterator(); iter.hasNext();)
-            {
-                Object object[] = (Object[]) iter.next();
-                System.out.println(object[0]);
-                System.out.println(object[1]);
-                String month = (String) object[0];
-                if (data.containsKey(month)) {
-                    Map.Entry<Long, Long> pair = data.get(month);
-                    pair.setValue((Long) object[1]);
-                    data.replace(month, pair);
-                }
-            }
-            System.out.println(data);
-            System.out.println(data.size());
         }
-        catch(HibernateException e){
-            e.printStackTrace();
+        System.out.println(data);
+        System.out.println(data.size());
+        System.out.println(soldResults);
+        for (Iterator iter = soldResults.iterator(); iter.hasNext();)
+        {
+            Object object[] = (Object[]) iter.next();
+            System.out.println(object[0]);
+            System.out.println(object[1]);
+            String month = (String) object[0];
+            if (data.containsKey(month)) {
+                Map.Entry<Long, Long> pair = data.get(month);
+                pair.setValue((Long) object[1]);
+                data.replace(month, pair);
+            }
         }
+        System.out.println(data);
+        System.out.println(data.size());
 
         return data;
     }
@@ -266,28 +263,64 @@ public class UsersBean implements UsersBeanLocal {
                 .addOrder(Order.desc("publishDate"));
 
         System.out.println("Done");
-        try {
-            List results = crit.list();
-            System.out.println(results);
+        List results = crit.list();
+        System.out.println(results);
 
-            for (Iterator iter = results.iterator(); iter.hasNext();)
-            {
-                Object object[] = (Object[]) iter.next();
-                System.out.println(object[0]);
-                System.out.println(object[1]);
-                data.put((Date)object[0],(Long) object[1]);
-
-            }
-            System.out.println(data);
-            System.out.println(data.size());
-
+        for (Iterator iter = results.iterator(); iter.hasNext();)
+        {
+            Object object[] = (Object[]) iter.next();
+            System.out.println(object[0]);
+            System.out.println(object[1]);
+            data.put((Date)object[0],(Long) object[1]);
 
         }
-        catch(HibernateException e){
-            e.printStackTrace();
-        }
-
+        System.out.println(data);
+        System.out.println(data.size());
         return data;
+    }
+
+    public List<Map<String,Object>> getComplaints() throws PersistentException{
+        PersistentSession session = getSession();
+
+        Query query = session.createSQLQuery("select p.ID, p.Name, c.Description, p.Owner from Property as p, Complaint as c where p.ID = c.propertyID order by p.ID");
+        List<Object[]> queryResult = query.list();
+        System.out.println(queryResult);
+
+        Map<Integer, Map<String,Object>> complaints = new HashMap<>();
+
+        for (Object[] comp: queryResult){
+            Integer id = (Integer) comp[0];
+            String name = (String) comp[1];
+            String description = (String) comp[2];
+
+            if (complaints.containsKey(id)){
+                List complaintsValues = (List) complaints.get(id).get("complaints");
+                complaintsValues.add(description);
+            }
+            else{
+                Map<String, Object> aux = new HashMap<>();
+                aux.put("id",id);
+                aux.put("name",name);
+                List complaints_aux = new ArrayList<>();
+                complaints_aux.add(description);
+                aux.put("complaints", complaints_aux);
+                complaints.put(id, aux);
+            }
+        }
+        return new ArrayList<>(complaints.values());
+    }
+
+    public void blockUser(int ID) throws PersistentException{
+        PersistentSession session = getSession();
+        Common userInfo = CommonDAO.getCommonByORMID(session,ID);
+        userInfo.setBlocked(true);
+        CommonDAO.save(userInfo);
+        Property[] userProperties = PropertyDAO.listPropertyByQuery(session, "usersId=" + userInfo.getID(), null);
+        System.out.println(userProperties);
+        for (Property p: userProperties ){
+            p.setBlocked(true);
+            PropertyDAO.save(p);
+        }
     }
 
 }

@@ -1,6 +1,7 @@
 package web;
 
 import business.Home4All;
+import business.entities.Admin;
 import business.entities.Common;
 import business.entities.InternalAccount;
 import business.entities.Users;
@@ -44,8 +45,16 @@ public class Login extends HttpServlet {
                     System.out.println(request.getHeader(header));
                 }
                 */
-                Common info_user = Home4All.getUser(currentUser.getID());
-                String data_parser = Parser.currentUserToJson(session.getId(), info_user);
+                System.out.println("CONSEGUI AUTENTICAR");
+                String data_parser;
+                if (!(currentUser instanceof Admin)) {
+                    Common info_user = Home4All.getUser(currentUser.getID());
+                    data_parser = Parser.currentUserToJson(session.getId(), info_user);
+
+                }
+                else{
+                    data_parser = Parser.currentSessionToJson(session.getId());
+                }
                 response.setContentType("application/json"); // multipart/form-data
                 response.setCharacterEncoding("UTF-8");
                 PrintWriter out = response.getWriter();

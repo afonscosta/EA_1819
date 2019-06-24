@@ -1,6 +1,7 @@
 package web;
 
 import business.Home4All;
+import business.entities.Admin;
 import business.entities.Common;
 import com.google.gson.Gson;
 
@@ -101,6 +102,27 @@ public class Users extends HttpServlet {
             PrintWriter out = response.getWriter();
             out.print(userJsonString);
             out.flush();
+        }
+        catch (Exception e) {
+            response.setContentType("text/html");
+            response.setCharacterEncoding("UTF-8");
+            response.sendError(javax.servlet.http.HttpServletResponse.SC_NOT_FOUND);
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            HttpSession session = request.getSession(false);
+            business.entities.Users currentUser = (business.entities.Users) session.getAttribute("currentSessionUser");
+            if (currentUser instanceof Admin) {
+                BufferedReader reader = request.getReader();
+                Map u = gson.fromJson(reader, Map.class);
+                Integer userID = Integer.parseInt((String)u.get("id"));
+                Home4All.blockUser(userID);
+
+            }
         }
         catch (Exception e) {
             response.setContentType("text/html");

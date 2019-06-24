@@ -29,9 +29,9 @@ public class Statistics extends HttpServlet {
         try {
             HttpSession session = request.getSession(false);
             business.entities.Users currentUser = (business.entities.Users) session.getAttribute("currentSessionUser");
-            //BufferedReader reader = request.getReader();
-            Map dates = gson.fromJson(request.getParameter("payload"), Map.class);
-            //Map dates = gson.fromJson(reader, Map.class);
+            BufferedReader reader = request.getReader();
+            //Map dates = gson.fromJson(request.getParameter("payload"), Map.class);
+            Map dates = gson.fromJson(reader, Map.class);
             System.out.println("VOU TRATAR DAS DATAS");
             String dateBegin = (String) dates.get("dateBegin");
             String dateEnd = (String) dates.get("dateEnd");

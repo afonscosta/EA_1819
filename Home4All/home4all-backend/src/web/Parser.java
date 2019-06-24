@@ -16,6 +16,11 @@ import java.util.stream.Collectors;
 class Parser {
     private static Gson gson = new Gson();
 
+    static String currentSessionToJson(String sessionID){
+        Map data = new HashMap();
+        data.put("id", sessionID);
+        return gson.toJson(data);
+    }
     static String statisticsToJson(Map info_1, Map info_2){
         Map data = new HashMap();
         data.put("g1",info_1);
@@ -86,6 +91,11 @@ class Parser {
             }
         }
         return gson.toJson(data);
+    }
+
+    static String complainsToJson(List<Map<String,Object>> complains){
+
+        return gson.toJson(complains);
     }
 
     private static List<String> mapPathsToImages(Photo[] photos) throws IOException {
