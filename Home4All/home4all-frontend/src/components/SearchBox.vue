@@ -342,7 +342,11 @@ export default {
       notTotalAccess: false,
       peopleQuantity: 2,
       privateWC: false,
-      sharedWC: false
+      sharedWC: false,
+      minRentPrice: 0,
+      maxRentPrice: 0,
+      minSellPrice: 0,
+      maxSellPrice: 0
     },
     optionsOccupation: [
       { value: 'student', text: 'Estudante' },

@@ -24,6 +24,7 @@ Vue.use(Lightbox)
 Vue.use(VueGoogleMaps, {
   load: {
     key: 'AIzaSyDtZzBGMqTFWjndSRR-kEzpwBMdHodA5Ac',
+    language: 'pt-PT',
     libraries: 'places' // necessary for places input
   }
 })
