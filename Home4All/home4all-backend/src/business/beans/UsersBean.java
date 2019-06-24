@@ -177,17 +177,17 @@ public class UsersBean implements UsersBeanLocal {
         System.out.println(dateB);
         System.out.println(dateE);
 
-            Criteria crit = session.createCriteria(Property.class, "P")
-                    .add(Restrictions.between("publishDate", dateB, dateE))
-                    .createAlias("P.owner", "u")
-                    .add(Restrictions.eq("u.ID", ID))
-                   // .add(Restrictions.eq("sold", Boolean.TRUE))
-                    .setProjection(Projections.projectionList()
-                            .add(Projections.sqlGroupProjection("TO_CHAR(publishDate, 'MM') as month","month", new String[]{"month"},new Type[]{new StringType()}))
-                            //.add(Projections.property("monthDate"))
-                            .add(Projections.rowCount()));
-                            //.add(Projections.sqlGroupProjection("{alias} month")));
-                    //.addOrder(Order.desc("monthDate"));
+        Criteria crit = session.createCriteria(Property.class, "P")
+                .add(Restrictions.between("publishDate", dateB, dateE))
+                .createAlias("P.owner", "u")
+                .add(Restrictions.eq("u.ID", ID))
+               // .add(Restrictions.eq("sold", Boolean.TRUE))
+                .setProjection(Projections.projectionList()
+                        .add(Projections.sqlGroupProjection("TO_CHAR(publishDate, 'MM') as month","month", new String[]{"month"},new Type[]{new StringType()}))
+                        //.add(Projections.property("monthDate"))
+                        .add(Projections.rowCount()));
+                        //.add(Projections.sqlGroupProjection("{alias} month")));
+                //.addOrder(Order.desc("monthDate"));
 
         Criteria crit2 = session.createCriteria(Property.class, "P")
                 .add(Restrictions.between("publishDate", dateB, dateE))
@@ -204,23 +204,36 @@ public class UsersBean implements UsersBeanLocal {
         System.out.println("Done");
         try {
             List allResults = crit.list();
-            List soldResults = crit.list();
+            List soldResults = crit2.list();
             System.out.println(allResults);
-            System.out.println(soldResults);
             for (Iterator iter = allResults.iterator(); iter.hasNext();)
             {
                 Object object[] = (Object[]) iter.next();
                 System.out.println(object[0]);
                 System.out.println(object[1]);
-                Map.Entry<Long, Long> pair = new AbstractMap.SimpleEntry<>((Long)object[1],(Long) object[1]);
+                //Map.Entry<Long, Long> pair = new AbstractMap.SimpleEntry<>((Long)object[1],(Long) object[1]);
+                Map.Entry<Long, Long> pair = new AbstractMap.SimpleEntry<>((Long)object[1], 0L);
                 data.put((String) object[0],pair);
 
 
             }
             System.out.println(data);
             System.out.println(data.size());
-
-
+            System.out.println(soldResults);
+            for (Iterator iter = soldResults.iterator(); iter.hasNext();)
+            {
+                Object object[] = (Object[]) iter.next();
+                System.out.println(object[0]);
+                System.out.println(object[1]);
+                String month = (String) object[0];
+                if (data.containsKey(month)) {
+                    Map.Entry<Long, Long> pair = data.get(month);
+                    pair.setValue((Long) object[1]);
+                    data.replace(month, pair);
+                }
+            }
+            System.out.println(data);
+            System.out.println(data.size());
         }
         catch(HibernateException e){
             e.printStackTrace();
