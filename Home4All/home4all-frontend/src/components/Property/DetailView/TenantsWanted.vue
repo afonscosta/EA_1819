@@ -9,10 +9,14 @@
         <p>Género: {{ allowedGenders }}</p>
       </b-col>
       <b-col>
-        <p>Idade mínima: {{ allowedMinAge }}</p>
+        <p>Idade mínima: {{
+          allowedMinAge ? allowedMinAge : 'não existe limite'
+        }}</p>
       </b-col>
       <b-col>
-        <p>Idade máxima: {{ allowedMaxAge }}</p>
+        <p>Idade máxima: {{
+          allowedMaxAge ? allowedMaxAge : 'não existe limite'
+        }}</p>
       </b-col>
     </b-row>
     <b-form-group id="tenants-wanted-ocupation-form-group" label="Ocupação:">
@@ -84,5 +88,34 @@ export default {
 <style scope>
 #tenants-wanted-ocupation-form-group {
   margin-bottom: 1rem !important;
+}
+
+.btn-secondary {
+  background-color: rgba(220,53,69, 0.7) !important;
+}
+
+.btn-secondary:not(:disabled):not(.disabled):active,
+.btn-secondary:not(:disabled):not(.disabled).active,
+.show > .btn-secondary.dropdown-toggle {
+  background-color: rgba(0,128,0,0.7) !important;
+  border-color: rgba(0,128,0,0.7) !important;
+  box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, 0.5) !important;
+}
+
+.btn-group {
+  display: flex !important;
+  flex-wrap: wrap;
+}
+
+.btn-group > .btn.active {
+  background-color: rgba(0,128,0,0.7) !important;
+  border-color: rgba(0,128,0,0.7) !important;
+  box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, 0.5) !important;
+}
+
+.btn-group > .btn,
+.btn-group > .btn-group > .btn {
+  margin: 0.375rem 0.75rem;
+  border-radius: 0.25rem !important;
 }
 </style>

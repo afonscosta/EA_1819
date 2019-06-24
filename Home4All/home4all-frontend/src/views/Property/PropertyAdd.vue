@@ -34,6 +34,8 @@
                 @removeImage="removeImage"
                 @updateImages="updateImages"/>
               <PropertyInfo
+                :disableType="false"
+                :showCurrentLocation="false"
                 @updateDescription="updateDescription"
                 @updateType="updateType"
                 @updateTypology="updateTypology"
@@ -72,12 +74,12 @@
               v-if="form.operation != 'sell'"
               class="present-tenants"
               :type="form.type"
-              :pets="form.pets"
+              :petsData="form.pets"
               @updateSharedFemales="updateSharedFemales"
               @updateSharedMales="updateSharedMales"
               @updateSharedSmokers="updateSharedSmokers"
-              @updateSharedPets="updateSharedPets"
-              @updateSharedOcupation="updateSharedOccupation"
+              @updateSharedPetsQuantity="updateSharedPetsQuantity"
+              @updateSharedOccupation="updateSharedOccupation"
               @addPetType="addPetType"
               @deletePetType="deletePetType"/>
 
@@ -150,7 +152,7 @@ export default {
       furnished: false,
       totalAccess: false,
       availability: '',
-      rent: false,
+      rent: true,
       sell: false,
       rentPrice: 0,
       sellPrice: 0,
@@ -246,6 +248,7 @@ export default {
       this.form.availability = value
     },
     updateRent (checked) {
+      console.log(checked)
       this.form.rent = checked
     },
     updateSell (checked) {
@@ -289,7 +292,7 @@ export default {
     updateSharedSmokers (value) {
       this.form.smokers = value
     },
-    updateSharedPets (value) {
+    updateSharedPetsQuantity (value) {
       this.form.petsQuantity = value
     },
     addPetType (pet) {

@@ -3,7 +3,8 @@ import propertiesService from '../../services/propertiesService'
 const state = {
   properties: [], // All properties being used
   props_compare: [], // Properties to compare
-  property: {} // View details
+  property: {}, // View details
+  propertyEdit: {} // Edit details
 }
 
 const getters = {
@@ -15,6 +16,12 @@ const getters = {
   },
   property: state => {
     return state.property
+  },
+  propertyEdit: state => {
+    return state.propertyEdit
+  },
+  num_props_compare: state => {
+    return state.props_compare.length
   }
 }
 
@@ -37,12 +44,16 @@ const mutations = {
   addPropCompare (state, property) {
     state.props_compare.push(property)
   },
-  removeProCompare (state, propertyID) {
+  removePropCompare (state, propertyID) {
     state.props_compare = state.props_compare.filter(u => u.id !== propertyID)
   },
   // Details
   setProperty (state, property) {
     state.property = property
+  },
+  // Edit
+  setPropertyEdit (state, property) {
+    state.propertyEdit = property
   }
 }
 
@@ -60,17 +71,75 @@ const actions = {
     propertiesService.postProperty(property).then(newProperty => {
       console.log('newProperty', newProperty)
       commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addProperty', newProperty)
+      commit('addPropCompare', newProperty)
+      commit('addPropCompare', newProperty)
+      // commit('addPropCompare', newProperty)
     })
   },
   updateProperty ({ commit }, property) {
     console.log('update property enviado para o backend', property)
     propertiesService.postProperty(property).then(() => {
       commit('updateProperty', property)
+      commit('setProperty', property)
+      commit('setPropertyEdit', {})
     })
   },
   deleteProperty ({ commit }, propertyID) {
     propertiesService.deleteProperty(propertyID)
     commit('deleteProperty', propertyID)
+    commit('setProperty', {})
+    commit('removePropCompare', propertyID)
   },
   // Compare
   addPropCompare ({ commit }, property) {
@@ -78,12 +147,18 @@ const actions = {
     commit('addPropCompare', property)
   },
   removePropCompare ({ commit }, propertyID) {
+    console.log('property removed from compare')
     commit('removePropCompare', propertyID)
   },
   // Details
   setProperty ({ commit }, property) {
     console.log('setting property to view details', property)
     commit('setProperty', property)
+  },
+  // Details
+  setPropertyEdit ({ commit }, property) {
+    console.log('setting property to edit details', property)
+    commit('setPropertyEdit', JSON.parse(JSON.stringify(property)))
   }
 }
 

@@ -22,7 +22,7 @@ blocked_probability = 0.1
 
 # Configs - Properties
 props_quantity = 50
-props_descriminators = ['Shared', 'Apartment', 'Vila']
+props_descriminators = ['Shared', 'Apartment', 'Villa']
 props_descriminators_probabilities = [0.4, 0.3, 0.3]
 props_allowed_genders_probabilities = [0.35, 0.35, 0.3]
 props_typologies = ['T0', 'T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T10+']
@@ -101,6 +101,7 @@ output.write("ALTER SEQUENCE photo_id_seq RESTART WITH 1;\n")
 output.write("ALTER SEQUENCE new_image_id RESTART WITH 1;\n")
 output.write("DELETE FROM Pet;\n")
 output.write("ALTER SEQUENCE pet_id_seq RESTART WITH 1;\n")
+output.write("DELETE FROM Property_Expenses;\n")
 output.write("DELETE FROM Property_Equipment;\n")
 output.write("DELETE FROM Property_Occupation;\n")
 output.write("DELETE FROM Property_Occupation2;\n")

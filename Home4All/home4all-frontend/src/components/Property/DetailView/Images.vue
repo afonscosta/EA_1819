@@ -3,7 +3,7 @@
     <b-row align-v="start">
       <b-col class="images-col">
         <div v-for="(image, key) in images" :key="key">
-          <img v-bind:src="'data:image/jpeg;base64,'+image"/>
+          <img v-bind:src="image"/>
         </div>
       </b-col>
     </b-row>

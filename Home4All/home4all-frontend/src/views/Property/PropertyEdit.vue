@@ -7,11 +7,10 @@
       <div class="d-block text-center">
         <h3>Tem a certeza que pretende eliminar o imóvel?</h3>
       </div>
-      <b-button class="mt-2" variant="danger" block @click="confirme(false)">Não</b-button>
-      <b-button class="mt-3" variant="success" block @click="confirme(true)">Sim</b-button>
+      <b-button class="mt-2" variant="danger" block @click="$refs['modal-del-property'].hide()">Não</b-button>
+      <b-button class="mt-3" variant="success" block @click="removeProperty()">Sim</b-button>
     </b-modal>
 
-    <b-modal id="info">{{ form }}</b-modal>
     <h3 class="title">Editar Imóvel</h3>
     <b-container>
       <b-row class="justify-content-md-center">
@@ -21,7 +20,7 @@
               <b-col cols="4">
                 <b-button-group>
                   <b-button @click="$router.go(-1)" variant="primary">Cancelar</b-button>
-                  <b-button @click="removeProperty()" variant="danger">Eliminar</b-button>
+                  <b-button @click="$refs['modal-del-property'].show()" variant="danger">Eliminar</b-button>
                   <b-button type="submit" variant="primary">Guardar</b-button>
                 </b-button-group>
               </b-col>
@@ -41,9 +40,13 @@
 
             <b-card-group deck class="deck-images-prop-info">
               <LoadImages class="load-images"
-                :filesData="images"
+                :images="form.images"
+                @addImage="addImage"
+                @removeImage="removeImage"
                 @updateImages="updateImages"/>
               <PropertyInfo
+                :disableType="true"
+                :showCurrentLocation="true"
                 :descriptionData="form.description"
                 :typeData="form.type"
                 :typologyData="form.typology"
@@ -51,11 +54,15 @@
                 :districtData="form.district"
                 :cityData="form.city"
                 :addressData="form.address"
+                :latitudeData="form.latitude"
+                :longitudeData="form.longitude"
                 :furnishedData="form.furnished"
+                :totalAccessData="form.totalAccess"
                 :availabilityData="form.availability"
-                :operationData="form.operation"
-                :rentPriceData="form.rentPrice"
-                :sellPriceData="form.sellPrice"
+                :rentData="form.rent"
+                :sellData="form.sell"
+                :rentPriceData="parseInt(form.rentPrice)"
+                :sellPriceData="parseInt(form.sellPrice)"
                 @updateDescription="updateDescription"
                 @updateType="updateType"
                 @updateTypology="updateTypology"
@@ -63,58 +70,75 @@
                 @updateDistrict="updateDistrict"
                 @updateCity="updateCity"
                 @updateAddress="updateAddress"
+                @updateLatitude="updateLatitude"
+                @updateLongitude="updateLongitude"
                 @updateFurnished="updateFurnished"
+                @updateTotalAccess="updateTotalAccess"
                 @updateAvailability="updateAvailability"
-                @updateOperation="updateOperation"
+                @updateRent="updateRent"
+                @updateSell="updateSell"
                 @updateRentPrice="updateRentPrice"
-                @updateSellPrice="updateSellPrice"/>
+                @updateSellPrice="updateSellPrice"
+              />
             </b-card-group>
 
             <Bedroom
               :type="form.type"
-              :bedroomsData="form.bedrooms"
+              :bedrooms="form.bedrooms"
+              @addBedroom="addBedroom"
+              @deleteBedroom="deleteBedroom"
               @updateBedroomType="updateBedroomType"
+              @updateBedroomPeopleAmount="updateBedroomPeopleAmount"
               @updateBedroomArea="updateBedroomArea"
               @updateBedroomFurnished="updateBedroomFurnished"
               @updateBedroomPrivateBathroom="updateBedroomPrivateBathroom"
               @updateBedroomAvailability="updateBedroomAvailability"
-              @updateBedroomRentPrice="updateBedroomRentPrice"/>
+              @updateBedroomRentPrice="updateBedroomRentPrice"
+              @addBedroomImage="addBedroomImage"
+              @removeBedroomImage="removeBedroomImage"
+              @updateBedroomImages="updateBedroomImages"/>
 
             <PresentTenants
+              v-if="form.operation != 'sell'"
               class="present-tenants"
               :type="form.type"
-              :sharedData="form.shared"
+              :femalesData="parseInt(form.females)"
+              :malesData="parseInt(form.males)"
+              :smokersData="parseInt(form.smokers)"
+              :petsData="form.pets"
+              :petsQuantityData="parseInt(form.petsQuantity)"
+              :occupationsData="form.occupations"
               @updateSharedFemales="updateSharedFemales"
               @updateSharedMales="updateSharedMales"
               @updateSharedSmokers="updateSharedSmokers"
-              @updateSharedPets="updateSharedPets"
-              @updateSharedOcupation="updateSharedOcupation"
+              @updateSharedPetsQuantity="updateSharedPetsQuantity"
+              @updateSharedOccupation="updateSharedOccupation"
               @addPetType="addPetType"
               @deletePetType="deletePetType"/>
 
             <b-card-group deck>
               <RentInclude
-                :rentIncData="form.rentInc"
-                @updateRentInc="updateRentInc"/>
+                v-if="form.operation != 'sell'"
+                :expensesIncludedData="form.expensesIncluded"
+                @updateExpensesIncluded="updateExpensesIncluded"/>
               <DivEquipInclude
-                :divEquipIncData="form.divEquipInc"
-                @updateDivEquipInc="updateDivEquipInc"/>
+                :equipmentIncludedData="form.equipmentIncluded"
+                @updateEquipmentIncluded="updateEquipmentIncluded"/>
             </b-card-group>
 
             <TenantsWanted
+              v-if="form.operation != 'sell'"
               class="tenants-wanted"
-              :rentIncData="form.rentInc"
-              :genreData="form.genre"
+              :allowedGendersData="form.allowedGenders"
               :allowedMinAgeData="form.allowedMinAge"
               :allowedMaxAgeData="form.allowedMaxAge"
-              :ocupationData="form.ocupation"
+              :allowedOccupationsData="form.allowedOccupations"
               :allowedSmokersData="form.allowedSmokers"
               :allowedPetsData="form.allowedPets"
-              @updateRentInc="updateRentInc"
-              @updateGenre="updateGenre"
+              @updateAllowedGenders="updateAllowedGenders"
               @updateAllowedMinAge="updateAllowedMinAge"
               @updateAllowedMaxAge="updateAllowedMaxAge"
-              @updateOcupation="updateOcupation"
+              @updateAllowedOccupations="updateAllowedOccupations"
               @updateAllowedSmokers="updateAllowedSmokers"
               @updateAllowedPets="updateAllowedPets"/>
 
@@ -122,7 +146,7 @@
               <b-col cols="4">
                 <b-button-group>
                   <b-button @click="$router.go(-1)" variant="primary">Cancelar</b-button>
-                  <b-button @click="removeProperty()" variant="danger">Eliminar</b-button>
+                  <b-button @click="$refs['modal-del-property'].show()" variant="danger">Eliminar</b-button>
                   <b-button type="submit" variant="primary">Guardar</b-button>
                 </b-button-group>
               </b-col>
@@ -166,21 +190,37 @@ export default {
       district: null,
       city: null,
       address: '',
+      lat: 0,
+      lng: 0,
       furnished: false,
+      totalAccess: false,
       availability: '',
-      operation: null,
+      rent: true,
+      sell: false,
       rentPrice: 0,
       sellPrice: 0,
-      rentInc: [],
-      genre: 'undefined',
+      expensesIncluded: [],
+      allowedGenders: 'undefined',
       allowedMinAge: null,
       allowedMaxAge: null,
-      ocupation: [],
-      allowedSmoker: false,
-      allowedPets: false,
-      divEquipInc: [],
+      allowedOccupations: [
+        'student',
+        'studentWorker',
+        'worker',
+        'retired',
+        'unemployed'
+      ],
+      allowedSmokers: true,
+      allowedPets: true,
+      equipmentIncluded: [],
       bedrooms: [],
-      shared: {}
+      females: 0,
+      males: 0,
+      smokers: 0,
+      petsQuantity: 0,
+      occupations: [],
+      pets: [],
+      images: []
     },
     bedroom: {
       type: null,
@@ -188,64 +228,42 @@ export default {
       furnished: false,
       privateBathroom: false,
       availability: '',
-      rentPrice: 0
-    },
-    images: []
+      rentPrice: 0,
+      images: [],
+      peopleAmount: 0
+    }
   }),
   created () {
+    console.log(this.property)
     if (this.property) {
-      this.form.id = this.property.id
-      this.form.name = this.property.name
-      this.form.description = this.property.description
-      this.form.type = this.property.type
-      this.form.typology = this.property.typology
-      this.form.area = this.property.area
-      this.form.district = this.property.district
-      this.form.city = this.property.city
-      this.form.address = this.property.address
-      this.form.furnished = this.property.furnished
-      this.form.availability = this.property.availability
-      this.form.operation = this.property.operation
-      this.form.rentPrice = this.property.rentPrice
-      this.form.sellPrice = this.property.sellPrice
-      this.form.rentInc = this.property.rentInc
-      this.form.genre = this.property.genre
-      this.form.allowedMinAge = this.property.allowedMinAge
-      this.form.allowedMaxAge = this.property.allowedMaxAge
-      this.form.ocupation = this.property.ocupation
-      this.form.allowedSmoker = this.property.allowedSmoker
-      this.form.allowedPets = this.property.allowedPets
-      this.form.divEquipInc = this.property.divEquipInc
-      this.form.bedrooms = this.property.bedrooms
-      this.form.shared = this.property.shared
-      this.images = this.property.images
+      this.form = this.property
     }
   },
   computed: {
     ...mapState({
-      property: state => state.properties.property
+      property: state => state.properties.propertyEdit
     })
   },
   methods: {
     ...mapActions('properties', ['updateProperty', 'deleteProperty']),
+    removeProperty () {
+      this.deleteProperty(this.form.id)
+      this.$router.go(-2)
+    },
     updateImages (imgs) {
-      this.images = imgs
+      this.form.images = imgs
+    },
+    addImage (img) {
+      this.form.images.push(img)
+    },
+    removeImage (idx) {
+      this.form.images.splice(idx, 1)
     },
     onSubmit (evt) {
       evt.preventDefault()
-      // this.form.bedrooms = [this.bedroom]
-      // this.$bvModal.show('info')
-      var payload = this.prepareImagesPayload()
-      this.updateProperty(payload)
-    },
-    prepareImagesPayload () {
-      let formData = new FormData()
-      for (var i = 0; i < this.images.length; i++) {
-        let img = this.images[i]
-        formData.append('image[' + i + ']', img)
-      }
-      formData.append('property', this.form)
-      return formData
+      console.log(this.form)
+      this.updateProperty(this.form)
+      this.$router.go(-1)
     },
     updateDescription (value) {
       this.form.description = value
@@ -268,14 +286,27 @@ export default {
     updateAddress (value) {
       this.form.address = value
     },
+    updateLatitude (value) {
+      this.form.lat = value
+    },
+    updateLongitude (value) {
+      this.form.lng = value
+    },
     updateFurnished (value) {
       this.form.furnished = value
+    },
+    updateTotalAccess (value) {
+      this.form.totalAccess = value
     },
     updateAvailability (value) {
       this.form.availability = value
     },
-    updateOperation (checked) {
-      this.form.operation = checked
+    updateRent (checked) {
+      console.log(checked)
+      this.form.rent = checked
+    },
+    updateSell (checked) {
+      this.form.sell = checked
     },
     updateRentPrice (value) {
       this.form.rentPrice = value
@@ -284,11 +315,11 @@ export default {
       this.form.sellPrice = value
     },
 
-    updateRentInc (checked) {
-      this.form.rentInc = checked
+    updateExpensesIncluded (checked) {
+      this.form.expensesIncluded = checked
     },
-    updateGenre (value) {
-      this.form.genre = value
+    updateAllowedGenders (value) {
+      this.form.allowedGenders = value
     },
     updateAllowedMinAge (value) {
       this.form.allowedMinAge = value
@@ -296,36 +327,61 @@ export default {
     updateAllowedMaxAge (value) {
       this.form.allowedMaxAge = value
     },
-    updateOcupation (checked) {
-      this.form.ocupation = checked
+    updateAllowedOccupations (checked) {
+      this.form.allowedOccupations = checked
     },
     updateAllowedSmokers (checked) {
-      this.form.allowedSmoker = checked
+      this.form.allowedSmokers = checked
     },
     updateAllowedPets (checked) {
       this.form.allowedPets = checked
     },
 
     updateSharedFemales (value) {
-      this.form.shared.females = value
+      this.form.females = value
     },
     updateSharedMales (value) {
-      this.form.shared.males = value
+      this.form.males = value
     },
     updateSharedSmokers (value) {
-      this.form.shared.smokers = value
+      this.form.smokers = value
     },
-    updateSharedPets (value) {
-      this.form.shared.pets = value
+    updateSharedPetsQuantity (value) {
+      this.form.petsQuantity = value
     },
-    updateSharedOcupation (checked) {
-      this.form.shared.ocupation = checked
+    addPetType (pet) {
+      this.form.pets.push(pet)
     },
-    updateDivEquipInc (checked) {
-      this.form.divEquipInc = checked
+    deletePetType (idx) {
+      this.form.pets.splice(idx, 1)
+    },
+    updateSharedOccupation (checked) {
+      this.form.occupations = checked
+    },
+    updateEquipmentIncluded (checked) {
+      this.form.equipmentIncluded = checked
+    },
+    addBedroom () {
+      this.form.bedrooms.push(this.bedroom)
+      this.bedroom = {
+        type: null,
+        area: 0,
+        furnished: false,
+        privateBathroom: false,
+        availability: '',
+        rentPrice: 0,
+        images: [],
+        peopleAmount: 0
+      }
+    },
+    deleteBedroom (idx) {
+      this.form.bedrooms.splice(idx, 1)
     },
     updateBedroomType (checked) {
       this.bedroom.type = checked
+    },
+    updateBedroomPeopleAmount (checked) {
+      this.bedroom.peopleAmount = checked
     },
     updateBedroomArea (value) {
       this.bedroom.area = value
@@ -342,16 +398,14 @@ export default {
     updateBedroomRentPrice (value) {
       this.bedroom.rentPrice = value
     },
-    removeProperty () {
-      this.$refs['modal-del-property'].show()
+    updateBedroomImages (value) {
+      this.bedroom.images = value
     },
-    confirme (bool) {
-      if (bool) {
-        this.deleteProperty(this.property.id)
-        // TODO: Alterar
-        this.$router.push({ name: 'home' })
-      }
-      this.$refs['modal-del-property'].hide()
+    addBedroomImage (img) {
+      this.bedroom.images.push(img)
+    },
+    removeBedroomImage (idx) {
+      this.bedroom.images.splice(idx, 1)
     }
   }
 }

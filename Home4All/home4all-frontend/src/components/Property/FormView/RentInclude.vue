@@ -7,8 +7,8 @@
     <b-form-group id="rent-inc-form-group">
       <b-form-checkbox-group
         id="rent-inc-checkbox-group"
-        v-model="rentInc"
-        :options="optionsRentInc"
+        v-model="expensesIncluded"
+        :options="optionsExpensesIncluded"
         @change="change"
         buttons
         button-variant="secondary"
@@ -21,14 +21,14 @@
 export default {
   name: 'RentInclude',
   props: {
-    rentIncData: {
+    expensesIncludedData: {
       required: false,
       type: Array
     }
   },
   data: () => ({
-    rentInc: [],
-    optionsRentInc: [
+    expensesIncluded: [],
+    optionsExpensesIncluded: [
       { value: 'water', text: 'Água' },
       { value: 'eletricity', text: 'Eletricidade' },
       { value: 'cableTV', text: 'TV Cabo' },
@@ -39,13 +39,13 @@ export default {
     ]
   }),
   created () {
-    if (this.rentIncData) {
-      this.rentInc = this.rentIncData
+    if (this.expensesIncludedData) {
+      this.expensesIncluded = this.expensesIncludedData
     }
   },
   methods: {
     change (checked) {
-      this.$emit('updateRentInc', checked)
+      this.$emit('updateExpensesIncluded', checked)
     }
   }
 }
