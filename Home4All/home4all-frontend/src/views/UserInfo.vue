@@ -183,6 +183,12 @@ export default {
   }),
   created () {
     this.getUser()
+    this.eventsFrom = getDateBegin()
+    this.eventsTo = getDateEnd()
+    this.getStatisticsInfo({
+      dateBegin: this.eventsFrom,
+      dateEnd: this.eventsTo
+    })
     this.form.name = this.$store.state.login.user.name
     if (this.$store.state.login.user.phone) {
       this.form.phone = this.$store.state.login.user.phone
@@ -201,6 +207,25 @@ export default {
   methods: {
     ...mapActions('users', ['addUser', 'updateUser', 'deleteUser']),
     ...mapActions('login', ['getUser']),
+    ...mapActions('statistics', ['getStatisticsInfo']),
+    getDateEnd () {
+      const toTwoDigits = num => num < 10 ? '0' + num : num
+      let today = new Date()
+      let year = today.getFullYear()
+      let month = toTwoDigits(today.getMonth())
+      let day = toTwoDigits(today.getDate())
+      return `${year}-${month}-${day}`
+    },
+    getDateBegin () {
+      const toTwoDigits = num => num < 10 ? '0' + num : num
+      let today = new Date()
+      let year = today.getFullYear()
+      today.setMonth(today.getMonth() - 1)
+      let month = toTwoDigits(today.getMonth())
+      let day = toTwoDigits(today.getDate())
+      return `${year}-${month}-${day}`
+    },
+    
     onSubmit (evt) {
       evt.preventDefault()
       console.log(this.form)
