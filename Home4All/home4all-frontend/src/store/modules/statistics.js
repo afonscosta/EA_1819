@@ -1,32 +1,26 @@
 import statisticsService from '../../services/statisticsService'
 
 const state = {
-  statistics: {
-    g1: '',
-    g2: ''
-  }
+  statistics: {}
 }
 
 const getters = {
-  g1: state => {
-    return state.statistics.g1
-  },
-  g2: state => {
-    return state.statistics.g2
+  statistics: state => {
+    return state.statistics
   }
 }
 
 const mutations = {
   setStatistics (state, statistics) {
-    state.statistics.g1 = statistics.g1
-    state.statistics.g2 = statistics.g2
+    state.statistics = statistics
   }
 }
 
 const actions = {
   getStatisticsInfo ({ commit }, payload) {
-    console.log(payload)
     statisticsService.fetchStatistics(payload).then(statistics => {
+      console.log('STATISTICS')
+      console.log(statistics.g1)
       commit('setStatistics', statistics)
     })
   }
