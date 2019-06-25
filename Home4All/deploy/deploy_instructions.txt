@@ -1,0 +1,58 @@
+
+# BASE DE DADOS - POSTGRESQL
+
+# Path do ficheiro de configuração
+>  psql -U postgres -c 'SHOW config_file'
+
+# pg_hba.conf - acrescentar:
+host    all             all             0.0.0.0/0            md5
+
+# postgresql.conf - alterar:
+listen_addresses = '*'
+# descomentar o anterior e a porta - testar necessidade
+
+# restart do postgres
+
+
+
+# SERVIDOR APLICACIONAL
+
+# Colocar o IP do servidor de base de dados na configuração do Hibernate 'Home4All.cfg.xml'
+
+# wildfly-16.0.0.Final\standalone\configuration\standalone.xml
+# antigo
+<interfaces>
+    <interface name="management">
+        <inet-address value="${jboss.bind.address.management:127.0.0.1}"/>
+    </interface>
+    <interface name="public">
+        <inet-address value="${jboss.bind.address:127.0.0.1}"/>
+    </interface>
+</interfaces>
+
+# novo
+<interfaces>
+    <interface name="management">
+        <inet-address value="${jboss.bind.address.management:0.0.0.0}"/>
+    </interface>
+    <interface name="public">
+        <inet-address value="${jboss.bind.address:0.0.0.0}"/>
+    </interface>
+</interfaces>
+
+
+
+# SERVIDOR WEB
+
+# instalar httpd
+# start httpd
+# copiar configuração
+	# listen 80
+	# Descomentar LoadModules de acordo com a configuração
+	# Adicionar Virtual Host
+> yarn install
+> yarn build
+# copiar o conteúdo da diretoria dist para o DocumentRoot do ficheiro de configuração
+> sudo chown -R _www /usr/local/var/www/index.html
+# não iniciar com o brew
+# fazer 'sudo apachectl start'
