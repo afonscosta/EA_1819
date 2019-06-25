@@ -79,8 +79,20 @@ public class Home4All {
         return usersBean.getComplaints();
     }
 
-    public static void blockUser(Integer userId)  throws PersistentException{
-        usersBean.blockUser(userId);
+    public static boolean blockUser(Integer userID)  throws PersistentException{
+        return usersBean.blockUser(userID);
+    }
+
+    public static boolean blockProperty(Integer propertyID)  throws PersistentException{
+        return propertyBean.blockProperty(propertyID);
+    }
+
+    public static boolean isBlocked(Integer userID) throws  PersistentException{
+        return usersBean.isBlocked(userID);
+    }
+
+    public static Complaint insertComplaint(String description, String propertyID) throws PersistentException{
+        return usersBean.insertComplaint(description,propertyID);
     }
 
     public static Property registerSharedProperty(

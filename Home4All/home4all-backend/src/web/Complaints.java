@@ -2,6 +2,7 @@ package web;
 
 import business.Home4All;
 import business.entities.Admin;
+import business.entities.Complaint;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -25,14 +27,11 @@ public class Complaints  extends HttpServlet {
         try{
             HttpSession session = request.getSession(false);
             business.entities.Users currentUser = (business.entities.Users) session.getAttribute("currentSessionUser");
-            //O admin bane imóvel ou user
-            if (currentUser instanceof  Admin){
-
-            }
             // Um user denuncia um imovel
-            else{
-
-            }
+            BufferedReader reader = request.getReader();
+            Map c = gson.fromJson(reader, Map.class);
+            Complaint complaint = Home4All.insertComplaint((String) c.get("description"),
+                                                            (String) c.get("propertyID"));
         }
         catch (Exception e) {
             response.setContentType("text/html");

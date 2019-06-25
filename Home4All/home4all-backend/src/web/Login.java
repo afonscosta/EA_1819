@@ -36,7 +36,6 @@ public class Login extends HttpServlet {
             Users currentUser = Home4All.login(email, password);
 
             if (currentUser!=null) {
-                session.setAttribute("currentSessionUser", currentUser);
                 /*
                 Enumeration<String> headers = request.getHeaderNames();
                 while (headers.hasMoreElements()) {
@@ -45,14 +44,21 @@ public class Login extends HttpServlet {
                     System.out.println(request.getHeader(header));
                 }
                 */
-                System.out.println("CONSEGUI AUTENTICAR");
                 String data_parser;
                 if (!(currentUser instanceof Admin)) {
-                    Common info_user = Home4All.getUser(currentUser.getID());
-                    data_parser = Parser.currentUserToJson(session.getId(), info_user);
+                    boolean isBlocked = Home4All.isBlocked(currentUser.getID());
+                    if(!isBlocked) {
+                        session.setAttribute("currentSessionUser", currentUser);
+                        Common info_user = Home4All.getUser(currentUser.getID());
+                        data_parser = Parser.currentUserToJson(session.getId(), info_user);
+                    }
+                    else {
+                        throw new Exception("ERRO: O utilizador está bloqueado");
+                    }
 
                 }
                 else{
+                    session.setAttribute("currentSessionUser", currentUser);
                     data_parser = Parser.currentSessionToJson(session.getId());
                 }
                 response.setContentType("application/json"); // multipart/form-data

@@ -8,6 +8,7 @@ import data.*;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -279,7 +280,7 @@ public class UsersBean implements UsersBeanLocal {
     public List<Map<String,Object>> getComplaints() throws PersistentException{
         PersistentSession session = getSession();
 
-        Query query = session.createSQLQuery("select p.ID, p.Name, c.Description, p.Owner from Property as p, Complaint as c where p.ID = c.propertyID order by p.ID");
+        Query query = session.createSQLQuery("select p.ID, p.Name, c.Description, p.usersID from Property as p, Complaint as c where p.ID = c.propertyID AND p.blocked = false");
         List<Object[]> queryResult = query.list();
         System.out.println(queryResult);
 
@@ -289,6 +290,7 @@ public class UsersBean implements UsersBeanLocal {
             Integer id = (Integer) comp[0];
             String name = (String) comp[1];
             String description = (String) comp[2];
+            Integer owner = (Integer) comp[3];
 
             if (complaints.containsKey(id)){
                 List complaintsValues = (List) complaints.get(id).get("complaints");
@@ -298,6 +300,7 @@ public class UsersBean implements UsersBeanLocal {
                 Map<String, Object> aux = new HashMap<>();
                 aux.put("id",id);
                 aux.put("name",name);
+                aux.put("owner", owner);
                 List complaints_aux = new ArrayList<>();
                 complaints_aux.add(description);
                 aux.put("complaints", complaints_aux);
@@ -307,17 +310,51 @@ public class UsersBean implements UsersBeanLocal {
         return new ArrayList<>(complaints.values());
     }
 
-    public void blockUser(int ID) throws PersistentException{
+    public boolean blockUser(int ID) throws PersistentException{
         PersistentSession session = getSession();
         Common userInfo = CommonDAO.getCommonByORMID(session,ID);
-        userInfo.setBlocked(true);
-        CommonDAO.save(userInfo);
-        Property[] userProperties = PropertyDAO.listPropertyByQuery(session, "usersId=" + userInfo.getID(), null);
-        System.out.println(userProperties);
-        for (Property p: userProperties ){
-            p.setBlocked(true);
-            PropertyDAO.save(p);
+        if (userInfo!= null) {
+            userInfo.setBlocked(true);
+            CommonDAO.save(userInfo);
+            Property[] userProperties = PropertyDAO.listPropertyByQuery(session, "usersId=" + userInfo.getID(), null);
+            System.out.println(userProperties);
+            for (Property p : userProperties) {
+                p.setBlocked(true);
+                PropertyDAO.save(p);
+            }
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public boolean isBlocked(int ID) throws PersistentException{
+        PersistentSession session = getSession();
+        Common userInfo = CommonDAO.getCommonByORMID(session,ID);
+        if (userInfo!= null){
+            return userInfo.getBlocked();
+        }
+        else{
+            return true;
         }
     }
 
+    public Complaint insertComplaint(String description, String propertyID) throws PersistentException{
+        PersistentSession session = getSession();
+        PersistentTransaction t = session.beginTransaction();
+        try {
+            Complaint complaint = ComplaintDAO.createComplaint();
+            complaint.setDescription(description);
+            Property property = PropertyDAO.getPropertyByORMID(session, Integer.parseInt(propertyID));
+            property.complaints.add(complaint);
+            PropertyDAO.save(property);
+            ComplaintDAO.save(complaint);
+            t.commit();
+            return complaint;
+        }
+        catch (Exception e) {
+            t.rollback();
+            throw e;
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package web;
 
 import business.Home4All;
+import business.entities.Admin;
 import business.entities.Property;
 import business.entities.Users;
 import com.google.gson.Gson;
@@ -11,6 +12,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -139,17 +142,29 @@ public class Properties extends HttpServlet {
 
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            // String id_str = request.getParameter("propertyId");
-            String id_str = request.getPathInfo().substring(1);
-            if (id_str != null) {
-                int id = Integer.parseInt(id_str);
-                if (!Home4All.deleteProperty(id))
+            HttpSession session = request.getSession(false);
+            business.entities.Users currentUser = (business.entities.Users) session.getAttribute("currentSessionUser");
+            if (currentUser instanceof Admin) {
+                System.out.println("Admin vai bloquear property...");
+                BufferedReader reader = request.getReader();
+                Map u = gson.fromJson(reader, Map.class);
+                Integer propertyID = Integer.parseInt((String)u.get("id"));
+                boolean res = Home4All.blockProperty(propertyID);
+                if (!res){
                     throw new Exception("ERRO: Imóvel não encontrado.");
+                }
             }
             else {
-                throw new Exception("ERRO: Identificador do imóvel em falta.");
+                // String id_str = request.getParameter("propertyId");
+                String id_str = request.getPathInfo().substring(1);
+                if (id_str != null) {
+                    int id = Integer.parseInt(id_str);
+                    if (!Home4All.deleteProperty(id))
+                        throw new Exception("ERRO: Imóvel não encontrado.");
+                } else {
+                    throw new Exception("ERRO: Identificador do imóvel em falta.");
+                }
             }
-
             response.setContentType("application/json"); // multipart/form-data
             response.setCharacterEncoding("UTF-8");
         }

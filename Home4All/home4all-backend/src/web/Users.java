@@ -120,8 +120,12 @@ public class Users extends HttpServlet {
                 BufferedReader reader = request.getReader();
                 Map u = gson.fromJson(reader, Map.class);
                 Integer userID = Integer.parseInt((String)u.get("id"));
-                Home4All.blockUser(userID);
-
+                boolean res = Home4All.blockUser(userID);
+                if (!res){
+                    throw new Exception("ERRO: Utilizador não encontrado.");
+                }
+                response.setContentType("application/json"); // multipart/form-data
+                response.setCharacterEncoding("UTF-8");
             }
         }
         catch (Exception e) {

@@ -577,4 +577,16 @@ public class PropertyBean implements PropertyBeanLocal {
                 parameters
         );
     }
+
+    public boolean blockProperty(Integer propertyID)  throws PersistentException {
+        PersistentSession session = getSession();
+        Property property = PropertyDAO.getPropertyByORMID(session, propertyID);
+        if (property != null) {
+            property.setBlocked(true);
+            PropertyDAO.save(property);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

@@ -51,4 +51,6 @@ public interface PropertyBeanLocal {
                 // User Information
                 Gender userGender, Occupation userOccupation, Integer userAge)
             throws PersistentException, OrdinationNotExistentException;
+
+    boolean blockProperty(Integer propertyID)  throws PersistentException;
 }
