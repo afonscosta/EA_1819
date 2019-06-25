@@ -2,12 +2,12 @@
   <div id="login">
     <h1> Login </h1>
 
-    <facebook-login class="button"
+    <!-- <facebook-login class="button"
       appId="1326428550840901"
       @login="getUserData"
       @logout="onLogout"
       @get-initial-status="getUserData">
-    </facebook-login>
+    </facebook-login> -->
 
     <hr class="hr-text" data-content="OR">
 

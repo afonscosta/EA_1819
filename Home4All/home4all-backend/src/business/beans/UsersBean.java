@@ -124,7 +124,7 @@ public class UsersBean implements UsersBeanLocal {
             System.out.println(user.getID());
             Gender genderValue;
             if (gender != null) {
-                genderValue = GenderDAO.loadGenderByORMID(gender);
+                genderValue = GenderDAO.loadGenderByORMID(s,gender);
                 user.setGender(genderValue);
                 if (genderValue == null)
                     throw new GenderNotExistentException();
@@ -132,7 +132,7 @@ public class UsersBean implements UsersBeanLocal {
 
             Occupation occupationValue;
             if (occupation != null) {
-                occupationValue = OccupationDAO.loadOccupationByORMID(occupation);
+                occupationValue = OccupationDAO.loadOccupationByORMID(s,occupation);
                 user.setOccupation(occupationValue);
                 if (occupationValue == null)
                     throw new OccupationNotExistentException();
