@@ -51,6 +51,7 @@ public class Users extends HttpServlet {
     }
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws IOException {
+        LOGGER.info("GET USERS");
         try {
             String jsonData;
 

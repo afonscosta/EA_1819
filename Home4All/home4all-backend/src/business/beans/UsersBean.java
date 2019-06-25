@@ -78,7 +78,7 @@ public class UsersBean implements UsersBeanLocal {
                 if (genderValue == null)
                     throw new GenderNotExistentException();
             } else {
-                genderValue = null;
+                throw new GenderNotExistentException();
             }
             Occupation occupationValue;
             if (occupation != null) {
@@ -86,7 +86,7 @@ public class UsersBean implements UsersBeanLocal {
                 if (occupationValue == null)
                     throw new OccupationNotExistentException();
             } else {
-                occupationValue = null;
+                throw new OccupationNotExistentException();
             }
             System.out.println(genderValue);
             System.out.println(occupationValue);
