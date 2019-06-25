@@ -124,11 +124,21 @@
                   placeholder="Selecione uma data"
                 ></b-form-input>
         </b-form-group>
+
+        <b-button v-on:click="getStatisticsInfo({dateBegin: eventsFrom, dateEnd: eventsTo})" type="submit" variant="primary">Procurar</b-button>
       </b-row>
 
       <GChart
+        v-if="chartData[0].length > 1"
         type="ColumnChart"
-        :data="chartData"
+        :data="chartData[0]"
+        :options="chartOptions"
+      />
+
+      <GChart
+        v-if="chartData[1].length > 1"
+        type="ColumnChart"
+        :data="chartData[1]"
         :options="chartOptions"
       />
     </div>
@@ -136,7 +146,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import { GChart } from 'vue-google-charts'
 
 export default {
@@ -145,13 +155,14 @@ export default {
     showInfoVendas: false,
     eventsTo: '',
     eventsFrom: '',
-    chartData: [
-        ['Data', 'Vendas'],
-        ['2/3/2014', 1000],
-        ['2015', 1170],
-        ['2016', 660],
-        ['2017', 1030]
-      ],
+    // chartData: [['Data', 'Vendas']],
+    // chartData: [
+    //     ['Data', 'Vendas'],
+    //     ['2/3/2014', 1000],
+    //     ['2015', 1170],
+    //     ['2016', 660],
+    //     ['2017', 1030]
+    //   ],
     chartOptions: {
       title: 'Company Performance'
     },
@@ -196,15 +207,49 @@ export default {
     console.log(this.$store.state.login.user.occupation)
     this.form.ocupation = this.$store.state.login.user.occupation
   },
-  //   computed: {
-  //     ...mapState({
-  //       users: state => state.users.users
-  //     })
-  //   },
+  computed: {
+    ...mapState({
+      statistics: state => state.statistics.statistics
+    }),
+    chartData () {
+      let res = [[], []]
+      if (Object.keys(this.statistics).length > 0) {
+        console.log(this.statistics)
+        res = [[['Data', 'Vendas']], [['Data', 'Anunciados', 'Vendidos/Alugados']]]
+        let keys = Object.keys(this.statistics.g1)
+        for (var i = 0; i < keys.length; i++) {
+          res[0].push([keys[i], this.statistics.g1[keys[i]]])
+        }
+        keys = Object.keys(this.statistics.g2)
+        for (var i = 0; i < keys.length; i++) {
+          res[1].push([
+            keys[i],
+            this.statistics.g2[keys[i]].key,
+            this.statistics.g2[keys[i]].value,
+          ])
+        }
+      }
+      console.log('result', res)
+      return res
+    }
+  },
   methods: {
     ...mapActions('users', ['addUser', 'updateUser', 'deleteUser']),
     ...mapActions('login', ['getUser']),
     ...mapActions('statistics', ['getStatisticsInfo']),
+    // parseGraphData () {
+    //   console.log('PARSE GRAPH')
+    //   console.log(this.statistics)
+    //   // let keys = Object.keys(this.$store.state.statistics.statistics)
+    //   // for (var i = 0; i < keys.length; i++) {
+    //   //   console.log(keys[i])
+    //   //   console.log(this.$store.state.statistics.statistics.g1[keys[i]])
+    //   //   // this.chartData.push([key, this.$store.state.statisticsstatistics.g1[key]])
+    //   // }
+
+    //   // console.log('CHART DATA')
+    //   // console.log(this.chartData)
+    // },
     getDateEnd () {
       const toTwoDigits = num => num < 10 ? '0' + num : num
       let today = new Date()
