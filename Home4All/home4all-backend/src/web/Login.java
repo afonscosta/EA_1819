@@ -77,7 +77,7 @@ public class Login extends HttpServlet {
             LOGGER.info("FAILED LOGIN");
             response.setContentType("text/html");
             response.setCharacterEncoding("UTF-8");
-            response.sendError(javax.servlet.http.HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
+            response.sendError(javax.servlet.http.HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, e.getMessage());
             e.printStackTrace();
         }
     }
