@@ -1,5 +1,6 @@
 <template>
   <b-card
+    class="footer-app"
     tag="footer"
     bg-variant="dark"
     text-variant="white"
@@ -17,5 +18,8 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
+.footer-app {
+  border-radius: 0rem !important;
+}
 </style>

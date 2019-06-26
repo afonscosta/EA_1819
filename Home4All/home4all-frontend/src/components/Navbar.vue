@@ -1,14 +1,14 @@
 <template>
-  <div>
+  <div class="navbar-div">
     <b-navbar toggleable="sm" type="light" variant="light">
       <b-navbar-brand>
-        <router-link :to="{ name: 'home' }">Home4All</router-link>
+        <router-link :to="{ name: 'home' }"><img class="icon" height="42" width="42" src="@/assets/logo.svg"/></router-link>
       </b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" style="width: 100%" is-nav>
-        <b-navbar-nav class="mx-auto">
+        <b-navbar-nav class="ml-auto">
           <b-nav-item>
             <router-link :to="{ name: 'search' }">Pesquisar</router-link>
           </b-nav-item>
@@ -65,3 +65,41 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.icon {
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  width: 150px !important;
+  height: auto !important;
+}
+
+a {
+  color: #343a40;
+  font-size: 1.3rem;
+}
+
+.router-link-active {
+  color: #FF8000;
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+a:hover {
+  color: #994c00;
+}
+
+.nav-link {
+  margin-left: 1.5rem;
+}
+
+.navbar-div {
+  border-bottom: 0.5rem solid #FF8000 !important;
+}
+
+@media (max-width: 576px) {
+  a {
+    font-size: 1.3rem;
+  }
+}
+</style>

@@ -1,15 +1,15 @@
 <template>
-  <div>
+  <div class="search">
     <SearchBox class="mt-3" />
     <b-container class="mt-3">
       <b-row>
         <b-col>
           <b-pagination
-            align="center"
+            align="fill"
+            size="sm"
             v-model="currentPage"
             :total-rows="rows"
             :per-page="perPage"
-            aria-controls="my-table"
             @change="operation = []"
           ></b-pagination>
         </b-col>
@@ -19,22 +19,23 @@
           <b-card
             class="card-prop"
             v-for="(prop, idx) in currentList" :key="idx"
+            @click="goToProperty(prop)"
           >
-            <b-row>
+            <b-row align-v="top">
               <b-col class="container-image" lg="3" cols="12">
                 <img :src="prop.images[currentImage[idx]]"/>
                 <b-button
                   :disabled="currentImage[idx] === 0"
-                  @click="operation = [currentImage, '-', idx]"
+                  @click.stop="operation = [currentImage, '-', idx]"
                   class="btn-left round" variant="primary">&#8249;</b-button>
                 <b-button
                   :disabled="currentImage[idx] === prop.images.length - 1"
-                  @click="operation = [currentImage, '+', idx]"
+                  @click.stop="operation = [currentImage, '+', idx]"
                   class="btn-right round" variant="primary">&#8250;</b-button>
               </b-col>
-              <b-col @click="goToProperty(prop)" class="data-col" align="left" lg="6" cols="12">
-                <b-card-text class="mt-2">{{ prop.name }}</b-card-text>
-                <b-card-text v-if="prop.rent">{{ prop.rentPrice }} €/mês</b-card-text>
+              <b-col align="left" lg="6" cols="12">
+                <b-card-title class="mt-2">{{ prop.name }}</b-card-title>
+                <b-card-text v-if="prop.rent && !prop.bedrooms">{{ prop.rentPrice }} €/mês</b-card-text>
                 <b-card-text v-if="prop.sell">{{ prop.sellPrice }} €</b-card-text>
                 <b-card-text>{{ prop.address }}</b-card-text>
               </b-col>
@@ -50,11 +51,11 @@
       <b-row>
         <b-col>
           <b-pagination
-            align="center"
+            align="fill"
+            size="sm"
             v-model="currentPage"
             :total-rows="rows"
             :per-page="perPage"
-            aria-controls="my-table"
             @change="operation = []"
           ></b-pagination>
         </b-col>
@@ -135,17 +136,13 @@ img {
 
 .card-prop {
   margin-bottom: 1rem;
-}
-
-.data-col {
   cursor: pointer;
   border-width: 2px;
 }
 
-.data-col:hover {
+.card-prop:hover {
   background-color: #f8f9fa;
   border-color: #343a40;
-  border-radius: 2%;
 }
 
 .container-image {

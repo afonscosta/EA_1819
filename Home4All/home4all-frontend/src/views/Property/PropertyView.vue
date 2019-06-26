@@ -9,24 +9,30 @@
       <b-row class="justify-content-md-center">
         <b-col>
           <b-card-group deck class="deck-images-prop-info">
-            <Images :images="property.images" class="images"/>
-            <PropertyInfo
-              :description="property.description"
-              :type="property.type"
-              :typology="property.typology"
-              :area="property.area"
-              :district="property.district"
-              :city="property.city"
-              :address="property.address"
-              :lat="property.lat"
-              :lng="property.lng"
-              :furnished="property.furnished"
-              :totalAccess="property.totalAccess"
-              :availability="property.availability"
-              :rent="property.rent"
-              :sell="property.sell"
-              :rentPrice="property.rentPrice"
-              :sellPrice="property.sellPrice"/>
+            <b-row class="m-0 p-0">
+              <b-col class="m-0 p-0">
+                <Images :images="property.images" class="images"/>
+              </b-col>
+              <b-col class="m-0 p-0">
+                <PropertyInfo
+                  :description="property.description"
+                  :type="property.type"
+                  :typology="property.typology"
+                  :area="property.area"
+                  :district="property.district"
+                  :city="property.city"
+                  :address="property.address"
+                  :lat="property.lat"
+                  :lng="property.lng"
+                  :furnished="property.furnished"
+                  :totalAccess="property.totalAccess"
+                  :availability="property.availability"
+                  :rent="property.rent"
+                  :sell="property.sell"
+                  :rentPrice="property.rentPrice"
+                  :sellPrice="property.sellPrice"/>
+              </b-col>
+            </b-row>
           </b-card-group>
 
           <Bedroom
@@ -56,10 +62,11 @@
             :allowedOccupations="property.allowedOccupations"
             :allowedSmokers="property.allowedSmokers"
             :allowedPets="property.allowedPets"/>
-          <b-button @click="editProperty()" variant="primary">Editar</b-button>
-          <b-button :disabled="num_props_compare === 3"
+
+          <b-button class="mb-3" @click="editProperty()" variant="primary">Editar</b-button>
+          <b-button class="mb-3" :disabled="num_props_compare === 3"
             @click="addPropCompare(property)" variant="primary">Comparar</b-button>
-          <b-button variant="danger">Denunciar</b-button>
+          <b-button class="mb-3" variant="danger">Denunciar</b-button>
         </b-col>
       </b-row>
     </b-container>

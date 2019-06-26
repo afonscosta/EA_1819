@@ -6,20 +6,20 @@
   >
     <b-row>
       <b-col>
-        <p>Género: {{ allowedGenders }}</p>
+        <p><strong>Género:</strong> {{ allowedGenders }}</p>
       </b-col>
       <b-col>
-        <p>Idade mínima: {{
+        <p><strong>Idade mínima:</strong> {{
           allowedMinAge ? allowedMinAge : 'não existe limite'
         }}</p>
       </b-col>
       <b-col>
-        <p>Idade máxima: {{
+        <p><strong>Idade máxima:</strong> {{
           allowedMaxAge ? allowedMaxAge : 'não existe limite'
         }}</p>
       </b-col>
     </b-row>
-    <b-form-group id="tenants-wanted-ocupation-form-group" label="Ocupação:">
+    <b-form-group align="left" id="tenants-wanted-ocupation-form-group" label="Ocupação:">
       <b-form-checkbox-group
         id="checkbox-group-1"
         v-model="allowedOccupations"
