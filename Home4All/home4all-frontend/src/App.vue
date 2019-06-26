@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Navbar></Navbar>
-    <router-view />
+    <router-view/>
     <Footer/>
   </div>
 </template>
@@ -19,6 +19,19 @@ export default {
 </script>
 
 <style>
+html,
+body {
+ height: 100%;
+ width: 100%;
+}
+
+#app {
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 100%;
+}
+
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -37,5 +50,4 @@ export default {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
-
 </style>

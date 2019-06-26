@@ -156,6 +156,7 @@ public class Properties extends HttpServlet {
             }
             else {
                 // String id_str = request.getParameter("propertyId");
+                // TODO: Validar se utilizador autenticado é dono do imóvel
                 String id_str = request.getPathInfo().substring(1);
                 if (id_str != null) {
                     int id = Integer.parseInt(id_str);

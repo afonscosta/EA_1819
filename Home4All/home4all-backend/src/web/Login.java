@@ -59,7 +59,9 @@ public class Login extends HttpServlet {
                 }
                 else{
                     session.setAttribute("currentSessionUser", currentUser);
-                    data_parser = Parser.currentSessionToJson(session.getId());
+                    Users info_user = Home4All.getUserbyUsers(currentUser.getID());
+                    System.out.println(info_user);
+                    data_parser = Parser.currentAdminToJson(session.getId(), info_user);
                 }
                 response.setContentType("application/json"); // multipart/form-data
                 response.setCharacterEncoding("UTF-8");
@@ -75,7 +77,7 @@ public class Login extends HttpServlet {
             LOGGER.info("FAILED LOGIN");
             response.setContentType("text/html");
             response.setCharacterEncoding("UTF-8");
-            response.sendError(javax.servlet.http.HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
+            response.sendError(javax.servlet.http.HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, e.getMessage());
             e.printStackTrace();
         }
     }

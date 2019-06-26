@@ -5,11 +5,11 @@
         <b-card bg-variant="light">
           <b-row align-h="center">
             <b-col>
-              <h5 align="left">Localização</h5>
+              <h5 align="left"><strong>Localização</strong></h5>
             </b-col>
           </b-row>
           <b-row class="mb-3">
-            <b-col align="left" lg="8">
+            <b-col align="left" cols="12" lg="8">
               <gmap-autocomplete
                 class="form-control"
                 placeholder="Insira uma localização"
@@ -17,10 +17,10 @@
                 @place_changed="setPlace">
               </gmap-autocomplete>
             </b-col>
-            <b-col lg="2">
+            <b-col class="rent-sell" cols="6" lg="2">
               <b-form-checkbox v-model="filters.rent">Arrendar</b-form-checkbox>
             </b-col>
-            <b-col lg="2">
+            <b-col class="rent-sell" cols="6" lg="2">
               <b-form-checkbox v-model="filters.sell">Comprar</b-form-checkbox>
             </b-col>
           </b-row>
@@ -31,9 +31,17 @@
                   <b-col>
                     <h6 align="left">Filtros</h6>
                   </b-col>
+                  <b-col align="right">
+                    <b-button v-if="!hiddenFinal" @click="hiddenFinal = !hidden" size="sm" variant="primary">
+                      <font-awesome-icon icon="minus" />
+                    </b-button>
+                    <b-button v-if="hiddenFinal" @click="hiddenFinal = !hidden" size="sm" variant="primary">
+                      <font-awesome-icon icon="plus" />
+                    </b-button>
+                  </b-col>
                 </b-row>
-                <b-row align-h="center">
-                  <b-col>
+                <b-row v-if="!hiddenFinal" align-h="center">
+                  <b-col cols="12" md="2">
                     <b-dropdown id="dropdown-form" variant="light" text="Imóvel" ref="dropdown">
                       <b-col>
                         <b-form-checkbox v-model="filters.bedrooms" class="mb-3">Quarto</b-form-checkbox>
@@ -42,7 +50,7 @@
                       </b-col>
                     </b-dropdown>
                   </b-col>
-                  <b-col>
+                  <b-col cols="12" md="2">
                     <b-dropdown id="dropdown-form" variant="light" text="Tipologia" ref="dropdown">
                       <b-row>
                         <b-col>
@@ -64,7 +72,7 @@
                       </b-row>
                     </b-dropdown>
                   </b-col>
-                  <b-col>
+                  <b-col cols="12" md="2">
                     <b-dropdown id="dropdown-form" variant="light" text="Preço" ref="dropdown">
                       <b-row>
                         <b-col>
@@ -103,7 +111,7 @@
                       </b-row>
                     </b-dropdown>
                   </b-col>
-                  <b-col>
+                  <b-col cols="12" md="2">
                     <b-dropdown id="dropdown-form" variant="light" text="Ordenação" ref="dropdown">
                       <b-col>
                         <p v-if="filters.rent ^ filters.sell">Preço</p>
@@ -115,7 +123,7 @@
                           v-if="filters.rent ^ filters.sell"
                           v-model="filters.priceHighestFirst"
                           class="mb-3">mais caro - mais baixo</b-form-checkbox>
-                        <b-dropdown-divider></b-dropdown-divider>
+                        <b-dropdown-divider v-if="filters.rent ^ filters.sell"></b-dropdown-divider>
                         <p>Data publicação</p>
                         <b-form-checkbox
                           v-model="filters.publicationDateNewestFirst"
@@ -134,10 +142,9 @@
                       </b-col>
                     </b-dropdown>
                   </b-col>
-
-                  <b-col>
+                  <b-col cols="12" md="2">
                     <b-dropdown id="dropdown-form" right variant="light" text="Avançados" ref="dropdown">
-                      <b-col style="width: 700px;">
+                      <b-col class="advance-filters">
                         <p><strong>Tipo de quartos</strong></p>
                         <b-row>
                           <b-col cols="9">
@@ -277,7 +284,10 @@
           </b-row>
           <b-row class="mt-3">
             <b-col align="right">
-              <b-button class="search-button" @click="search">Pesquisar</b-button>
+              <b-button class="search-button" @click="search">
+                <font-awesome-icon icon="search" />
+                Pesquisar
+              </b-button>
             </b-col>
           </b-row>
         </b-card>
@@ -292,6 +302,7 @@ import { mapActions } from 'vuex'
 export default {
   name: 'SearchBox',
   data: () => ({
+    hidden: false,
     district: null,
     city: null,
     address: null,
@@ -346,8 +357,50 @@ export default {
       { value: 'worker', text: 'Trabalhador' },
       { value: 'retired', text: 'Reformado' },
       { value: 'unemployed', text: 'Desempregado' }
-    ]
+    ],
+    windowWidth: window.innerWidth
   }),
+  mounted () {
+    window.addEventListener('resize', () => {
+      this.windowWidth = window.innerWidth
+      if (this.windowWidth <= 576) {
+        this.hidden = true
+      } else {
+        this.hidden = false
+      }
+      console.log(this.isMobile)
+    })
+  },
+  computed: {
+    // Ver como se pode fazer
+    isMobile: {
+      get: function () {
+        if (this.windowWidth <= 576) {
+          return true
+        }
+        return false
+      },
+      set: function (newValue) {
+        this.hidden = newValue
+      }
+    },
+    hiddenFinal: {
+      // getter
+      get: function () {
+        if (this.isMobile) {
+          if (!this.hidden) {
+            return false
+          }
+          return true
+        }
+        return this.hidden
+      },
+      // setter
+      set: function (newValue) {
+        this.hidden = newValue
+      }
+    }
+  },
   methods: {
     ...mapActions('properties', ['doSearch']),
     setPlace (place) {
@@ -492,5 +545,21 @@ export default {
 
 .form-control {
   width: 100%;
+}
+
+@media (max-width: 576px) {
+  .rent-sell {
+    margin-top: 1rem;
+  }
+}
+
+.advance-filters {
+  width: 700px;
+}
+
+@media (max-width: 576px) {
+  .advance-filters {
+    width: auto;
+  }
 }
 </style>

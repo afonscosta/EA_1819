@@ -1,8 +1,8 @@
 <template>
-  <b-container class="mt-3">
+  <b-container>
     <b-row align-h="center">
-      <b-col>
-        <b-card bg-variant="light">
+      <b-col class="p-0">
+        <b-card class="search-form" bg-variant="light">
           <b-row align-h="center">
             <b-col>
               <p align="left">Localização</p>
@@ -10,23 +10,23 @@
           </b-row>
           <b-row align-h="center">
             <b-col>
-              <b-form inline @submit="search">
-                <label class="mb-2 mr-2">
-                  <gmap-autocomplete
-                    class="form-control"
-                    placeholder="Insira uma localização"
-                    :componentRestrictions="{ country: ['pt'] }"
-                    @place_changed="setPlace">
-                  </gmap-autocomplete>
-                </label>
-
-                <b-form-select
-                  v-model="selectedDistance"
-                  :options="optionsDistance"
-                  class="mb-2 mr-2 ml-2"
-                ></b-form-select>
-
-                <b-button type="submit" class="search-button">Pesquisar</b-button>
+              <b-form @submit="search">
+                <b-row>
+                  <b-col cols="12" sm="8" md="9">
+                    <gmap-autocomplete
+                      class="form-control"
+                      placeholder="Insira uma localização"
+                      :componentRestrictions="{ country: ['pt'] }"
+                      @place_changed="setPlace">
+                    </gmap-autocomplete>
+                  </b-col>
+                  <b-col cols="12" sm="3" md="3">
+                    <b-button type="submit" class="search-button">
+                      <font-awesome-icon icon="search" />
+                      Pesquisar
+                    </b-button>
+                  </b-col>
+                </b-row>
               </b-form>
             </b-col>
           </b-row>
@@ -97,5 +97,23 @@ export default {
   border-color: #FF8000 !important;
   margin-bottom: 0.5rem;
   margin-left: 0.5rem;
+}
+
+.form-control {
+  width: 100% !important;
+}
+
+.search-form {
+  border-radius: 0px;
+  border: 0px;
+}
+
+@media (max-width: 576px) {
+  .search-button {
+    margin-top: 1rem;
+    margin-bottom: 0rem;
+    margin-left: 0rem;
+    width: 100%;
+  }
 }
 </style>

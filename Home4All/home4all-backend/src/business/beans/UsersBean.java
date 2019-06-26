@@ -165,6 +165,11 @@ public class UsersBean implements UsersBeanLocal {
         return CommonDAO.getCommonByORMID(session, ID);
     }
 
+    public Users getUserbyUsers(int ID) throws PersistentException {
+        PersistentSession session = getSession();
+        return UsersDAO.getUsersByORMID(session, ID);
+    }
+
     public Map<String, Map.Entry<Long,Long>>  getStatisticsPropertyAddSold(int ID, String dateBegin, String dateEnd) throws PersistentException, ParseException {
         PersistentSession session = getSession();
         Map<String, Map.Entry<Long,Long>> data = new HashMap<>();

@@ -38,4 +38,6 @@ public interface UsersBeanLocal {
 
     Complaint insertComplaint(String description, String propertyID) throws PersistentException;
 
+    Users getUserbyUsers(int ID) throws PersistentException;
+
 }

@@ -13,20 +13,24 @@
       header="Informação Geral"
       header-border-variant="secondary"
     >
-      <p>Descrição: {{ description }}</p>
       <b-row>
         <b-col>
-          <p>Imóvel: {{ type }}</p>
+          <p class="description" align="left">{{ description }}</p>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <p><strong>Imóvel:</strong> {{ type }}</p>
         </b-col>
         <b-col>
-          <p>Tipologia: {{ typology }}</p>
+          <p><strong>Tipologia:</strong> {{ typology }}</p>
         </b-col>
         <b-col>
-          <p>Área: {{ area }} m²</p>
+          <p><strong>Área:</strong> {{ area }} m²</p>
         </b-col>
       </b-row>
 
-      <p>Endereço completo: {{ address }}</p>
+      <p><strong>Endereço completo:</strong> {{ address }}</p>
       <b-button variant="primary"
         @click="openMap({ lat: lat, lng: lng})"
       >Localização</b-button>
@@ -157,3 +161,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.description {
+  word-wrap: break-word;
+}
+</style>

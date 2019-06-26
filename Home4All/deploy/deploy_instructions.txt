@@ -1,0 +1,67 @@
+
+# BASE DE DADOS - POSTGRESQL
+
+# Path do ficheiro de configuração
+>  psql -U postgres -c 'SHOW config_file'
+
+# pg_hba.conf - acrescentar:
+host    all             all             0.0.0.0/0            md5
+
+# postgresql.conf - alterar:
+listen_addresses = '*'
+# descomentar o anterior e a porta - testar necessidade
+
+# restart do postgres
+
+# Para partilha da diretoria das images em Mac:
+# https://support.apple.com/kb/PH25346?locale=pt_PT&fbclid=IwAR3faMBtKLWIxRpu-oPrziFPQx25hAHEgkVfRXwHHSuMv-yCjX6tuOy6tl8
+
+# Partilhar diretoria images, com username 'ProjetoEA' e password 'ProjetoEA'.
+
+
+# SERVIDOR APLICACIONAL
+
+# Colocar o IP do servidor de base de dados na configuração do Hibernate 'Home4All.cfg.xml'
+
+# wildfly-16.0.0.Final\standalone\configuration\standalone.xml
+# antigo
+<interfaces>
+    <interface name="management">
+        <inet-address value="${jboss.bind.address.management:127.0.0.1}"/>
+    </interface>
+    <interface name="public">
+        <inet-address value="${jboss.bind.address:127.0.0.1}"/>
+    </interface>
+</interfaces>
+
+# novo
+<interfaces>
+    <interface name="management">
+        <inet-address value="${jboss.bind.address.management:0.0.0.0}"/>
+    </interface>
+    <interface name="public">
+        <inet-address value="${jboss.bind.address:0.0.0.0}"/>
+    </interface>
+</interfaces>
+
+# Aceder a diretoria partilhada da DB:
+# Ubuntu ??? : https://itsfoss.com/share-folders-local-network-ubuntu-windows/?fbclid=IwAR0m7-jFyy8u1c8Timu8PNWKu3O44JownR3hHCJd4APAGw1_Zcoh_oVDQSY
+# Windows: http://wdc.custhelp.com/app/answers/detail/a_id/20736/~/how-to-enable-smb-1.0%2Fcifs-file-sharing-support-on-windows-10
+# Windows: https://www.wikihow.com/Access-Shared-Folders-on-a-Network
+
+# Java - aceder aos ficheiros partilhados: https://stackoverflow.com/questions/2171822/connecting-to-shared-folder-in-windows-with-java
+
+# SERVIDOR WEB
+
+# instalar httpd
+# start httpd
+# copiar configuração
+	# listen 80
+	# Descomentar LoadModules de acordo com a configuração
+	# Adicionar Virtual Host
+> yarn install
+> yarn build
+# copiar o conteúdo da diretoria dist para o DocumentRoot do ficheiro de configuração
+> sudo chown -R _www /usr/local/var/www/index.html
+# não iniciar com o brew
+# fazer 'sudo apachectl start'
