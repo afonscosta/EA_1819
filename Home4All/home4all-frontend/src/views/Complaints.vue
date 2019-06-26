@@ -77,10 +77,6 @@ export default {
 
 <style>
 
-.button-card {
-
-}
-
 .complaints_spaced {
   margin-bottom: 3rem;
 }

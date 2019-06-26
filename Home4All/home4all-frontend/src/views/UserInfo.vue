@@ -95,7 +95,6 @@
 
     <b-button v-on:click="showInfoVendas = !showInfoVendas" variant="primary">Mais informação</b-button>
 
-
     <div v-if="showInfoVendas" class="vendasinfo">
       <hr>
       <b-row class="justify-content-md-center">
@@ -217,15 +216,16 @@ export default {
         console.log(this.statistics)
         res = [[['Data', 'Vendas']], [['Data', 'Anunciados', 'Vendidos/Alugados']]]
         let keys = Object.keys(this.statistics.g1)
-        for (var i = 0; i < keys.length; i++) {
+        let i
+        for (i = 0; i < keys.length; i++) {
           res[0].push([keys[i], this.statistics.g1[keys[i]]])
         }
         keys = Object.keys(this.statistics.g2)
-        for (var i = 0; i < keys.length; i++) {
+        for (i = 0; i < keys.length; i++) {
           res[1].push([
             keys[i],
             this.statistics.g2[keys[i]].key,
-            this.statistics.g2[keys[i]].value,
+            this.statistics.g2[keys[i]].value
           ])
         }
       }
@@ -267,7 +267,6 @@ export default {
       let day = toTwoDigits(today.getDate())
       return `${year}-${month}-${day}`
     },
-    
     onSubmit (evt) {
       evt.preventDefault()
       console.log(this.form)
