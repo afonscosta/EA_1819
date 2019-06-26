@@ -17,12 +17,25 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
+
 export default {
   name: 'complaints',
   data: () => {
-    return {
-    }
-
+    return {}
+  },
+  created () {
+    this.getComplaints()
+  },
+  computed: {
+    ...mapState({
+      properties: state => state.complaints.complaints
+    })
+  },
+  methods: {
+    ...mapActions('complaints', [
+      'getComplaints'
+    ])
   }
 }
 </script>

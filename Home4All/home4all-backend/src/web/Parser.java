@@ -1,6 +1,7 @@
 package web;
 
 import business.entities.*;
+import business.entities.Users;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 
@@ -20,6 +21,19 @@ class Parser {
         data.put("id", sessionID);
         return gson.toJson(data);
     }
+
+    static String currentAdminToJson(String sessionID, Users user){
+        Map data = new HashMap();
+        data.put("id", sessionID);
+        data.put("isAdmin", true);
+        Map data_user = new HashMap();
+        data.put("user", data_user);
+        data_user.put("id", user.getID());
+        data_user.put("email", user.getEmail());
+        data_user.put("name", user.getName());
+        return gson.toJson(data);
+
+    }
     static String statisticsToJson(Map info_1, Map info_2){
         Map data = new HashMap();
         data.put("g1",info_1);
@@ -30,6 +44,7 @@ class Parser {
     static String currentUserToJson(String sessionID, Common user){
         Map data = new HashMap();
         data.put("id", sessionID);
+        data.put("isAdmin", false);
         Map data_user = new HashMap();
         data.put("user", data_user);
         data_user.put("id", user.getID());
@@ -58,6 +73,7 @@ class Parser {
         data.put("id", user.getID());
         data.put("email", user.getEmail());
         data.put("name", user.getName());
+        data.put("isAdmin", false);
         //if (user instanceof InternalAccount) {
         //    data.put("password", ((InternalAccount) user).getPassword());
         //}
