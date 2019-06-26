@@ -3,7 +3,8 @@ import usersService from '../../services/usersService'
 
 const state = {
   sessionID: '',
-  user: null
+  user: null,
+  isAdmin: false
 }
 
 const getters = {
@@ -12,6 +13,9 @@ const getters = {
   },
   user: state => {
     return state.user
+  },
+  isAdmin: state => {
+    return state.isAdmin
   }
 }
 
@@ -19,6 +23,7 @@ const mutations = {
   setSessionID (state, response) {
     state.sessionID = response.id
     state.user = response.user
+    state.user.isAdmin = response.isAdmin
   },
   setUser (state, response) {
     state.user = response

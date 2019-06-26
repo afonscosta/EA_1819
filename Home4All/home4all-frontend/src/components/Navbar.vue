@@ -29,10 +29,10 @@
             <router-link v-if="$store.state.login.sessionID === ''" :to="{ name: 'login' }">Login</router-link>
           </b-nav-item>
 
-          <b-nav-item-dropdown v-if="$store.state.login.user" right>
+          <b-nav-item-dropdown v-if="$store.state.login.sessionID" right>
           <!-- Using 'button-content' slot -->
           <template slot="button-content"><em>{{ $store.state.login.user.name }}</em></template>
-          <b-dropdown-item :to="{ name: 'profile'} " >Dados perfil</b-dropdown-item>
+          <b-dropdown-item v-if="!$store.state.login.user.isAdmin" :to="{ name: 'profile'} " >Dados perfil</b-dropdown-item>
           <b-dropdown-item v-on:click="logoutButton()" >Terminar sessão</b-dropdown-item>
         </b-nav-item-dropdown>
 

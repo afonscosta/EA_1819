@@ -8,7 +8,7 @@ export default {
         payload
       }
     }, {
-    	Cookie: `JSESSIONID=${store.state.sessionID}`
+      Cookie: `JSESSIONID=${store.state.sessionID}`
     }).then(response => response.data)
   }
 }
