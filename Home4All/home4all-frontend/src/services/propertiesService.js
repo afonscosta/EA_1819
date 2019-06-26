@@ -1,4 +1,5 @@
 import home4all from '@/services/home4all'
+import store from '../store/modules/login'
 
 export default {
   fetchProperties () {
@@ -11,6 +12,8 @@ export default {
     return home4all.post(`properties`, payload).then(response => response.data)
   },
   deleteProperty (propertyID) {
-    return home4all.delete(`properties/${propertyID}`).then(response => response.data)
+    return home4all.delete(`properties/${propertyID}`, {}, {
+      Cookie: `JSESSIONID=${store.state.sessionID}`
+    }).then(response => response.data)
   }
 }
