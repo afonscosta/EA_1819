@@ -83,7 +83,6 @@ public class PropertiesSearch extends HttpServlet {
                     userAge
             );
 
-            System.out.println(results);
             String jsonData = Parser.propertyListToJson(results);
 
             response.setContentType("application/json"); // multipart/form-data

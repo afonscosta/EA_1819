@@ -102,7 +102,6 @@ class Parser {
         for (Photo photo: photos) {
             File file = new File("images" + File.separator + photo.getPath());
             byte[] bytes = Files.readAllBytes(file.toPath());
-            // String encodeImage = Base64.getEncoder().withoutPadding().encodeToString(bytes);
             images.add(new String(bytes));
         }
         return images;
@@ -236,14 +235,6 @@ class Parser {
         data.put("lat", address.getCoordLat());
         data.put("lng", address.getCoordLng());
 
-        List<String> aux;
-        /*
-        List<String> aux = Arrays.stream(property.equipmentIncluded.toArray())
-                .map(Equipment::getName)
-                .collect(Collectors.toList());
-        data.put("equipmentIncluded", aux);
-        */
-
         if (property instanceof Shared) {
             Shared shared = (Shared) property;
             data.put("type", "bedrooms");
@@ -263,32 +254,6 @@ class Parser {
                 bedrooms.add(b);
             }
             data.put("bedrooms", bedrooms);
-
-            /*
-            Float minRentPrice = null;
-            Float maxRentPrice = null;
-            Date availability = null;
-
-            for (Bedroom bedroom: shared.bedrooms.toArray()) {
-                if (minRentPrice == null)
-                    minRentPrice = bedroom.getRentPrice();
-                else
-                    minRentPrice = Math.min(minRentPrice,  bedroom.getRentPrice());
-
-                if (maxRentPrice == null)
-                    maxRentPrice = bedroom.getRentPrice();
-                else
-                    maxRentPrice = Math.max(maxRentPrice,  bedroom.getRentPrice());
-
-                if (availability == null)
-                    availability = bedroom.getAvailability();
-                else if (availability.after(bedroom.getAvailability()))
-                    availability = bedroom.getAvailability();
-            }
-            data.put("minRentPrice", minRentPrice);
-            data.put("maxRentPrice", maxRentPrice);
-            data.put("firstAvailability", maxRentPrice);
-            */
             data.put("totalAccess", shared.getTotalAccess());
 
             data.put("rent", true);

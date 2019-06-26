@@ -8,13 +8,9 @@ import org.orm.PersistentSession;
 import org.orm.PersistentTransaction;
 
 import javax.ejb.Stateless;
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -38,33 +34,7 @@ public class PropertyBean implements PropertyBeanLocal {
         return session;
     }
 
-
-    private String saveNewImage(String image_b64) throws PersistentException, IOException, IOException {
-        /*
-        String[] split = image_b64.split(",");
-        String format = split[0].replace("data:image/","")
-                                .replace(";base64","");
-        image_b64 = split[1];
-
-        // Obter próximo id de path de imagem
-        PersistentSession session = getSession();
-        BigInteger next_new_path_id = (BigInteger) session
-                .createSQLQuery("SELECT nextval('new_image_id')")
-                .list().get(0);
-        String name = String.format("image_%d.%s", next_new_path_id, format);
-
-        // Criar ficheiro para armazenar a imagem
-        File file = new File("images" + File.separator + name);
-        file.getParentFile().mkdirs();
-        file.createNewFile();
-
-        // Ler e armazenar a imagem
-        byte[] image_bytes = Base64.getDecoder().decode(image_b64);
-        ByteArrayInputStream bis = new ByteArrayInputStream(image_bytes);
-        BufferedImage image = ImageIO.read(bis);
-        bis.close();
-        ImageIO.write(image, format, file);
-        */
+    private String saveNewImage(String image_b64) throws PersistentException, IOException {
         // Obter próximo id de path de imagem
         PersistentSession session = getSession();
         BigInteger next_new_path_id = (BigInteger) session
@@ -328,9 +298,22 @@ public class PropertyBean implements PropertyBeanLocal {
     }
 
     public boolean deleteProperty(int ID) throws PersistentException {
-        PersistentSession session = getSession();
-        Property property = PropertyDAO.getPropertyByORMID(session, ID);
-        return PropertyDAO.deleteAndDissociate(property, session);
+        PersistentSession session = Home4AllPersistentManager.instance().getSession();
+        PersistentTransaction transaction = session.beginTransaction();
+        try {
+            Property property = PropertyDAO.getPropertyByORMID(session, ID);
+            // TODO: Verificar !!! -  Quer-se apagar as queixas?
+            for (Complaint c: property.complaints.toArray())
+                ComplaintDAO.delete(c);
+            property.complaints.clear();
+            PropertyDAO.delete(property);
+            transaction.commit();
+            return true;
+        }
+        catch (Exception e) {
+            transaction.rollback();
+            return false;
+        }
     }
 
     private String mapOrdinationToOrderBy(String ordination, boolean sharedType, boolean privateType,
@@ -549,6 +532,12 @@ public class PropertyBean implements PropertyBeanLocal {
             String gender = userGender.getName();
             if (gender.equals("undefined")) {
                 gender = "undefined', 'female', 'male";
+            }
+            else if (gender.equals("female")) {
+                gender = "undefined', 'female";
+            }
+            else if (gender.equals("male")) {
+                gender = "undefined', 'male";
             }
             conditions.add("(Property.genderName IN ('" + gender + "'))");
         }

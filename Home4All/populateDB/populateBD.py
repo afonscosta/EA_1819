@@ -229,6 +229,7 @@ for i in range(props_quantity):
         allowed_max_age = "'" + str(np.random.randint(int(min_age_aux) + 5, max_age)) + "'"
     else:
         allowed_max_age = 'null'
+    gender_name = np.random.choice(genders, 1, p=genders_probabilities)[0]
     allowed_smokers = get_boolean_str(props_allowed_smokers_probability)
     allowed_pets = get_boolean_str(props_allowed_pets_probability)
     allowed_gender = np.random.choice(props_genders_quantity, 1, p=props_genders_probabilities)[0]
@@ -301,11 +302,13 @@ for property_id in shared_properties:
 
 # Populate Property_Occupation (propertyid, occupationname)
 output.write('\n-- POPULATE Property_Occupation\n')
-n_occupations = np.random.choice(property_occupations_qt, props_quantity, p=property_occupations_probabilities)
-for i, n in enumerate(n_occupations):
+n_occupations = np.random.choice(
+    property_occupations_qt, len(shared_properties), p=property_occupations_probabilities
+)
+for property_id, n in zip(shared_properties.keys(), n_occupations):
     occupations_names = np.random.choice(occupations, n, replace=False, p=occupations_probabilities)
     for o in occupations_names:
-        output.write(f'''INSERT INTO Property_Occupation VALUES ({i+1}, '{o}');\n\n''')
+        output.write(f'''INSERT INTO Property_Occupation VALUES ({property_id}, '{o}');\n\n''')
 
 # Populate Property_Occupation2 (propertyid, occupationname)
 output.write('\n-- POPULATE Property_Occupation2\n')
