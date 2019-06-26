@@ -6,5 +6,19 @@ export default {
     return home4all.get(`complaints`, {}, {
       Cookie: `JSESSIONID=${store.state.sessionID}`
     }).then(response => response.data)
+  },
+  blockUser (id) {
+    return home4all.delete(`users`, {
+      id: id
+    }, {
+      Cookie: `JSESSIONID=${store.state.sessionID}`
+    })
+  },
+  blockProperty (id) {
+    return home4all.delete(`properties`, {
+      id: id
+    }, {
+      Cookie: `JSESSIONID=${store.state.sessionID}`
+    })
   }
 }
