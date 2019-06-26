@@ -13,6 +13,10 @@ listen_addresses = '*'
 
 # restart do postgres
 
+# Para partilha da diretoria das images em Mac:
+# https://support.apple.com/kb/PH25346?locale=pt_PT&fbclid=IwAR3faMBtKLWIxRpu-oPrziFPQx25hAHEgkVfRXwHHSuMv-yCjX6tuOy6tl8
+
+# Partilhar diretoria images, com username 'ProjetoEA' e password 'ProjetoEA'.
 
 
 # SERVIDOR APLICACIONAL
@@ -40,7 +44,12 @@ listen_addresses = '*'
     </interface>
 </interfaces>
 
+# Aceder a diretoria partilhada da DB:
+# Ubuntu ??? : https://itsfoss.com/share-folders-local-network-ubuntu-windows/?fbclid=IwAR0m7-jFyy8u1c8Timu8PNWKu3O44JownR3hHCJd4APAGw1_Zcoh_oVDQSY
+# Windows: http://wdc.custhelp.com/app/answers/detail/a_id/20736/~/how-to-enable-smb-1.0%2Fcifs-file-sharing-support-on-windows-10
+# Windows: https://www.wikihow.com/Access-Shared-Folders-on-a-Network
 
+# Java - aceder aos ficheiros partilhados: https://stackoverflow.com/questions/2171822/connecting-to-shared-folder-in-windows-with-java
 
 # SERVIDOR WEB
 

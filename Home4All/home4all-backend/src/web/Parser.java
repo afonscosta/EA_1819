@@ -1,10 +1,12 @@
 package web;
 
+import business.Utils;
 import business.entities.*;
 import business.entities.Users;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 
+import javax.rmi.CORBA.Util;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -114,13 +116,15 @@ class Parser {
     }
 
     private static List<String> mapPathsToImages(Photo[] photos) throws IOException {
+        /*
         List<String> images = new ArrayList<>();
         for (Photo photo: photos) {
             File file = new File("images" + File.separator + photo.getPath());
             byte[] bytes = Files.readAllBytes(file.toPath());
             images.add(new String(bytes));
         }
-        return images;
+        */
+        return Utils.getImages(Arrays.stream(photos).map(Photo::getPath).collect(Collectors.toList()));
     }
 
     private static Map<String, Object> allPropertyToMap(Property property) throws IOException {
