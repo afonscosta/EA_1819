@@ -435,9 +435,11 @@ public class PropertyBean implements PropertyBeanLocal {
         }
 
         // Filters - PropertyType
-        types = types.stream()
-                     .map(t -> t.substring(0,1).toUpperCase() + t.substring(1))
-                     .collect(Collectors.toList());
+        if (types != null) {
+            types = types.stream()
+                    .map(t -> t.substring(0, 1).toUpperCase() + t.substring(1))
+                    .collect(Collectors.toList());
+        }
         if (types != null && types.contains("Bedrooms")) {
             types.remove("Bedrooms");
             if (rent || (!rent && !sell)) {
