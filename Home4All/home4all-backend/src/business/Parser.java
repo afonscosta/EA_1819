@@ -1,30 +1,25 @@
-package web;
+package business;
 
-import business.Utils;
 import business.entities.*;
-import business.entities.Users;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 
-import javax.rmi.CORBA.Util;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-class Parser {
+public class Parser {
     private static Gson gson = new Gson();
 
-    static String currentSessionToJson(String sessionID){
+    public static String currentSessionToJson(String sessionID){
         Map data = new HashMap();
         data.put("id", sessionID);
         return gson.toJson(data);
     }
 
-    static String currentAdminToJson(String sessionID, Users user){
+    public static String currentAdminToJson(String sessionID, Users user){
         Map data = new HashMap();
         data.put("id", sessionID);
         data.put("isAdmin", true);
@@ -36,14 +31,14 @@ class Parser {
         return gson.toJson(data);
 
     }
-    static String statisticsToJson(Map info_1, Map info_2){
+    public static String statisticsToJson(Map info_1, Map info_2){
         Map data = new HashMap();
         data.put("g1",info_1);
         data.put("g2", info_2);
         return gson.toJson(data);
     }
 
-    static String currentUserToJson(String sessionID, Common user){
+    public static String currentUserToJson(String sessionID, Common user){
         Map data = new HashMap();
         data.put("id", sessionID);
         data.put("isAdmin", false);
@@ -71,7 +66,7 @@ class Parser {
 
     }
 
-    static String userToJson(Common user) {
+    public static String userToJson(Common user) {
         LinkedTreeMap data = new LinkedTreeMap();
         System.out.println(user);
         data.put("id", user.getID());
@@ -94,7 +89,7 @@ class Parser {
         return gson.toJson(data);
     }
 
-    static String usersToJson(List<business.entities.Users> users) {
+    public static String usersToJson(List<business.entities.Users> users) {
         List<Map<String, Object>> data = new ArrayList<>();
         for (business.entities.Users user: users) {
             Map<String, Object> userData = new HashMap<>();
@@ -113,7 +108,7 @@ class Parser {
         return gson.toJson(data);
     }
 
-    static String complainsToJson(List<Map<String,Object>> complains){
+    public static String complainsToJson(List<Map<String,Object>> complains){
 
         return gson.toJson(complains);
     }
@@ -236,7 +231,7 @@ class Parser {
         return data;
     }
 
-    static String allPropertyToJson(Property property) throws IOException {
+    public static String allPropertyToJson(Property property) throws IOException {
         return gson.toJson(allPropertyToMap(property));
     }
 
@@ -309,11 +304,11 @@ class Parser {
         return data;
     }
 
-    static String propertyListToJson(List<Property> properties) throws IOException {
+    public static String propertyListToJson(List<Property> properties) throws IOException {
         return gson.toJson(propertyListToMap(properties));
     }
 
-    static Float parseToFloat(Object o, boolean allowNulls) throws Exception {
+    public static Float parseToFloat(Object o, boolean allowNulls) throws Exception {
         try {
             if (o == null && allowNulls) {
                 return null;
@@ -339,7 +334,7 @@ class Parser {
         throw new Exception("ERRO: Tipo de dados inesperado (<" + o + "> é do tipo " + o.getClass() + ", mas deveria ser float).");
     }
 
-    static Integer parseToInt(Object o, boolean allowNulls) throws Exception {
+    public static Integer parseToInt(Object o, boolean allowNulls) throws Exception {
         try {
             if (o == null && allowNulls) {
                 return null;
