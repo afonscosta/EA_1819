@@ -52,6 +52,8 @@ class Parser {
         data_user.put("id", user.getID());
         data_user.put("email", user.getEmail());
         data_user.put("name", user.getName());
+        data_user.put("image", Utils.generateAvatar(user.getEmail()));
+
         //if (user instanceof InternalAccount) {
         //    data.put("password", ((InternalAccount) user).getPassword());
         //}
@@ -76,6 +78,7 @@ class Parser {
         data.put("email", user.getEmail());
         data.put("name", user.getName());
         data.put("isAdmin", false);
+        data.put("image", Utils.generateAvatar(user.getEmail()));
         //if (user instanceof InternalAccount) {
         //    data.put("password", ((InternalAccount) user).getPassword());
         //}
