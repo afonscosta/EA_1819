@@ -3,14 +3,14 @@
     <h1> Login </h1>
 
     <div class="centered">
-      <input v-on:input="invalidCredencials = false" class="email-input" type="text" name="email" v-model="input.email" placeholder="Endereço de email">
+      <input v-on:input="errorFlag = false" class="email-input" type="text" name="email" v-model="input.email" placeholder="Endereço de email">
     </div>
     <div class="centered">
-      <input v-on:input="invalidCredencials = false" class="password-input" type="password" name="password" v-model="input.password" placeholder="Palavra-passe">
+      <input v-on:input="errorFlag = false" class="password-input" type="password" name="password" v-model="input.password" placeholder="Palavra-passe">
     </div>
 
     <div class="alertMessage">
-      <b-alert v-model="invalidCredencials" variant="danger" dismissible>
+      <b-alert v-model="errorFlag" variant="danger" dismissible>
         {{errorMessage}}
       </b-alert>
     </div>
@@ -30,8 +30,8 @@ export default {
         email: '',
         password: ''
       },
-      invalidCredencials: false,
-      errorMessage: null
+      errorMessage: '',
+      errorFlag: false
     }
   },
   computed: {
@@ -56,16 +56,18 @@ export default {
             this.$router.push('/')
           }
         }).catch(errorResponse => {
-          if (errorResponse.status === 403) {
-            console.log('credenciais inválidas')
-            this.invalidCredencials = true
-            this.errorMessage = 'Credenciais inválidas.'
-          } else {
-            if (errorResponse.message) {
-              this.errorMessage = errorResponse.message
+          console.log(errorResponse)
+          if (errorResponse.data) {
+            let parser = new DOMParser()
+            let htmlDoc = parser.parseFromString(errorResponse.data, 'text/html')
+            let body = htmlDoc.getElementsByTagName('body')
+            if (body[0]) {
+              this.errorMessage = body[0].innerText
+              this.errorFlag = true
             }
-            console.log('não foi possível efetuar a ligação ao servidor aplicacional')
           }
+          console.log(this.errorMessage)
+          console.log('não foi possível efetuar a ligação ao servidor aplicacional')
         })
       }
     }
