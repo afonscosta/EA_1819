@@ -1,6 +1,7 @@
 package web;
 
 import business.Home4All;
+import business.Parser;
 import business.entities.Admin;
 import business.entities.Property;
 import business.entities.Users;
@@ -20,8 +21,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static web.Parser.parseToFloat;
-import static web.Parser.parseToInt;
+import static business.Parser.parseToFloat;
+import static business.Parser.parseToInt;
 
 
 @WebServlet(name = "Properties", urlPatterns = {"/properties/*"})

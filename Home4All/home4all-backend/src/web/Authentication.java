@@ -1,9 +1,9 @@
 package web;
 
 import business.Home4All;
+import business.Parser;
 import business.entities.Admin;
 import business.entities.Common;
-import business.entities.InternalAccount;
 import business.entities.Users;
 import com.google.gson.Gson;
 
@@ -15,7 +15,6 @@ import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 

@@ -1,6 +1,7 @@
 package web;
 
 import business.Home4All;
+import business.Parser;
 import business.entities.Admin;
 import business.entities.Common;
 import com.google.gson.Gson;
@@ -121,6 +122,7 @@ public class Users extends HttpServlet {
             if (currentUser instanceof Admin) {
                 BufferedReader reader = request.getReader();
                 Map u = gson.fromJson(reader, Map.class);
+                System.out.println(u);
                 Integer userID = Integer.parseInt((String)u.get("id"));
                 boolean res = Home4All.blockUser(userID);
                 if (!res){
