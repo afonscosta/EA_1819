@@ -421,15 +421,20 @@ public class PropertyBean implements PropertyBeanLocal {
         }
 
         // Filters - PropertyType
+        types = types.stream()
+                     .map(t -> t.substring(0,1).toUpperCase() + t.substring(1))
+                     .collect(Collectors.toList());
         if (types != null && types.contains("Bedrooms")) {
             types.remove("Bedrooms");
-            if (rent)
+            if (rent || (!rent && !sell)) {
+                System.out.println("Entrou no if");
                 types.add("Shared");
+            }
         }
         if (types!=null && !types.isEmpty()) {
-            conditions.add("(Property.discriminator = " +
-                    String.join(" OR Property.discriminator = ")
-                    + ")");
+            conditions.add("(Property.discriminator = '" +
+                    String.join("' OR Property.discriminator = '", types)
+                    + "')");
         }
 
         boolean sharedType = false, privateType = false;

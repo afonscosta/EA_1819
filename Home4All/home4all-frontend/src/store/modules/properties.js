@@ -39,8 +39,12 @@ const mutations = {
     state.property = property
   },
   updateProperty (state, property) {
-    state.properties = state.properties.filter(u => u.id !== property.id)
-    state.properties.push(property)
+    for (var i = 0; i < state.properties.length; i++) {
+      if (state.properties[i].id === property.id) {
+        state.properties[i] = property
+        break
+      }
+    }
   },
   deleteProperty (state, propertyID) {
     state.properties = state.properties.filter(u => u.id !== propertyID)
@@ -78,7 +82,9 @@ const actions = {
     return new Promise((resolve, reject) => {
       propertiesService.fetchProperty(propertyID)
         .then(property => {
+          console.log('get property with ID', property)
           commit('setProperty', property)
+          commit('updateProperty', property)
         })
         .then(() => {
           resolve()

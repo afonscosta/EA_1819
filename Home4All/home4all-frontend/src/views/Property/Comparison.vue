@@ -25,10 +25,25 @@
         </b-col>
       </b-row>
       <b-row v-if="num_props_compare > 0">
-        <b-col>
+        <b-col class="p-0">
           <b-table bordered striped hover :fields="fields" :items="items">
             <template slot="col1" slot-scope="row">
-              <label v-if="row.index != 0 && row.index != 10 && row.index != 11 && row.index != 12">{{ row.value }}</label>
+              <label v-if="row.index != 0 && row.index != 9 && row.index != 10 && row.index != 11 && row.index != 12">{{ row.value }}</label>
+              <b-row>
+                <b-col>
+                  <label v-if="row.index == 9">{{ row.value.nome }}</label>
+                </b-col>
+              </b-row>
+              <b-row>
+                <b-col>
+                  <label v-if="row.index == 9">{{ row.value.phone }}</label>
+                </b-col>
+              </b-row>
+              <b-row>
+                <b-col>
+                  <a v-if="row.index == 9" :href="'mailto:' + row.value.email">{{ row.value.email }}</a>
+                </b-col>
+              </b-row>
               <div v-if="row.index == 0">
                 <ImagesPreview :imgs="row.value" :numImgPreview="numImgPreview" @showLightbox="showLightbox"/>
               </div>
@@ -47,22 +62,58 @@
               <b-button variant="danger" v-if="row.index == 12" @click="removePropCompare(row.value)">Remover</b-button>
             </template>
             <template slot="col2" slot-scope="row">
-              <label v-if="row.index != 0 && row.index != 10 && row.index != 11 && row.index != 12">{{ row.value }}</label>
+              <label v-if="row.index != 0 && row.index != 9 && row.index != 10 && row.index != 11 && row.index != 12">{{ row.value }}</label>
+              <b-row>
+                <b-col>
+                  <label v-if="row.index == 9">{{ row.value.nome }}</label>
+                </b-col>
+              </b-row>
+              <b-row>
+                <b-col>
+                  <label v-if="row.index == 9">{{ row.value.phone }}</label>
+                </b-col>
+              </b-row>
+              <b-row>
+                <b-col>
+                  <a v-if="row.index == 9" :href="'mailto:' + row.value.email">{{ row.value.email }}</a>
+                </b-col>
+              </b-row>
               <div v-if="row.index == 0">
                 <ImagesPreview :imgs="row.value" :numImgPreview="numImgPreview" @showLightbox="showLightbox"/>
               </div>
-              <label v-if="row.index == 10">Endereço: {{ row.value.addr }}</label>
-              <b-button variant="primary" v-if="row.index == 10" @click="openMap(row.value.loc)">Localização</b-button>
+              <b-row>
+                <b-col>
+                  <label v-if="row.index == 10"><strong>Endereço:&nbsp;</strong></label>
+                  <label v-if="row.index == 10">{{ row.value.addr }}</label>
+                </b-col>
+              </b-row>
+              <b-row>
+                <b-col>
+                  <b-button variant="primary" v-if="row.index == 10" @click="openMap(row.value.loc)">Localização</b-button>
+                </b-col>
+              </b-row>
               <b-button variant="primary" v-if="row.index == 11" @click="goToProperty(row.value)">Ver detalhes</b-button>
               <b-button variant="danger" v-if="row.index == 12" @click="removePropCompare(row.value)">Remover</b-button>
             </template>
             <template slot="col3" slot-scope="row">
-              <label v-if="row.index != 0 && row.index != 10 && row.index != 11 && row.index != 12">{{ row.value }}</label>
+              <label v-if="row.index != 0 && row.index != 9 && row.index != 10 && row.index != 11 && row.index != 12">{{ row.value }}</label>
+              <label v-if="row.index == 9">{{ row.value.nome }}</label>
+              <label v-if="row.index == 9">{{ row.value.phone }}</label>
+              <a v-if="row.index == 9" :href="'mailto:' + row.value.email">{{ row.value.email }}</a>
               <div v-if="row.index == 0">
                 <ImagesPreview :imgs="row.value" :numImgPreview="numImgPreview" @showLightbox="showLightbox"/>
               </div>
-              <label v-if="row.index == 10">Endereço: {{ row.value.addr }}</label>
-              <b-button variant="primary" v-if="row.index == 10" @click="openMap(row.value.loc)">Localização</b-button>
+              <b-row>
+                <b-col>
+                  <label v-if="row.index == 10"><strong>Endereço:&nbsp;</strong></label>
+                  <label v-if="row.index == 10">{{ row.value.addr }}</label>
+                </b-col>
+              </b-row>
+              <b-row>
+                <b-col>
+                  <b-button variant="primary" v-if="row.index == 10" @click="openMap(row.value.loc)">Localização</b-button>
+                </b-col>
+              </b-row>
               <b-button variant="primary" v-if="row.index == 11" @click="goToProperty(row.value)">Ver detalhes</b-button>
               <b-button variant="danger" v-if="row.index == 12" @click="removePropCompare(row.value)">Remover</b-button>
             </template>
@@ -97,7 +148,7 @@ export default {
       { value: 'rentPrice', text: 'Preço para arrendar' },
       { value: 'sellPrice', text: 'Preço para compra' },
       { value: 'expensesIncluded', text: 'Despesas incluídas' },
-      { value: 'contact', text: 'Contacto' },
+      { value: 'owner', text: 'Contacto' },
       { value: 'map', text: 'Localização' },
       { value: 'id', text: 'Detalhes' },
       { value: 'id', text: 'Remover' }
@@ -107,6 +158,7 @@ export default {
     marker: null
   }),
   created () {
+    console.log('properties created', this.properties)
   },
   computed: {
     ...mapGetters('properties', [ 'num_props_compare' ]),
@@ -158,17 +210,22 @@ export default {
         props.map(p => p[key.value]).forEach((item) => {
           content['col' + i++] = this.parseType(item)
         })
+      } else if (key.value === 'typology') {
+        props.map(p => p[key.value]).forEach((item) => {
+          // eslint-disable-next-line
+          content['col' + i++] = item ? item : '-'
+        })
       } else if (key.value === 'area') {
         props.map(p => p[key.value]).forEach((item) => {
           content['col' + i++] = item + ' m²'
         })
       } else if (key.value === 'rentPrice') {
         props.map(p => p[key.value]).forEach((item) => {
-          content['col' + i++] = item + ' €/mês'
+          content['col' + i++] = item ? item + ' €/mês' : '-'
         })
       } else if (key.value === 'sellPrice') {
         props.map(p => p[key.value]).forEach((item) => {
-          content['col' + i++] = item + ' €'
+          content['col' + i++] = item ? item + ' €' : '-'
         })
       } else if (key.value === 'furnished') {
         props.map(p => p[key.value]).forEach((item) => {
@@ -176,7 +233,11 @@ export default {
         })
       } else if (key.value === 'expensesIncluded') {
         props.map(p => p[key.value]).forEach((item) => {
-          content['col' + i++] = item.toString() !== '' ? item.toString() : 'Não incluí despesas'
+          content['col' + i++] = item.toString() !== '' ? item.toString() : '-'
+        })
+      } else if (key.value === 'availability') {
+        props.map(p => p[key.value]).forEach((item) => {
+          content['col' + i++] = (new Date(item)).toLocaleDateString('en-GB')
         })
       } else {
         props.map(p => p[key.value]).forEach((item) => {
@@ -186,10 +247,16 @@ export default {
       content['_cellVariants'] = { col0: 'warning' }
       return content
     },
+    prettyPrintOwner (owner) {
+      return 'Telemóvel: ' + owner.phone + '\nNome: ' + owner.nome + '\nEmail: ' + owner.email
+    },
     parseType (type) {
       if (type === 'bedrooms') return 'Quartos'
       if (type === 'apartment') return 'Apartamento'
       if (type === 'villa') return 'Vivenda'
+      if (type === 'single') return 'Individual'
+      if (type === 'double') return 'Casal'
+      if (type === 'multiple') return 'Múltiplo'
     },
     goToProperty (id) {
       var prop = this.properties.find(p => p.id === id)
@@ -208,7 +275,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scope>
 thead {
   background-color: #FFA64C;
 }
@@ -223,10 +290,10 @@ thead {
   .table-warning,
   .table-warning > th,
   .table-warning > td {
-    display: none;
+    display: none !important;
   }
   thead th:first-child{
-    display: none;
+    display: none !important;
   }
 }
 
