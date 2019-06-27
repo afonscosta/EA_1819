@@ -2,7 +2,8 @@
   <div align="center">
     <h3 class="title">{{ property.name }}</h3>
     <b-button @click="editProperty()" variant="primary">Editar</b-button>
-    <b-button :disabled="num_props_compare === 3"
+    <b-button :disabled="num_props_compare === 2"
+      v-if="property.type === 'apartment' || property.type === 'villa'"
       @click="addPropCompare(property)" variant="primary">Comparar</b-button>
     <b-button variant="danger">Denunciar</b-button>
     <b-container>
@@ -37,6 +38,7 @@
 
           <Bedroom
             :type="property.type"
+            :property="property"
             :bedrooms="property.bedrooms"/>
 
           <PresentTenants
@@ -64,7 +66,8 @@
             :allowedPets="property.allowedPets"/>
 
           <b-button class="mb-3" @click="editProperty()" variant="primary">Editar</b-button>
-          <b-button class="mb-3" :disabled="num_props_compare === 3"
+          <b-button class="mb-3" :disabled="num_props_compare === 2"
+            v-if="property.type === 'apartment' || property.type === 'villa'"
             @click="addPropCompare(property)" variant="primary">Comparar</b-button>
           <b-button class="mb-3" variant="danger">Denunciar</b-button>
         </b-col>

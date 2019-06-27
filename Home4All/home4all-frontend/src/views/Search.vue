@@ -15,7 +15,7 @@
             v-model="currentPage"
             :total-rows="rows"
             :per-page="perPage"
-            @change="operation = []"
+            @change="updatePagination"
           ></b-pagination>
         </b-col>
       </b-row>
@@ -62,7 +62,7 @@
             v-model="currentPage"
             :total-rows="rows"
             :per-page="perPage"
-            @change="operation = []"
+            @change="updatePagination"
           ></b-pagination>
         </b-col>
       </b-row>
@@ -120,10 +120,8 @@ export default {
       'getProperty'
     ]),
     goToProperty (prop) {
-      console.log(prop.id)
       this.getProperty(prop.id)
         .then(() => {
-          // this.setProperty(prop)
           this.$router.push({ name: 'propertyView' })
         })
     },
@@ -135,6 +133,11 @@ export default {
       } else if (type === 'villa') {
         return 'Vivenda'
       }
+    },
+    updatePagination (event) {
+      this.operation = []
+      console.log('pagination', event)
+      console.log('currentPage', this.currentPage)
     }
   }
 }

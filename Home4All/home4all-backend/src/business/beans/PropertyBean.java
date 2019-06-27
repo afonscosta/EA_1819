@@ -435,15 +435,21 @@ public class PropertyBean implements PropertyBeanLocal {
         }
 
         // Filters - PropertyType
+        if (types != null) {
+            types = types.stream()
+                    .map(t -> t.substring(0, 1).toUpperCase() + t.substring(1))
+                    .collect(Collectors.toList());
+        }
         if (types != null && types.contains("Bedrooms")) {
             types.remove("Bedrooms");
-            if (rent)
+            if (rent || (!rent && !sell)) {
                 types.add("Shared");
+            }
         }
         if (types!=null && !types.isEmpty()) {
-            conditions.add("(Property.discriminator = " +
-                    String.join(" OR Property.discriminator = ")
-                    + ")");
+            conditions.add("(Property.discriminator = '" +
+                    String.join("' OR Property.discriminator = '", types)
+                    + "')");
         }
 
         boolean sharedType = false, privateType = false;
@@ -474,9 +480,9 @@ public class PropertyBean implements PropertyBeanLocal {
 
         // Filters - Typologies
         if (typologies!=null && !typologies.isEmpty()) {
-            conditions.add("(Property.TypologyName = " +
-                    String.join(" OR Property.TypologyName = ", typologies) +
-                    ")");
+            conditions.add("(Property.TypologyName = '" +
+                    String.join("' OR Property.TypologyName = '", typologies) +
+                    "')");
         }
 
         // Filters - Operation
@@ -510,11 +516,11 @@ public class PropertyBean implements PropertyBeanLocal {
         if (sharedType) {
             // Filters - BedroomsType
             if (bedroomsTypes!=null && !bedroomsTypes.isEmpty()) {
-                String bTypes = "(discriminator != 'Shared' OR Bedroom.bedroomTypeName = " +
-                        String.join(" OR Bedroom.bedroomTypeName = ", bedroomsTypes) +
-                        ")";
-                bTypes = bTypes.replace("Bedroom.bedroomTypeName = multiple",
-                        "(Bedroom.bedroomTypeName = multiple " +
+                String bTypes = "(discriminator != 'Shared' OR Bedroom.bedroomTypeName = '" +
+                        String.join("' OR Bedroom.bedroomTypeName = '", bedroomsTypes) +
+                        "')";
+                bTypes = bTypes.replace("Bedroom.bedroomTypeName = 'multiple'",
+                        "(Bedroom.bedroomTypeName = 'multiple' " +
                                 "AND Bedroom.peopleAmount >= " + peopleAmountMultiple + ")");
                 conditions.add(bTypes);
             }
