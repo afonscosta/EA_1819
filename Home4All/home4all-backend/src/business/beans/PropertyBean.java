@@ -443,7 +443,6 @@ public class PropertyBean implements PropertyBeanLocal {
         if (types != null && types.contains("Bedrooms")) {
             types.remove("Bedrooms");
             if (rent || (!rent && !sell)) {
-                System.out.println("Entrou no if");
                 types.add("Shared");
             }
         }
@@ -481,9 +480,9 @@ public class PropertyBean implements PropertyBeanLocal {
 
         // Filters - Typologies
         if (typologies!=null && !typologies.isEmpty()) {
-            conditions.add("(Property.TypologyName = " +
-                    String.join(" OR Property.TypologyName = ", typologies) +
-                    ")");
+            conditions.add("(Property.TypologyName = '" +
+                    String.join("' OR Property.TypologyName = '", typologies) +
+                    "')");
         }
 
         // Filters - Operation
@@ -517,11 +516,11 @@ public class PropertyBean implements PropertyBeanLocal {
         if (sharedType) {
             // Filters - BedroomsType
             if (bedroomsTypes!=null && !bedroomsTypes.isEmpty()) {
-                String bTypes = "(discriminator != 'Shared' OR Bedroom.bedroomTypeName = " +
-                        String.join(" OR Bedroom.bedroomTypeName = ", bedroomsTypes) +
-                        ")";
-                bTypes = bTypes.replace("Bedroom.bedroomTypeName = multiple",
-                        "(Bedroom.bedroomTypeName = multiple " +
+                String bTypes = "(discriminator != 'Shared' OR Bedroom.bedroomTypeName = '" +
+                        String.join("' OR Bedroom.bedroomTypeName = '", bedroomsTypes) +
+                        "')";
+                bTypes = bTypes.replace("Bedroom.bedroomTypeName = 'multiple'",
+                        "(Bedroom.bedroomTypeName = 'multiple' " +
                                 "AND Bedroom.peopleAmount >= " + peopleAmountMultiple + ")");
                 conditions.add(bTypes);
             }
