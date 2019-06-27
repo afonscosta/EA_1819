@@ -12,10 +12,10 @@
               <b-col md="4">
                 <b-row>
                   <b-col>
-                    <b-button class="blockUser" @click.stop="handleBlockUser(complaint.owner)" size="sm" variant="warning">Bloquear anunciante</b-button>
+                    <b-button class="blockUser" @click.stop="handleBlockUser(complaint.owner)" size="sm" variant="warning">Bloquear <br /> anunciante</b-button>
                   </b-col>
                   <b-col>
-                    <b-button class="blockProp" @click.stop="handleBlockProp(complaint.id)" size="sm" variant="warning">Bloquear imóvel</b-button>
+                    <b-button class="blockProp" @click.stop="handleBlockProp(complaint.id)" size="sm" variant="warning">Bloquear <br /> imóvel</b-button>
                   </b-col>
                 </b-row>
               </b-col>
@@ -50,7 +50,10 @@ import { mapActions, mapState } from 'vuex'
 export default {
   name: 'complaints',
   data: () => {
-    return {}
+    return {
+      user_id: null,
+      property_id: null
+    }
   },
   created () {
     this.getComplaints()
@@ -69,35 +72,39 @@ export default {
     ...mapActions('properties', [
       'goToProperty'
     ]),
-    showModalUser() {
-        this.$refs['my-modalUser'].show()
+    showModalUser () {
+      this.$refs['my-modalUser'].show()
     },
-    toggleModalUser (id) {
-      this.blockUser(id)
+    toggleModalUser () {
+      this.blockUser(this.user_id)
+      console.log('chamada blocl user')
     },
     hideModalUser () {
-        this.$refs['my-modalUser'].hide()
+      this.$refs['my-modalUser'].hide()
     },
-    showModalProperty() {
-        this.$refs['my-modalProperty'].show()
+    showModalProperty () {
+      this.$refs['my-modalProperty'].show()
     },
-    toggleModalProperty (id) {
-      this.blockProperty(id)
+    toggleModalProperty () {
+      console.log(this.property_id)
+      this.blockProperty(this.property_id)
+      console.log('chamada blocl property')
     },
     hideModalProperty () {
-        this.$refs['my-modalProperty'].hide()
+      this.$refs['my-modalProperty'].hide()
     },
     handleClick (evt, id) {
       console.log(evt, 'property')
       this.goToProperty(id)
     },
-    handleBlockUser (evt, id) {
-      console.log(evt, 'blockuser')
-      this.showModalUser(id)
+    handleBlockUser (id) {
+      this.user_id = id
+      this.showModalUser()
     },
-    handleBlockProp (evt, id) {
-      console.log(evt, 'blockProp')
-      this.showModalUser(id)
+    handleBlockProp (id) {
+      console.log('teste id', id)
+      this.property_id = id
+      this.showModalProperty()
     },
     goToProperty (id) {
       this.getProperty(id)

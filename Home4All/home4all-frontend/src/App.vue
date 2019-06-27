@@ -14,6 +14,15 @@ export default {
   components: {
     Navbar,
     Footer
+  },
+  created () {
+    var sessionID = localStorage.getItem('sessionID')
+    if (sessionID) {
+      this.$store.dispatch('login/setPlainSessionID', sessionID)
+      this.$router.push('/')
+    } else {
+      this.$router.push({ name: 'home' })
+    }
   }
 }
 </script>
