@@ -1,4 +1,5 @@
 import home4all from '@/services/home4all'
+import store from '../store/modules/login'
 
 export default {
   login (payload) {
