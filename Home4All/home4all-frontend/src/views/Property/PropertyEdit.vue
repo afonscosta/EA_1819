@@ -17,7 +17,7 @@
         <b-col>
           <b-form align="left" @submit="onSubmit">
             <b-row align-h="center">
-              <b-col cols="4">
+              <b-col cols="12" lg="4">
                 <b-button-group>
                   <b-button @click="$router.go(-1)" variant="primary">Cancelar</b-button>
                   <b-button @click="$refs['modal-del-property'].show()" variant="danger">Eliminar</b-button>
@@ -143,7 +143,7 @@
               @updateAllowedPets="updateAllowedPets"/>
 
             <b-row class="buttons-end" align-h="center">
-              <b-col cols="4">
+              <b-col cols="12" lg="4">
                 <b-button-group>
                   <b-button @click="$router.go(-1)" variant="primary">Cancelar</b-button>
                   <b-button @click="$refs['modal-del-property'].show()" variant="danger">Eliminar</b-button>
@@ -431,8 +431,7 @@ export default {
 }
 
 .title {
-  margin-top: 2rem;
-  margin-bottom: 1rem;
+  text-align: center !important;
 }
 
 #name-form-group {

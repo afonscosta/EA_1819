@@ -44,7 +44,7 @@
         </b-form-group>
       </b-col>
       <b-col>
-        <b-form-group id="input-group-5" label="Área:" label-for="input-5">
+        <b-form-group id="input-group-5" label="Área (m²):" label-for="input-5">
           <b-form-input
             id="input-5"
             v-model.number="area"
@@ -56,8 +56,9 @@
       </b-col>
     </b-row>
 
-    <label v-if="showCurrentLocation">Localização atual: {{ address }}</label>
-    <label class="input-location mb-1">Localização:</label>
+    <label v-if="showCurrentLocation"><strong>Localização antiga:</strong></label>
+    <label v-if="showCurrentLocation">{{ address }}</label>
+    <label class="input-location mb-1" v-if="showCurrentLocation"><strong>Localização nova:</strong></label>
     <gmap-autocomplete
       class="form-control mb-3"
       placeholder="Insira uma localização"

@@ -1,13 +1,13 @@
 <template>
   <div class="search">
     <SearchBox class="mt-3" />
-    <b-container class="mt-5">
-      <b-row v-if="currentList.length === 0">
+    <b-container>
+      <b-row class="mt-5" v-if="currentList.length === 0">
         <b-col>
           <h4>Não foram encontrados imóveis para a pesquisa realizada</h4>
         </b-col>
       </b-row>
-      <b-row v-if="currentList.length > 0">
+      <b-row class="mt-3" v-if="currentList.length > 0">
         <b-col>
           <b-pagination
             align="fill"
@@ -40,11 +40,12 @@
               </b-col>
               <b-col align="left" lg="6" cols="12">
                 <b-card-title class="mt-2">{{ prop.name }}</b-card-title>
-                <b-card-text v-if="prop.rent && !prop.bedrooms">{{ prop.rentPrice }} €/mês</b-card-text>
-                <b-card-text v-if="prop.sell">{{ prop.sellPrice }} €</b-card-text>
+                <b-card-text>{{ parseType(prop.type) }}</b-card-text>
+                <b-card-text v-if="prop.rent && !prop.bedrooms"><strong>Renda:</strong> {{ prop.rentPrice }} €/mês</b-card-text>
+                <b-card-text v-if="prop.sell"><strong>Venda:</strong> {{ prop.sellPrice }} €</b-card-text>
                 <b-card-text>{{ prop.address }}</b-card-text>
               </b-col>
-              <b-col class="p-0" lg="3" cols="12">
+              <b-col class="google-map" lg="3" cols="12">
                 <GoogleMap :disableUI="true"
                   :drag="false" :height="200"
                   :marker="{ lat: prop.lat, lng: prop.lng }"/>
@@ -125,6 +126,15 @@ export default {
           // this.setProperty(prop)
           this.$router.push({ name: 'propertyView' })
         })
+    },
+    parseType (type) {
+      if (type === 'bedrooms') {
+        return 'Quartos'
+      } else if (type === 'apartment') {
+        return 'Apartamento'
+      } else if (type === 'villa') {
+        return 'Vivenda'
+      }
     }
   }
 }
@@ -213,5 +223,21 @@ img {
   background-color: transparent;
   border-color: transparent;
   color: black;
+}
+
+.google-map {
+  padding: 0px;
+}
+
+@media (max-width: 576px) {
+  .google-map {
+    display: none;
+  }
+
+  .container-image img {
+    width: 100%;
+    left: 20%;
+    height: auto;
+  }
 }
 </style>

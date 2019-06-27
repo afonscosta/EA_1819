@@ -6,23 +6,23 @@
     header-border-variant="secondary"
   >
     <b-row>
-      <b-col>
-        <label>Feminino: {{ females }}</label>
+      <b-col cols="6" lg="4">
+        <label><strong>Feminino:</strong> {{ females }}</label>
       </b-col>
-      <b-col>
-        <label>Masculino: {{ males }}</label>
+      <b-col cols="6" lg="4">
+        <label><strong>Masculino:</strong> {{ males }}</label>
       </b-col>
-      <b-col>
-        <label>Fumadores: {{ smokers }}</label>
+      <b-col cols="12" lg="4">
+        <label><strong>Fumadores:</strong> {{ smokers }}</label>
       </b-col>
-      <b-col>
-        <label>Nº de animais de estimação: {{ petsQuantity }}</label>
+      <b-col cols="12" lg="6">
+        <label><strong>Nº de animais de estimação:</strong> {{ petsQuantity }}</label>
       </b-col>
-      <b-col>
-        <label>Tipos de animais de estimação: {{ pets }}</label>
+      <b-col cols="12" lg="6">
+        <label><strong>Tipos de animais de estimação:</strong> {{ pets.toString() }}</label>
       </b-col>
     </b-row>
-    <b-form-group id="present-tenants-ocupation-form-group" label="Ocupações dos arrendatários atuais:">
+    <b-form-group align="left" id="present-tenants-ocupation-form-group" label="Ocupações dos arrendatários atuais:">
       <b-form-checkbox-group
         disabled
         v-model="occupations"

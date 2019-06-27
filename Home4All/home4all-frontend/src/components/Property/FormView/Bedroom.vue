@@ -18,26 +18,23 @@
       border-variant="secondary"
       header="Quartos disponíveis"
       header-border-variant="secondary"
+      no-body
     >
-      <b-card v-if="bedrooms.length > 0">
-        <b-row
-          align-v="end"
-          v-for="(b, idx) in bedrooms"
-          :key="idx"
-        >
-          <b-col>
-            <b-button variant="primary" @click="showImages(idx)">Imagens</b-button>
+      <b-card class="bedroom-card" v-for="(b, idx) in bedrooms" :key="idx">
+        <b-row align-v="center">
+          <b-col cols="12" align="center" lg="2">
+            <b-button class="image-button middle-button" variant="primary" @click="showImages(idx)">Imagens</b-button>
           </b-col>
-          <b-col>
-            <label>Tipo: {{ b.type }}</label>
+          <b-col cols="12" lg="2">
+            <label><strong>Tipo:</strong> {{ parseType(b.type) }}</label>
           </b-col>
-          <b-col v-if="b.type === 'multiple'">
-            <label>Nº de pessoas: {{ b.peopleAmount }}</label>
+          <b-col cols="12" lg="2" v-if="b.type === 'multiple'">
+            <label><strong>Nº de pessoas:</strong> {{ b.peopleAmount }}</label>
           </b-col>
-          <b-col>
-            <label>Área: {{ b.area }}</label>
+          <b-col cols="12" lg="1">
+            <label><strong>Área:</strong> {{ b.area }} m²</label>
           </b-col>
-          <b-col cols="3">
+          <b-col cols="12" lg="2">
             <b-row>
               <b-col cols="12">
                 <b-form-checkbox
@@ -57,108 +54,119 @@
               </b-col>
             </b-row>
           </b-col>
-          <b-col>
-            <label>Disponibilidade:</label>
+          <b-col cols="12" lg="2">
+            <label><strong>Disponibilidade:</strong></label>
             <label>{{ b.availability }}</label>
           </b-col>
-          <b-col>
-            <label>Mensalidade: {{ b.rentPrice }} €</label>
+          <b-col cols="12" lg="2">
+            <label><strong>Mensalidade:</strong>  {{ b.rentPrice }} €/mês</label>
           </b-col>
-          <b-col>
-            <b-button @click="$emit('deleteBedroom', idx)" variant="danger">Eliminar</b-button>
+          <b-col cols="12" lg="1" align="center">
+            <b-button class="middle-button" @click="$emit('deleteBedroom', idx)" variant="danger">
+              <font-awesome-icon icon="trash-alt" />
+            </b-button>
           </b-col>
         </b-row>
       </b-card>
 
-      <b-button v-if="hidden && bedrooms.length !== 0" variant="primary" @click="hidden = false">Mais</b-button>
-      <b-form-group
-        v-if="!hidden || bedrooms.length === 0"
-        id="bedrooms-form-group"
-      >
-        <b-row align-v="end">
-          <b-col>
-            <LoadImages class="load-images-bedroom"
-              :images="bedroom.images"
-              @addImage="addBedroomImage"
-              @removeImage="removeBedroomImage"
-              @updateImages="updateBedroomImages"/>
-          </b-col>
-        </b-row>
-        <b-row class="mt-3 mb-3" align-v="end">
-          <b-col>
-            <b-form-group id="type" label="Tipo:" label-for="input-11">
-              <b-form-select
-                v-model="bedroom.type"
-                :options="optionsType"
-                @change="updateBedroomType"
-              ></b-form-select>
-            </b-form-group>
-          </b-col>
-          <b-col v-if="bedroom.type === 'multiple'">
-            <b-form-group id="type" label="Nº de pessoas:" label-for="input-11">
-              <b-input
-                v-model.number="bedroom.peopleAmount"
-                type="number"
-                width="auto"
-                @change="updateBedroomPeopleAmount"
-              ></b-input>
-            </b-form-group>
-          </b-col>
-          <b-col>
-            <b-form-group id="area" label="Área:" label-for="input-11">
-              <b-input
-                v-model.number="bedroom.area"
-                type="number"
-                width="auto"
-                @change="updateBedroomArea"
-              ></b-input>
-            </b-form-group>
-          </b-col>
-          <b-col cols="3">
-            <b-row>
-              <b-col cols="12">
-                <b-form-checkbox
-                  id="furnished"
-                  v-model="bedroom.furnished"
-                  name="checkbox-4"
-                  @change="updateBedroomFurnished"
-                >Mobilado</b-form-checkbox>
-              </b-col>
-              <b-col cols="12">
-                <b-form-checkbox
-                  id="privateBathroom"
-                  v-model="bedroom.privateBathroom"
-                  name="checkbox-5"
-                  @change="updateBedroomPrivateBathroom"
-                >Casa de banho privativa</b-form-checkbox>
-              </b-col>
-            </b-row>
-          </b-col>
-          <b-col>
-            <b-form-group id="availability" label="Disponibilidade:" label-for="input-11">
-              <b-input
-                v-model="bedroom.availability"
-                type="date"
-                @change="updateBedroomAvailability"
-              ></b-input>
-            </b-form-group>
-          </b-col>
-          <b-col>
-            <b-form-group id="rentPrice" label="Mensalidade:" label-for="input-11">
-              <b-input
-                v-model.number="bedroom.rentPrice"
-                type="number"
-                @change="updateBedroomRentPrice"
-              ></b-input>
-            </b-form-group>
-          </b-col>
-        </b-row>
-        <b-row align-h="center">
-          <b-col align="right">
-            <b-button variant="primary" @click="addBedroom">Adicionar</b-button>
-          </b-col>
-        </b-row>
-      </b-form-group>
+      <b-row>
+        <b-col align="right">
+          <b-button class="plus-button" v-if="hidden && bedrooms.length !== 0" variant="primary" @click="hidden = false">
+            <font-awesome-icon icon="plus" />
+          </b-button>
+        </b-col>
+      </b-row>
+
+      <div class="form-bedroom">
+        <b-form-group
+          v-if="!hidden || bedrooms.length === 0"
+          id="bedrooms-form-group"
+        >
+          <b-row align-v="end">
+            <b-col>
+              <LoadImages class="load-images-bedroom"
+                :images="bedroom.images"
+                @addImage="addBedroomImage"
+                @removeImage="removeBedroomImage"
+                @updateImages="updateBedroomImages"/>
+            </b-col>
+          </b-row>
+          <b-row class="mt-3 mb-3" align-v="end">
+            <b-col cols="12" lg="3">
+              <b-form-group id="type" label="Tipo:" label-for="input-11">
+                <b-form-select
+                  v-model="bedroom.type"
+                  :options="optionsType"
+                  @change="updateBedroomType"
+                ></b-form-select>
+              </b-form-group>
+            </b-col>
+            <b-col cols="12" lg="2" v-if="bedroom.type === 'multiple'">
+              <b-form-group id="type" label="Nº de pessoas:" label-for="input-11">
+                <b-input
+                  v-model.number="bedroom.peopleAmount"
+                  type="number"
+                  width="auto"
+                  @change="updateBedroomPeopleAmount"
+                ></b-input>
+              </b-form-group>
+            </b-col>
+            <b-col cols="12" lg="2">
+              <b-form-group id="area" label="Área:" label-for="input-11">
+                <b-input
+                  v-model.number="bedroom.area"
+                  type="number"
+                  width="auto"
+                  @change="updateBedroomArea"
+                ></b-input>
+              </b-form-group>
+            </b-col>
+            <b-col cols="12" lg="2">
+              <b-row>
+                <b-col cols="12">
+                  <b-form-checkbox
+                    id="furnished"
+                    v-model="bedroom.furnished"
+                    name="checkbox-4"
+                    @change="updateBedroomFurnished"
+                  >Mobilado</b-form-checkbox>
+                </b-col>
+                <b-col cols="12">
+                  <b-form-checkbox
+                    id="privateBathroom"
+                    v-model="bedroom.privateBathroom"
+                    name="checkbox-5"
+                    @change="updateBedroomPrivateBathroom"
+                  >Casa de banho privativa</b-form-checkbox>
+                </b-col>
+              </b-row>
+            </b-col>
+            <b-col cols="12" lg="3">
+              <b-form-group id="availability" label="Disponibilidade:" label-for="input-11">
+                <b-input
+                  v-model="bedroom.availability"
+                  type="date"
+                  @change="updateBedroomAvailability"
+                ></b-input>
+              </b-form-group>
+            </b-col>
+            <b-col cols="12" lg="2">
+              <b-form-group id="rentPrice" label="Mensalidade (€/mês):" label-for="input-11">
+                <b-input
+                  v-model.number="bedroom.rentPrice"
+                  type="number"
+                  @change="updateBedroomRentPrice"
+                ></b-input>
+              </b-form-group>
+            </b-col>
+          </b-row>
+          <b-row align-h="center">
+            <b-col align="right">
+              <b-button variant="primary" @click="addBedroom">Adicionar</b-button>
+            </b-col>
+          </b-row>
+        </b-form-group>
+      </div>
     </b-card>
   </div>
 </template>
@@ -258,6 +266,15 @@ export default {
         images: [],
         peopleAmount: 0
       }
+    },
+    parseType (type) {
+      if (type === 'single') {
+        return 'Individual'
+      } else if (type === 'double') {
+        return 'Casal'
+      } else if (type === 'multiple') {
+        return 'Múltiplo'
+      }
     }
   }
 }
@@ -285,5 +302,35 @@ export default {
 .images-modal img {
   width:250px !important;
   height:250px !important;
+}
+
+.image-button {
+  margin-bottom: 1rem;
+}
+
+.middle-button {
+  width: 90%;
+}
+
+.card-list-bedroom {
+  margin-bottom: 1rem;
+}
+
+.bedroom-card {
+  border: 3px solid rgba(0, 0, 0, 0.125) !important;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-left: 1.5rem;
+  margin-right: 1rem;
+}
+
+.plus-button {
+  width: 40px;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+}
+
+.form-bedroom {
+  margin: 1rem;
 }
 </style>

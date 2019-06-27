@@ -18,7 +18,7 @@
     </b-container>
     <b-card-body class="p-0" v-if="showCard">
       <b-row>
-        <b-col>
+        <b-col cols="12" lg="4">
           <b-form-group id="gender-form-group" label="Género:">
             <b-form-select
               v-model="allowedGenders"
@@ -27,7 +27,7 @@
             ></b-form-select>
           </b-form-group>
         </b-col>
-        <b-col>
+        <b-col cols="12" lg="4">
           <b-form-group id="minAge-form-group" label="Idade mínima:">
             <b-input
               v-model.number="allowedMinAge"
@@ -36,7 +36,7 @@
             ></b-input>
           </b-form-group>
         </b-col>
-        <b-col>
+        <b-col cols="12" lg="4">
           <b-form-group id="maxAge-form-group" label="Idade máxima:">
             <b-input
               v-model.number="allowedMaxAge"
@@ -57,7 +57,7 @@
         ></b-form-checkbox-group>
       </b-form-group>
       <b-row align-h="center">
-        <b-col cols="3">
+        <b-col cols="12" lg="3">
           <b-form-checkbox
             id="checkbox-2"
             v-model="allowedSmokers"
@@ -65,7 +65,7 @@
             @change="updateAllowedSmokers"
           >Permitir fumadores</b-form-checkbox>
         </b-col>
-        <b-col cols="3">
+        <b-col cols="12" lg="3">
           <b-form-checkbox
             id="checkbox-3"
             v-model="allowedPets"

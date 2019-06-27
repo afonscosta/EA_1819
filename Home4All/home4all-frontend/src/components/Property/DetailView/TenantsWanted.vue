@@ -5,15 +5,15 @@
     header-border-variant="secondary"
   >
     <b-row>
-      <b-col>
-        <p><strong>Género:</strong> {{ allowedGenders }}</p>
+      <b-col cols="12" lg="4">
+        <p><strong>Género:</strong> {{ parseGenders(allowedGenders) }}</p>
       </b-col>
-      <b-col>
+      <b-col cols="12" lg="4">
         <p><strong>Idade mínima:</strong> {{
           allowedMinAge ? allowedMinAge : 'não existe limite'
         }}</p>
       </b-col>
-      <b-col>
+      <b-col cols="12" lg="4">
         <p><strong>Idade máxima:</strong> {{
           allowedMaxAge ? allowedMaxAge : 'não existe limite'
         }}</p>
@@ -30,16 +30,18 @@
       ></b-form-checkbox-group>
     </b-form-group>
     <b-row align-h="center">
-      <b-col cols="3">
+      <b-col cols="12" lg="3">
         <b-form-checkbox
+          class="checkbox-spacing"
           id="checkbox-2"
           v-model="allowedSmokers"
           name="checkbox-2"
           disabled
         >Permitir fumadores</b-form-checkbox>
       </b-col>
-      <b-col cols="3">
+      <b-col cols="12" lg="3">
         <b-form-checkbox
+          class="checkbox-spacing"
           id="checkbox-3"
           v-model="allowedPets"
           name="checkbox-3"
@@ -81,7 +83,18 @@ export default {
       { value: 'retired', text: 'Reformado' },
       { value: 'unemployed', text: 'Desempregado' }
     ]
-  })
+  }),
+  methods: {
+    parseGenders (gender) {
+      if (gender === 'undefined') {
+        return 'Não definido'
+      } else if (gender === 'male') {
+        return 'Masculino'
+      } else if (gender === 'female') {
+        return 'Feminino'
+      }
+    }
+  }
 }
 </script>
 
@@ -117,5 +130,9 @@ export default {
 .btn-group > .btn-group > .btn {
   margin: 0.375rem 0.75rem;
   border-radius: 0.25rem !important;
+}
+
+.checkbox-spacing {
+  margin-top: 0.5rem;
 }
 </style>
