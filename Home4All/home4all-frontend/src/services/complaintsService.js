@@ -8,14 +8,12 @@ export default {
     }).then(response => response.data)
   },
   blockUser (id) {
-    return home4all.delete(`users`, {
-      id: id
-    }, {
+    return home4all.delete(`users/${id}`, {}, {
       Cookie: `JSESSIONID=${store.state.sessionID}`
     })
   },
   blockProperty (id) {
-    return home4all.delete(`properties`, {
+    return home4all.delete(`properties/${id}`, {
       id: id
     }, {
       Cookie: `JSESSIONID=${store.state.sessionID}`
