@@ -195,13 +195,9 @@ public class UsersBean implements UsersBeanLocal {
                 .add(Restrictions.between("publishDate", dateB, dateE))
                 .createAlias("P.owner", "u")
                 .add(Restrictions.eq("u.ID", ID))
-               // .add(Restrictions.eq("sold", Boolean.TRUE))
                 .setProjection(Projections.projectionList()
-                        .add(Projections.sqlGroupProjection("TO_CHAR(publishDate, 'MM') as month","month", new String[]{"month"},new Type[]{new StringType()}))
-                        //.add(Projections.property("monthDate"))
+                        .add(Projections.sqlGroupProjection("TO_CHAR(publishDate, 'TMMonth yy') as month","month", new String[]{"month"},new Type[]{new StringType()}))
                         .add(Projections.rowCount()));
-                        //.add(Projections.sqlGroupProjection("{alias} month")));
-                //.addOrder(Order.desc("monthDate"));
 
         Criteria crit2 = session.createCriteria(Property.class, "P")
                 .add(Restrictions.between("publishDate", dateB, dateE))
@@ -209,11 +205,8 @@ public class UsersBean implements UsersBeanLocal {
                 .add(Restrictions.eq("u.ID", ID))
                 .add(Restrictions.eq("sold", Boolean.TRUE))
                 .setProjection(Projections.projectionList()
-                        .add(Projections.sqlGroupProjection("TO_CHAR(publishDate, 'MM') as month","month", new String[]{"month"},new Type[]{new StringType()}))
-                        //.add(Projections.property("monthDate"))
+                        .add(Projections.sqlGroupProjection("TO_CHAR(publishDate, 'TMMonth yy') as month","month", new String[]{"month"},new Type[]{new StringType()}))
                         .add(Projections.rowCount()));
-        //.add(Projections.sqlGroupProjection("{alias} month")));
-        //.addOrder(Order.desc("monthDate"));
 
         System.out.println("Done");
         List allResults = crit.list();
