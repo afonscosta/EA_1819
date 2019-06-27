@@ -14,8 +14,8 @@
           </b-nav-item>
           <b-nav-item>
             <router-link disable :to="{ name: 'comparison' }">Comparação
-              <b-badge v-if="num_props_compare === 1" variant="success">{{ num_props_compare }}</b-badge>
-              <b-badge v-if="num_props_compare === 2" variant="warning">{{ num_props_compare }}</b-badge>
+              <b-badge v-if="num_props_compare === 1" variant="warning">{{ num_props_compare }}</b-badge>
+              <b-badge v-if="num_props_compare === 2" variant="danger">{{ num_props_compare }}</b-badge>
               <b-badge v-if="num_props_compare === 3" variant="danger">{{ num_props_compare }}</b-badge>
             </router-link>
           </b-nav-item>

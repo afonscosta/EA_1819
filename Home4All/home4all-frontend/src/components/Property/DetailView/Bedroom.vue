@@ -24,7 +24,7 @@
           <b-col cols="12" lg="2">
             <b-button class="images-button" variant="primary" @click="showImages(bedroom.images)">Imagens</b-button>
           </b-col>
-          <b-col cols="6" lg="2">
+          <b-col cols="6" lg="1">
             <label><strong>Tipo:</strong> {{ parseType(bedroom.type) }}</label>
           </b-col>
           <b-col cols="12" lg="2" v-if="bedroom.type === 'multiple'">
@@ -33,7 +33,7 @@
           <b-col cols="6" lg="1">
             <label><strong>Área:</strong> {{ bedroom.area }} m²</label>
           </b-col>
-          <b-col cols="12" lg="3">
+          <b-col cols="12" lg="2">
             <b-row>
               <b-col cols="12">
                 <b-form-checkbox
@@ -56,8 +56,12 @@
           <b-col class="avail" cols="12" lg="2">
             <label><strong>Disponibilidade:</strong> {{ bedroom.availability }}</label>
           </b-col>
-          <b-col cols="12" lg="1">
+          <b-col cols="12" lg="2">
             <label><strong>Mensalidade:</strong> {{ bedroom.rentPrice }} €/mês</label>
+          </b-col>
+          <b-col cols="12" lg="2">
+            <b-button class="images-button"
+              variant="primary" @click="addCompare(bedroom)">Comparar</b-button>
           </b-col>
         </b-row>
       </b-card>
@@ -66,6 +70,8 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
+
 export default {
   name: 'Bedroom',
   props: {
@@ -74,12 +80,21 @@ export default {
     },
     bedrooms: {
       type: Array
+    },
+    property: {
+      type: Object
     }
   },
   data: () => ({
     images: []
   }),
+  computed: {
+    ...mapState({
+      props_compare: state => state.properties.props_compare
+    })
+  },
   methods: {
+    ...mapActions('properties', [ 'addPropCompare', 'setPropertyEdit' ]),
     showImages (imgs) {
       this.images = imgs
       this.$refs['show-images-modal'].show()
@@ -92,6 +107,25 @@ export default {
       } else if (type === 'multiple') {
         return 'Múltiplo'
       }
+    },
+    addCompare (bedroom) {
+      console.log('bedroom', this.property)
+      var finalBedroom = {}
+      finalBedroom.images = bedroom.images
+      finalBedroom.type = bedroom.type
+      finalBedroom.typology = ''
+      finalBedroom.area = bedroom.area
+      finalBedroom.furnished = bedroom.furnished
+      finalBedroom.availability = bedroom.availability
+      finalBedroom.rentPrice = bedroom.rentPrice
+      finalBedroom.expensesIncluded = this.property.expensesIncluded
+      finalBedroom.owner = this.property.owner
+      finalBedroom.address = this.property.address
+      finalBedroom.lat = this.property.lat
+      finalBedroom.lng = this.property.lng
+      finalBedroom.id = this.property.id
+      finalBedroom.name = this.property.name
+      this.addPropCompare(finalBedroom)
     }
   }
 }
