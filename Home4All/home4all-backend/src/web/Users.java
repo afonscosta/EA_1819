@@ -18,7 +18,7 @@ import java.io.PrintWriter;
 import java.util.Map;
 import java.util.logging.Logger;
 
-@WebServlet(name = "Users", urlPatterns = {"/users"})
+@WebServlet(name = "Users", urlPatterns = {"/users/*"})
 public class Users extends HttpServlet {
     private Gson gson = new Gson();
     private static Logger LOGGER = Logger.getLogger("InfoLogging");

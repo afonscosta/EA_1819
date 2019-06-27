@@ -328,7 +328,9 @@ public class UsersBean implements UsersBeanLocal {
             for (Property p : userProperties) {
                 p.setBlocked(true);
                 session.save(p);
+                System.out.println(p.getBlocked());
             }
+            System.out.println(userInfo.getBlocked());
             return true;
         }
         else

@@ -603,6 +603,7 @@ public class PropertyBean implements PropertyBeanLocal {
         if (property != null) {
             property.setBlocked(true);
             s.save(property);
+            System.out.println(property.getBlocked())   ;
             return true;
         } else {
             return false;
