@@ -17,22 +17,23 @@
       border-variant="secondary"
       header="Quartos disponíveis"
       header-border-variant="secondary"
+      no-body
     >
-      <b-card no-body class="mt-2" v-for="bedroom in bedrooms" :key="bedroom.id" align-v="end">
-        <b-row class="mt-2">
-          <b-col>
-            <b-button class="mt-1" variant="primary" @click="showImages(bedroom.images)">Imagens</b-button>
+      <b-card no-body class="bedroom-card" v-for="bedroom in bedrooms" :key="bedroom.id">
+        <b-row class="mt-2 mb-2" align-v="center">
+          <b-col cols="12" lg="2">
+            <b-button class="images-button" variant="primary" @click="showImages(bedroom.images)">Imagens</b-button>
           </b-col>
-          <b-col>
-            <label>Tipo: {{ bedroom.type }}</label>
+          <b-col cols="6" lg="2">
+            <label><strong>Tipo:</strong> {{ parseType(bedroom.type) }}</label>
           </b-col>
-          <b-col v-if="bedroom.type === 'multiple'">
-            <label>Nº de pessoas: {{ bedroom.peopleAmount }}</label>
+          <b-col cols="12" lg="2" v-if="bedroom.type === 'multiple'">
+            <label><strong>Nº de pessoas:</strong> {{ bedroom.peopleAmount }}</label>
           </b-col>
-          <b-col>
-            <label>Área: {{ bedroom.area }}</label>
+          <b-col cols="6" lg="1">
+            <label><strong>Área:</strong> {{ bedroom.area }} m²</label>
           </b-col>
-          <b-col cols="3">
+          <b-col cols="12" lg="3">
             <b-row>
               <b-col cols="12">
                 <b-form-checkbox
@@ -52,11 +53,11 @@
               </b-col>
             </b-row>
           </b-col>
-          <b-col>
-            <label>Disponibilidade: {{ bedroom.availability }}</label>
+          <b-col class="avail" cols="12" lg="2">
+            <label><strong>Disponibilidade:</strong> {{ bedroom.availability }}</label>
           </b-col>
-          <b-col>
-            <label>Preço: {{ bedroom.rentPrice }}</label>
+          <b-col cols="12" lg="1">
+            <label><strong>Mensalidade:</strong> {{ bedroom.rentPrice }} €/mês</label>
           </b-col>
         </b-row>
       </b-card>
@@ -82,6 +83,15 @@ export default {
     showImages (imgs) {
       this.images = imgs
       this.$refs['show-images-modal'].show()
+    },
+    parseType (type) {
+      if (type === 'single') {
+        return 'Individual'
+      } else if (type === 'double') {
+        return 'Casal'
+      } else if (type === 'multiple') {
+        return 'Múltiplo'
+      }
     }
   }
 }
@@ -99,5 +109,24 @@ export default {
 #availability,
 #rentPrice {
   margin: 0px !important;
+}
+
+.images-button {
+  margin-bottom: 1rem;
+  width: 90%;
+}
+
+.bedroom-card {
+  border: 3px solid rgba(0, 0, 0, 0.125) !important;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-left: 1.5rem;
+  margin-right: 1rem;
+}
+
+@media (max-width: 576px) {
+  .avail {
+    margin-top: 1rem;
+  }
 }
 </style>

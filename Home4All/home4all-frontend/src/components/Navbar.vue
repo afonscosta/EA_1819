@@ -1,6 +1,6 @@
 <template>
   <div class="navbar-div">
-    <b-navbar toggleable="sm" type="light" variant="light">
+    <b-navbar toggleable="md" type="light" variant="light">
       <b-navbar-brand>
         <router-link :to="{ name: 'home' }"><img class="icon" height="42" width="42" src="@/assets/logo.svg"/></router-link>
       </b-navbar-brand>
@@ -19,8 +19,8 @@
               <b-badge v-if="num_props_compare === 3" variant="danger">{{ num_props_compare }}</b-badge>
             </router-link>
           </b-nav-item>
-          <b-nav-item>
-            <router-link :to="{ name: 'propertyAdd' }">Vender</router-link>
+          <b-nav-item v-if="sessionID">
+            <router-link :to="{ name: 'propertyAdd' }">Anunciar</router-link>
           </b-nav-item>
           <b-nav-item>
             <router-link v-if="$store.state.login.sessionID === ''" :to="{ name: 'register' }">Registar</router-link>
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'Navbar',
@@ -53,7 +53,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('properties', [ 'num_props_compare' ])
+    ...mapGetters('properties', [ 'num_props_compare' ]),
+    ...mapState({
+      sessionID: state => state.login.sessionID
+    })
   },
   methods: {
     ...mapActions('login', ['logout']),

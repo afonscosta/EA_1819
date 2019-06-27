@@ -32,8 +32,17 @@
               <div v-if="row.index == 0">
                 <ImagesPreview :imgs="row.value" :numImgPreview="numImgPreview" @showLightbox="showLightbox"/>
               </div>
-              <label v-if="row.index == 10">Endereço: {{ row.value.addr }}</label>
-              <b-button variant="primary" v-if="row.index == 10" @click="openMap(row.value.loc)">Localização</b-button>
+              <b-row>
+                <b-col>
+                  <label v-if="row.index == 10"><strong>Endereço:&nbsp;</strong></label>
+                  <label v-if="row.index == 10">{{ row.value.addr }}</label>
+                </b-col>
+              </b-row>
+              <b-row>
+                <b-col>
+                  <b-button variant="primary" v-if="row.index == 10" @click="openMap(row.value.loc)">Localização</b-button>
+                </b-col>
+              </b-row>
               <b-button variant="primary" v-if="row.index == 11" @click="goToProperty(row.value)">Ver detalhes</b-button>
               <b-button variant="danger" v-if="row.index == 12" @click="removePropCompare(row.value)">Remover</b-button>
             </template>
@@ -167,7 +176,7 @@ export default {
         })
       } else if (key.value === 'expensesIncluded') {
         props.map(p => p[key.value]).forEach((item) => {
-          content['col' + i++] = item
+          content['col' + i++] = item.toString() !== '' ? item.toString() : 'Não incluí despesas'
         })
       } else {
         props.map(p => p[key.value]).forEach((item) => {
@@ -199,7 +208,7 @@ export default {
 }
 </script>
 
-<style scope>
+<style scoped>
 thead {
   background-color: #FFA64C;
 }

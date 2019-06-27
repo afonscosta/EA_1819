@@ -9,6 +9,7 @@
       <google-map :marker="marker"/>
     </b-modal>
     <b-card
+      class="prop-card"
       border-variant="secondary"
       header="Informação Geral"
       header-border-variant="secondary"
@@ -20,7 +21,7 @@
       </b-row>
       <b-row>
         <b-col>
-          <p><strong>Imóvel:</strong> {{ type }}</p>
+          <p><strong>Imóvel:</strong> {{ parseType(type) }}</p>
         </b-col>
         <b-col>
           <p><strong>Tipologia:</strong> {{ typology }}</p>
@@ -30,9 +31,11 @@
         </b-col>
       </b-row>
 
-      <p><strong>Endereço completo:</strong> {{ address }}</p>
+      <p align="left" class="ml-1 mb-0"><strong>Endereço:</strong></p>
+      <p align="left" class="ml-1">{{ address }}</p>
       <b-button variant="primary"
         @click="openMap({ lat: lat, lng: lng})"
+        class="local-button"
       >Localização</b-button>
 
       <b-row>
@@ -57,27 +60,27 @@
       </b-row>
 
       <b-row>
-        <b-col>
-          <p v-if="type !== 'bedrooms'">Disponível a partir de:</p>
-          <p v-if="type !== 'bedrooms'">{{ availability }}</p>
+        <b-col cols="12" lg="4">
+          <label v-if="type !== 'bedrooms'"><strong>Disponível a partir de:</strong>&nbsp;</label>
+          <label v-if="type !== 'bedrooms'">{{ availability }}</label>
         </b-col>
-        <b-col v-if="type !== 'bedrooms' && rent && !sell">
-          <p>Operação: arrendar</p>
+        <b-col cols="12" lg="4" v-if="type !== 'bedrooms' && rent && !sell">
+          <p><strong>Operação:</strong> arrendar</p>
         </b-col>
-        <b-col v-if="type !== 'bedrooms' && !rent && sell">
-          <p>Operação: vender</p>
+        <b-col cols="12" lg="4" v-if="type !== 'bedrooms' && !rent && sell">
+          <p><strong>Operação:</strong> vender</p>
         </b-col>
-        <b-col v-if="type !== 'bedrooms' && rent && sell">
-          <p>Operação: vender/arrendar</p>
+        <b-col cols="12" lg="4" v-if="type !== 'bedrooms' && rent && sell">
+          <p><strong>Operação:</strong> vender/arrendar</p>
         </b-col>
       </b-row>
 
       <b-row>
-        <b-col>
-          <p v-if="type !== 'bedrooms' && rent">Mensalidade: {{ rentPrice }} €/mês</p>
+        <b-col cols="12" lg="6">
+          <p v-if="type !== 'bedrooms' && rent"><strong>Mensalidade:</strong> {{ rentPrice }} €/mês</p>
         </b-col>
-        <b-col>
-          <p v-if="type !== 'bedrooms' && sell">Preço total: {{ sellPrice }} €</p>
+        <b-col cols="12" lg="6">
+          <p v-if="type !== 'bedrooms' && sell"><strong>Preço total:</strong> {{ sellPrice }} €</p>
         </b-col>
       </b-row>
     </b-card>
@@ -157,6 +160,15 @@ export default {
     openMap (value) {
       this.marker = value
       this.$refs['modal-map'].show()
+    },
+    parseType (type) {
+      if (type === 'bedrooms') {
+        return 'Quartos'
+      } else if (type === 'villa') {
+        return 'Vivenda'
+      } else if (type === 'apartment') {
+        return 'Apartamento'
+      }
     }
   }
 }
@@ -165,5 +177,18 @@ export default {
 <style scoped>
 .description {
   word-wrap: break-word;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.card-div {
+  height: 400px;
+}
+
+@media (max-width: 576px) {
+  .local-button {
+    width: 90%;
+    margin-bottom: 1rem;
+  }
 }
 </style>

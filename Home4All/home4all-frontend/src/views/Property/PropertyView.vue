@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div align="center">
     <h3 class="title">{{ property.name }}</h3>
     <b-button @click="editProperty()" variant="primary">Editar</b-button>
     <b-button :disabled="num_props_compare === 3"
@@ -10,10 +10,10 @@
         <b-col>
           <b-card-group deck class="deck-images-prop-info">
             <b-row class="m-0 p-0">
-              <b-col class="m-0 p-0">
+              <b-col class="m-0 p-0" cols="12" lg="6">
                 <Images :images="property.images" class="images"/>
               </b-col>
-              <b-col class="m-0 p-0">
+              <b-col class="m-0 p-0" cols="12" lg="6">
                 <PropertyInfo
                   :description="property.description"
                   :type="property.type"
@@ -112,3 +112,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.title {
+  text-align: center;
+}
+</style>

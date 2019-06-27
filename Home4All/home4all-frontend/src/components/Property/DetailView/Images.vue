@@ -21,17 +21,27 @@ export default {
 }
 </script>
 
-<style scope>
+<style scoped>
 img {
   position: relative;
   float: left;
-  width:100px;
-  height:100px;
+  width: 200px;
+  height: 200px;
   object-fit:scale-down;
 }
 
+@media (max-width: 576px) {
+  img {
+    position: relative;
+    float: left;
+    width: 100%;
+    height: auto;
+    object-fit:scale-down;
+  }
+}
+
 .images-col {
-  max-height: 560px;
-  overflow-y: scroll;
+  max-height: 400px;
+  overflow-y: auto;
 }
 </style>

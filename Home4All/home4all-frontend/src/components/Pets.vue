@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="pets">
     <b-row align-v="end">
-      <b-col>
+      <b-col cols="12" lg="8">
         <label for="input-pet">Tipo de animal de estimação:</label>
         <b-form-input
           id="input-pet"
@@ -10,18 +10,16 @@
           trim
         ></b-form-input>
       </b-col>
-      <b-col>
-        <b-button variant="primary" @click="addPetType">Adicionar</b-button>
+      <b-col cols="12" lg="2" align="right">
+        <b-button class="middle-button" variant="primary" @click="addPetType">Adicionar</b-button>
       </b-col>
     </b-row>
-    <b-row v-for="(pet, idx) in pets" :key="idx">
-      <b-col cols="2">
-        <p>{{ pet }}</p>
-      </b-col>
-      <b-col cols="10">
-        <b-button size="sm" variant="danger" @click="deletePetType(idx)">Eliminar</b-button>
-      </b-col>
-    </b-row>
+    <div class="container-pets">
+      <b-button v-for="(pet, idx) in pets" :key="idx"
+        class="m-1"
+        size="sm" variant="outline-dark"
+        @click="deletePetType(idx)">{{ pet }}</b-button>
+    </div>
   </div>
 </template>
 
@@ -51,4 +49,24 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.pets-row {
+  margin-top: 10rem;
+}
+
+.container-pets {
+  flex: wrap;
+  margin-top: 1rem;
+}
+
+.middle-button {
+  width: auto;
+  margin-top: 1rem;
+}
+
+@media (max-width: 576px) {
+  .middle-button {
+    width: 100%;
+    margin-top: 1rem;
+  }
+}
 </style>

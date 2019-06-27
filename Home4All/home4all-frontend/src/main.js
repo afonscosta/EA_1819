@@ -20,12 +20,13 @@ import 'vue-slider-component/theme/default.css'
 
 // FontAwesome
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSearch, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faPlus, faMinus, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 library.add(faSearch)
 library.add(faPlus)
 library.add(faMinus)
+library.add(faTrashAlt)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

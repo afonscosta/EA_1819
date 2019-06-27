@@ -48,12 +48,6 @@
       </b-row>
       <b-row>
         <b-col>
-          <Pets :pets="petsData"
-            @addPetType="addPetType"
-            @deletePetType="deletePetType"
-          />
-        </b-col>
-        <b-col>
           <b-form-group id="present-tenants-ocupation-form-group" label="Ocupações dos arrendatários atuais:">
             <b-form-checkbox-group
               v-model="occupations"
@@ -63,6 +57,14 @@
               @change="updateSharedOccupation"
             ></b-form-checkbox-group>
           </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row class="mt-3">
+        <b-col>
+          <Pets :pets="petsData"
+            @addPetType="addPetType"
+            @deletePetType="deletePetType"
+          />
         </b-col>
       </b-row>
     </b-form-group>
@@ -158,7 +160,7 @@ export default {
 }
 </script>
 
-<style scope>
+<style scoped>
 #present-tenants-ocupation-form-group {
   margin: 0px !important;
 }
