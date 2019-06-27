@@ -48,8 +48,13 @@ const actions = {
   },
   logout ({ commit }) {
     return new Promise((resolve, reject) => {
-      commit('logout')
-      resolve('logout')
+      loginService.logout().then(() => {
+        commit('logout')
+      }).then(() => {
+        resolve('logout')
+      }, error => {
+        reject(error)
+      })
     })
   },
   getUser ({ commit }) {
