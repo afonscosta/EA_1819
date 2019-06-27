@@ -1,74 +1,80 @@
 <template>
   <b-container>
     <b-row class="justify-content-md-center">
-      <b-col md="6">
-        <b-form @submit="onSubmit">
+      <b-col md="10">
+        <b-row>
+          <b-col md="2">
+            <b-img src="https://picsum.photos/1024/400/?image=41" fluid alt="Responsive image"></b-img>
+          </b-col>
+          <b-col>
+            <b-form @submit="onSubmit">
+              <b-form-group id="input-group-2" label="Nome:" label-for="input-2">
+                <b-form-input
+                  id="input-2"
+                  v-model="form.name"
+                  placeholder="Insira o nome"
+                ></b-form-input>
+              </b-form-group>
 
-          <b-form-group id="input-group-2" label="Nome:" label-for="input-2">
-            <b-form-input
-              id="input-2"
-              v-model="form.name"
-              placeholder="Insira o nome"
-            ></b-form-input>
-          </b-form-group>
+              <b-form-group
+                id="input-group-3"
+                label="Password:"
+                label-for="input-3"
+              >
+                <b-form-input
+                  id="input-3"
+                  v-model="form.password"
+                  type="password"
+                  placeholder="Insira a password"
+                ></b-form-input>
+              </b-form-group>
 
-          <b-form-group
-            id="input-group-3"
-            label="Password:"
-            label-for="input-3"
-          >
-            <b-form-input
-              id="input-3"
-              v-model="form.password"
-              type="password"
-              placeholder="Insira a password"
-            ></b-form-input>
-          </b-form-group>
+              <b-form-group
+                id="input-group-5"
+                label="Telefone/Telemóvel:"
+                label-for="input-5"
+              >
+                <b-form-input
+                  id="input-5"
+                  v-model="form.phone"
+                  placeholder="Insira o seu número"
+                ></b-form-input>
+              </b-form-group>
 
-          <b-form-group
-            id="input-group-5"
-            label="Telefone/Telemóvel:"
-            label-for="input-5"
-          >
-            <b-form-input
-              id="input-5"
-              v-model="form.phone"
-              placeholder="Insira o seu número"
-            ></b-form-input>
-          </b-form-group>
+              <b-form-group
+                id="input-group-6"
+                label="Data de nascimento:"
+                label-for="input-6"
+              >
+                <b-form-input
+                  id="input-6"
+                  v-model="form.birthday"
+                  type="date"
+                  placeholder="Selecione a sua data de nascimento"
+                ></b-form-input>
+              </b-form-group>
 
-          <b-form-group
-            id="input-group-6"
-            label="Data de nascimento:"
-            label-for="input-6"
-          >
-            <b-form-input
-              id="input-6"
-              v-model="form.birthday"
-              type="date"
-              placeholder="Selecione a sua data de nascimento"
-            ></b-form-input>
-          </b-form-group>
+              <b-form-group
+                id="input-group-7"
+                label="Género:"
+                label-for="input-7"
+              >
+                <b-form-select v-model="form.gender" :options="gender_options"></b-form-select>
+              </b-form-group>
 
-          <b-form-group
-            id="input-group-7"
-            label="Género:"
-            label-for="input-7"
-          >
-            <b-form-select v-model="form.gender" :options="gender_options"></b-form-select>
-          </b-form-group>
+              <b-form-group
+                id="input-group-8"
+                label="Ocupação:"
+                label-for="input-8"
+              >
+                <b-form-select v-model="form.occupation" :options="occupation_options"></b-form-select>
+              </b-form-group>
 
-          <b-form-group
-            id="input-group-8"
-            label="Ocupação:"
-            label-for="input-8"
-          >
-            <b-form-select v-model="form.occupation" :options="occupation_options"></b-form-select>
-          </b-form-group>
+              <b-button type="submit" variant="primary">Guardar</b-button>
 
-          <b-button type="submit" variant="primary">Guardar</b-button>
-
-        </b-form>
+            </b-form>
+          </b-col>
+        </b-row>
       </b-col>
       <!-- <b-col md="6">
         <b-table
@@ -93,54 +99,64 @@
       </b-col>
     </b-row> -->
 
-    <b-button v-on:click="showInfoVendas = !showInfoVendas" variant="primary">Mais informação</b-button>
+    <hr>
 
-    <div v-if="showInfoVendas" class="vendasinfo">
-      <hr>
-      <b-row class="justify-content-md-center">
+    <h2>Informações de vendas</h2>
+
+    <b-row >
+      <b-col md="5">
         <b-form-group
-                id="input-group-6"
-                label="A partir de:"
-                label-for="input-6"
-              >
-                <b-form-input
-                  id="input-6"
-                  v-model="eventsFrom"
-                  type="date"
-                  placeholder="Selecione uma data"
-                ></b-form-input>
+            id="input-group-6"
+            label="A partir de:"
+            label-for="input-6"
+          >
+            <b-form-input
+              id="input-6"
+              v-model="eventsFrom"
+              type="date"
+              placeholder="Selecione uma data"
+          ></b-form-input>
         </b-form-group>
-
+      </b-col>
+      <b-col md="5">
         <b-form-group
-                id="input-group-6"
-                label="Até:"
-                label-for="input-6"
-              >
-                <b-form-input
-                  id="input-6"
-                  v-model="eventsTo"
-                  type="date"
-                  placeholder="Selecione uma data"
-                ></b-form-input>
+          id="input-group-6"
+          label="Até:"
+          label-for="input-6"
+        >
+          <b-form-input
+            id="input-6"
+            v-model="eventsTo"
+            type="date"
+            placeholder="Selecione uma data"
+          ></b-form-input>
         </b-form-group>
+      </b-col>
+      <b-col md="2" class="searchButton">
+        <b-button id="buttonSearch" v-on:click="getStatisticsInfo({dateBegin: eventsFrom, dateEnd: eventsTo})" type="submit" variant="primary">Procurar</b-button>
+      </b-col>
+    </b-row>
 
-        <b-button v-on:click="getStatisticsInfo({dateBegin: eventsFrom, dateEnd: eventsTo})" type="submit" variant="primary">Procurar</b-button>
-      </b-row>
-
+    <div v-if="chartData[0].length > 1 && chartData[1].length > 1">
       <GChart
-        v-if="chartData[0].length > 1"
         type="ColumnChart"
         :data="chartData[0]"
         :options="chartOptions"
       />
 
       <GChart
-        v-if="chartData[1].length > 1"
         type="ColumnChart"
         :data="chartData[1]"
         :options="chartOptions"
       />
     </div>
+
+    <b-card v-else bg-variant="light" title="Informação">
+      <b-card-text>
+        Não existe informação de vendas para a janela temporal selecionada.
+      </b-card-text>
+    </b-card>
+
   </b-container>
 </template>
 
@@ -272,7 +288,9 @@ export default {
       console.log(this.form)
 
       if (this.form.password !== '') {
-        this.updateUser(this.form)
+        this.updateUser(this.form).then(() => {
+          this.$router.push('/')
+        })
       } else {
         this.updateUser({
           name: this.form.name,
@@ -280,6 +298,8 @@ export default {
           birthday: this.form.birthday,
           gender: this.form.gender,
           occupation: this.form.occupation
+        }).then(() => {
+          this.$router.push('/')
         })
       }
     }
@@ -289,3 +309,16 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+
+.searchButton {
+  margin-top: auto;
+  margin-bottom: 1rem;
+}
+
+#buttonSearch {
+  width: 100%;
+}
+
+</style>

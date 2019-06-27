@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <b-container class="container-div">
     <b-row class="justify-content-md-center">
       <b-col md="6">
         <b-form @submit="onSubmit" @reset="onReset">
@@ -11,6 +11,7 @@
             <b-form-input
               id="input-1"
               v-model="form.email"
+              class="input"
               type="email"
               required
               placeholder="Insera email"
@@ -21,6 +22,7 @@
             <b-form-input
               id="input-2"
               v-model="form.name"
+              class="input"
               required
               placeholder="Insira o nome"
             ></b-form-input>
@@ -34,6 +36,7 @@
             <b-form-input
               id="input-3"
               v-model="form.password"
+              class="input"
               type="password"
               required
               placeholder="Insira a password"
@@ -48,6 +51,7 @@
             <b-form-input
               id="input-5"
               v-model="form.phone"
+              class="input"
               type="number"
               placeholder="Insira o seu número"
             ></b-form-input>
@@ -61,52 +65,49 @@
             <b-form-input
               id="input-6"
               v-model="form.birthday"
+              class="input"
               type="date"
               required
               placeholder="Selecione a sua data de nascimento"
             ></b-form-input>
           </b-form-group>
 
-          <b-form-group
-            id="input-group-7"
-            label="Género:"
-            label-for="input-7"
-          >
-            <b-form-select v-model="form.gender" required :options="gender_options"></b-form-select>
-          </b-form-group>
+          <b-row>
+            <b-col>
+              <b-form-group
+                id="input-group-7"
+                label="Género:"
+                label-for="input-7"
+              >
+                <b-form-select 
+                  v-model="form.gender"
+                  class="input"
+                  required 
+                  :options="gender_options"
+                ></b-form-select>
+              </b-form-group>
+            </b-col>
+            <b-col>
+              <b-form-group
+                id="input-group-8"
+                label="Ocupação:"
+                label-for="input-8"
+              >
+                <b-form-select 
+                  v-model="form.occupation"
+                  class="input"
+                  required 
+                  :options="occupation_options"
+                ></b-form-select>
+              </b-form-group>
+            </b-col>
+          </b-row>
 
-          <b-form-group
-            id="input-group-8"
-            label="Ocupação:"
-            label-for="input-8"
-          >
-            <b-form-select v-model="form.occupation" required :options="occupation_options"></b-form-select>
-          </b-form-group>
-
-          <b-button type="submit" variant="primary">Submit</b-button>
-          <b-button type="reset" variant="danger">Reset</b-button>
+          <b-button-group>
+            <b-button class="button" type="submit" variant="primary">Registar</b-button>
+            <b-button class="button-reset" type="reset">Limpar</b-button>
+          </b-button-group>
         </b-form>
-      </b-col>
-      <b-col md="6">
-        <b-table
-          selectable
-          select-mode="single"
-          selectedVariant="success"
-          :items="users"
-          @row-selected="rowSelected"
-        ></b-table>
-      </b-col>
-    </b-row>
-    <b-row class="justify-content-md-center">
-      <b-col md="6">
-        <b-card class="mt-3" header="Form Data Result">
-          <pre class="m-0">{{ form }}</pre>
-        </b-card>
-      </b-col>
-      <b-col md="6">
-        <b-card class="mt-3" header="Get users result">
-          <pre class="m-0">{{ users }}</pre>
-        </b-card>
       </b-col>
     </b-row>
   </b-container>
@@ -157,7 +158,9 @@ export default {
       evt.preventDefault()
       console.log(this.form.birthday)
       console.log(this.form)
-      this.addUser(this.form)
+      this.addUser(this.form).then(() => {
+        this.$router.push('/login')
+      })
     },
     onReset (evt) {
       evt.preventDefault()
@@ -187,3 +190,27 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+
+.container-div {
+  margin-top: 1rem;
+}
+
+.button {
+  background-color: rgb(241, 146, 2);
+  border: none;
+  color: rgb(44, 44, 44) ;
+}
+
+.button-reset {
+  color: rgb(44, 44, 44) ;
+  border: none;
+}
+
+.input {
+  border: 2px solid rgb(197, 197, 197);
+  font-size: 12pt;
+}
+
+</style>

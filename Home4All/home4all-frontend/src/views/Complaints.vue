@@ -24,6 +24,23 @@
         </b-col>
       </b-row>
     </div>
+
+    <b-modal ref="my-modalUser" hide-footer title="Atenção!">
+      <div class="d-block text-center">
+        <h3>Tem a certeza que pretende bloquear o utilizador autor da publicação da propriedade?</h3>
+      </div>
+      <b-button class="mt-3" variant="danger" block @click="toggleModalUser">Bloquear</b-button>
+      <b-button class="mt-2" block @click="hideModalUser">Cancelar</b-button>
+    </b-modal>
+
+    <b-modal ref="my-modalProperty" hide-footer title="Atenção!">
+      <div class="d-block text-center">
+        <h3>Tem a certeza que pretende bloquear o anúncio desta propriedade?</h3>
+      </div>
+      <b-button class="mt-3" variant="danger" block @click="toggleModalProperty">Bloquear</b-button>
+      <b-button class="mt-2" block @click="hideModalProperty">Cancelar</b-button>
+    </b-modal>
+
   </b-container>
 </template>
 
@@ -52,17 +69,35 @@ export default {
     ...mapActions('properties', [
       'goToProperty'
     ]),
+    showModalUser() {
+        this.$refs['my-modalUser'].show()
+    },
+    toggleModalUser (id) {
+      this.blockUser(id)
+    },
+    hideModalUser () {
+        this.$refs['my-modalUser'].hide()
+    },
+    showModalProperty() {
+        this.$refs['my-modalProperty'].show()
+    },
+    toggleModalProperty (id) {
+      this.blockProperty(id)
+    },
+    hideModalProperty () {
+        this.$refs['my-modalProperty'].hide()
+    },
     handleClick (evt, id) {
       console.log(evt, 'property')
       this.goToProperty(id)
     },
     handleBlockUser (evt, id) {
       console.log(evt, 'blockuser')
-      this.blockUser(id)
+      this.showModalUser(id)
     },
     handleBlockProp (evt, id) {
       console.log(evt, 'blockProp')
-      this.blockProperty(id)
+      this.showModalUser(id)
     },
     goToProperty (id) {
       this.getProperty(id)

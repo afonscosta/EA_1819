@@ -28,15 +28,26 @@ const mutations = {
 
 const actions = {
   addUser ({ commit }, user) {
-    console.log('add user enviado para o backend', user)
-    usersService.postUser(user).then(user => {
-      commit('addUser', user)
+    return new Promise((resolve, reject) => {
+      usersService.addUser(user).then(user => {
+        console.log('add user enviado para o backend', user)
+        commit('addUser', user)
+      }).then(() => {
+        resolve(user)
+      }, error => {
+        reject(error)
+      })
     })
   },
   updateUser ({ commit }, user) {
-    console.log('update user enviado para o backend', user)
-    usersService.putUser(user).then(() => {
-      commit('updateUser', user)
+    return new Promise((resolve, reject) => {
+      usersService.pushUser(user).then(() => {
+        commit('updateUser', user)
+      }).then(() => {
+        resolve(user)
+      }, error => {
+        reject(error)
+      })
     })
   },
   deleteUser ({ commit }, userID) {

@@ -21,5 +21,6 @@ export default {
 <style>
 .footer-app {
   border-radius: 0rem !important;
+  margin-top: 1rem;
 }
 </style>

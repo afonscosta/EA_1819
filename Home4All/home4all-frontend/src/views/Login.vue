@@ -2,20 +2,6 @@
   <div id="login">
     <h1> Login </h1>
 
-    <hr class="hr-text" data-content="OR">
-
-    <div class="row">
-      <div class="col-md">
-        <hr class="left-hr" style="width: 20%">
-      </div>
-      <div class="col-md-1" style="width: 20px;">
-        OU
-      </div>
-      <div class="col-md">
-        <hr class="right-hr" style="width: 20%">
-      </div>
-    </div>
-
     <div class="centered">
       <input v-on:input="invalidCredencials = false" class="email-input" type="text" name="email" v-model="input.email" placeholder="Endereço de email">
     </div>
@@ -25,7 +11,7 @@
 
     <div class="alertMessage">
       <b-alert v-model="invalidCredencials" variant="danger" dismissible>
-        Credenciais inválidas.
+        {{errorMessage}}
       </b-alert>
     </div>
 
@@ -44,7 +30,8 @@ export default {
         email: '',
         password: ''
       },
-      invalidCredencials: false
+      invalidCredencials: false,
+      errorMessage: null
     }
   },
   computed: {
@@ -72,7 +59,11 @@ export default {
           if (errorResponse.status === 403) {
             console.log('credenciais inválidas')
             this.invalidCredencials = true
+            this.errorMessage = 'Credenciais inválidas.'
           } else {
+            if (errorResponse.message) {
+              this.errorMessage = errorResponse.message
+            }
             console.log('não foi possível efetuar a ligação ao servidor aplicacional')
           }
         })
@@ -107,6 +98,20 @@ div {
   margin: auto;
 }
 
+@media (max-width: 576px) {
+  input {
+    width: 90% !important;
+  }
+}
+
+#login {
+  background: url('../assets/7.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 .button {
   background-color: rgb(241, 146, 2);
   border: none;
@@ -125,7 +130,7 @@ div {
 
 input {
   border: 2px solid rgb(197, 197, 197);
-  width: 400px;
+  width: 35%;
   font-size: 12pt;
 }
 
