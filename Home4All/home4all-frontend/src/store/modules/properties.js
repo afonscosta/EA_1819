@@ -6,7 +6,8 @@ const state = {
   props_compare: [], // Properties to compare
   property: {}, // View details
   propertyEdit: {}, // Edit details
-  searchParams: {}
+  searchParams: {},
+  userProperties: [] // Info for myProperties page
 }
 
 const getters = {
@@ -27,10 +28,16 @@ const getters = {
   },
   searchParams: state => {
     return state.searchParams
+  },
+  userProperties: state => {
+    return state.userProperties
   }
 }
 
 const mutations = {
+  setUserProperties (state, properties) {
+    state.userProperties = properties
+  },
   setProperties (state, properties) {
     state.properties = properties
   },
@@ -66,6 +73,12 @@ const mutations = {
 }
 
 const actions = {
+  getUserProperties ({ commit }) {
+    propertiesService.getUserProperties().then(properties => {
+      console.log('USER PROPERTIES', properties)
+      commit('setUserProperties', properties)
+    })
+  },
   setProperties ({ commit }, properties) {
     commit('setProperties', properties)
   },

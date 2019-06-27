@@ -3,7 +3,7 @@
     <div class="title">
       <b-row align-h="center">
         <b-col cols="12" sm="11" md="9">
-          <h1>Complaints</h1>
+          <h1>Denúncias</h1>
           <b-card @click="handleClick(complaint.id)" class="complaints_spaced" v-for="complaint in complaints" :key="complaint.id" bg-variant="light" :title="complaint.name">
             <b-card-text v-for="(complaint_text, index) in complaint.complaints" :key="index">
               {{complaint_text}}
@@ -70,7 +70,8 @@ export default {
       'blockProperty'
     ]),
     ...mapActions('properties', [
-      'goToProperty'
+      'goToProperty',
+      'getProperty'
     ]),
     showModalUser () {
       this.$refs['my-modalUser'].show()
