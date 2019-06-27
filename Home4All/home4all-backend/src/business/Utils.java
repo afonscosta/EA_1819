@@ -9,16 +9,19 @@ import com.hierynomus.smbj.connection.Connection;
 import com.hierynomus.smbj.session.Session;
 import com.hierynomus.smbj.share.DiskShare;
 import com.hierynomus.smbj.share.File;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.HttpClientBuilder;
 
+import javax.xml.bind.DatatypeConverter;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Utils {
     private static final String shared_host = "192.168.100.225";
@@ -140,6 +143,37 @@ public class Utils {
         }
     }
 
+
+    public static String md5(String original) {
+        String hash = original;
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(original.getBytes("UTF-8")); // Change this to "UTF-16" if needed
+            byte[] digest = md.digest();
+            hash = DatatypeConverter.printHexBinary(digest).toUpperCase();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return hash;
+    }
+
+    public static String generateAvatar(String email) {
+        email = email.trim().toLowerCase();
+        String hash = md5(email);
+        HttpClient httpClient = HttpClientBuilder.create().build();
+        try {
+            HttpGet request = new HttpGet("https://www.gravatar.com/avatar/" + hash + ".png?d=retro");
+            request.addHeader("User-Agent", "Mozilla/5.0");
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            String responseBody = httpClient.execute(request, responseHandler);
+            String image_b64 = Base64.getEncoder().encodeToString(responseBody.getBytes());
+            return "data:image/png;base64," + image_b64;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public static String hash(String original) {
         String res = original;
