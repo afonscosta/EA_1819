@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import facebookLogin from 'facebook-login-vuejs'
 
 export default {
@@ -61,6 +61,11 @@ export default {
       FB: undefined
     }
   },
+  computed: {
+    ...mapState({
+      isAdmin: state => state.login.isAdmin
+    })
+  },
   methods: {
     ...mapActions('login', ['login']),
     ...mapActions('users', ['teste']),
@@ -71,7 +76,11 @@ export default {
           password: this.input.password
         }).then(sessionID => {
           console.log('sessionID ' + sessionID)
-          this.$router.push('/')
+          if (this.isAdmin) {
+            this.$router.push('/admin')
+          } else {
+            this.$router.push('/')
+          }
         }).catch(errorResponse => {
           if (errorResponse.status === 403) {
             console.log('credenciais inválidas')
