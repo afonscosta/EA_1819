@@ -29,7 +29,7 @@ const mutations = {
 const actions = {
   addUser ({ commit }, user) {
     return new Promise((resolve, reject) => {
-      usersService.addUser(user).then(user => {
+      usersService.putUser(user).then(user => {
         console.log('add user enviado para o backend', user)
         commit('addUser', user)
       }).then(() => {

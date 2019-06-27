@@ -22,8 +22,13 @@ const getters = {
 const mutations = {
   setSessionID (state, response) {
     state.sessionID = response.id
+    localStorage.setItem('sessionID', response.id)
+    this.dispatch('login/getUser')
     state.user = response.user
     state.isAdmin = response.isAdmin
+  },
+  setPlainSessionID (state, sessionID) {
+    state.sessionID = sessionID
   },
   setUser (state, response) {
     state.user = response
@@ -31,10 +36,15 @@ const mutations = {
   logout (state) {
     state.user = null
     state.sessionID = ''
+    state.isAdmin = false
+    localStorage.clear()
   }
 }
 
 const actions = {
+  setPlainSessionID ({ commit }, sessionID) {
+    commit('setPlainSessionID', sessionID)
+  },
   login ({ commit }, payload) {
     return new Promise((resolve, reject) => {
       loginService.login(payload).then(response => {

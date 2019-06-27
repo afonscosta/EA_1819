@@ -57,15 +57,22 @@ public class Users extends HttpServlet {
             String jsonData;
 
             HttpSession session = request.getSession(false);
+            System.out.println(session);
             business.entities.Users currentUser = (business.entities.Users) session.getAttribute("currentSessionUser");
+            System.out.println(currentUser);
             System.out.println("USER AUTHENTICATED:" + currentUser.getEmail());
             System.out.println("SESSION ID: " + session.getId());
-            Common user = Home4All.getUser(currentUser.getID());
-            if (user != null) {
-                jsonData = Parser.userToJson(user);
+            if (currentUser instanceof Admin){
+                jsonData = Parser.currentAdminToJson(session.getId(),currentUser);
             }
-            else {
-                throw new Exception("ERRO: User não encontrado.");
+            else{
+                Common user = Home4All.getUser(currentUser.getID());
+                if (user != null) {
+                    jsonData = Parser.userToJson(user);
+                }
+                else {
+                    throw new Exception("ERRO: User não encontrado.");
+                }
             }
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
