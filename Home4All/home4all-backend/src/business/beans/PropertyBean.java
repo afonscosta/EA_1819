@@ -11,6 +11,7 @@ import org.orm.PersistentTransaction;
 import javax.ejb.Stateless;
 import javax.rmi.CORBA.Util;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.math.BigInteger;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -319,6 +320,11 @@ public class PropertyBean implements PropertyBeanLocal {
     public Property getProperty(int ID) throws PersistentException {
         PersistentSession s = getSession();
         return PropertyDAO.getPropertyByORMID(s, ID);
+    }
+
+    public List<Property> getPropertyByUser(int userID) throws PersistentException{
+        PersistentSession s = getSession();
+        return  Arrays.asList(PropertyDAO.listPropertyByQuery(s,"usersid ="+ userID, null));
     }
 
     public boolean deleteProperty(int ID) throws PersistentException {

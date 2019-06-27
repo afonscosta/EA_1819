@@ -2,6 +2,7 @@ package business.beans;
 
 import business.entities.Common;
 import business.entities.Complaint;
+import business.entities.Property;
 import business.entities.Users;
 import business.exceptions.GenderNotExistentException;
 import business.exceptions.OccupationNotExistentException;
@@ -17,7 +18,7 @@ public interface UsersBeanLocal {
     List<Users> listUsers() throws PersistentException;
 
     Common insertCommonUser(String email, String name, String password, String birthdate, String phone, String gender,
-                           String occupation) throws PersistentException, GenderNotExistentException, OccupationNotExistentException, ParseException;
+                           String occupation) throws PersistentException, GenderNotExistentException, OccupationNotExistentException, ParseException, Exception;
 
     Common updateCommonUser(int id, String name, String password, String birthdate, String phone, String gender,
                            String occupation) throws PersistentException, GenderNotExistentException, OccupationNotExistentException, ParseException;
@@ -39,5 +40,7 @@ public interface UsersBeanLocal {
     Complaint insertComplaint(String description, String propertyID) throws PersistentException;
 
     Users getUserbyUsers(int ID) throws PersistentException;
+
+    boolean deleteUser(int ID,  List<Property> properties) throws PersistentException;
 
 }

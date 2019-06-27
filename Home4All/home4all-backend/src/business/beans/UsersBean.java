@@ -58,56 +58,61 @@ public class UsersBean implements UsersBeanLocal {
 
     @Override
     public Common insertCommonUser(String email, String name, String password, String birthdate, String phone, String gender,
-                                   String occupation) throws PersistentException, GenderNotExistentException,
-            OccupationNotExistentException, ParseException {
+                                   String occupation) throws Exception {
         PersistentSession s = getSession();
         PersistentTransaction t = s.beginTransaction();
-        try {
-            Common user;
-            if (password != null) {
+
+        Users users = UsersDAO.loadUsersByQuery(s,"email='"+email +"'", null);
+        if (users == null){
+            try {
+                Common user;
+
+                if (password != null) {
                 user = InternalAccountDAO.createInternalAccount();
                 ((InternalAccount) user).setPassword(Utils.hash(password));
-            } else {
-                user = CommonDAO.createCommon();
-            }
-            Gender genderValue;
-            System.out.println(gender);
-            System.out.println(occupation);
-            if (gender != null) {
-                genderValue = GenderDAO.loadGenderByORMID(s,gender);
-                if (genderValue == null)
+                } else {
+                    user = CommonDAO.createCommon();
+                }
+                Gender genderValue;
+                System.out.println(gender);
+                System.out.println(occupation);
+                if (gender != null) {
+                    genderValue = GenderDAO.loadGenderByORMID(s,gender);
+                    if (genderValue == null)
+                        throw new GenderNotExistentException();
+                } else {
                     throw new GenderNotExistentException();
-            } else {
-                throw new GenderNotExistentException();
-            }
-            Occupation occupationValue;
-            if (occupation != null) {
-                occupationValue = OccupationDAO.loadOccupationByORMID(s,occupation);
-                if (occupationValue == null)
+                }
+                Occupation occupationValue;
+                if (occupation != null) {
+                    occupationValue = OccupationDAO.loadOccupationByORMID(s,occupation);
+                    if (occupationValue == null)
+                        throw new OccupationNotExistentException();
+                } else {
                     throw new OccupationNotExistentException();
-            } else {
-                throw new OccupationNotExistentException();
-            }
-            System.out.println(genderValue);
-            System.out.println(occupationValue);
-            user.setEmail(email);
-            user.setName(name);
-            user.setPhone(phone);
+                }
+                user.setEmail(email);
+                user.setName(name);
+                user.setPhone(phone);
 
-            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            user.setBirthdate(format.parse(birthdate));
-            user.setGender(genderValue);
-            user.setOccupation(occupationValue);
-            user.setLastLogin(new Date());
-            user.setBlocked(false);
-            s.save(user);
-            t.commit();
-            return user;
-        }
-        catch (Exception e) {
-                t.rollback();
-                throw e;
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                user.setBirthdate(format.parse(birthdate));
+                user.setGender(genderValue);
+                user.setOccupation(occupationValue);
+                user.setLastLogin(new Date());
+                user.setBlocked(false);
+                s.save(user);
+                t.commit();
+                return user;
             }
+            catch (Exception e) {
+                    t.rollback();
+                    throw e;
+                }
+        }
+        else{
+            throw new Exception("ERRO: Email já em uso");
+        }
 
     }
 
@@ -364,6 +369,24 @@ public class UsersBean implements UsersBeanLocal {
         catch (Exception e) {
             t.rollback();
             throw e;
+        }
+    }
+
+    public boolean deleteUser(int ID, List<Property> properties) throws PersistentException {
+        PersistentSession s = getSession();
+        PersistentTransaction transaction = s.beginTransaction();
+        try {
+            Users user = UsersDAO.getUsersByORMID(s, ID);
+            for (Property p : properties){
+                s.delete(p);
+            }
+            s.delete(user);
+            transaction.commit();
+            return true;
+        }
+        catch (Exception e) {
+            transaction.rollback();
+            return false;
         }
     }
 }

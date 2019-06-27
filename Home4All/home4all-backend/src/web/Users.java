@@ -129,11 +129,21 @@ public class Users extends HttpServlet {
                 response.setContentType("application/json"); // multipart/form-data
                 response.setCharacterEncoding("UTF-8");
             }
+            else{
+                boolean res = Home4All.deleteUser(currentUser.getID());
+                if (res){
+                    response.setContentType("application/json"); // multipart/form-data
+                    response.setCharacterEncoding("UTF-8");
+                }
+                else{
+                    throw new Exception("ERRO: Não é possivel eliminar o utilizador");
+                }
+            }
         }
         catch (Exception e) {
             response.setContentType("text/html");
             response.setCharacterEncoding("UTF-8");
-            response.sendError(javax.servlet.http.HttpServletResponse.SC_NOT_FOUND);
+            response.sendError(javax.servlet.http.HttpServletResponse.SC_NOT_FOUND, e.getMessage());
             e.printStackTrace();
         }
     }
