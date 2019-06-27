@@ -19,8 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-@WebServlet(name = "Login", urlPatterns = {"/authentication"})
-public class Login extends HttpServlet {
+@WebServlet(name = "Authentication", urlPatterns = {"/authentication"})
+public class Authentication extends HttpServlet {
     private Gson gson = new Gson();
     private static Logger LOGGER = Logger.getLogger("InfoLogging");
 
