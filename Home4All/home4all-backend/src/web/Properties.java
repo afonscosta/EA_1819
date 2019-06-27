@@ -147,9 +147,8 @@ public class Properties extends HttpServlet {
             business.entities.Users currentUser = (business.entities.Users) session.getAttribute("currentSessionUser");
             if (currentUser instanceof Admin) {
                 System.out.println("Admin vai bloquear property...");
-                BufferedReader reader = request.getReader();
-                Map u = gson.fromJson(reader, Map.class);
-                Integer propertyID = Integer.parseInt((String)u.get("id"));
+                Integer propertyID = Integer.parseInt(request.getPathInfo().substring(1));
+                System.out.println(propertyID);
                 boolean res = Home4All.blockProperty(propertyID);
                 if (!res){
                     throw new Exception("ERRO: Imóvel não encontrado.");

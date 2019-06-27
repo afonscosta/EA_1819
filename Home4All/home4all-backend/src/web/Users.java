@@ -120,10 +120,9 @@ public class Users extends HttpServlet {
             HttpSession session = request.getSession(false);
             business.entities.Users currentUser = (business.entities.Users) session.getAttribute("currentSessionUser");
             if (currentUser instanceof Admin) {
-                BufferedReader reader = request.getReader();
-                Map u = gson.fromJson(reader, Map.class);
-                System.out.println(u);
-                Integer userID = Integer.parseInt((String)u.get("id"));
+                Integer userID = Integer.parseInt(request.getPathInfo().substring(1));
+                System.out.println(userID);
+
                 boolean res = Home4All.blockUser(userID);
                 if (!res){
                     throw new Exception("ERRO: Utilizador não encontrado.");
