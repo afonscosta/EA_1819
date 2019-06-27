@@ -19,7 +19,7 @@ public class Logout extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         LOGGER.info("LOGOUT");
         try {
-            HttpSession session = request.getSession(true);
+            HttpSession session = request.getSession(false);
             session.setAttribute("currentSessionUser", null);
             request.logout();
             response.setContentType("application/json"); // multipart/form-data

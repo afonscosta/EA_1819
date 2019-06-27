@@ -47,7 +47,7 @@ public class PropertyBean implements PropertyBeanLocal {
         return name;
     }
 
-    private void changeProperty(Property property,
+    private void changeProperty(PersistentSession s, Property property,
                 String name, List<String> photos, String description, String typology,
                 float area, String district, String city, String completeAddress, float lat, float lng,
                 List<String> expensesIncluded, List<String> equipmentIncluded,
@@ -60,7 +60,7 @@ public class PropertyBean implements PropertyBeanLocal {
         property.setName(name);
         property.setDescription(description);
 
-        Typology t = TypologyDAO.loadTypologyByORMID(typology);
+        Typology t = TypologyDAO.loadTypologyByORMID(s,typology);
         if (t == null)
             throw new TypologyNotExistentException();
         property.setTypology(t);
@@ -77,7 +77,7 @@ public class PropertyBean implements PropertyBeanLocal {
 
         property.expensesIncluded.clear();
         for (String expenseName: expensesIncluded) {
-            Expenses expense = ExpensesDAO.loadExpensesByORMID(expenseName);
+            Expenses expense = ExpensesDAO.loadExpensesByORMID(s,expenseName);
             if (expense == null)
                 throw new ExpenseNotExistentException();
             property.expensesIncluded.add(expense);
@@ -85,7 +85,7 @@ public class PropertyBean implements PropertyBeanLocal {
 
         property.equipmentIncluded.clear();
         for (String equipmentName: equipmentIncluded) {
-            Equipment equipment = EquipmentDAO.loadEquipmentByORMID(equipmentName);
+            Equipment equipment = EquipmentDAO.loadEquipmentByORMID(s,equipmentName);
             if (equipment == null)
                 throw new EquipmentNotExistentException();
             property.equipmentIncluded.add(equipment);
@@ -98,13 +98,13 @@ public class PropertyBean implements PropertyBeanLocal {
 
         property.allowedOccupations.clear();
         for (String occupationName: allowedOccupations) {
-            Occupation occupation = OccupationDAO.loadOccupationByORMID(occupationName);
+            Occupation occupation = OccupationDAO.loadOccupationByORMID(s,occupationName);
             if (occupation == null)
                 throw new OccupationNotExistentException();
             property.allowedOccupations.add(occupation);
         }
 
-        Gender gender = GenderDAO.loadGenderByORMID(allowedGenders);
+        Gender gender = GenderDAO.loadGenderByORMID(s,allowedGenders);
         if (gender == null) {
             throw new GenderNotExistentException();
         }
@@ -125,7 +125,7 @@ public class PropertyBean implements PropertyBeanLocal {
         }
         Utils.saveImages(images);
 
-        property.setOwner(CommonDAO.getCommonByORMID(ownerId));
+        property.setOwner(CommonDAO.getCommonByORMID(s, ownerId));
 
         property.setBlocked(false);
     }
@@ -143,43 +143,51 @@ public class PropertyBean implements PropertyBeanLocal {
             EquipmentNotExistentException, OccupationNotExistentException, GenderNotExistentException,
             PropertyNotExistentException, IOException {
 
-        Private property;
+        PersistentSession s = getSession();
+        PersistentTransaction t = s.beginTransaction();
+        try {
+            Private property;
 
-        if (ID == null) {
-            if (type.equals("villa"))
-                property = VillaDAO.createVilla();
+            if (ID == null) {
+                if (type.equals("villa"))
+                    property = VillaDAO.createVilla();
+                else
+                    property = ApartmentDAO.createApartment();
+            } else {
+                Property p = getProperty(ID);
+                if (p instanceof Private)
+                    property = (Private) p;
+                else
+                    throw new PropertyNotExistentException();
+            }
+
+            changeProperty(s,property, name, photos, description, typology, area,
+                    district, city, completeAddress, lat, lng, expensesIncluded, equipmentIncluded,
+                    allowedMinAge, allowedMaxAge, allowedSmokers, allowedPets,
+                    allowedOccupations, allowedGenders, ownerId);
+
+            property.setFurnished(furnished);
+            property.setAvailability(availability);
+            if (rent)
+                property.setRentPrice(rentPrice);
             else
-                property = ApartmentDAO.createApartment();
-        }
-        else {
-            Property p = getProperty(ID);
-            if (p instanceof Private)
-                property = (Private) p;
+                property.setRentPrice(null);
+            if (sell)
+                property.setSellPrice(sellPrice);
             else
-                throw new PropertyNotExistentException();
+                property.setSellPrice(null);
+
+            property.setSold(false);
+
+            s.save(property);
+            t.commit();
+
+            return property;
         }
-
-        changeProperty(property, name, photos, description, typology, area,
-                district, city, completeAddress, lat, lng, expensesIncluded, equipmentIncluded,
-                allowedMinAge, allowedMaxAge, allowedSmokers, allowedPets,
-                allowedOccupations, allowedGenders, ownerId);
-
-        property.setFurnished(furnished);
-        property.setAvailability(availability);
-        if (rent)
-            property.setRentPrice(rentPrice);
-        else
-            property.setRentPrice(null);
-        if (sell)
-            property.setSellPrice(sellPrice);
-        else
-            property.setSellPrice(null);
-
-        property.setSold(false);
-
-        PrivateDAO.save(property);
-
-        return property;
+        catch (Exception e) {
+            t.rollback();
+            throw e;
+        }
     }
 
     @Override
@@ -211,7 +219,7 @@ public class PropertyBean implements PropertyBeanLocal {
                     throw new PropertyNotExistentException();
             }
 
-            changeProperty(property, name, photos, description, typology, area,
+            changeProperty(s,property, name, photos, description, typology, area,
                     district, city, completeAddress, lat, lng, expensesIncluded, equipmentIncluded,
                     allowedMinAge, allowedMaxAge, allowedSmokers, allowedPets,
                     allowedOccupations, allowedGenders, ownerId);
@@ -240,7 +248,7 @@ public class PropertyBean implements PropertyBeanLocal {
                     else
                         throw new BedroomTypeNotExistentException();
 
-                    BedroomType bedroomType = BedroomTypeDAO.getBedroomTypeByORMID(bType);
+                    BedroomType bedroomType = BedroomTypeDAO.getBedroomTypeByORMID(s,bType);
                     bedroom.setType(bedroomType);
 
                     bedroom.setFurnished((boolean) bedroomProps.get("furnished"));
@@ -289,7 +297,7 @@ public class PropertyBean implements PropertyBeanLocal {
 
             property.occupations.clear();
             for (String occupationName: occupations) {
-                Occupation occupation = OccupationDAO.loadOccupationByORMID(occupationName);
+                Occupation occupation = OccupationDAO.loadOccupationByORMID(s,occupationName);
                 if (occupation == null)
                     throw new OccupationNotExistentException();
                 property.occupations.add(occupation);
@@ -297,7 +305,7 @@ public class PropertyBean implements PropertyBeanLocal {
 
             property.setTotalAccess(totalAccess);
 
-            SharedDAO.save(property);
+            s.save(property);
             t.commit();
 
             return property;
@@ -309,20 +317,19 @@ public class PropertyBean implements PropertyBeanLocal {
     }
 
     public Property getProperty(int ID) throws PersistentException {
-        PersistentSession session = getSession();
-        return PropertyDAO.getPropertyByORMID(session, ID);
+        PersistentSession s = getSession();
+        return PropertyDAO.getPropertyByORMID(s, ID);
     }
 
     public boolean deleteProperty(int ID) throws PersistentException {
-        PersistentSession session = Home4AllPersistentManager.instance().getSession();
-        PersistentTransaction transaction = session.beginTransaction();
+        PersistentSession s = getSession();
+        PersistentTransaction transaction = s.beginTransaction();
         try {
-            Property property = PropertyDAO.getPropertyByORMID(session, ID);
-            // TODO: Verificar !!! -  Quer-se apagar as queixas?
+            Property property = PropertyDAO.getPropertyByORMID(s, ID);
             for (Complaint c: property.complaints.toArray())
-                ComplaintDAO.delete(c);
+                s.delete(c);
             property.complaints.clear();
-            PropertyDAO.delete(property);
+            s.delete(property);
             transaction.commit();
             return true;
         }
@@ -336,7 +343,8 @@ public class PropertyBean implements PropertyBeanLocal {
                                           boolean sell, boolean rent)
             throws OrdinationNotExistentException, PersistentException {
         String orderBy;
-        Ordination ord = OrdinationDAO.getOrdinationByORMID(ordination);
+        PersistentSession s = getSession();
+        Ordination ord = OrdinationDAO.getOrdinationByORMID(s,ordination);
         switch (ord.getName()) {
             case "Price: lowest first":
                 if (sharedType && !privateType && !sell && rent)
@@ -574,7 +582,7 @@ public class PropertyBean implements PropertyBeanLocal {
         }
 
         // QUERY BUILDING AND EXECUTION
-        return PropertyDAO.listPropertyBySQLQuery(
+        return PropertyDAO.listPropertyBySQLQuery(getSession(),
                 tables.isEmpty() ? null : " LEFT JOIN " +  String.join(" LEFT JOIN ", tables),
                 conditions.isEmpty() ? null : String.join(" AND ", conditions),
                 mapOrdinationToOrderBy(ordination, sharedType, privateType, sell, rent),
@@ -584,11 +592,11 @@ public class PropertyBean implements PropertyBeanLocal {
     }
 
     public boolean blockProperty(Integer propertyID)  throws PersistentException {
-        PersistentSession session = getSession();
-        Property property = PropertyDAO.getPropertyByORMID(session, propertyID);
+        PersistentSession s = getSession();
+        Property property = PropertyDAO.getPropertyByORMID(s, propertyID);
         if (property != null) {
             property.setBlocked(true);
-            PropertyDAO.save(property);
+            s.save(property);
             return true;
         } else {
             return false;

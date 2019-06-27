@@ -74,7 +74,7 @@ public class UsersBean implements UsersBeanLocal {
             System.out.println(gender);
             System.out.println(occupation);
             if (gender != null) {
-                genderValue = GenderDAO.loadGenderByORMID(gender);
+                genderValue = GenderDAO.loadGenderByORMID(s,gender);
                 if (genderValue == null)
                     throw new GenderNotExistentException();
             } else {
@@ -82,7 +82,7 @@ public class UsersBean implements UsersBeanLocal {
             }
             Occupation occupationValue;
             if (occupation != null) {
-                occupationValue = OccupationDAO.loadOccupationByORMID(occupation);
+                occupationValue = OccupationDAO.loadOccupationByORMID(s,occupation);
                 if (occupationValue == null)
                     throw new OccupationNotExistentException();
             } else {
@@ -100,7 +100,7 @@ public class UsersBean implements UsersBeanLocal {
             user.setOccupation(occupationValue);
             user.setLastLogin(new Date());
             user.setBlocked(false);
-            CommonDAO.save(user);
+            s.save(user);
             t.commit();
             return user;
         }
@@ -125,17 +125,20 @@ public class UsersBean implements UsersBeanLocal {
             Gender genderValue;
             if (gender != null) {
                 genderValue = GenderDAO.loadGenderByORMID(s,gender);
-                user.setGender(genderValue);
                 if (genderValue == null)
                     throw new GenderNotExistentException();
+                else
+                    user.setGender(genderValue);
+
             }
 
             Occupation occupationValue;
             if (occupation != null) {
                 occupationValue = OccupationDAO.loadOccupationByORMID(s,occupation);
-                user.setOccupation(occupationValue);
                 if (occupationValue == null)
                     throw new OccupationNotExistentException();
+                else
+                    user.setOccupation(occupationValue);
             }
             if (password!= null){
                 InternalAccount user_internal = InternalAccountDAO.getInternalAccountByORMID(s,id);
@@ -150,7 +153,8 @@ public class UsersBean implements UsersBeanLocal {
                 DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 user.setBirthdate(format.parse(birthdate));
             }
-            CommonDAO.save(user);
+            s.save(user);
+            s.save(user);
             t.commit();
             return user;
         }
@@ -320,12 +324,12 @@ public class UsersBean implements UsersBeanLocal {
         Common userInfo = CommonDAO.getCommonByORMID(session,ID);
         if (userInfo!= null) {
             userInfo.setBlocked(true);
-            CommonDAO.save(userInfo);
+            session.save(userInfo);
             Property[] userProperties = PropertyDAO.listPropertyByQuery(session, "usersId=" + userInfo.getID(), null);
             System.out.println(userProperties);
             for (Property p : userProperties) {
                 p.setBlocked(true);
-                PropertyDAO.save(p);
+                session.save(p);
             }
             return true;
         }
@@ -352,8 +356,8 @@ public class UsersBean implements UsersBeanLocal {
             complaint.setDescription(description);
             Property property = PropertyDAO.getPropertyByORMID(session, Integer.parseInt(propertyID));
             property.complaints.add(complaint);
-            PropertyDAO.save(property);
-            ComplaintDAO.save(complaint);
+            session.save(property);
+            session.save(complaint);
             t.commit();
             return complaint;
         }
