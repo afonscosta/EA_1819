@@ -62,8 +62,9 @@ export default {
           password: this.input.password
         }).then(sessionID => {
           console.log('sessionID ' + sessionID)
+          console.log('teste no login', this.isAdmin)
           if (this.isAdmin) {
-            this.$router.push('/admin')
+            this.$router.push('/complaints')
           } else {
             this.$router.push('/')
           }

@@ -23,7 +23,7 @@ const mutations = {
   setSessionID (state, response) {
     state.sessionID = response.id
     state.user = response.user
-    state.user.isAdmin = response.isAdmin
+    state.isAdmin = response.isAdmin
   },
   setUser (state, response) {
     state.user = response

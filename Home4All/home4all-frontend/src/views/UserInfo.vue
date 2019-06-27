@@ -63,7 +63,7 @@
             label="Ocupação:"
             label-for="input-8"
           >
-            <b-form-select v-model="form.ocupation" :options="ocupation_options"></b-form-select>
+            <b-form-select v-model="form.occupation" :options="occupation_options"></b-form-select>
           </b-form-group>
 
           <b-button type="submit" variant="primary">Guardar</b-button>
@@ -171,7 +171,7 @@ export default {
       phone: '',
       birthday: '',
       gender: '',
-      ocupation: ''
+      occupation: ''
     },
     selected: [],
     gender_options: [
@@ -179,7 +179,7 @@ export default {
       { value: 'male', text: 'Masculino' },
       { value: 'female', text: 'Feminino' }
     ],
-    ocupation_options: [
+    occupation_options: [
       { value: null, text: 'Selecione a sua ocupação' },
       { value: 'student', text: 'Estudante' },
       { value: 'studentWorker', text: 'Trabalhador-estudante' },
@@ -204,7 +204,7 @@ export default {
     this.form.birthday = this.$store.state.login.user.birthday
     this.form.gender = this.$store.state.login.user.gender
     console.log(this.$store.state.login.user.occupation)
-    this.form.ocupation = this.$store.state.login.user.occupation
+    this.form.occupation = this.$store.state.login.user.occupation
   },
   computed: {
     ...mapState({
@@ -279,7 +279,7 @@ export default {
           phone: this.form.phone,
           birthday: this.form.birthday,
           gender: this.form.gender,
-          ocupation: this.form.occupation
+          occupation: this.form.occupation
         })
       }
     }
