@@ -2,13 +2,6 @@
   <div id="login">
     <h1> Login </h1>
 
-    <!-- <facebook-login class="button"
-      appId="1326428550840901"
-      @login="getUserData"
-      @logout="onLogout"
-      @get-initial-status="getUserData">
-    </facebook-login> -->
-
     <hr class="hr-text" data-content="OR">
 
     <div class="row">
@@ -37,14 +30,11 @@
     </div>
 
     <button class="button" type="button" v-on:click="loginButton()"> Entrar </button>
-
-    <button class="button" type="button" v-on:click="testeButton()"> teste </button>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex'
-import facebookLogin from 'facebook-login-vuejs'
 
 export default {
   name: 'login',
@@ -54,11 +44,7 @@ export default {
         email: '',
         password: ''
       },
-      invalidCredencials: false,
-      isConnected: false,
-      name: '',
-      personalID: '',
-      FB: undefined
+      invalidCredencials: false
     }
   },
   computed: {
@@ -90,40 +76,7 @@ export default {
           }
         })
       }
-    },
-    testeButton () {
-      this.teste()
-        .then(() => {
-          console.log('correu bem')
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    },
-    getUserData () {
-      this.FB.api('/me', 'GET', { fields: 'id,name,email' },
-        userInformation => {
-          this.personalID = userInformation.id
-          this.email = userInformation.email
-          this.name = userInformation.name
-        }
-      )
-    },
-    sdkLoaded (payload) {
-      this.isConnected = payload.isConnected
-      this.FB = payload.FB
-      if (this.isConnected) this.getUserData()
-    },
-    onLogin () {
-      this.isConnected = true
-      this.getUserData()
-    },
-    onLogout () {
-      this.isConnected = false
     }
-  },
-  components: {
-    facebookLogin
   }
 }
 </script>
