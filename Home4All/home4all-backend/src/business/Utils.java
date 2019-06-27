@@ -11,6 +11,9 @@ import com.hierynomus.smbj.share.DiskShare;
 import com.hierynomus.smbj.share.File;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -24,7 +27,40 @@ public class Utils {
     private static final char[] shared_password = "ProjetoEA".toCharArray();
     private static final AuthenticationContext ac = new AuthenticationContext(shared_username, shared_password, "");
 
-    public static List<String> getImages(List<String> filenames) {
+
+    // Trocar '_' final nos métodos para funcionar remotamente
+    public static List<String> getImages(List<String> filenames) throws IOException {
+        List<String> images = new ArrayList<>();
+
+        for (String filename: filenames) {
+            java.io.File file = new java.io.File("images" + java.io.File.separator + filename);
+            byte[] bytes = Files.readAllBytes(file.toPath());
+            images.add(new String(bytes));
+        }
+        return images;
+    }
+
+    public static void deleteImages(List<String> filenames) {
+        List<String> images = new ArrayList<>();
+
+        for (String filename: filenames) {
+            java.io.File file = new java.io.File("images" + java.io.File.separator + filename);
+            file.delete();
+        }
+    }
+
+
+    public static void saveImages(Map<String, String> filenames_images) throws IOException {
+
+        for (Map.Entry<String, String> filename_image : filenames_images.entrySet()) {
+            Path file = Paths.get("images" + java.io.File.separator + filename_image.getKey());
+            Files.write(file, filename_image.getValue().getBytes());
+        }
+    }
+
+
+
+    public static List<String> getImages_(List<String> filenames) {
         List<String> images = new ArrayList<>();
         SMBClient client = new SMBClient();
 
@@ -61,7 +97,7 @@ public class Utils {
         return images;
     }
 
-    public static void deleteImages(List<String> filenames) {
+    public static void deleteImages_(List<String> filenames) {
         SMBClient client = new SMBClient();
 
         try (Connection connection = client.connect(shared_host)) {
@@ -80,7 +116,7 @@ public class Utils {
     }
 
 
-    public static void saveImages(Map<String, String> filenames_images) {
+    public static void saveImages_(Map<String, String> filenames_images) {
         SMBClient client = new SMBClient();
 
         try (Connection connection = client.connect(shared_host)) {
