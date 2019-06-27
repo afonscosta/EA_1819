@@ -36,14 +36,6 @@ public class Login extends HttpServlet {
             Users currentUser = Home4All.login(email, password);
 
             if (currentUser!=null) {
-                /*
-                Enumeration<String> headers = request.getHeaderNames();
-                while (headers.hasMoreElements()) {
-                    String header = headers.nextElement();
-                    System.out.println(header);
-                    System.out.println(request.getHeader(header));
-                }
-                */
                 String data_parser;
                 if (!(currentUser instanceof Admin)) {
                     boolean isBlocked = Home4All.isBlocked(currentUser.getID());
@@ -60,7 +52,6 @@ public class Login extends HttpServlet {
                 else{
                     session.setAttribute("currentSessionUser", currentUser);
                     Users info_user = Home4All.getUserbyUsers(currentUser.getID());
-                    System.out.println(info_user);
                     data_parser = Parser.currentAdminToJson(session.getId(), info_user);
                 }
                 response.setContentType("application/json"); // multipart/form-data
@@ -70,8 +61,8 @@ public class Login extends HttpServlet {
                 out.flush();
             }
             else{
-                LOGGER.info("FAILED LOGIN");
                 response.sendError(403);
+                throw new Exception("ERRO: Credênciais inválidas.");
             }
         } catch (Exception e) {
             LOGGER.info("FAILED LOGIN");

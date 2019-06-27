@@ -65,7 +65,7 @@ public class Complaints  extends HttpServlet {
     catch (Exception e) {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
-        response.sendError(javax.servlet.http.HttpServletResponse.SC_NOT_FOUND);
+        response.sendError(javax.servlet.http.HttpServletResponse.SC_NOT_FOUND, e.getMessage());
         e.printStackTrace();
     }
     }

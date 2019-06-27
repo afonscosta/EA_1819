@@ -75,7 +75,7 @@ public class Users extends HttpServlet {
         catch (Exception e) {
             response.setContentType("text/html");
             response.setCharacterEncoding("UTF-8");
-            response.sendError(javax.servlet.http.HttpServletResponse.SC_NOT_FOUND);
+            response.sendError(javax.servlet.http.HttpServletResponse.SC_NOT_FOUND, e.getMessage());
             e.printStackTrace();
         }
     }
@@ -114,7 +114,8 @@ public class Users extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
+        LOGGER.info("delete user");
+            try {
             HttpSession session = request.getSession(false);
             business.entities.Users currentUser = (business.entities.Users) session.getAttribute("currentSessionUser");
             if (currentUser instanceof Admin) {
