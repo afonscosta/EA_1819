@@ -1,8 +1,13 @@
 <template>
   <div class="search">
     <SearchBox class="mt-3" />
-    <b-container class="mt-3">
-      <b-row>
+    <b-container class="mt-5">
+      <b-row v-if="currentList.length === 0">
+        <b-col>
+          <h4>Não foram encontrados imóveis para a pesquisa realizada</h4>
+        </b-col>
+      </b-row>
+      <b-row v-if="currentList.length > 0">
         <b-col>
           <b-pagination
             align="fill"
@@ -14,7 +19,7 @@
           ></b-pagination>
         </b-col>
       </b-row>
-      <b-row>
+      <b-row v-if="currentList.length > 0">
         <b-col>
           <b-card
             class="card-prop"
@@ -48,7 +53,7 @@
           </b-card>
         </b-col>
       </b-row>
-      <b-row>
+      <b-row v-if="currentList.length > 0">
         <b-col>
           <b-pagination
             align="fill"
