@@ -2,12 +2,12 @@
   <div class="search">
     <SearchBox class="mt-3" />
     <b-container>
-      <b-row class="mt-5" v-if="currentList.length === 0">
+      <b-row class="mt-5" v-if="properties.length === 0">
         <b-col>
           <h4>Não foram encontrados imóveis para a pesquisa realizada</h4>
         </b-col>
       </b-row>
-      <b-row class="mt-3" v-if="currentList.length > 0">
+      <b-row class="mt-3" v-if="properties.length > 0">
         <b-col>
           <b-pagination
             align="fill"
@@ -94,9 +94,9 @@ export default {
       disableNavigation: state => state.properties.disableNavigation
     }),
     currentList () {
-      var items = this.properties
-      console.log('items', items)
-      return items.slice(
+      // var items = this.properties
+      // console.log('items', items)
+      return this.properties.slice(
         (this.currentPage - 1) * this.perPage,
         this.currentPage * this.perPage
       )

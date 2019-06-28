@@ -229,7 +229,7 @@ export default {
         })
       } else if (key.value === 'furnished') {
         props.map(p => p[key.value]).forEach((item) => {
-          content['col' + i++] = item ? 'Sim' : 'Não'
+          content['col' + i++] = item ? 'Mobilado' : 'Não mobilado'
         })
       } else if (key.value === 'expensesIncluded') {
         props.map(p => p[key.value]).forEach((item) => {

@@ -7,9 +7,9 @@
             active-nav-item-class="font-weight-bold"
             active-tab-class="font-weight-bold"
           >
-            <b-tab title-link-class="'tab-title-class'" title="Comprar/Arrendar" active><SearchForm/></b-tab>
-            <b-tab title-link-class="'tab-title-class'" title="Comprar"><SearchForm/></b-tab>
-            <b-tab title-link-class="'tab-title-class'" title="Arrendar"><SearchForm/></b-tab>
+            <b-tab title-link-class="'tab-title-class'" title="Comprar/Arrendar" active><SearchForm :rent="true" :sell="true"/></b-tab>
+            <b-tab title-link-class="'tab-title-class'" title="Comprar"><SearchForm :rent="false" :sell="true"/></b-tab>
+            <b-tab title-link-class="'tab-title-class'" title="Arrendar"><SearchForm :rent="true" :sell="false"/></b-tab>
           </b-tabs>
         </b-col>
       </b-row>

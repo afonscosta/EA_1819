@@ -159,12 +159,19 @@ const actions = {
     commit('setPropertyEdit', JSON.parse(JSON.stringify(property)))
   },
   doSearch ({ commit }, payload) {
-    console.log('payload do search', payload)
-    searchService.fetchProperties(payload).then(properties => {
-      console.log('properties received after search', properties)
-      commit('setSearchParams', payload)
-      commit('setProperties', properties)
-      commit('setDisableNavigation', false)
+    return new Promise((resolve, reject) => {
+      console.log('payload do search', payload)
+      searchService.fetchProperties(payload)
+        .then(properties => {
+          console.log('properties received after search', properties)
+          commit('setSearchParams', payload)
+          commit('setProperties', properties)
+          commit('setDisableNavigation', false)
+          resolve()
+        })
+        .catch((error) => {
+          reject(error)
+        })
     })
   },
   appendSearch ({ commit }, payload) {

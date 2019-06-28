@@ -37,10 +37,25 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'HomeSearch',
+  props: {
+    rent: {
+      required: true,
+      type: Boolean
+    },
+    sell: {
+      required: true,
+      type: Boolean
+    }
+  },
+  computed: {
+    ...mapState({
+      properties: state => state.properties.properties
+    })
+  },
   data: () => ({
     district: null,
     city: null,
@@ -55,7 +70,7 @@ export default {
     ]
   }),
   methods: {
-    ...mapActions('search', ['doSearch']),
+    ...mapActions('properties', ['doSearch']),
     setPlace (place) {
       var hasStreet = false
       var addrComponents = place.address_components
@@ -83,8 +98,18 @@ export default {
         ...(this.city && { city: this.city }),
         ...(this.address && { address: this.address })
       }
+      payload.filters = {
+        rent: this.rent,
+        sell: this.sell,
+        page: 0,
+        perPage: 5,
+        numPages: 4
+      }
       if (Object.keys(payload).length !== 0 && payload.constructor === Object) {
         this.doSearch(payload)
+          .then(() => {
+            this.$router.push({ name: 'search' })
+          })
       }
     }
   }
