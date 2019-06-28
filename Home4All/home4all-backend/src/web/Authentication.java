@@ -43,6 +43,7 @@ public class Authentication extends HttpServlet {
                         boolean isBlocked = Home4All.isBlocked(currentUserLogin.getID());
                         if(!isBlocked) {
                             session.setAttribute("currentSessionUser", currentUserLogin);
+                            Home4All.setLogin(currentUserLogin.getID());
                             Common info_user = Home4All.getUser(currentUserLogin.getID());
                             data_parser = Parser.currentUserToJson(session.getId(), info_user);
                         }

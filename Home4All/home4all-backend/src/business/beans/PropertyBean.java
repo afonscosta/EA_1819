@@ -327,6 +327,18 @@ public class PropertyBean implements PropertyBeanLocal {
         return  Arrays.asList(PropertyDAO.listPropertyByQuery(s,"usersid ="+ userID, null));
     }
 
+    public boolean deletePropertiesByUser(int userID) throws  PersistentException{
+        List<Property> properties = getPropertyByUser(userID);
+        boolean res;
+        for (Property p: properties){
+            res = deleteProperty(p.getID());
+            if (!res){
+                return false;
+            }
+        }
+        return true;
+    }
+
     public boolean deleteProperty(int ID) throws PersistentException {
         PersistentSession s = getSession();
         PersistentTransaction transaction = s.beginTransaction();

@@ -55,4 +55,6 @@ public interface PropertyBeanLocal {
     boolean blockProperty(Integer propertyID)  throws PersistentException;
 
     List<Property> getPropertyByUser(int ID) throws  PersistentException;
+
+    boolean deletePropertiesByUser(int usersID) throws PersistentException;
 }
