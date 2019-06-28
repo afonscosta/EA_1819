@@ -164,7 +164,7 @@ public class Utils {
         String hash = md5(email);
         HttpClient httpClient = HttpClientBuilder.create().build();
         try {
-            HttpGet request = new HttpGet("https://www.gravatar.com/avatar/" + hash + ".png?d=retro");
+            HttpGet request = new HttpGet("https://www.gravatar.com/avatar/" + hash + ".png");
             request.addHeader("User-Agent", "Mozilla/5.0");
             HttpResponse response = httpClient.execute(request);
             String image_b64 = Base64.getEncoder().encodeToString(EntityUtils.toByteArray(response.getEntity()));

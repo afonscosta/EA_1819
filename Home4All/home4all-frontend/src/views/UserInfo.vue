@@ -4,7 +4,7 @@
       <b-col md="10">
         <b-row>
           <b-col md="2">
-            <img :src="$store.state.login.image" />
+            <img v-if="$store.state.login.sessionID" :src="$store.state.login.image" style="width:10rem;height:10rem;" />
           </b-col>
           <b-col>
             <b-form @submit="onSubmit">

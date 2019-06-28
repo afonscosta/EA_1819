@@ -6,7 +6,7 @@
           <h1>Meus anúncios</h1> v-for="property in userProperties" :key="property.id"
           <b-card
             class="card-prop"
-            v-for="(prop, idx) in currentList" :key="idx"
+            v-for="(prop, idx) in userProperties" :key="idx"
             @click="goToProperty(prop)"
           >
             <b-row align-v="top">
@@ -24,14 +24,7 @@
               <b-col align="left" lg="6" cols="12">
                 <b-card-title class="mt-2">{{ prop.name }}</b-card-title>
                 <b-card-text>{{ parseType(prop.type) }}</b-card-text>
-                <b-card-text v-if="prop.rent && !prop.bedrooms"><strong>Renda:</strong> {{ prop.rentPrice }} €/mês</b-card-text>
-                <b-card-text v-if="prop.sell"><strong>Venda:</strong> {{ prop.sellPrice }} €</b-card-text>
                 <b-card-text>{{ prop.address }}</b-card-text>
-              </b-col>
-              <b-col class="google-map" lg="3" cols="12">
-                <GoogleMap :disableUI="true"
-                  :drag="false" :height="200"
-                  :marker="{ lat: prop.lat, lng: prop.lng }"/>
               </b-col>
             </b-row>
           </b-card>
