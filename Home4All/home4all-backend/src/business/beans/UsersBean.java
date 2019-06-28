@@ -58,56 +58,61 @@ public class UsersBean implements UsersBeanLocal {
 
     @Override
     public Common insertCommonUser(String email, String name, String password, String birthdate, String phone, String gender,
-                                   String occupation) throws PersistentException, GenderNotExistentException,
-            OccupationNotExistentException, ParseException {
+                                   String occupation) throws Exception {
         PersistentSession s = getSession();
         PersistentTransaction t = s.beginTransaction();
-        try {
-            Common user;
-            if (password != null) {
+
+        Users users = UsersDAO.loadUsersByQuery(s,"email='"+email +"'", null);
+        if (users == null){
+            try {
+                Common user;
+
+                if (password != null) {
                 user = InternalAccountDAO.createInternalAccount();
                 ((InternalAccount) user).setPassword(Utils.hash(password));
-            } else {
-                user = CommonDAO.createCommon();
-            }
-            Gender genderValue;
-            System.out.println(gender);
-            System.out.println(occupation);
-            if (gender != null) {
-                genderValue = GenderDAO.loadGenderByORMID(gender);
-                if (genderValue == null)
+                } else {
+                    user = CommonDAO.createCommon();
+                }
+                Gender genderValue;
+                System.out.println(gender);
+                System.out.println(occupation);
+                if (gender != null) {
+                    genderValue = GenderDAO.loadGenderByORMID(s,gender);
+                    if (genderValue == null)
+                        throw new GenderNotExistentException();
+                } else {
                     throw new GenderNotExistentException();
-            } else {
-                throw new GenderNotExistentException();
-            }
-            Occupation occupationValue;
-            if (occupation != null) {
-                occupationValue = OccupationDAO.loadOccupationByORMID(occupation);
-                if (occupationValue == null)
+                }
+                Occupation occupationValue;
+                if (occupation != null) {
+                    occupationValue = OccupationDAO.loadOccupationByORMID(s,occupation);
+                    if (occupationValue == null)
+                        throw new OccupationNotExistentException();
+                } else {
                     throw new OccupationNotExistentException();
-            } else {
-                throw new OccupationNotExistentException();
-            }
-            System.out.println(genderValue);
-            System.out.println(occupationValue);
-            user.setEmail(email);
-            user.setName(name);
-            user.setPhone(phone);
+                }
+                user.setEmail(email);
+                user.setName(name);
+                user.setPhone(phone);
 
-            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            user.setBirthdate(format.parse(birthdate));
-            user.setGender(genderValue);
-            user.setOccupation(occupationValue);
-            user.setLastLogin(new Date());
-            user.setBlocked(false);
-            CommonDAO.save(user);
-            t.commit();
-            return user;
-        }
-        catch (Exception e) {
-                t.rollback();
-                throw e;
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                user.setBirthdate(format.parse(birthdate));
+                user.setGender(genderValue);
+                user.setOccupation(occupationValue);
+                user.setLastLogin(new Date());
+                user.setBlocked(false);
+                s.save(user);
+                t.commit();
+                return user;
             }
+            catch (Exception e) {
+                    t.rollback();
+                    throw e;
+                }
+        }
+        else{
+            throw new Exception("ERRO: Email já em uso");
+        }
 
     }
 
@@ -125,17 +130,20 @@ public class UsersBean implements UsersBeanLocal {
             Gender genderValue;
             if (gender != null) {
                 genderValue = GenderDAO.loadGenderByORMID(s,gender);
-                user.setGender(genderValue);
                 if (genderValue == null)
                     throw new GenderNotExistentException();
+                else
+                    user.setGender(genderValue);
+
             }
 
             Occupation occupationValue;
             if (occupation != null) {
                 occupationValue = OccupationDAO.loadOccupationByORMID(s,occupation);
-                user.setOccupation(occupationValue);
                 if (occupationValue == null)
                     throw new OccupationNotExistentException();
+                else
+                    user.setOccupation(occupationValue);
             }
             if (password!= null){
                 InternalAccount user_internal = InternalAccountDAO.getInternalAccountByORMID(s,id);
@@ -150,7 +158,8 @@ public class UsersBean implements UsersBeanLocal {
                 DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 user.setBirthdate(format.parse(birthdate));
             }
-            CommonDAO.save(user);
+            s.save(user);
+            s.save(user);
             t.commit();
             return user;
         }
@@ -186,13 +195,9 @@ public class UsersBean implements UsersBeanLocal {
                 .add(Restrictions.between("publishDate", dateB, dateE))
                 .createAlias("P.owner", "u")
                 .add(Restrictions.eq("u.ID", ID))
-               // .add(Restrictions.eq("sold", Boolean.TRUE))
                 .setProjection(Projections.projectionList()
-                        .add(Projections.sqlGroupProjection("TO_CHAR(publishDate, 'MM') as month","month", new String[]{"month"},new Type[]{new StringType()}))
-                        //.add(Projections.property("monthDate"))
+                        .add(Projections.sqlGroupProjection("TO_CHAR(publishDate, 'TMMonth yy') as month","month", new String[]{"month"},new Type[]{new StringType()}))
                         .add(Projections.rowCount()));
-                        //.add(Projections.sqlGroupProjection("{alias} month")));
-                //.addOrder(Order.desc("monthDate"));
 
         Criteria crit2 = session.createCriteria(Property.class, "P")
                 .add(Restrictions.between("publishDate", dateB, dateE))
@@ -200,11 +205,8 @@ public class UsersBean implements UsersBeanLocal {
                 .add(Restrictions.eq("u.ID", ID))
                 .add(Restrictions.eq("sold", Boolean.TRUE))
                 .setProjection(Projections.projectionList()
-                        .add(Projections.sqlGroupProjection("TO_CHAR(publishDate, 'MM') as month","month", new String[]{"month"},new Type[]{new StringType()}))
-                        //.add(Projections.property("monthDate"))
+                        .add(Projections.sqlGroupProjection("TO_CHAR(publishDate, 'TMMonth yy') as month","month", new String[]{"month"},new Type[]{new StringType()}))
                         .add(Projections.rowCount()));
-        //.add(Projections.sqlGroupProjection("{alias} month")));
-        //.addOrder(Order.desc("monthDate"));
 
         System.out.println("Done");
         List allResults = crit.list();
@@ -315,21 +317,29 @@ public class UsersBean implements UsersBeanLocal {
         return new ArrayList<>(complaints.values());
     }
 
-    public boolean blockUser(int ID) throws PersistentException{
-        PersistentSession session = getSession();
-        Common userInfo = CommonDAO.getCommonByORMID(session,ID);
-        if (userInfo!= null) {
-            userInfo.setBlocked(true);
-            CommonDAO.save(userInfo);
-            Property[] userProperties = PropertyDAO.listPropertyByQuery(session, "usersId=" + userInfo.getID(), null);
-            System.out.println(userProperties);
-            for (Property p : userProperties) {
-                p.setBlocked(true);
-                PropertyDAO.save(p);
+    public boolean blockUser(int ID) throws PersistentException {
+        PersistentSession s = getSession();
+        Common userInfo = CommonDAO.getCommonByORMID(s, ID);
+        if (userInfo != null) {
+            PersistentTransaction t = s.beginTransaction();
+            try {
+                userInfo.setBlocked(true);
+                s.save(userInfo);
+                Property[] userProperties = PropertyDAO.listPropertyByQuery(s, "usersId=" + userInfo.getID(), null);
+                System.out.println(userProperties);
+                for (Property p : userProperties) {
+                    p.setBlocked(true);
+                    s.save(p);
+                    System.out.println(p.getBlocked());
+                }
+                System.out.println(userInfo.getBlocked());
+                t.commit();
+                return true;
+            } catch (Exception e) {
+                t.rollback();
+                throw e;
             }
-            return true;
-        }
-        else
+        } else
             return false;
     }
 
@@ -352,14 +362,32 @@ public class UsersBean implements UsersBeanLocal {
             complaint.setDescription(description);
             Property property = PropertyDAO.getPropertyByORMID(session, Integer.parseInt(propertyID));
             property.complaints.add(complaint);
-            PropertyDAO.save(property);
-            ComplaintDAO.save(complaint);
+            session.save(property);
+            session.save(complaint);
             t.commit();
             return complaint;
         }
         catch (Exception e) {
             t.rollback();
             throw e;
+        }
+    }
+
+    public boolean deleteUser(int ID, List<Property> properties) throws PersistentException {
+        PersistentSession s = getSession();
+        PersistentTransaction transaction = s.beginTransaction();
+        try {
+            Users user = UsersDAO.getUsersByORMID(s, ID);
+            for (Property p : properties){
+                s.delete(p);
+            }
+            s.delete(user);
+            transaction.commit();
+            return true;
+        }
+        catch (Exception e) {
+            transaction.rollback();
+            return false;
         }
     }
 }

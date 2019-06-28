@@ -1,6 +1,7 @@
 package web;
 
 import business.Home4All;
+import business.Parser;
 import business.entities.Admin;
 import business.entities.Property;
 import business.entities.Users;
@@ -20,8 +21,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static web.Parser.parseToFloat;
-import static web.Parser.parseToInt;
+import static business.Parser.parseToFloat;
+import static business.Parser.parseToInt;
 
 
 @WebServlet(name = "Properties", urlPatterns = {"/properties/*"})
@@ -146,9 +147,8 @@ public class Properties extends HttpServlet {
             business.entities.Users currentUser = (business.entities.Users) session.getAttribute("currentSessionUser");
             if (currentUser instanceof Admin) {
                 System.out.println("Admin vai bloquear property...");
-                BufferedReader reader = request.getReader();
-                Map u = gson.fromJson(reader, Map.class);
-                Integer propertyID = Integer.parseInt((String)u.get("id"));
+                Integer propertyID = Integer.parseInt(request.getPathInfo().substring(1));
+                System.out.println(propertyID);
                 boolean res = Home4All.blockProperty(propertyID);
                 if (!res){
                     throw new Exception("ERRO: Imóvel não encontrado.");
@@ -195,7 +195,20 @@ public class Properties extends HttpServlet {
                 }
             }
             else {
-                throw new Exception("ERRO: Identificador do imóvel em falta.");
+                HttpSession session = request.getSession(false);
+                if (session!= null){
+                    business.entities.Users currentUser = (business.entities.Users) session.getAttribute("currentSessionUser");
+                    if (currentUser != null){
+                        List<Property> properties = Home4All.getPropertyByUser(currentUser.getID());
+                        jsonData = Parser.propertyReduceListToJson(properties);
+                    }
+                    else{
+                        throw new Exception("ERRO: Identificador do imóvel em falta ou utilizador não autenticado.");
+                    }
+                }
+                else{
+                    throw new Exception("ERRO: Identificador do imóvel em falta ou utilizador não autenticado.");
+                }
             }
 
             response.setContentType("application/json"); // multipart/form-data

@@ -1,6 +1,7 @@
 package web;
 
 import business.Home4All;
+import business.Parser;
 import business.entities.Admin;
 import business.entities.Common;
 import com.google.gson.Gson;
@@ -17,7 +18,7 @@ import java.io.PrintWriter;
 import java.util.Map;
 import java.util.logging.Logger;
 
-@WebServlet(name = "Users", urlPatterns = {"/users"})
+@WebServlet(name = "Users", urlPatterns = {"/users/*"})
 public class Users extends HttpServlet {
     private Gson gson = new Gson();
     private static Logger LOGGER = Logger.getLogger("InfoLogging");
@@ -56,15 +57,22 @@ public class Users extends HttpServlet {
             String jsonData;
 
             HttpSession session = request.getSession(false);
+            System.out.println(session);
             business.entities.Users currentUser = (business.entities.Users) session.getAttribute("currentSessionUser");
+            System.out.println(currentUser);
             System.out.println("USER AUTHENTICATED:" + currentUser.getEmail());
             System.out.println("SESSION ID: " + session.getId());
-            Common user = Home4All.getUser(currentUser.getID());
-            if (user != null) {
-                jsonData = Parser.userToJson(user);
+            if (currentUser instanceof Admin){
+                jsonData = Parser.currentAdminToJson(session.getId(),currentUser);
             }
-            else {
-                throw new Exception("ERRO: User não encontrado.");
+            else{
+                Common user = Home4All.getUser(currentUser.getID());
+                if (user != null) {
+                    jsonData = Parser.userToJson(user);
+                }
+                else {
+                    throw new Exception("ERRO: User não encontrado.");
+                }
             }
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
@@ -119,9 +127,9 @@ public class Users extends HttpServlet {
             HttpSession session = request.getSession(false);
             business.entities.Users currentUser = (business.entities.Users) session.getAttribute("currentSessionUser");
             if (currentUser instanceof Admin) {
-                BufferedReader reader = request.getReader();
-                Map u = gson.fromJson(reader, Map.class);
-                Integer userID = Integer.parseInt((String)u.get("id"));
+                Integer userID = Integer.parseInt(request.getPathInfo().substring(1));
+                System.out.println(userID);
+
                 boolean res = Home4All.blockUser(userID);
                 if (!res){
                     throw new Exception("ERRO: Utilizador não encontrado.");
@@ -129,11 +137,21 @@ public class Users extends HttpServlet {
                 response.setContentType("application/json"); // multipart/form-data
                 response.setCharacterEncoding("UTF-8");
             }
+            else{
+                boolean res = Home4All.deleteUser(currentUser.getID());
+                if (res){
+                    response.setContentType("application/json"); // multipart/form-data
+                    response.setCharacterEncoding("UTF-8");
+                }
+                else{
+                    throw new Exception("ERRO: Não é possivel eliminar o utilizador");
+                }
+            }
         }
         catch (Exception e) {
             response.setContentType("text/html");
             response.setCharacterEncoding("UTF-8");
-            response.sendError(javax.servlet.http.HttpServletResponse.SC_NOT_FOUND);
+            response.sendError(javax.servlet.http.HttpServletResponse.SC_NOT_FOUND, e.getMessage());
             e.printStackTrace();
         }
     }

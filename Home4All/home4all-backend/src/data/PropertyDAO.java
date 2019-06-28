@@ -474,14 +474,12 @@ public class PropertyDAO {
 	}
 
 
-	public static List<Property> listPropertyBySQLQuery(String joinTables,
+	public static List<Property> listPropertyBySQLQuery(PersistentSession session, String joinTables,
 														String condition, String orderBy,
 														String limit, String offset,
 														Map<String, Object> parameters)
 			throws PersistentException {
 		try {
-			PersistentSession session = data.Home4AllPersistentManager.instance().getSession();
-
 			StringBuilder sb = new StringBuilder("SELECT DISTINCT * FROM (SELECT Property.* FROM Property");
 			//StringBuilder sb = new StringBuilder("SELECT Property.* FROM Property");
 			if (joinTables != null)
@@ -507,8 +505,6 @@ public class PropertyDAO {
 			query.addEntity("Property", Property.class);
 
 			List<Property> properties = query.list();
-
-			System.out.println(properties);
 
 			if (properties != null && properties.size() > 0)
 				return properties;

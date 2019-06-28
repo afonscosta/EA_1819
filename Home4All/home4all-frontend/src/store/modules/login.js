@@ -4,7 +4,8 @@ import usersService from '../../services/usersService'
 const state = {
   sessionID: '',
   user: null,
-  isAdmin: false
+  isAdmin: false,
+  image: null
 }
 
 const getters = {
@@ -16,25 +17,39 @@ const getters = {
   },
   isAdmin: state => {
     return state.isAdmin
+  },
+  image: state => {
+    return state.image
   }
 }
 
 const mutations = {
   setSessionID (state, response) {
     state.sessionID = response.id
+    localStorage.setItem('sessionID', response.id)
+    this.dispatch('login/getUser')
     state.user = response.user
     state.isAdmin = response.isAdmin
   },
+  setPlainSessionID (state, sessionID) {
+    state.sessionID = sessionID
+  },
   setUser (state, response) {
     state.user = response
+    state.image = response.image
   },
   logout (state) {
     state.user = null
     state.sessionID = ''
+    state.isAdmin = false
+    localStorage.clear()
   }
 }
 
 const actions = {
+  setPlainSessionID ({ commit }, sessionID) {
+    commit('setPlainSessionID', sessionID)
+  },
   login ({ commit }, payload) {
     return new Promise((resolve, reject) => {
       loginService.login(payload).then(response => {

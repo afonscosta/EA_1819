@@ -52,7 +52,7 @@ public class Home4All {
 
     public static Common insertCommonUser(String email, String name, String password, String birthdate, String phone,
                                           String gender, String occupation)
-            throws PersistentException, GenderNotExistentException, OccupationNotExistentException, ParseException {
+            throws Exception {
         return usersBean.insertCommonUser(email, name, password, birthdate, phone, gender, occupation);
     }
 
@@ -97,6 +97,15 @@ public class Home4All {
 
     public static Complaint insertComplaint(String description, String propertyID) throws PersistentException{
         return usersBean.insertComplaint(description,propertyID);
+    }
+
+    public static boolean deleteUser(int ID) throws PersistentException{
+        List<Property> properties =  propertyBean.getPropertyByUser(ID);
+        return usersBean.deleteUser(ID,properties);
+    }
+
+    public static List<Property> getPropertyByUser(int ID) throws  PersistentException{
+        return propertyBean.getPropertyByUser(ID);
     }
 
     public static Property registerSharedProperty(

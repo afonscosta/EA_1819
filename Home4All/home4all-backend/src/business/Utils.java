@@ -9,19 +9,24 @@ import com.hierynomus.smbj.connection.Connection;
 import com.hierynomus.smbj.session.Session;
 import com.hierynomus.smbj.share.DiskShare;
 import com.hierynomus.smbj.share.File;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 
+import javax.xml.bind.DatatypeConverter;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Utils {
-    private static final String shared_host = "192.168.100.225";
+    private static final String shared_host = "10.3.13.46";
     private static final String shared_path = "images";
     private static final String shared_username = "ProjetoEA";
     private static final char[] shared_password = "ProjetoEA".toCharArray();
@@ -29,7 +34,7 @@ public class Utils {
 
 
     // Trocar '_' final nos métodos para funcionar remotamente
-    public static List<String> getImages(List<String> filenames) throws IOException {
+    public static List<String> getImages_(List<String> filenames) throws IOException {
         List<String> images = new ArrayList<>();
 
         for (String filename: filenames) {
@@ -40,7 +45,7 @@ public class Utils {
         return images;
     }
 
-    public static void deleteImages(List<String> filenames) {
+    public static void deleteImages_(List<String> filenames) {
         List<String> images = new ArrayList<>();
 
         for (String filename: filenames) {
@@ -50,7 +55,7 @@ public class Utils {
     }
 
 
-    public static void saveImages(Map<String, String> filenames_images) throws IOException {
+    public static void saveImages_(Map<String, String> filenames_images) throws IOException {
 
         for (Map.Entry<String, String> filename_image : filenames_images.entrySet()) {
             Path file = Paths.get("images" + java.io.File.separator + filename_image.getKey());
@@ -60,7 +65,7 @@ public class Utils {
 
 
 
-    public static List<String> getImages_(List<String> filenames) {
+    public static List<String> getImages(List<String> filenames) {
         List<String> images = new ArrayList<>();
         SMBClient client = new SMBClient();
 
@@ -97,7 +102,7 @@ public class Utils {
         return images;
     }
 
-    public static void deleteImages_(List<String> filenames) {
+    public static void deleteImages(List<String> filenames) {
         SMBClient client = new SMBClient();
 
         try (Connection connection = client.connect(shared_host)) {
@@ -116,7 +121,7 @@ public class Utils {
     }
 
 
-    public static void saveImages_(Map<String, String> filenames_images) {
+    public static void saveImages(Map<String, String> filenames_images) {
         SMBClient client = new SMBClient();
 
         try (Connection connection = client.connect(shared_host)) {
@@ -140,6 +145,36 @@ public class Utils {
         }
     }
 
+
+    public static String md5(String original) {
+        String hash = original;
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(original.getBytes("UTF-8")); // Change this to "UTF-16" if needed
+            byte[] digest = md.digest();
+            hash = DatatypeConverter.printHexBinary(digest).toUpperCase();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return hash;
+    }
+
+    public static String generateAvatar(String email) {
+        email = email.trim().toLowerCase();
+        String hash = md5(email);
+        HttpClient httpClient = HttpClientBuilder.create().build();
+        try {
+            HttpGet request = new HttpGet("https://www.gravatar.com/avatar/" + hash + ".png?d=retro");
+            request.addHeader("User-Agent", "Mozilla/5.0");
+            HttpResponse response = httpClient.execute(request);
+            String image_b64 = Base64.getEncoder().encodeToString(EntityUtils.toByteArray(response.getEntity()));
+            return "data:image/png;base64," + image_b64;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public static String hash(String original) {
         String res = original;

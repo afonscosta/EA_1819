@@ -15,5 +15,10 @@ export default {
     return home4all.delete(`properties/${propertyID}`, {}, {
       Cookie: `JSESSIONID=${store.state.sessionID}`
     }).then(response => response.data)
+  },
+  getUserProperties () {
+    return home4all.get(`properties`, {}, {
+      Cookie: `JSESSIONID=${store.state.sessionID}`
+    }).then(response => response.data)
   }
 }

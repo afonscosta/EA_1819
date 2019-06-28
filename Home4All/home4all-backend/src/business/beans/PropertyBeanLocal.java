@@ -53,4 +53,6 @@ public interface PropertyBeanLocal {
             throws PersistentException, OrdinationNotExistentException;
 
     boolean blockProperty(Integer propertyID)  throws PersistentException;
+
+    List<Property> getPropertyByUser(int ID) throws  PersistentException;
 }

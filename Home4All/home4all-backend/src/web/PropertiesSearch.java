@@ -1,6 +1,7 @@
 package web;
 
 import business.Home4All;
+import business.Parser;
 import business.entities.*;
 import business.entities.Users;
 import com.google.gson.Gson;
@@ -16,8 +17,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 
-import static web.Parser.parseToFloat;
-import static web.Parser.parseToInt;
+import static business.Parser.parseToFloat;
+import static business.Parser.parseToInt;
 
 
 @WebServlet(name = "PropertiesSearch", urlPatterns = {"/search/*"})
