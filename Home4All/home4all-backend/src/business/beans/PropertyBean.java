@@ -425,7 +425,7 @@ public class PropertyBean implements PropertyBeanLocal {
         List<String> tables = new ArrayList<>();
         List<String> conditions = new ArrayList<>();
         Map<String, Object> parameters = new HashMap<>();
-
+        System.out.println("FROM BEAN");
         // CONDITION BUILDING
 
         // Location

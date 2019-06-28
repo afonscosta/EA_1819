@@ -30,7 +30,7 @@ public class PropertiesSearch extends HttpServlet {
         try {
 
             Map<String, Object> data = gson.fromJson(request.getParameter("payload"), Map.class);
-            Map<String, Object> filters = (Map<String, Object>) data.get("filters");
+            Map<String, Object> filters = (Map<String, Object>) data.getOrDefault("filters", new HashMap<>());
 
             HttpSession s = request.getSession(false);
             Gender userGender = null;
@@ -49,36 +49,38 @@ public class PropertiesSearch extends HttpServlet {
                 }
             }
 
-
+            Object district = data.get("district");
+            Object city = data.get("city");
+            Object address = data.get("address");
             List<Property> results = Home4All.searchProperties(
-                    (String) data.get("district"),
-                    (String) data.get("city"),
-                    (String) data.get("address"),
+                    district == null ? null : (String) district,
+                    city == null ? null : (String) city,
+                    address == null ? null : (String) address,
                     0,
                     10,
                     2,
-                    (List<String>) filters.get("types"),
-                    (List<String>) filters.get("typologies"),
-                    (boolean) filters.get("sell"),
-                    (boolean) filters.get("rent"),
+                    (List<String>) filters.getOrDefault("types", new ArrayList<>()),
+                    (List<String>) filters.getOrDefault("typologies", new ArrayList<>()),
+                    (boolean) filters.getOrDefault("sell",false),
+                    (boolean) filters.getOrDefault("rent",false),
                     parseToFloat(filters.get("minSellPrice"), true),
                     parseToFloat(filters.get("maxSellPrice"), true),
                     parseToFloat(filters.get("minRentPrice"), true),
                     parseToFloat(filters.get("maxRentPrice"), true),
-                    (List<String>) filters.get("bedroomTypes"),
+                    (List<String>) filters.getOrDefault("bedroomTypes", new ArrayList<>()),
                     parseToInt(filters.get("peopleAmountMultiple"), true),
-                    (boolean) filters.get("privateWC"),
-                    (boolean) filters.get("sharedWC"),
-                    (List<String>) filters.get("hasOccupations"),
-                    (boolean) filters.get("hasPets"),
-                    (boolean) filters.get("notPets"),
-                    (boolean) filters.get("hasSmokers"),
-                    (boolean) filters.get("notSmokers"),
-                    (boolean) filters.get("furnished"),
-                    (boolean) filters.get("notFurnished"),
-                    (boolean) filters.get("totalAccess"),
-                    (boolean) filters.get("notTotalAccess"),
-                    (String) filters.get("ordination"),
+                    (boolean) filters.getOrDefault("privateWC",false),
+                    (boolean) filters.getOrDefault("sharedWC", true),
+                    (List<String>) filters.getOrDefault("hasOccupations", new ArrayList<>()),
+                    (boolean) filters.getOrDefault("hasPets",true),
+                    (boolean) filters.getOrDefault("notPets",true),
+                    (boolean) filters.getOrDefault("hasSmokers",true),
+                    (boolean) filters.getOrDefault("notSmokers",true),
+                    (boolean) filters.getOrDefault("furnished",true),
+                    (boolean) filters.getOrDefault("notFurnished",true),
+                    (boolean) filters.getOrDefault("totalAccess",true),
+                    (boolean) filters.getOrDefault("notTotalAccess",true),
+                    (String) filters.getOrDefault("ordination","Publication Date: newest first"),
                     userGender,
                     userOccupation,
                     userAge
