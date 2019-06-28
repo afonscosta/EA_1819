@@ -8,6 +8,7 @@ import PropertyAdd from '@/views/Property/PropertyAdd.vue'
 import PropertyEdit from '@/views/Property/PropertyEdit.vue'
 import PropertyView from '@/views/Property/PropertyView.vue'
 import Comparison from '@/views/Property/Comparison.vue'
+import MyProperties from '@/views/Property/MyProperties.vue'
 
 import Register from '@/views/Register.vue'
 import Login from '@/views/Login.vue'
@@ -47,6 +48,11 @@ export default new Router({
       path: '/property/view',
       name: 'propertyView',
       component: PropertyView
+    },
+    {
+      path: '/property/myProperties',
+      name: 'myProperties',
+      component: MyProperties
     },
     {
       path: '/register',

@@ -321,7 +321,7 @@ public class Parser {
     }
 
     public static String propertyReduceListToJson(List<Property> properties) throws IOException {
-        return gson.toJson(propertyReduceListToJson(properties));
+        return gson.toJson(propertyReduceListToMap(properties));
     }
 
     private static List<Map<String, Object>> propertyListToMap(List<Property> properties) throws IOException {

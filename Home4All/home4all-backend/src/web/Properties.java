@@ -183,8 +183,10 @@ public class Properties extends HttpServlet {
 
             // System.out.println(request.getPathInfo());
             // String id_str = request.getParameter("propertyId");
-            String id_str = request.getPathInfo().substring(1);
+            System.out.println("Inicio");
+            String id_str = request.getPathInfo();
             if (id_str != null) {
+                id_str = request.getPathInfo().substring(1);
                 int id = Integer.parseInt(id_str);
                 Property property = Home4All.getProperty(id);
                 if (property != null) {
@@ -195,11 +197,14 @@ public class Properties extends HttpServlet {
                 }
             }
             else {
+                System.out.println("else");
                 HttpSession session = request.getSession(false);
                 if (session!= null){
+                    System.out.println("TOU AQUI");
                     business.entities.Users currentUser = (business.entities.Users) session.getAttribute("currentSessionUser");
                     if (currentUser != null){
                         List<Property> properties = Home4All.getPropertyByUser(currentUser.getID());
+                        System.out.println(properties);
                         jsonData = Parser.propertyReduceListToJson(properties);
                     }
                     else{

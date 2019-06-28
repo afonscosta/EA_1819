@@ -15,11 +15,8 @@ export default {
   postUser (payload) {
     return home4all.post(`users`, payload).then(response => response.data)
   },
-  deleteUser (userId) {
-    return home4all.delete(`users/${userId}`).then(response => response.data)
-  },
-  teste () {
-    return home4all.get(`users`, {
+  deleteUser () {
+    return home4all.delete(`users`, {}, {
       Cookie: `JSESSIONID=${store.state.sessionID}`
     }).then(response => response.data)
   }

@@ -1,5 +1,6 @@
 import propertiesService from '../../services/propertiesService'
 import searchService from '../../services/searchService'
+import complaintsService from '../../services/complaintsService'
 
 const state = {
   properties: [], // All properties being used
@@ -178,6 +179,9 @@ const actions = {
         commit('setDisableNavigation', false)
       }
     })
+  },
+  addComplaint ({ commit }, payload) {
+    complaintsService.doComplaint(payload)
   }
 }
 

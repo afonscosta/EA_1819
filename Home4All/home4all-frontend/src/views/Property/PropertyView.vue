@@ -1,11 +1,16 @@
 <template>
   <div align="center">
+    <b-modal hide-footer ref="modal-complaint" title="Denunciar">
+      <b-form-input v-model="comp" placeholder="Introduza uma denúncia"></b-form-input>
+      <b-button @click="complaint">Enviar</b-button>
+    </b-modal>
+
     <h3 class="title">{{ property.name }}</h3>
     <b-button v-if="user && property.owner.id === user.id" @click="editProperty()" variant="primary">Editar</b-button>
     <b-button :disabled="num_props_compare === 2"
-      v-if="property.type === 'apartment' || property.type === 'villa'"
+      v-if="user && property.owner.id !== user.id && (property.type === 'apartment' || property.type === 'villa')"
       @click="addPropCompare(property)" variant="primary">Comparar</b-button>
-    <b-button variant="danger">Denunciar</b-button>
+    <b-button v-if="user && property.owner.id !== user.id" @click="$refs['modal-complaint'].show()" variant="danger">Denunciar</b-button>
     <b-container>
       <b-row class="justify-content-md-center">
         <b-col>
@@ -67,9 +72,9 @@
 
           <b-button v-if="user && property.owner.id === user.id" class="mb-3" @click="editProperty()" variant="primary">Editar</b-button>
           <b-button class="mb-3" :disabled="num_props_compare === 2"
-            v-if="property.type === 'apartment' || property.type === 'villa'"
+            v-if="user && property.owner.id !== user.id && (property.type === 'apartment' || property.type === 'villa')"
             @click="addPropCompare(property)" variant="primary">Comparar</b-button>
-          <b-button class="mb-3" variant="danger">Denunciar</b-button>
+          <b-button v-if="user && property.owner.id !== user.id" @click="$refs['modal-complaint'].show()" variant="danger">Denunciar</b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -98,6 +103,7 @@ export default {
     TenantsWanted
   },
   data: () => ({
+    comp: null
   }),
   computed: {
     ...mapState({
@@ -108,10 +114,19 @@ export default {
     ...mapGetters('properties', [ 'num_props_compare' ])
   },
   methods: {
-    ...mapActions('properties', [ 'addPropCompare', 'setPropertyEdit' ]),
+    ...mapActions('properties', [ 'addComplaint', 'addPropCompare', 'setPropertyEdit' ]),
     editProperty () {
       this.setPropertyEdit(this.property)
       this.$router.push({ name: 'propertyEdit' })
+    },
+    complaint () {
+      var payload = {
+        propertyID: this.property.id,
+        description: this.comp
+      }
+      this.addComplaint(payload)
+      this.$refs['modal-complaint'].hide()
+      this.comp = null
     }
   }
 }

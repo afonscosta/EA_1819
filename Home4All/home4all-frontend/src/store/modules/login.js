@@ -26,7 +26,7 @@ const getters = {
 const mutations = {
   setSessionID (state, response) {
     state.sessionID = response.id
-    localStorage.setItem('sessionID', response.id)
+    // localStorage.setItem('sessionID', response.id)
     state.user = response.user
     state.isAdmin = response.isAdmin
     state.image = response.user.image
@@ -42,7 +42,12 @@ const mutations = {
     state.user = null
     state.sessionID = ''
     state.isAdmin = false
-    localStorage.clear()
+    // localStorage.clear()
+  },
+  deleteUser (state) {
+    state.user = null
+    state.sessionID = ''
+    state.isAdmin = false
   }
 }
 
@@ -76,6 +81,11 @@ const actions = {
     usersService.fetchUser().then(user => {
       console.log(user)
       commit('setUser', user)
+    })
+  },
+  deleteUserAccount ({ commit }) {
+    usersService.deleteUser().then(() => {
+      commit('deleteUser')
     })
   }
 }
