@@ -1,7 +1,7 @@
 <template>
   <div align="center">
     <h3 class="title">{{ property.name }}</h3>
-    <b-button @click="editProperty()" variant="primary">Editar</b-button>
+    <b-button v-if="user && property.owner.id === user.id" @click="editProperty()" variant="primary">Editar</b-button>
     <b-button :disabled="num_props_compare === 2"
       v-if="property.type === 'apartment' || property.type === 'villa'"
       @click="addPropCompare(property)" variant="primary">Comparar</b-button>
@@ -65,7 +65,7 @@
             :allowedSmokers="property.allowedSmokers"
             :allowedPets="property.allowedPets"/>
 
-          <b-button class="mb-3" @click="editProperty()" variant="primary">Editar</b-button>
+          <b-button v-if="user && property.owner.id === user.id" class="mb-3" @click="editProperty()" variant="primary">Editar</b-button>
           <b-button class="mb-3" :disabled="num_props_compare === 2"
             v-if="property.type === 'apartment' || property.type === 'villa'"
             @click="addPropCompare(property)" variant="primary">Comparar</b-button>
@@ -102,7 +102,8 @@ export default {
   computed: {
     ...mapState({
       properties: state => state.properties.properties,
-      property: state => state.properties.property
+      property: state => state.properties.property,
+      user: state => state.login.user
     }),
     ...mapGetters('properties', [ 'num_props_compare' ])
   },
