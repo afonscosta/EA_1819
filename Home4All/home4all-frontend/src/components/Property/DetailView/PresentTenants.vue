@@ -18,7 +18,7 @@
       <b-col cols="12" lg="6">
         <label><strong>Nº de animais de estimação:</strong> {{ petsQuantity }}</label>
       </b-col>
-      <b-col cols="12" lg="6">
+      <b-col cols="12" lg="6" v-if="pets">
         <label><strong>Tipos de animais de estimação:</strong> {{ pets.toString() }}</label>
       </b-col>
     </b-row>

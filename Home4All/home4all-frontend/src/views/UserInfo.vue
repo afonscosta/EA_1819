@@ -1,10 +1,10 @@
 <template>
-  <b-container>
+  <b-container class="container-div">
     <b-row class="justify-content-md-center">
       <b-col md="10">
         <b-row>
           <b-col md="2">
-            <b-img src="https://picsum.photos/1024/400/?image=41" fluid alt="Responsive image"></b-img>
+            <img :src="$store.state.login.image" />
           </b-col>
           <b-col>
             <b-form @submit="onSubmit">
@@ -311,6 +311,10 @@ export default {
 </script>
 
 <style scoped>
+
+.container-div {
+  margin-top: 1rem;
+}
 
 .searchButton {
   margin-top: auto;

@@ -9,11 +9,13 @@ import com.hierynomus.smbj.connection.Connection;
 import com.hierynomus.smbj.session.Session;
 import com.hierynomus.smbj.share.DiskShare;
 import com.hierynomus.smbj.share.File;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.*;
@@ -164,9 +166,8 @@ public class Utils {
         try {
             HttpGet request = new HttpGet("https://www.gravatar.com/avatar/" + hash + ".png?d=retro");
             request.addHeader("User-Agent", "Mozilla/5.0");
-            ResponseHandler<String> responseHandler = new BasicResponseHandler();
-            String responseBody = httpClient.execute(request, responseHandler);
-            String image_b64 = Base64.getEncoder().encodeToString(responseBody.getBytes());
+            HttpResponse response = httpClient.execute(request);
+            String image_b64 = Base64.getEncoder().encodeToString(EntityUtils.toByteArray(response.getEntity()));
             return "data:image/png;base64," + image_b64;
         }
         catch (Exception e) {
