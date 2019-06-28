@@ -296,6 +296,34 @@ public class Parser {
         return data;
     }
 
+    private static Map<String, Object> propertyReduceToMap(Property property) throws IOException {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("id", property.getID());
+        data.put("name", property.getName());
+        data.put("images", mapPathsToImages(property.photos.toArray()));
+
+        Address address = property.getAddress();
+        data.put("district", address.getDistrict());
+        data.put("city", address.getCity());
+        data.put("address", address.getCompleteAddress());
+
+        return data;
+    }
+
+    private static List<Map<String, Object>> propertyReduceListToMap(List<Property> properties) throws IOException {
+        List<Map<String, Object>> data = new ArrayList<>();
+        for (Property p: properties) {
+            data.add(propertyReduceToMap(p));
+        }
+        return data;
+    }
+
+    public static String propertyReduceListToJson(List<Property> properties) throws IOException {
+        return gson.toJson(propertyReduceListToJson(properties));
+    }
+
     private static List<Map<String, Object>> propertyListToMap(List<Property> properties) throws IOException {
         List<Map<String, Object>> data = new ArrayList<>();
         for (Property p: properties) {
