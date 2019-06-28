@@ -41,6 +41,8 @@ public interface UsersBeanLocal {
 
     Users getUserbyUsers(int ID) throws PersistentException;
 
-    boolean deleteUser(int ID,  List<Property> properties) throws PersistentException;
+    boolean deleteUser(int ID) throws PersistentException;
+
+    void setLogin(int ID) throws PersistentException;
 
 }

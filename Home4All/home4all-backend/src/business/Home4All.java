@@ -100,12 +100,15 @@ public class Home4All {
     }
 
     public static boolean deleteUser(int ID) throws PersistentException{
-        List<Property> properties =  propertyBean.getPropertyByUser(ID);
-        return usersBean.deleteUser(ID,properties);
+        return propertyBean.deletePropertiesByUser(ID) && usersBean.deleteUser(ID);
     }
 
     public static List<Property> getPropertyByUser(int ID) throws  PersistentException{
         return propertyBean.getPropertyByUser(ID);
+    }
+
+    public static void setLogin(int ID) throws PersistentException{
+        usersBean.setLogin(ID);
     }
 
     public static Property registerSharedProperty(

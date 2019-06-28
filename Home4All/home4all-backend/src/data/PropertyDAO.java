@@ -480,15 +480,14 @@ public class PropertyDAO {
 														Map<String, Object> parameters)
 			throws PersistentException {
 		try {
-			StringBuilder sb = new StringBuilder("SELECT DISTINCT * FROM (SELECT Property.* FROM Property");
-			//StringBuilder sb = new StringBuilder("SELECT Property.* FROM Property");
+			StringBuilder sb = new StringBuilder("SELECT * FROM (SELECT DISTINCT Property.* FROM Property");
 			if (joinTables != null)
 				sb.append(joinTables);
 			if (condition != null)
 				sb.append(" WHERE ").append(condition);
+			sb.append(") AS Property ");
 			if (orderBy != null)
 				sb.append(" ORDER BY ").append(orderBy);
-			sb.append(") AS Property ");
 			if (limit != null)
 				sb.append(" LIMIT ").append(limit);
 			if (limit != null)

@@ -373,21 +373,32 @@ public class UsersBean implements UsersBeanLocal {
         }
     }
 
-    public boolean deleteUser(int ID, List<Property> properties) throws PersistentException {
+    public boolean deleteUser(int ID) throws PersistentException {
         PersistentSession s = getSession();
         PersistentTransaction transaction = s.beginTransaction();
         try {
             Users user = UsersDAO.getUsersByORMID(s, ID);
-            for (Property p : properties){
-                s.delete(p);
-            }
             s.delete(user);
+            System.out.println("user delete");
             transaction.commit();
             return true;
         }
         catch (Exception e) {
             transaction.rollback();
             return false;
+        }
+    }
+
+    public void setLogin(int ID) throws PersistentException{
+        PersistentSession s = getSession();
+        PersistentTransaction t = s.beginTransaction();
+        try{
+            Common user = CommonDAO.getCommonByORMID(s,ID);
+            user.setLastLogin(new Date());
+            t.commit();
+        }
+        catch (Exception e){
+            t.rollback();
         }
     }
 }
