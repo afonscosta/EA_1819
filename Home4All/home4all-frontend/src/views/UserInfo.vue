@@ -71,7 +71,7 @@
               </b-form-group>
 
               <b-button type="submit" variant="primary">Guardar</b-button>
-              <b-button @click="deleteUserAccount" class="ml-2" variant="danger">Eliminar conta</b-button>
+              <b-button @click="deleteUserAccount; $router.push('/')" class="ml-2" variant="danger">Eliminar conta</b-button>
 
             </b-form>
           </b-col>
