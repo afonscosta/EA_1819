@@ -599,14 +599,23 @@ public class PropertyBean implements PropertyBeanLocal {
 
     public boolean blockProperty(Integer propertyID)  throws PersistentException {
         PersistentSession s = getSession();
-        Property property = PropertyDAO.getPropertyByORMID(s, propertyID);
-        if (property != null) {
-            property.setBlocked(true);
-            s.save(property);
-            System.out.println(property.getBlocked())   ;
-            return true;
-        } else {
-            return false;
+            Property property = PropertyDAO.getPropertyByORMID(s, propertyID);
+            if (property != null) {
+                PersistentTransaction t = s.beginTransaction();
+                try {
+                    property.setBlocked(true);
+                    s.save(property);
+                    System.out.println(property.getBlocked());
+                    t.commit();
+                    return true;
+                }
+                catch (Exception e){
+                    t.rollback();
+                    throw e;
+                }
+            } else {
+                return false;
+            }
         }
-    }
+
 }

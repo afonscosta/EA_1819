@@ -195,7 +195,20 @@ public class Properties extends HttpServlet {
                 }
             }
             else {
-                throw new Exception("ERRO: Identificador do imóvel em falta.");
+                HttpSession session = request.getSession(false);
+                if (session!= null){
+                    business.entities.Users currentUser = (business.entities.Users) session.getAttribute("currentSessionUser");
+                    if (currentUser != null){
+                        List<Property> properties = Home4All.getPropertyByUser(currentUser.getID());
+                        jsonData = Parser.propertyReduceListToJson(properties);
+                    }
+                    else{
+                        throw new Exception("ERRO: Identificador do imóvel em falta ou utilizador não autenticado.");
+                    }
+                }
+                else{
+                    throw new Exception("ERRO: Identificador do imóvel em falta ou utilizador não autenticado.");
+                }
             }
 
             response.setContentType("application/json"); // multipart/form-data

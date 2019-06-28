@@ -317,23 +317,29 @@ public class UsersBean implements UsersBeanLocal {
         return new ArrayList<>(complaints.values());
     }
 
-    public boolean blockUser(int ID) throws PersistentException{
-        PersistentSession session = getSession();
-        Common userInfo = CommonDAO.getCommonByORMID(session,ID);
-        if (userInfo!= null) {
-            userInfo.setBlocked(true);
-            session.save(userInfo);
-            Property[] userProperties = PropertyDAO.listPropertyByQuery(session, "usersId=" + userInfo.getID(), null);
-            System.out.println(userProperties);
-            for (Property p : userProperties) {
-                p.setBlocked(true);
-                session.save(p);
-                System.out.println(p.getBlocked());
+    public boolean blockUser(int ID) throws PersistentException {
+        PersistentSession s = getSession();
+        Common userInfo = CommonDAO.getCommonByORMID(s, ID);
+        if (userInfo != null) {
+            PersistentTransaction t = s.beginTransaction();
+            try {
+                userInfo.setBlocked(true);
+                s.save(userInfo);
+                Property[] userProperties = PropertyDAO.listPropertyByQuery(s, "usersId=" + userInfo.getID(), null);
+                System.out.println(userProperties);
+                for (Property p : userProperties) {
+                    p.setBlocked(true);
+                    s.save(p);
+                    System.out.println(p.getBlocked());
+                }
+                System.out.println(userInfo.getBlocked());
+                t.commit();
+                return true;
+            } catch (Exception e) {
+                t.rollback();
+                throw e;
             }
-            System.out.println(userInfo.getBlocked());
-            return true;
-        }
-        else
+        } else
             return false;
     }
 

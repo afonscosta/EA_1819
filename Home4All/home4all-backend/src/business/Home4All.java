@@ -104,6 +104,10 @@ public class Home4All {
         return usersBean.deleteUser(ID,properties);
     }
 
+    public static List<Property> getPropertyByUser(int ID) throws  PersistentException{
+        return propertyBean.getPropertyByUser(ID);
+    }
+
     public static Property registerSharedProperty(
                 Integer id,  String name, List<String> photos, String description, String typology,
                 float area, String district, String city, String street, float lat, float lng,

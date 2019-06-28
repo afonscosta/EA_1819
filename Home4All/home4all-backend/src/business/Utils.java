@@ -24,7 +24,7 @@ import java.security.MessageDigest;
 import java.util.*;
 
 public class Utils {
-    private static final String shared_host = "192.168.100.225";
+    private static final String shared_host = "10.3.13.46";
     private static final String shared_path = "images";
     private static final String shared_username = "ProjetoEA";
     private static final char[] shared_password = "ProjetoEA".toCharArray();
