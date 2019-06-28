@@ -34,7 +34,7 @@ public class Utils {
 
 
     // Trocar '_' final nos métodos para funcionar remotamente
-    public static List<String> getImages_(List<String> filenames) throws IOException {
+    public static List<String> getImages(List<String> filenames) throws IOException {
         List<String> images = new ArrayList<>();
 
         for (String filename: filenames) {
@@ -45,7 +45,7 @@ public class Utils {
         return images;
     }
 
-    public static void deleteImages_(List<String> filenames) {
+    public static void deleteImages(List<String> filenames) {
         List<String> images = new ArrayList<>();
 
         for (String filename: filenames) {
@@ -55,7 +55,7 @@ public class Utils {
     }
 
 
-    public static void saveImages_(Map<String, String> filenames_images) throws IOException {
+    public static void saveImages(Map<String, String> filenames_images) throws IOException {
 
         for (Map.Entry<String, String> filename_image : filenames_images.entrySet()) {
             Path file = Paths.get("images" + java.io.File.separator + filename_image.getKey());
@@ -65,7 +65,7 @@ public class Utils {
 
 
 
-    public static List<String> getImages(List<String> filenames) {
+    public static List<String> getImages_(List<String> filenames) {
         List<String> images = new ArrayList<>();
         SMBClient client = new SMBClient();
 
@@ -102,7 +102,7 @@ public class Utils {
         return images;
     }
 
-    public static void deleteImages(List<String> filenames) {
+    public static void deleteImages_(List<String> filenames) {
         SMBClient client = new SMBClient();
 
         try (Connection connection = client.connect(shared_host)) {
@@ -121,7 +121,7 @@ public class Utils {
     }
 
 
-    public static void saveImages(Map<String, String> filenames_images) {
+    public static void saveImages_(Map<String, String> filenames_images) {
         SMBClient client = new SMBClient();
 
         try (Connection connection = client.connect(shared_host)) {
@@ -164,7 +164,7 @@ public class Utils {
         String hash = md5(email);
         HttpClient httpClient = HttpClientBuilder.create().build();
         try {
-            HttpGet request = new HttpGet("https://www.gravatar.com/avatar/" + hash + ".png");
+            HttpGet request = new HttpGet("https://www.gravatar.com/avatar/" + hash + ".png?d=retro");
             request.addHeader("User-Agent", "Mozilla/5.0");
             HttpResponse response = httpClient.execute(request);
             String image_b64 = Base64.getEncoder().encodeToString(EntityUtils.toByteArray(response.getEntity()));
