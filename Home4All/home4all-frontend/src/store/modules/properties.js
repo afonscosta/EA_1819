@@ -1,5 +1,6 @@
 import propertiesService from '../../services/propertiesService'
 import searchService from '../../services/searchService'
+import complaintsService from '../../services/complaintsService'
 
 const state = {
   properties: [], // All properties being used
@@ -7,6 +8,7 @@ const state = {
   property: {}, // View details
   propertyEdit: {}, // Edit details
   searchParams: {},
+  disableNavigation: false,
   userProperties: [] // Info for myProperties page
 }
 
@@ -28,6 +30,9 @@ const getters = {
   },
   searchParams: state => {
     return state.searchParams
+  },
+  disableNavigation: state => {
+    return state.disableNavigation
   },
   userProperties: state => {
     return state.userProperties
@@ -73,6 +78,12 @@ const mutations = {
   },
   setSearchParams (state, payload) {
     state.searchParams = payload
+  },
+  appendProperties (state, properties) {
+    state.properties = state.properties.concat(properties)
+  },
+  setDisableNavigation (state, value) {
+    state.disableNavigation = value
   }
 }
 
@@ -153,7 +164,24 @@ const actions = {
       console.log('properties received after search', properties)
       commit('setSearchParams', payload)
       commit('setProperties', properties)
+      commit('setDisableNavigation', false)
     })
+  },
+  appendSearch ({ commit }, payload) {
+    console.log('payload do search', payload)
+    searchService.fetchProperties(payload).then(properties => {
+      console.log('properties received after search', properties)
+      commit('setSearchParams', payload)
+      commit('appendProperties', properties)
+      if (properties.length !== 20) {
+        commit('setDisableNavigation', true)
+      } else {
+        commit('setDisableNavigation', false)
+      }
+    })
+  },
+  addComplaint ({ commit }, payload) {
+    complaintsService.doComplaint(payload)
   }
 }
 

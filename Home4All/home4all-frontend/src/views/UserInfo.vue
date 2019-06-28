@@ -71,6 +71,7 @@
               </b-form-group>
 
               <b-button type="submit" variant="primary">Guardar</b-button>
+              <b-button @click="deleteUserAccount; $router.push('/')" class="ml-2" variant="danger">Eliminar conta</b-button>
 
             </b-form>
           </b-col>
@@ -251,7 +252,7 @@ export default {
   },
   methods: {
     ...mapActions('users', ['addUser', 'updateUser', 'deleteUser']),
-    ...mapActions('login', ['getUser']),
+    ...mapActions('login', ['getUser', 'deleteUserAccount']),
     ...mapActions('statistics', ['getStatisticsInfo']),
     // parseGraphData () {
     //   console.log('PARSE GRAPH')

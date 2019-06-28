@@ -17,5 +17,12 @@ export default {
     return home4all.delete(`properties/${id}`, {}, {
       Cookie: `JSESSIONID=${store.state.sessionID}`
     })
+  },
+  doComplaint (payload) {
+    return home4all.post(`properties`, {
+      payload
+    }, {
+      Cookie: `JSESSIONID=${store.state.sessionID}`
+    })
   }
 }

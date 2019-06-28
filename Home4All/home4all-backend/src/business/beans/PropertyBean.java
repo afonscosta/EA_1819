@@ -384,7 +384,7 @@ public class PropertyBean implements PropertyBeanLocal {
                 else if (!sharedType && privateType && !sell && rent)
                     orderBy = "Property.rentPrice DESC";
                 else if (sharedType && privateType && !sell && rent)
-                    orderBy = "GREATEST(Bedroom.rentPrice, Property.rentPrice) ASC";
+                    orderBy = "GREATEST(Bedroom.rentPrice, Property.rentPrice) DESC";
                 else
                     orderBy = "Property.id";
                 break;

@@ -3,24 +3,13 @@
     <div class="title">
       <b-row align-h="center">
         <b-col cols="12" sm="11" md="9">
-          <h1>Meus anúncios</h1> v-for="property in userProperties" :key="property.id"
+          <h1>Meus anúncios</h1>
           <b-card
             class="card-prop"
-            v-for="(prop, idx) in userProperties" :key="idx"
-            @click="goToProperty(prop)"
+            v-for="prop in userProperties" :key="prop"
+            @click="goToProperty(prop.id)"
           >
             <b-row align-v="top">
-              <b-col class="container-image" lg="3" cols="12">
-                <img :src="prop.images[currentImage[idx]]"/>
-                <b-button
-                  :disabled="currentImage[idx] === 0"
-                  @click.stop="operation = [currentImage, '-', idx]"
-                  class="btn-left round" variant="primary">&#8249;</b-button>
-                <b-button
-                  :disabled="currentImage[idx] === prop.images.length - 1"
-                  @click.stop="operation = [currentImage, '+', idx]"
-                  class="btn-right round" variant="primary">&#8250;</b-button>
-              </b-col>
               <b-col align="left" lg="6" cols="12">
                 <b-card-title class="mt-2">{{ prop.name }}</b-card-title>
                 <b-card-text>{{ parseType(prop.type) }}</b-card-text>
@@ -38,7 +27,7 @@
 import { mapActions, mapState } from 'vuex'
 
 export default {
-  
+  name: 'MyProperties',
   data: () => ({
   }),
   created () {
@@ -54,11 +43,10 @@ export default {
       'getUserProperties',
       'goToProperty',
       'getProperty'
-      ]),
+    ]),
     goToProperty (id) {
       this.getProperty(id)
         .then(() => {
-          // this.setProperty(prop)
           this.$router.push({ name: 'propertyView' })
         })
     },
