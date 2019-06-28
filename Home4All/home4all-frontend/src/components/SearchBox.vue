@@ -118,26 +118,32 @@
                         <b-form-checkbox
                           v-if="filters.rent ^ filters.sell"
                           v-model="filters.priceLowestFirst"
+                          @change="filters.priceHighestFirst = false; filters.publicationDateNewestFirst = false; filters.publicationDateOldestFirst = false; filters.advertiserLoginOldestFirst = false; filters.advertiserLoginNewestFirst = false"
                           class="mb-3">mais baixo - mais caro</b-form-checkbox>
                         <b-form-checkbox
                           v-if="filters.rent ^ filters.sell"
                           v-model="filters.priceHighestFirst"
+                          @change="filters.priceLowestFirst = false; filters.publicationDateNewestFirst = false; filters.publicationDateOldestFirst = false; filters.advertiserLoginOldestFirst = false; filters.advertiserLoginNewestFirst = false"
                           class="mb-3">mais caro - mais baixo</b-form-checkbox>
                         <b-dropdown-divider v-if="filters.rent ^ filters.sell"></b-dropdown-divider>
                         <p>Data publicação</p>
                         <b-form-checkbox
                           v-model="filters.publicationDateNewestFirst"
+                          @change="filters.priceLowestFirst = false; filters.priceHighestFirst = false; filters.publicationDateOldestFirst = false; filters.advertiserLoginOldestFirst = false; filters.advertiserLoginNewestFirst = false"
                           class="mb-3">mais recente - mais antiga</b-form-checkbox>
                         <b-form-checkbox
                           v-model="filters.publicationDateOldestFirst"
+                          @change="filters.priceLowestFirst = false; filters.priceHighestFirst = false; filters.publicationDateNewestFirst = false; filters.advertiserLoginOldestFirst = false; filters.advertiserLoginNewestFirst = false"
                           class="mb-3">mais antiga - mais recente</b-form-checkbox>
                         <b-dropdown-divider></b-dropdown-divider>
                         <p>Login do anunciante</p>
                         <b-form-checkbox
                           v-model="filters.advertiserLoginNewestFirst"
+                          @change="filters.priceLowestFirst = false; filters.priceHighestFirst = false; filters.publicationDateNewestFirst = false; filters.advertiserLoginOldestFirst = false; filters.publicationDateOldestFirst = false"
                           class="mb-3">mais recente - mais antigo</b-form-checkbox>
                         <b-form-checkbox
                           v-model="filters.advertiserLoginOldestFirst"
+                          @change="filters.priceLowestFirst = false; filters.priceHighestFirst = false; filters.publicationDateNewestFirst = false; filters.advertiserLoginNewestFirst = false; filters.publicationDateOldestFirst = false"
                           class="mb-3">mais antigo - mais recente</b-form-checkbox>
                       </b-col>
                     </b-dropdown>
@@ -526,6 +532,10 @@ export default {
       filters.notFurnished = this.filters.notFurnished
       filters.totalAccess = this.filters.totalAccess
       filters.notTotalAccess = this.filters.notTotalAccess
+
+      filters.page = 0
+      filters.perPage = 5
+      filters.numPages = 4
 
       payload.filters = filters
 

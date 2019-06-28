@@ -84,14 +84,18 @@ export default {
   data: () => ({
     perPage: 5,
     currentPage: 1,
-    operation: []
+    operation: [],
+    currentPageForce: null
   }),
   computed: {
     ...mapState({
-      properties: state => state.properties.properties
+      properties: state => state.properties.properties,
+      searchParams: state => state.properties.searchParams,
+      disableNavigation: state => state.properties.disableNavigation
     }),
     currentList () {
       var items = this.properties
+      console.log('items', items)
       return items.slice(
         (this.currentPage - 1) * this.perPage,
         this.currentPage * this.perPage
@@ -117,7 +121,8 @@ export default {
   },
   methods: {
     ...mapActions('properties', [
-      'getProperty'
+      'getProperty',
+      'appendSearch'
     ]),
     goToProperty (prop) {
       this.getProperty(prop.id)
@@ -135,9 +140,31 @@ export default {
       }
     },
     updatePagination (event) {
-      this.operation = []
-      console.log('pagination', event)
-      console.log('currentPage', this.currentPage)
+      if (this.currentPageForce) {
+        console.log('antes', this.currentPage)
+        this.currentPage = this.currentPageForce
+        this.currentPageForce = null
+        console.log('depois', this.currentPage)
+      } else {
+        this.operation = []
+        console.log('pagination', event)
+        console.log('rows', this.rows)
+        console.log('properties.length', this.properties.length)
+        if (!this.disableNavigation && ((this.rows / this.perPage) - 1) <= event) {
+          console.log('chama!')
+          var payload = this.searchParams
+          payload.filters.page = (this.rows / this.perPage)
+          payload.filters.perPage = this.perPage
+          payload.filters.numPages = 4
+          this.currentPageForce = this.currentPage + 1
+          console.log('currentPageForce', this.currentPageForce)
+          this.appendSearch(payload)
+          console.log('event', this.event)
+          console.log('currentPage', this.currentPage)
+        } else {
+          this.currentPageForce = null
+        }
+      }
     }
   }
 }
