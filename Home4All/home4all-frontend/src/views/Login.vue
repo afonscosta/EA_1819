@@ -57,13 +57,15 @@ export default {
           }
         }).catch(errorResponse => {
           console.log(errorResponse)
-          if (errorResponse.data) {
-            let parser = new DOMParser()
-            let htmlDoc = parser.parseFromString(errorResponse.data, 'text/html')
-            let body = htmlDoc.getElementsByTagName('body')
-            if (body[0]) {
-              this.errorMessage = body[0].innerText
-              this.errorFlag = true
+          if (errorResponse) {
+            if (errorResponse.data) {
+              let parser = new DOMParser()
+              let htmlDoc = parser.parseFromString(errorResponse.data, 'text/html')
+              let body = htmlDoc.getElementsByTagName('body')
+              if (body[0]) {
+                this.errorMessage = body[0].innerText
+                this.errorFlag = true
+              }
             }
           }
           console.log(this.errorMessage)

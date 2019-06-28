@@ -31,10 +31,13 @@
 
           <b-nav-item-dropdown v-if="$store.state.login.sessionID" right>
           <!-- Using 'button-content' slot -->
-          <template slot="button-content"><em>{{ $store.state.login.user.name }}</em></template>
+          <template v-if="$store.state.login.user.isAdmin" slot="button-content"><em>{{ $store.state.login.user.user.name }}</em></template>
+          <template v-else slot="button-content"><em>{{ $store.state.login.user.name }}</em></template>
           <b-dropdown-item v-if="!$store.state.login.user.isAdmin" :to="{ name: 'profile'} " >Dados perfil</b-dropdown-item>
           <b-dropdown-item v-on:click="logoutButton()" >Terminar sessão</b-dropdown-item>
         </b-nav-item-dropdown>
+
+        <img v-if="$store.state.login.sessionID" :src="$store.state.login.image" style="width:2rem;height:2rem;" />
 
         </b-navbar-nav>
       </b-collapse>

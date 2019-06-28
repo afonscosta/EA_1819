@@ -27,9 +27,9 @@ const mutations = {
   setSessionID (state, response) {
     state.sessionID = response.id
     localStorage.setItem('sessionID', response.id)
-    this.dispatch('login/getUser')
     state.user = response.user
     state.isAdmin = response.isAdmin
+    state.image = response.user.image
   },
   setPlainSessionID (state, sessionID) {
     state.sessionID = sessionID

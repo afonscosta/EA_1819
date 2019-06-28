@@ -79,10 +79,10 @@
                 label="Género:"
                 label-for="input-7"
               >
-                <b-form-select 
+                <b-form-select
                   v-model="form.gender"
                   class="input"
-                  required 
+                  required
                   :options="gender_options"
                 ></b-form-select>
               </b-form-group>
@@ -93,10 +93,10 @@
                 label="Ocupação:"
                 label-for="input-8"
               >
-                <b-form-select 
+                <b-form-select
                   v-model="form.occupation"
                   class="input"
-                  required 
+                  required
                   :options="occupation_options"
                 ></b-form-select>
               </b-form-group>
