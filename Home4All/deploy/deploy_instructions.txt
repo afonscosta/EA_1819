@@ -8,8 +8,8 @@
 host    all             all             0.0.0.0/0            md5
 
 # postgresql.conf - alterar:
-listen_addresses = '*'
-# descomentar o anterior e a porta - testar necessidade
+listen_addresses = '*' # n esquecer de descomentar
+lc_time = 'pt_PT'
 
 # restart do postgres
 
@@ -49,7 +49,12 @@ listen_addresses = '*'
 # Windows: http://wdc.custhelp.com/app/answers/detail/a_id/20736/~/how-to-enable-smb-1.0%2Fcifs-file-sharing-support-on-windows-10
 # Windows: https://www.wikihow.com/Access-Shared-Folders-on-a-Network
 
-# Java - aceder aos ficheiros partilhados: https://stackoverflow.com/questions/2171822/connecting-to-shared-folder-in-windows-with-java
+# Gerar container Docker
+
+# IntelliJ - https://www.jetbrains.com/help/idea/deploying-a-web-app-into-wildfly-container.html
+# Deploy do artifact para o container - http://www.mastertheboss.com/soa-cloud/docker/deploying-applications-on-your-docker-wildfly-image
+# Nota: no windows tem de se usar '192.168.99.100' em vez do localhost
+
 
 # SERVIDOR WEB
 
@@ -62,6 +67,7 @@ listen_addresses = '*'
 > yarn install
 > yarn build
 # copiar o conteúdo da diretoria dist para o DocumentRoot do ficheiro de configuração
+> sudo cp -r dist/* /usr/local/var/www
 > sudo chown -R _www /usr/local/var/www/index.html
 # não iniciar com o brew
 # fazer 'sudo apachectl start'

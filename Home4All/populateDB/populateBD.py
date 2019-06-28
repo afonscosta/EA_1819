@@ -10,7 +10,7 @@ output_filename = 'populate_db_small.sql'
 output = open(output_filename, 'w+')
 
 # Configs - Users
-users_quantity = 100
+users_quantity = 500
 users_password = '12345678'
 user_descriminators = ['InternalAccount', 'Common']
 user_desc_probabilities = [0.6, 0.4]
@@ -23,7 +23,7 @@ max_age = 70
 blocked_probability = 0.1
 
 # Configs - Properties
-props_quantity = 50
+props_quantity = 500
 props_descriminators = ['Shared', 'Apartment', 'Villa']
 props_descriminators_probabilities = [0.4, 0.3, 0.3]
 props_allowed_genders_probabilities = [0.35, 0.35, 0.3]
@@ -162,6 +162,7 @@ for i in range(users_quantity):
 
 # Populate Address (id, district, city, completeaddress, coordlat, coordlng)
 def reverse_geocode(latitude, longitude):
+    district, city, address = None, None, None
     sensor = 'false'
     base = "https://maps.googleapis.com/maps/api/geocode/json?"
     params = "latlng={lat},{lon}&sensor={sen}&size=640x640&key={key}".format(
@@ -187,19 +188,19 @@ def reverse_geocode(latitude, longitude):
 
 def gen_address():
     city = None
+    district = None
     i = 0
-    while city == None and i < 8:
+    while (city == None or district == None) and i < 8:
         lat, lng = fake.local_latlng(country_code="PT", coords_only=True)
         district, city, address = reverse_geocode(lat, lng)
         i += 1
     if i==8:
-        raise Exception('ERRO: Problema ao gerar morada')
+        raise print('ERRO: Problema ao gerar morada')
     
     return district, city, address, lat, lng
 
 output.write('\n-- POPULATE Address\n')
 for i in range(addresses_quantity):
-    # TODO: substituir geração da morada
     district, city, address, lat, lng = ('Lisboa', 'Carnaxide', 'R. Portal das Terras 14A, 2790-121 Carnaxide, Portugal', '38.72706', '-9.24671')
     # district, city, address, lat, lng = gen_address()
     output.write(f'''INSERT INTO Address VALUES (default, '{district}', '{city}', '{address}', '{lat}', '{lng}');\n\n''')
