@@ -7,7 +7,7 @@ export default {
       Cookie: `JSESSIONID=${store.state.sessionID}`
     }).then(response => response.data)
   },
-  putUser (payload) {
+  pushUser (payload) {
     return home4all.put(`users`, payload, {
       Cookie: `JSESSIONID=${store.state.sessionID}`
     }).then(response => response.data)
