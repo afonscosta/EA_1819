@@ -20,5 +20,10 @@ export default {
     return home4all.get(`properties`, {}, {
       Cookie: `JSESSIONID=${store.state.sessionID}`
     }).then(response => response.data)
+  },
+  getImage (path) {
+    return home4all.get(`images/${path}`, {}, {
+      Cookie: `JSESSIONID=${store.state.sessionID}`
+    }).then(response => response.data)
   }
 }

@@ -9,12 +9,16 @@ const state = {
   propertyEdit: {}, // Edit details
   searchParams: {},
   disableNavigation: false,
-  userProperties: [] // Info for myProperties page
+  userProperties: [], // Info for myProperties page
+  images: {}
 }
 
 const getters = {
   properties: state => {
     return state.properties
+  },
+  images: state => {
+    return state.images
   },
   props_compare: state => {
     return state.props_compare
@@ -84,6 +88,12 @@ const mutations = {
   },
   setDisableNavigation (state, value) {
     state.disableNavigation = value
+  },
+  saveImage (state, value) {
+    state.images[value.path] = value.image.image
+  },
+  resetImages (state) {
+    state.images = {}
   }
 }
 
@@ -164,7 +174,10 @@ const actions = {
       searchService.fetchProperties(payload)
         .then(properties => {
           console.log('properties received after search', properties)
-          commit('setSearchParams', payload)
+          if (JSON.stringify(payload) !== JSON.stringify(state.searchParams)) {
+            commit('resetImages')
+            commit('setSearchParams', payload)
+          }
           commit('setProperties', properties)
           commit('setDisableNavigation', false)
           resolve()
@@ -189,6 +202,18 @@ const actions = {
   },
   addComplaint ({ commit }, payload) {
     complaintsService.doComplaint(payload)
+  },
+  getImage ({ commit }, path) {
+    return new Promise((resolve, reject) => {
+      if (state.images[path]) {
+        resolve(state.images[path])
+      } else {
+        propertiesService.getImage(path).then(image => {
+          commit('saveImage', { path: path, image: image })
+          resolve(image.image)
+        })
+      }
+    })
   }
 }
 

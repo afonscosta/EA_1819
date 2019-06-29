@@ -28,7 +28,7 @@
           >
             <b-row align-v="top">
               <b-col class="container-image" lg="3" cols="12">
-                <img :src="prop.images[currentImage[idx]]"/>
+                <LazyImage :image="prop.images[currentImage[idx]]"/>
                 <b-button
                   :disabled="currentImage[idx] === 0"
                   @click.stop="operation = [currentImage, '-', idx]"
@@ -74,12 +74,14 @@
 import { mapActions, mapState } from 'vuex'
 import SearchBox from '@/components/SearchBox'
 import GoogleMap from '@/components/GoogleMap'
+import LazyImage from '@/components/LazyImage'
 
 export default {
   name: 'Home',
   components: {
     SearchBox,
-    GoogleMap
+    GoogleMap,
+    LazyImage
   },
   data: () => ({
     perPage: 5,
@@ -122,7 +124,8 @@ export default {
   methods: {
     ...mapActions('properties', [
       'getProperty',
-      'appendSearch'
+      'appendSearch',
+      'getImage'
     ]),
     goToProperty (prop) {
       this.getProperty(prop.id)

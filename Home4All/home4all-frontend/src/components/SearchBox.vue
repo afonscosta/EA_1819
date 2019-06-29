@@ -11,6 +11,7 @@
           <b-row class="mb-3">
             <b-col align="left" cols="12" lg="8">
               <gmap-autocomplete
+                id="loc"
                 class="form-control"
                 placeholder="Insira uma localização"
                 :componentRestrictions="{ country: ['pt'] }"
@@ -308,6 +309,7 @@ import { mapActions } from 'vuex'
 export default {
   name: 'SearchBox',
   data: () => ({
+    text: '',
     hidden: false,
     district: null,
     city: null,
@@ -431,10 +433,18 @@ export default {
     },
     search (evt) {
       evt.preventDefault()
-      var payload = {
-        ...(this.district && { district: this.district }),
-        ...(this.city && { city: this.city }),
-        ...(this.address && { address: this.address })
+      var myElement = document.getElementById('loc')
+      var payload = null
+      if (!this.district && !this.city) {
+        payload = {
+          address: myElement.value
+        }
+      } else {
+        payload = {
+          ...(this.district && { district: this.district }),
+          ...(this.city && { city: this.city }),
+          ...(this.address && { address: this.address })
+        }
       }
       var filters = {}
 

@@ -4,7 +4,7 @@ import Cookies from 'js-cookie'
 export default axios.create({
   withCredentials: true,
   baseURL: '/Home4All',
-  timeout: 5000,
+  timeout: 7000,
   headers: {
     'Content-Type': 'multipart/form-data',
     'X-CSRFToken': Cookies.get('csrftoken'),
