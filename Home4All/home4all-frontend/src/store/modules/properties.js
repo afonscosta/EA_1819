@@ -91,8 +91,9 @@ const mutations = {
   },
   saveImage (state, value) {
     state.images[value.path] = value.image.image
-    this.$forceUpdate()
-    console.log(state.images)
+  },
+  resetImages (state) {
+    state.images = {}
   }
 }
 
@@ -173,7 +174,10 @@ const actions = {
       searchService.fetchProperties(payload)
         .then(properties => {
           console.log('properties received after search', properties)
-          commit('setSearchParams', payload)
+          if (JSON.stringify(payload) !== JSON.stringify(state.searchParams)) {
+            commit('resetImages')
+            commit('setSearchParams', payload)
+          }
           commit('setProperties', properties)
           commit('setDisableNavigation', false)
           resolve()
@@ -201,11 +205,14 @@ const actions = {
   },
   getImage ({ commit }, path) {
     return new Promise((resolve, reject) => {
-      propertiesService.getImage(path).then(image => {
-        console.log(image)
-        commit('saveImage', { path: path, image: image })
-        resolve(image.image)
-      })
+      if (state.images[path]) {
+        resolve(state.images[path])
+      } else {
+        propertiesService.getImage(path).then(image => {
+          commit('saveImage', { path: path, image: image })
+          resolve(image.image)
+        })
+      }
     })
   }
 }
