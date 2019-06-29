@@ -57,4 +57,8 @@ public interface PropertyBeanLocal {
     List<Property> getPropertyByUser(int ID) throws  PersistentException;
 
     boolean deletePropertiesByUser(int usersID) throws PersistentException;
+
+    List<String> getImagesByPaths(List<Photo> photos);
+
+    String getImageByPath(String path);
 }

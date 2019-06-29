@@ -1,24 +1,18 @@
 package business;
 
-import com.hierynomus.msdtyp.AccessMask;
-import com.hierynomus.mssmb2.SMB2CreateDisposition;
-import com.hierynomus.mssmb2.SMB2ShareAccess;
-import com.hierynomus.smbj.SMBClient;
-import com.hierynomus.smbj.auth.AuthenticationContext;
-import com.hierynomus.smbj.connection.Connection;
-import com.hierynomus.smbj.session.Session;
-import com.hierynomus.smbj.share.DiskShare;
-import com.hierynomus.smbj.share.File;
+import com.google.gson.Gson;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import redis.clients.jedis.Jedis;
+import sun.security.jgss.GSSCaller;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.*;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -26,13 +20,6 @@ import java.security.MessageDigest;
 import java.util.*;
 
 public class Utils {
-    private static final String shared_host = "192.168.100.229";
-    private static final String shared_path = "images";
-    private static final String shared_username = "ProjetoEA";
-    private static final char[] shared_password = "ProjetoEA".toCharArray();
-    private static final AuthenticationContext ac = new AuthenticationContext(shared_username, shared_password, "");
-
-
     // Trocar '_' final nos métodos para funcionar remotamente
     public static List<String> getImages_(List<String> filenames) throws IOException {
         List<String> images = new ArrayList<>();
@@ -65,84 +52,29 @@ public class Utils {
 
 
 
-    public static List<String> getImages(List<String> filenames) {
+    public static List<String> getImages(Jedis jedis, List<String> filenames) {
         List<String> images = new ArrayList<>();
-        SMBClient client = new SMBClient();
 
-        try (Connection connection = client.connect(shared_host)) {
-            Session session = connection.authenticate(ac);
-            File file;
-            InputStream is;
-            BufferedReader bufferedReader;
-            String row;
-            StringBuilder image;
+        for (String filename: filenames)
+            images.add(jedis.get(filename));
 
-            // Connect to Share
-            try (DiskShare share = (DiskShare) session.connectShare(shared_path)) {
-                for (String filename : filenames) {
-                    file = share.openFile(filename, EnumSet.of(AccessMask.GENERIC_READ), null,
-                            SMB2ShareAccess.ALL, SMB2CreateDisposition.FILE_OPEN, null);
-                    is = file.getInputStream();
-                    bufferedReader = new BufferedReader(new InputStreamReader(is));
-                    row = bufferedReader.readLine();
-                    image = new StringBuilder(row);
-                    while (row != null) {
-                        row = bufferedReader.readLine();
-                        if (row != null)
-                            image.append(row);
-                    }
-                    images.add(image.toString());
-                    file.close();
-                }
-            }
-            session.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         return images;
     }
 
-    public static void deleteImages(List<String> filenames) {
-        SMBClient client = new SMBClient();
 
-        try (Connection connection = client.connect(shared_host)) {
-            Session session = connection.authenticate(ac);
+    public static String getImage(Jedis jedis, String path) {
+        return jedis.get(path);
+    }
 
-            // Connect to Share
-            try (DiskShare share = (DiskShare) session.connectShare(shared_path)) {
-                for (String filename : filenames) {
-                    share.rm(filename);
-                }
-            }
-            session.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public static void deleteImages(Jedis jedis, List<String> filenames) {
+        for (String filename: filenames)
+            jedis.del(filename);
     }
 
 
-    public static void saveImages(Map<String, String> filenames_images) {
-        SMBClient client = new SMBClient();
-
-        try (Connection connection = client.connect(shared_host)) {
-            Session session = connection.authenticate(ac);
-            File file;
-
-            // Connect to Share
-            try (DiskShare share = (DiskShare) session.connectShare(shared_path)) {
-                for (Map.Entry<String, String> filename_image : filenames_images.entrySet()) {
-                    file = share.openFile(filename_image.getKey(), EnumSet.of(AccessMask.GENERIC_WRITE), null,
-                            SMB2ShareAccess.ALL, SMB2CreateDisposition.FILE_OVERWRITE_IF, null);
-                    OutputStream oStream = file.getOutputStream();
-                    oStream.write(filename_image.getValue().getBytes());
-                    oStream.flush();
-                    oStream.close();
-                }
-            }
-            session.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public static void saveImages(Jedis jedis, Map<String, String> filenames_images) {
+        for (Map.Entry<String, String> filename_image: filenames_images.entrySet())
+            jedis.set(filename_image.getKey(), filename_image.getValue());
     }
 
 
@@ -169,6 +101,51 @@ public class Utils {
             HttpResponse response = httpClient.execute(request);
             String image_b64 = Base64.getEncoder().encodeToString(EntityUtils.toByteArray(response.getEntity()));
             return "data:image/png;base64," + image_b64;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Map<String, Object> getAddress(String address) throws UnsupportedEncodingException {
+        address = URLEncoder.encode(address, StandardCharsets.UTF_8.toString());
+        HttpClient httpClient = HttpClientBuilder.create().build();
+        Map<String, Object> result = new HashMap<>();
+        Gson gson = new Gson();
+        try {
+            HttpGet request = new HttpGet("https://maps.googleapis.com/maps/api/place/autocomplete/json?input=" + address + "&components=country:pt&language=pt-PT&key=AIzaSyDtZzBGMqTFWjndSRR-kEzpwBMdHodA5Ac");
+            HttpResponse response = httpClient.execute(request);
+            Map<String, List<Map<String, Object>>> places = gson.fromJson(EntityUtils.toString(response.getEntity()), Map.class);
+            String placeId = places.get("predictions").get(0).get("place_id").toString();
+            request = new HttpGet("https://maps.googleapis.com/maps/api/place/details/json?placeid=" + placeId + "&language=pt-PT&key=AIzaSyDtZzBGMqTFWjndSRR-kEzpwBMdHodA5Ac");
+            response = httpClient.execute(request);
+            Map<String, Object> place = (Map<String, Object>) gson.fromJson(EntityUtils.toString(response.getEntity()), Map.class).get("result");
+            List<Map<String, Object>> addressComponents = (List<Map<String, Object>>) place.get("address_components");
+            String city = null;
+            String district = null;
+            for (Map<String, Object> component : addressComponents) {
+                List<String> types = (List<String>) component.get("types");
+                if (types.contains("locality") && types.contains("political")) {
+                    city = (String) component.get("long_name");
+                }
+                if (types.contains("administrative_area_level_1") && types.contains("political")) {
+                    district = (String) component.get("long_name");
+                }
+            }
+            String formattedAddress = place.get("formatted_address").toString();
+
+            Map<String, Double> location = ((Map<String, Map<String, Double>>) place.get("geometry")).get("location");
+            float lat = Float.parseFloat(Double.toString(location.get("lat")));
+            float lng = Float.parseFloat(Double.toString(location.get("lng")));
+
+            result.put("district", district);
+            result.put("city", city);
+            result.put("formattedAddress", formattedAddress);
+            result.put("lat", lat);
+            result.put("lng", lng);
+
+            return result;
         }
         catch (Exception e) {
             e.printStackTrace();

@@ -7,6 +7,7 @@ import data.*;
 import org.orm.PersistentException;
 import org.orm.PersistentSession;
 import org.orm.PersistentTransaction;
+import redis.clients.jedis.Jedis;
 
 import javax.ejb.Stateless;
 import javax.rmi.CORBA.Util;
@@ -18,7 +19,8 @@ import java.util.stream.Collectors;
 
 @Stateless(name = "PropertyEJB")
 public class PropertyBean implements PropertyBeanLocal {
-    private static PersistentSession session = null;
+    private PersistentSession session = null;
+    private Jedis jedis = null;
 
     public PropertyBean() {
     }
@@ -32,6 +34,16 @@ public class PropertyBean implements PropertyBeanLocal {
             }
         }
         return session;
+    }
+    private Jedis getJedis() {
+        if (jedis == null) {
+            try {
+                jedis = new Jedis("10.254.233.116");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return jedis;
     }
 
     private String nextImageId() throws PersistentException, IOException {
@@ -113,7 +125,10 @@ public class PropertyBean implements PropertyBeanLocal {
 
         property.setPublishDate(new Date());
 
-        Utils.deleteImages(Arrays.stream(property.photos.toArray()).map(Photo::getPath).collect(Collectors.toList()));
+        Utils.deleteImages(
+                getJedis(),
+                Arrays.stream(property.photos.toArray()).map(Photo::getPath).collect(Collectors.toList())
+        );
         property.photos.clear();
 
         Map<String, String> images = new HashMap<>();
@@ -124,7 +139,7 @@ public class PropertyBean implements PropertyBeanLocal {
             property.photos.add(photo);
             images.put(photoPath, image);
         }
-        Utils.saveImages(images);
+        Utils.saveImages(getJedis(), images);
 
         property.setOwner(CommonDAO.getCommonByORMID(s, ownerId));
 
@@ -265,7 +280,7 @@ public class PropertyBean implements PropertyBeanLocal {
                             filenames.add(p.getPath());
                         }
                     }
-                    Utils.deleteImages(filenames);
+                    Utils.deleteImages(getJedis(), filenames);
                     bedroom.photos.clear();
 
                     Map<String, String> images = new HashMap<>();
@@ -276,7 +291,7 @@ public class PropertyBean implements PropertyBeanLocal {
                         bedroom.photos.add(photo);
                         images.put(photoPath, image);
                     }
-                    Utils.saveImages(images);
+                    Utils.saveImages(getJedis(), images);
                 } else {
                     throw new MissingPropertiesException();
                 }
@@ -617,23 +632,32 @@ public class PropertyBean implements PropertyBeanLocal {
 
     public boolean blockProperty(Integer propertyID)  throws PersistentException {
         PersistentSession s = getSession();
-            Property property = PropertyDAO.getPropertyByORMID(s, propertyID);
-            if (property != null) {
-                PersistentTransaction t = s.beginTransaction();
-                try {
-                    property.setBlocked(true);
-                    s.save(property);
-                    System.out.println(property.getBlocked());
-                    t.commit();
-                    return true;
-                }
-                catch (Exception e){
-                    t.rollback();
-                    throw e;
-                }
-            } else {
-                return false;
+        Property property = PropertyDAO.getPropertyByORMID(s, propertyID);
+        if (property != null) {
+            PersistentTransaction t = s.beginTransaction();
+            try {
+                property.setBlocked(true);
+                s.save(property);
+                System.out.println(property.getBlocked());
+                t.commit();
+                return true;
             }
+            catch (Exception e){
+                t.rollback();
+                throw e;
+            }
+        } else {
+            return false;
         }
+    }
+
+    public List<String> getImagesByPaths(List<Photo> photos) {
+        List<String> paths = photos.stream().map(Photo::getPath).collect(Collectors.toList());
+        return Utils.getImages(getJedis(), paths);
+    }
+
+    public String getImageByPath(String path) {
+        return Utils.getImage(getJedis(), path);
+    }
 
 }

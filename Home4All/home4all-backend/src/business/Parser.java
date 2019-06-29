@@ -122,7 +122,8 @@ public class Parser {
             images.add(new String(bytes));
         }
         */
-        return Utils.getImages(Arrays.stream(photos).map(Photo::getPath).collect(Collectors.toList()));
+        //return Utils.getImages(Arrays.stream(photos).map(Photo::getPath).collect(Collectors.toList()));
+        return Home4All.getImagesByPaths(Arrays.asList(photos));
     }
 
     private static Map<String, Object> allPropertyToMap(Property property) throws IOException {
@@ -241,7 +242,8 @@ public class Parser {
         Map<String, Object> data = new HashMap<>();
         data.put("id", property.getID());
         data.put("name", property.getName());
-        data.put("images", mapPathsToImages(property.photos.toArray()));
+        //data.put("images", mapPathsToImages(property.photos.toArray()));
+        data.put("images", Arrays.stream(property.photos.toArray()).map(Photo::getPath).collect(Collectors.toList()));
         data.put("description", property.getDescription());
         data.put("typology", property.getTypology().getName());
         data.put("area", property.getArea());

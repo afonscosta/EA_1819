@@ -27,7 +27,7 @@ import java.util.*;
 
 @Stateless(name = "UsersEJB")
 public class UsersBean implements UsersBeanLocal {
-    private static PersistentSession session = null;
+    private PersistentSession session = null;
 
     public UsersBean() {
     }
@@ -68,8 +68,8 @@ public class UsersBean implements UsersBeanLocal {
                 Common user;
 
                 if (password != null) {
-                user = InternalAccountDAO.createInternalAccount();
-                ((InternalAccount) user).setPassword(Utils.hash(password));
+                    user = InternalAccountDAO.createInternalAccount();
+                    ((InternalAccount) user).setPassword(Utils.hash(password));
                 } else {
                     user = CommonDAO.createCommon();
                 }
@@ -106,9 +106,9 @@ public class UsersBean implements UsersBeanLocal {
                 return user;
             }
             catch (Exception e) {
-                    t.rollback();
-                    throw e;
-                }
+                t.rollback();
+                throw e;
+            }
         }
         else{
             throw new Exception("ERRO: Email já em uso");

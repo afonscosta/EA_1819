@@ -24,7 +24,6 @@ public class Authentication extends HttpServlet {
     private static Logger LOGGER = Logger.getLogger("InfoLogging");
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
         try {
             HttpSession session = request.getSession(false);
             if (session == null || session.getAttribute("currentSessionUser") == null){

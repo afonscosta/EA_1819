@@ -175,4 +175,12 @@ public class Home4All {
                 hasSmokers, notSmokers, furnished, notFurnished, totalAccess, notTotalAccess, ordination,
                 userGender, userOccupation, userAge);
     }
+
+    public static List<String> getImagesByPaths(List<Photo> photos) {
+        return propertyBean.getImagesByPaths(photos);
+    }
+
+    public static String getImageByPath(String path) {
+        return propertyBean.getImageByPath(path);
+    }
 }
