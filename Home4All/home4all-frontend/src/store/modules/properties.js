@@ -9,12 +9,16 @@ const state = {
   propertyEdit: {}, // Edit details
   searchParams: {},
   disableNavigation: false,
-  userProperties: [] // Info for myProperties page
+  userProperties: [], // Info for myProperties page
+  images: {}
 }
 
 const getters = {
   properties: state => {
     return state.properties
+  },
+  images: state => {
+    return state.images
   },
   props_compare: state => {
     return state.props_compare
@@ -84,6 +88,11 @@ const mutations = {
   },
   setDisableNavigation (state, value) {
     state.disableNavigation = value
+  },
+  saveImage (state, value) {
+    state.images[value.path] = value.image.image
+    this.$forceUpdate()
+    console.log(state.images)
   }
 }
 
@@ -189,6 +198,15 @@ const actions = {
   },
   addComplaint ({ commit }, payload) {
     complaintsService.doComplaint(payload)
+  },
+  getImage ({ commit }, path) {
+    return new Promise((resolve, reject) => {
+      propertiesService.getImage(path).then(image => {
+        console.log(image)
+        commit('saveImage', { path: path, image: image })
+        resolve(image.image)
+      })
+    })
   }
 }
 
