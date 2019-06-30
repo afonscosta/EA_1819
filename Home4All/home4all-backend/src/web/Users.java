@@ -21,10 +21,8 @@ import java.util.logging.Logger;
 @WebServlet(name = "Users", urlPatterns = {"/users/*"})
 public class Users extends HttpServlet {
     private Gson gson = new Gson();
-    private static Logger LOGGER = Logger.getLogger("InfoLogging");
 
         protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        LOGGER.info("POST USERS");
         try {
             BufferedReader reader = request.getReader();
             Map u = gson.fromJson(reader, Map.class);
@@ -43,7 +41,6 @@ public class Users extends HttpServlet {
             out.flush();
         }
         catch (Exception e) {
-            LOGGER.info("FAILED POST");
             response.setContentType("text/html");
             response.setCharacterEncoding("UTF-8");
             response.sendError(javax.servlet.http.HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
@@ -52,16 +49,11 @@ public class Users extends HttpServlet {
     }
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws IOException {
-        LOGGER.info("GET USERS");
         try {
             String jsonData;
 
             HttpSession session = request.getSession(false);
-            System.out.println(session);
             business.entities.Users currentUser = (business.entities.Users) session.getAttribute("currentSessionUser");
-            System.out.println(currentUser);
-            System.out.println("USER AUTHENTICATED:" + currentUser.getEmail());
-            System.out.println("SESSION ID: " + session.getId());
             if (currentUser instanceof Admin){
                 jsonData = Parser.currentAdminToJson(session.getId(),currentUser);
             }
@@ -90,13 +82,11 @@ public class Users extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        LOGGER.info("PUT USERS");
         try {
             HttpSession session = request.getSession(false);
             business.entities.Users currentUser = (business.entities.Users) session.getAttribute("currentSessionUser");
             BufferedReader reader = request.getReader();
             Map u = gson.fromJson(reader, Map.class);
-            System.out.println(currentUser.getID());
             Common user = Home4All.updateCommonUser( currentUser.getID(),
                                                     (String) u.getOrDefault("name",null),
                                                     (String) u.getOrDefault("password", null),
@@ -122,13 +112,11 @@ public class Users extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        LOGGER.info("delete user");
-            try {
+        try {
             HttpSession session = request.getSession(false);
             business.entities.Users currentUser = (business.entities.Users) session.getAttribute("currentSessionUser");
             if (currentUser instanceof Admin) {
                 Integer userID = Integer.parseInt(request.getPathInfo().substring(1));
-                System.out.println(userID);
 
                 boolean res = Home4All.blockUser(userID);
                 if (!res){

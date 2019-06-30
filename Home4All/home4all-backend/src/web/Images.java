@@ -20,13 +20,10 @@ public class Images extends HttpServlet {
         String path = request.getPathInfo().substring(1);
         String image = Home4All.getImageByPath(path);
 
-        System.out.println("BEGIN " + path);
         response.setContentType("application/json"); // multipart/form-data
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
         out.print("{\"image\": \"" + image + "\"}");
         out.flush();
-        System.out.println("END " + path);
-
     }
 }

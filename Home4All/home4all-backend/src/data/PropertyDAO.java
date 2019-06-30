@@ -493,8 +493,6 @@ public class PropertyDAO {
 			if (limit != null)
 				sb.append(" OFFSET ").append(offset);
 
-			System.out.println(sb.toString());
-
 			SQLQuery query = session.createSQLQuery(sb.toString());
 
 			for (Map.Entry<String, Object> p: parameters.entrySet()) {

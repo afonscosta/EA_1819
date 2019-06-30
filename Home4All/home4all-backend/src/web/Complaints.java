@@ -17,12 +17,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 @WebServlet(name = "Complaints", urlPatterns = {"/complaints"})
 public class Complaints  extends HttpServlet {
     private Gson gson = new Gson();
-    private static Logger LOGGER = Logger.getLogger("InfoLogging");
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try{
@@ -45,7 +43,6 @@ public class Complaints  extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        LOGGER.info("GET COMPLAINTS");
         try{
             HttpSession session = request.getSession(false);
             business.entities.Users currentUser = (business.entities.Users) session.getAttribute("currentSessionUser");

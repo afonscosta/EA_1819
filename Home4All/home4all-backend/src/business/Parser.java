@@ -55,7 +55,6 @@ public class Parser {
 
         String dataBirthday = new SimpleDateFormat("yyyy-MM-d").format(user.getBirthdate());
         data_user.put("birthday", dataBirthday);
-        System.out.println(dataBirthday);
         String phone = user.getPhone();
         if (!phone.isEmpty()) {
             data_user.put("phone", phone);
@@ -68,7 +67,6 @@ public class Parser {
 
     public static String userToJson(Common user) {
         LinkedTreeMap data = new LinkedTreeMap();
-        System.out.println(user);
         data.put("id", user.getID());
         data.put("email", user.getEmail());
         data.put("name", user.getName());
@@ -79,7 +77,6 @@ public class Parser {
         //}
         String dataBirthday = new SimpleDateFormat("yyyy-MM-d").format(user.getBirthdate());
         data.put("birthday", dataBirthday);
-        System.out.println(dataBirthday);
         String phone = user.getPhone();
         if (!phone.isEmpty()) {
             data.put("phone", phone);

@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -146,9 +145,7 @@ public class Properties extends HttpServlet {
             HttpSession session = request.getSession(false);
             business.entities.Users currentUser = (business.entities.Users) session.getAttribute("currentSessionUser");
             if (currentUser instanceof Admin) {
-                System.out.println("Admin vai bloquear property...");
                 Integer propertyID = Integer.parseInt(request.getPathInfo().substring(1));
-                System.out.println(propertyID);
                 boolean res = Home4All.blockProperty(propertyID);
                 if (!res){
                     throw new Exception("ERRO: Imóvel não encontrado.");
@@ -181,9 +178,6 @@ public class Properties extends HttpServlet {
         try {
             String jsonData;
 
-            // System.out.println(request.getPathInfo());
-            // String id_str = request.getParameter("propertyId");
-            System.out.println("Inicio");
             String id_str = request.getPathInfo();
             if (id_str != null) {
                 id_str = request.getPathInfo().substring(1);
@@ -197,14 +191,11 @@ public class Properties extends HttpServlet {
                 }
             }
             else {
-                System.out.println("else");
                 HttpSession session = request.getSession(false);
                 if (session!= null){
-                    System.out.println("TOU AQUI");
                     business.entities.Users currentUser = (business.entities.Users) session.getAttribute("currentSessionUser");
                     if (currentUser != null){
                         List<Property> properties = Home4All.getPropertyByUser(currentUser.getID());
-                        System.out.println(properties);
                         jsonData = Parser.propertyReduceListToJson(properties);
                     }
                     else{

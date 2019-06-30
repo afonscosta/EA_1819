@@ -38,12 +38,27 @@ public class PropertyBean implements PropertyBeanLocal {
     private Jedis getJedis() {
         if (jedis == null) {
             try {
-                jedis = new Jedis("10.254.233.116");
+                jedis = new Jedis("192.168.1.66");
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         return jedis;
+    }
+    /*
+    private void restartSession(){
+        try {
+            session.close();
+        } catch (PersistentException e) {
+            System.out.println("ERRO NOSSO!!!!!!!!!!!!" + e.getMessage());
+        } finally {
+            session = null;
+        }
+    }
+    */
+    private void restartSession() throws PersistentException{
+        session.close();
+        session = null;
     }
 
     private String nextImageId() throws PersistentException, IOException {
@@ -202,6 +217,7 @@ public class PropertyBean implements PropertyBeanLocal {
         }
         catch (Exception e) {
             t.rollback();
+            restartSession();
             throw e;
         }
     }
@@ -328,6 +344,7 @@ public class PropertyBean implements PropertyBeanLocal {
         }
         catch (Exception e) {
             t.rollback();
+            restartSession();
             throw e;
         }
     }
@@ -368,6 +385,7 @@ public class PropertyBean implements PropertyBeanLocal {
         }
         catch (Exception e) {
             transaction.rollback();
+            restartSession();
             return false;
         }
     }
@@ -440,7 +458,6 @@ public class PropertyBean implements PropertyBeanLocal {
         List<String> tables = new ArrayList<>();
         List<String> conditions = new ArrayList<>();
         Map<String, Object> parameters = new HashMap<>();
-        System.out.println("FROM BEAN");
         // CONDITION BUILDING
 
         // Location
@@ -638,12 +655,12 @@ public class PropertyBean implements PropertyBeanLocal {
             try {
                 property.setBlocked(true);
                 s.save(property);
-                System.out.println(property.getBlocked());
                 t.commit();
                 return true;
             }
             catch (Exception e){
                 t.rollback();
+                restartSession();
                 throw e;
             }
         } else {

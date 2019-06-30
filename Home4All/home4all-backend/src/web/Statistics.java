@@ -16,27 +16,21 @@ import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 @WebServlet(name = "Statistics", urlPatterns = {"/statistics"})
 public class Statistics extends HttpServlet {
     private Gson gson = new Gson();
-    private static Logger LOGGER = Logger.getLogger("InfoLogging");
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        LOGGER.info("GET STATISTICS");
         try {
             HttpSession session = request.getSession(false);
             business.entities.Users currentUser = (business.entities.Users) session.getAttribute("currentSessionUser");
             BufferedReader reader = request.getReader();
             Map dates = gson.fromJson(request.getParameter("payload"), Map.class);
             //Map dates = gson.fromJson(reader, Map.class);
-            System.out.println("VOU TRATAR DAS DATAS");
             String dateBegin = (String) dates.get("dateBegin");
             String dateEnd = (String) dates.get("dateEnd");
-            System.out.println(dateBegin);
-            System.out.println(dateEnd);
             Map<Date, Long> info1 = new HashMap<>();
             Map<String, Map.Entry<Long,Long>> info2 = new HashMap<>();
             info1 = Home4All.getStatisticsQuantity(currentUser.getID(), dateBegin, dateEnd);
@@ -49,7 +43,6 @@ public class Statistics extends HttpServlet {
             out.flush();
         }
         catch (Exception e) {
-            LOGGER.info("FAILED GET STATISTICS");
             response.setContentType("text/html");
             response.setCharacterEncoding("UTF-8");
             response.sendError(javax.servlet.http.HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);

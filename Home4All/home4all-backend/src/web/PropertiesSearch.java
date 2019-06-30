@@ -69,7 +69,7 @@ public class PropertiesSearch extends HttpServlet {
                 parseToFloat(filters.get("maxRentPrice"), true),
                 (List<String>) filters.getOrDefault("bedroomTypes", new ArrayList<>()),
                 parseToInt(filters.get("peopleAmountMultiple"), true),
-                (boolean) filters.getOrDefault("privateWC",false),
+                (boolean) filters.getOrDefault("privateWC",true),
                 (boolean) filters.getOrDefault("sharedWC", true),
                 (List<String>) filters.getOrDefault("hasOccupations", new ArrayList<>()),
                 (boolean) filters.getOrDefault("hasPets",true),

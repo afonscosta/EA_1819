@@ -16,23 +16,19 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
-import java.util.logging.Logger;
 
 @WebServlet(name = "Authentication", urlPatterns = {"/authentication"})
 public class Authentication extends HttpServlet {
     private Gson gson = new Gson();
-    private static Logger LOGGER = Logger.getLogger("InfoLogging");
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
             HttpSession session = request.getSession(false);
             if (session == null || session.getAttribute("currentSessionUser") == null){
-                LOGGER.info("LOGIN");
                 BufferedReader reader = request.getReader();
                 Map user = gson.fromJson(reader, Map.class);
                 String email = (String) user.get("email");
                 String password = (String) user.get("password");
-                System.out.println("Autenticate user " + email + "...");
                 Users currentUserLogin = Home4All.login(email, password);
 
                 if (currentUserLogin!=null) {
@@ -68,7 +64,6 @@ public class Authentication extends HttpServlet {
                 }
             }
             else{
-                LOGGER.info("LOGOUT");
                 session.setAttribute("currentSessionUser", null);
                 request.logout();
                 response.setContentType("application/json"); // multipart/form-data
@@ -79,7 +74,6 @@ public class Authentication extends HttpServlet {
 
 
         } catch (Exception e) {
-            LOGGER.info("FAILED LOGIN");
             response.setContentType("text/html");
             response.setCharacterEncoding("UTF-8");
             response.sendError(javax.servlet.http.HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, e.getMessage());

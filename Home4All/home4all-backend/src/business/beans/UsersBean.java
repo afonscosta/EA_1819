@@ -43,6 +43,22 @@ public class UsersBean implements UsersBeanLocal {
         return session;
     }
 
+    /*
+    private void restartSession(){
+        try {
+            session.close();
+        } catch (PersistentException e) {
+            System.out.println("ERRO NOSSO!!!!!!!!!!!!" + e.getMessage());
+        } finally {
+            session = null;
+        }
+    }
+    */
+    private void restartSession() throws PersistentException{
+        session.close();
+        session = null;
+    }
+
     @Override
     public Users login(String email, String password) throws PersistentException {
         PersistentSession s = getSession();
@@ -74,8 +90,6 @@ public class UsersBean implements UsersBeanLocal {
                     user = CommonDAO.createCommon();
                 }
                 Gender genderValue;
-                System.out.println(gender);
-                System.out.println(occupation);
                 if (gender != null) {
                     genderValue = GenderDAO.loadGenderByORMID(s,gender);
                     if (genderValue == null)
@@ -107,11 +121,12 @@ public class UsersBean implements UsersBeanLocal {
             }
             catch (Exception e) {
                 t.rollback();
+                restartSession();
                 throw e;
             }
         }
         else{
-            throw new Exception("ERRO: Email já em uso");
+            throw new Exception("ERRO: Email já em uso - " + email);
         }
 
     }
@@ -126,7 +141,6 @@ public class UsersBean implements UsersBeanLocal {
         try {
             Common user;
             user = CommonDAO.getCommonByORMID(s,id);
-            System.out.println(user.getID());
             Gender genderValue;
             if (gender != null) {
                 genderValue = GenderDAO.loadGenderByORMID(s,gender);
@@ -165,6 +179,7 @@ public class UsersBean implements UsersBeanLocal {
         }
         catch (Exception e) {
             t.rollback();
+            restartSession();
             throw e;
         }
     }
@@ -183,13 +198,9 @@ public class UsersBean implements UsersBeanLocal {
         PersistentSession session = getSession();
         Map<String, Map.Entry<Long,Long>> data = new HashMap<>();
 
-        System.out.println(dateBegin);
-        System.out.println(dateEnd);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-d");
         Date dateB = formatter.parse(dateBegin);
         Date dateE = formatter.parse(dateEnd);
-        System.out.println(dateB);
-        System.out.println(dateE);
 
         Criteria crit = session.createCriteria(Property.class, "P")
                 .add(Restrictions.between("publishDate", dateB, dateE))
@@ -208,29 +219,20 @@ public class UsersBean implements UsersBeanLocal {
                         .add(Projections.sqlGroupProjection("TO_CHAR(publishDate, 'TMMonth yy') as month","month", new String[]{"month"},new Type[]{new StringType()}))
                         .add(Projections.rowCount()));
 
-        System.out.println("Done");
         List allResults = crit.list();
         List soldResults = crit2.list();
-        System.out.println(allResults);
         for (Iterator iter = allResults.iterator(); iter.hasNext();)
         {
             Object object[] = (Object[]) iter.next();
-            System.out.println(object[0]);
-            System.out.println(object[1]);
             //Map.Entry<Long, Long> pair = new AbstractMap.SimpleEntry<>((Long)object[1],(Long) object[1]);
             Map.Entry<Long, Long> pair = new AbstractMap.SimpleEntry<>((Long)object[1], 0L);
             data.put((String) object[0],pair);
 
 
         }
-        System.out.println(data);
-        System.out.println(data.size());
-        System.out.println(soldResults);
         for (Iterator iter = soldResults.iterator(); iter.hasNext();)
         {
             Object object[] = (Object[]) iter.next();
-            System.out.println(object[0]);
-            System.out.println(object[1]);
             String month = (String) object[0];
             if (data.containsKey(month)) {
                 Map.Entry<Long, Long> pair = data.get(month);
@@ -238,9 +240,6 @@ public class UsersBean implements UsersBeanLocal {
                 data.replace(month, pair);
             }
         }
-        System.out.println(data);
-        System.out.println(data.size());
-
         return data;
     }
 
@@ -248,13 +247,9 @@ public class UsersBean implements UsersBeanLocal {
         PersistentSession session = getSession();
         Map<Date,Long> data = new HashMap<>();
 
-        System.out.println(dateBegin);
-        System.out.println(dateEnd);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-d");
         Date dateB = formatter.parse(dateBegin);
         Date dateE = formatter.parse(dateEnd);
-        System.out.println(dateB);
-        System.out.println(dateE);
 
         Criteria crit = session.createCriteria(Property.class, "P")
                 .add(Restrictions.between("publishDate", dateB, dateE))
@@ -267,20 +262,14 @@ public class UsersBean implements UsersBeanLocal {
                         .add(Projections.groupProperty("publishDate")))
                 .addOrder(Order.desc("publishDate"));
 
-        System.out.println("Done");
         List results = crit.list();
-        System.out.println(results);
 
         for (Iterator iter = results.iterator(); iter.hasNext();)
         {
             Object object[] = (Object[]) iter.next();
-            System.out.println(object[0]);
-            System.out.println(object[1]);
             data.put((Date)object[0],(Long) object[1]);
 
         }
-        System.out.println(data);
-        System.out.println(data.size());
         return data;
     }
 
@@ -289,7 +278,6 @@ public class UsersBean implements UsersBeanLocal {
 
         Query query = session.createSQLQuery("select p.ID, p.Name, c.Description, p.usersID from Property as p, Complaint as c where p.ID = c.propertyID AND p.blocked = false");
         List<Object[]> queryResult = query.list();
-        System.out.println(queryResult);
 
         Map<Integer, Map<String,Object>> complaints = new HashMap<>();
 
@@ -326,17 +314,15 @@ public class UsersBean implements UsersBeanLocal {
                 userInfo.setBlocked(true);
                 s.save(userInfo);
                 Property[] userProperties = PropertyDAO.listPropertyByQuery(s, "usersId=" + userInfo.getID(), null);
-                System.out.println(userProperties);
                 for (Property p : userProperties) {
                     p.setBlocked(true);
                     s.save(p);
-                    System.out.println(p.getBlocked());
                 }
-                System.out.println(userInfo.getBlocked());
                 t.commit();
                 return true;
             } catch (Exception e) {
                 t.rollback();
+                restartSession();
                 throw e;
             }
         } else
@@ -369,6 +355,7 @@ public class UsersBean implements UsersBeanLocal {
         }
         catch (Exception e) {
             t.rollback();
+            restartSession();
             throw e;
         }
     }
@@ -379,12 +366,12 @@ public class UsersBean implements UsersBeanLocal {
         try {
             Users user = UsersDAO.getUsersByORMID(s, ID);
             s.delete(user);
-            System.out.println("user delete");
             transaction.commit();
             return true;
         }
         catch (Exception e) {
             transaction.rollback();
+            restartSession();
             return false;
         }
     }
@@ -399,6 +386,7 @@ public class UsersBean implements UsersBeanLocal {
         }
         catch (Exception e){
             t.rollback();
+            restartSession();
         }
     }
 }
