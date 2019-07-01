@@ -52,18 +52,28 @@ lc_time = 'pt_PT'
 # Gerar container Docker
 
 # IntelliJ - https://www.jetbrains.com/help/idea/deploying-a-web-app-into-wildfly-container.html
-# Deploy do artifact para o container - http://www.mastertheboss.com/soa-cloud/docker/deploying-applications-on-your-docker-wildfly-image
-# Nota: no windows tem de se usar '192.168.99.100' em vez do localhost
 
+# Deploy do artifact para o container - http://www.mastertheboss.com/soa-cloud/docker/deploying-applications-on-your-docker-wildfly-image
+
+# Nota: no windows tem de se usar '192.168.99.100' em vez do localhost
+Docker Toolbox
+# Na virtual box do docker, colocar uma entrada no port forwarding com o Host IP a 0.0.0.0, o Host Port a 8080, o Guest IP com o IP da máquina virtual, porta 8080 (da aplicação web)
+> cd docker-dir
+> docker build --tag=home4all .
+> docker run -p 192.168.99.100:8080:8080 home4all
+
+Powershell
+> netsh interface portproxy add v4tov4 listenport=8080 listenaddress=127.0.0.1 connectport=8080 connectaddress=192.168.99.100
+> netsh interface portproxy delete v4tov4 listenport=8080 listenaddress=127.0.0.1
 
 # SERVIDOR WEB
 
 # instalar httpd
 # start httpd
 # copiar configuração
-	# listen 80
-	# Descomentar LoadModules de acordo com a configuração
-	# Adicionar Virtual Host
+    # listen 80
+    # Descomentar LoadModules de acordo com a configuração
+    # Adicionar Virtual Host
 > yarn install
 > yarn build
 # copiar o conteúdo da diretoria dist para o DocumentRoot do ficheiro de configuração
