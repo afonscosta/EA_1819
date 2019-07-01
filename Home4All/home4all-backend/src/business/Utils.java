@@ -21,18 +21,36 @@ import java.util.*;
 
 public class Utils {
     // Trocar '_' final nos métodos para funcionar remotamente
-    public static List<String> getImages_(List<String> filenames) throws IOException {
+
+    public static List<String> getImages(List<String> filenames) {
         List<String> images = new ArrayList<>();
 
-        for (String filename: filenames) {
-            java.io.File file = new java.io.File("images" + java.io.File.separator + filename);
-            byte[] bytes = Files.readAllBytes(file.toPath());
-            images.add(new String(bytes));
+        try {
+            for (String filename: filenames) {
+                java.io.File file = new java.io.File("images" + java.io.File.separator + filename);
+                byte[] bytes = Files.readAllBytes(file.toPath());
+                images.add(new String(bytes));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
         return images;
     }
 
-    public static void deleteImages_(List<String> filenames) {
+    public static String getImage(String filename) {
+        java.io.File file = new java.io.File("images" + java.io.File.separator + filename);
+        byte[] bytes = new byte[0];
+        try {
+            bytes = Files.readAllBytes(file.toPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return new String(bytes);
+    }
+
+    public static void deleteImages(List<String> filenames) {
         List<String> images = new ArrayList<>();
 
         for (String filename: filenames) {
@@ -42,7 +60,7 @@ public class Utils {
     }
 
 
-    public static void saveImages_(Map<String, String> filenames_images) throws IOException {
+    public static void saveImages(Map<String, String> filenames_images) throws IOException {
 
         for (Map.Entry<String, String> filename_image : filenames_images.entrySet()) {
             Path file = Paths.get("images" + java.io.File.separator + filename_image.getKey());
@@ -52,7 +70,7 @@ public class Utils {
 
 
 
-    public static List<String> getImages(Jedis jedis, List<String> filenames) {
+    public static List<String> getImages_(Jedis jedis, List<String> filenames) {
         List<String> images = new ArrayList<>();
 
         for (String filename: filenames)
@@ -62,17 +80,17 @@ public class Utils {
     }
 
 
-    public static String getImage(Jedis jedis, String path) {
+    public static String getImage_(Jedis jedis, String path) {
         return jedis.get(path);
     }
 
-    public static void deleteImages(Jedis jedis, List<String> filenames) {
+    public static void deleteImages_(Jedis jedis, List<String> filenames) {
         for (String filename: filenames)
             jedis.del(filename);
     }
 
 
-    public static void saveImages(Jedis jedis, Map<String, String> filenames_images) {
+    public static void saveImages_(Jedis jedis, Map<String, String> filenames_images) {
         for (Map.Entry<String, String> filename_image: filenames_images.entrySet())
             jedis.set(filename_image.getKey(), filename_image.getValue());
     }

@@ -141,7 +141,7 @@ public class PropertyBean implements PropertyBeanLocal {
         property.setPublishDate(new Date());
 
         Utils.deleteImages(
-                getJedis(),
+                //getJedis(),
                 Arrays.stream(property.photos.toArray()).map(Photo::getPath).collect(Collectors.toList())
         );
         property.photos.clear();
@@ -154,7 +154,7 @@ public class PropertyBean implements PropertyBeanLocal {
             property.photos.add(photo);
             images.put(photoPath, image);
         }
-        Utils.saveImages(getJedis(), images);
+        Utils.saveImages(images);
 
         property.setOwner(CommonDAO.getCommonByORMID(s, ownerId));
 
@@ -296,7 +296,7 @@ public class PropertyBean implements PropertyBeanLocal {
                             filenames.add(p.getPath());
                         }
                     }
-                    Utils.deleteImages(getJedis(), filenames);
+                    Utils.deleteImages(filenames);
                     bedroom.photos.clear();
 
                     Map<String, String> images = new HashMap<>();
@@ -307,7 +307,7 @@ public class PropertyBean implements PropertyBeanLocal {
                         bedroom.photos.add(photo);
                         images.put(photoPath, image);
                     }
-                    Utils.saveImages(getJedis(), images);
+                    Utils.saveImages(images);
                 } else {
                     throw new MissingPropertiesException();
                 }
@@ -670,11 +670,11 @@ public class PropertyBean implements PropertyBeanLocal {
 
     public List<String> getImagesByPaths(List<Photo> photos) {
         List<String> paths = photos.stream().map(Photo::getPath).collect(Collectors.toList());
-        return Utils.getImages(getJedis(), paths);
+        return Utils.getImages(paths);
     }
 
     public String getImageByPath(String path) {
-        return Utils.getImage(getJedis(), path);
+        return Utils.getImage(path);
     }
 
 }

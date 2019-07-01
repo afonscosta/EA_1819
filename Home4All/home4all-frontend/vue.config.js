@@ -6,7 +6,7 @@ module.exports = {
     // assetsPublicPath: '/',
     proxy: {
       '^/Home4All': {
-        target: 'http://10.254.233.137:8080',
+        target: 'http://127.0.0.1:8080',
         ws: true,
         changeOrigin: true
       }
