@@ -169,7 +169,7 @@ def reverse_geocode(latitude, longitude):
         lat=latitude,
         lon=longitude,
         sen=sensor,
-        key="AIzaSyDtZzBGMqTFWjndSRR-kEzpwBMdHodA5Ac"
+        key="KEY"
     )
     url = "{base}{params}".format(base=base, params=params)
     response = requests.get(url)
